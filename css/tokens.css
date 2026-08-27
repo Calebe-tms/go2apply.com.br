@@ -31,10 +31,11 @@
     --color-border-subtle: rgba(var(--color-white-rgb), 0.15);
 
     /* --- Gradientes de Overlay da Marca --- */
-    --hero-overlay-gradient: linear-gradient(135deg, 
-        rgba(var(--color-dark-rgb), 0.6912) 44%, 
-        rgba(var(--color-orange-rgb), 0.201) 100%
-    );
+    --hero-overlay-gradient: linear-gradient(180deg,
+            rgba(var(--color-dark-rgb), 0.88) 0%,
+            rgba(var(--color-dark-rgb), 0.4) 20%,
+            rgba(var(--color-dark-rgb), 0.0) 50%,
+            rgba(var(--color-dark-rgb), 0) 100%);
 
     /* --- Mini-Identidades das Soluções --- */
     --color-caldas: #0e603b;
@@ -57,7 +58,7 @@
 
     /* --- Tipografia --- */
     --font-main: 'Host Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    
+
     /* Escalas de Font-size fluidas com clamp */
     --font-size-xs: clamp(0.75rem, 0.8vw, 0.85rem);
     --font-size-sm: clamp(0.85rem, 0.9vw, 0.95rem);

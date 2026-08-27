@@ -144,30 +144,55 @@
     <script src="js/main.js"></script>
 
     <script>
-    // Esconde o loading screen ao terminar de carregar todos os componentes
+    // Esconde o loading screen somente quando:
+    // 1. Todos os componentes HTML foram montados (components:ready)
+    // 2. O primeiro vídeo do hero começou a reproduzir (hero:first-video-ready)
     (function () {
         var loader = document.getElementById('app-loader');
         if (!loader) return;
 
+        window.__loaderStart = Date.now();
+
+        // Converte cada evento em uma Promise que resolve ao disparar
+        function waitFor(eventName, timeoutMs) {
+            return new Promise(function (resolve) {
+                var done = false;
+
+                // Fallback: resolve mesmo se o evento nunca vir (ex: erro de rede)
+                var timer = setTimeout(function () {
+                    if (!done) { done = true; resolve(); }
+                }, timeoutMs || 12000);
+
+                window.addEventListener(eventName, function handler() {
+                    if (!done) {
+                        done = true;
+                        clearTimeout(timer);
+                        window.removeEventListener(eventName, handler);
+                        resolve();
+                    }
+                }, { once: true });
+            });
+        }
+
         function dismiss() {
-            // Aguarda ao menos 800ms para que a animação da barra complete
+            // Garante ao menos 700ms para a barra de progresso completar
             var elapsed = Date.now() - window.__loaderStart;
-            var delay   = Math.max(0, 800 - elapsed);
+            var delay   = Math.max(0, 700 - elapsed);
 
             setTimeout(function () {
                 loader.classList.add('is-hidden');
-                // Remove do DOM após o fade-out para não ocupar z-index
                 loader.addEventListener('transitionend', function () {
                     loader.remove();
                 }, { once: true });
             }, delay);
         }
 
-        window.__loaderStart = Date.now();
-        window.addEventListener('components:ready', dismiss, { once: true });
+        // Aguarda os DOIS sinais em paralelo antes de liberar
+        Promise.all([
+            waitFor('components:ready',       10000),  // Timeout: 10s
+            waitFor('hero:first-video-ready', 12000)   // Timeout: 12s (YouTube pode demorar)
+        ]).then(dismiss);
 
-        // Fallback: se o evento nunca disparar (erro de rede), remove após 5s
-        setTimeout(dismiss, 5000);
     })();
     </script>
 </body>

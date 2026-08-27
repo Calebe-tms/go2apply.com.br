@@ -13,27 +13,50 @@
         overflow: hidden;
     }
 
-    .bg-video {
+    /* Wrapper de cada player YT — cobre o hero com escala proporcional */
+    .bg-yt-wrap {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* Largura e altura ajustadas via JS para garantir cobertura total */
+        min-width: 100%;
+        min-height: 100%;
+        pointer-events: none !important;
+        user-select: none;
         opacity: 0;
+        visibility: hidden;
         z-index: 1;
-        transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.4s ease;
         will-change: opacity;
     }
 
-    .bg-video.active {
-        opacity: 1;
-        z-index: 2;
+    .bg-yt-wrap * {
+        pointer-events: none !important;
     }
 
-    .bg-video.base {
-        opacity: 1;
-        z-index: 1;
+    /* Camada bloqueadora opaca acima do iframe — impede que QUALQUER evento
+       de mouse/touch chegue ao YouTube, eliminando o pause nativo */
+    .bg-yt-wrap::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        background: transparent;
+    }
+
+    .bg-yt-wrap.active { opacity: 1; visibility: visible; z-index: 2; }
+    .bg-yt-wrap.base   { opacity: 1; visibility: visible; z-index: 1; }
+
+    /* O iframe em si ocupa 100% do wrapper com escala para ocultar títulos/overlays nativos */
+    .bg-yt-wrap iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        pointer-events: none !important;
+        border: none;
+        transform: scale(1.25);
+        transform-origin: center center;
     }
 
     /* Overlay Gradiente Vinculado aos Tokens Oficiais do DS */
@@ -48,6 +71,23 @@
         pointer-events: none;
     }
 
+    /* Máscara radial sutil no centro — cobre overlays nativos do YouTube (pause, loading)
+       que escapam pelo gradiente transparente do hero-overlay.
+       Opacidade calibrada para ser imperceptível ao olho, mas suficiente para apagar
+       o ícone cinza do YouTube. */
+    .hero-yt-mask {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        pointer-events: none;
+        background: radial-gradient(
+            ellipse 55% 45% at 50% 50%,
+            rgba(10, 14, 9, 0.18) 0%,
+            rgba(10, 14, 9, 0.06) 55%,
+            transparent 80%
+        );
+    }
+
     .hero-canvas {
         position: absolute;
         top: 0;
@@ -58,104 +98,187 @@
 </style>
 
 <div class="hero-bg">
-    <video id="bg-video-1" class="bg-video active" muted playsinline></video>
-    <video id="bg-video-2" class="bg-video" muted playsinline></video>
+    <!-- Wrappers dos players YouTube (conteúdo injetado pelo JS após a API carregar) -->
+    <div class="bg-yt-wrap active" id="yt-wrap-0"></div>
+    <div class="bg-yt-wrap" id="yt-wrap-1"></div>
     <div class="hero-overlay"></div>
+    <!-- Máscara que cobre overlays nativos do YouTube no centro da tela -->
+    <div class="hero-yt-mask"></div>
 </div>
 <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
 
 <script>
-    // --- 1. Carrossel de Vídeos Contínuo ---
-    const heroVideos = [
-        'assets/videos/7542596-uhd_3840_2160_30fps.mp4',
-        'assets/videos/12093651_3840_2160_60fps.mp4',
-        'assets/videos/13678744_1920_1080_60fps.mp4',
-        'assets/videos/13958046-uhd_3840_2160_24fps.mp4',
-        'assets/videos/17642551-uhd_4096_2160_24fps.mp4'
+    // --- 1. Carrossel de Vídeos YouTube como Fundo ---
+    // IDs dos vídeos (ordem do carrossel)
+    const ytVideoIds = [
+        'RVxPTrdKp2o',
+        'kRHYmD0R4Jk'
     ];
 
-    const vid1 = document.getElementById('bg-video-1');
-    const vid2 = document.getElementById('bg-video-2');
+    // Estado do carrossel
+    let ytCurrentIdx  = 0;
+    let ytActiveSlot  = 0;  // 0 ou 1 (alternância entre os dois wrappers)
+    let ytInTransition = false;
+    let ytPlayers     = [null, null]; // instâncias YT.Player
+    let ytReady       = [false, false];
 
-    if (vid1 && vid2) {
-        let currentIdx = 0;
-        let actVideo = vid1;
-        let inactVideo = vid2;
-        let inTransition = false;
+    const wrappers = [
+        document.getElementById('yt-wrap-0'),
+        document.getElementById('yt-wrap-1')
+    ];
 
-        actVideo.className = 'bg-video active';
-        inactVideo.className = 'bg-video';
+    // Parâmetros do player: autoplay, sem controles, loop, mudo
+    const ytVars = {
+        autoplay: 1,
+        mute: 1,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+        rel: 0,
+        showinfo: 0,
+        playsinline: 1,
+        enablejsapi: 1
+    };
 
-        actVideo.src = heroVideos[currentIdx];
-        actVideo.load();
-        actVideo.play().catch(e => console.warn('Autoplay prevented:', e));
+    // Ajusta o tamanho do iframe para cobrir proporcionalmente o hero (sem barras pretas)
+    const fitYtWrapper = (wrapEl) => {
+        const hero = document.getElementById('home');
+        if (!hero || !wrapEl) return;
+        const hW = hero.offsetWidth;
+        const hH = hero.offsetHeight;
+        const ratio = 16 / 9;
+        let iW, iH;
+        if (hW / hH > ratio) {
+            iW = hW;
+            iH = hW / ratio;
+        } else {
+            iH = hH;
+            iW = hH * ratio;
+        }
+        // Acrescenta 20% para esconder barra do YouTube no topo
+        iW *= 1.2;
+        iH *= 1.2;
+        wrapEl.style.width  = iW + 'px';
+        wrapEl.style.height = iH + 'px';
+    };
 
-        let nxtIdx = (currentIdx + 1) % heroVideos.length;
-        inactVideo.src = heroVideos[nxtIdx];
-        inactVideo.load();
+    // Cria o crossfade entre os dois slots
+    const ytCrossfade = () => {
+        if (ytInTransition) return;
+        ytInTransition = true;
 
-        const triggerCrossfade = () => {
-            if (inTransition) return;
-            inTransition = true;
+        const nextSlot = ytActiveSlot === 0 ? 1 : 0;
+        const nextIdx  = (ytCurrentIdx + 1) % ytVideoIds.length;
 
-            const playPromise = inactVideo.play();
+        // Carrega o próximo vídeo no slot inativo
+        if (ytPlayers[nextSlot] && ytReady[nextSlot]) {
+            ytPlayers[nextSlot].loadVideoById(ytVideoIds[nextIdx]);
+        }
 
-            const executeFade = () => {
-                actVideo.className = 'bg-video base';
-                inactVideo.className = 'bg-video active';
+        // Aguarda o player inativo estar reproduzindo para fazer o fade
+        const tryFade = setInterval(() => {
+            if (!ytPlayers[nextSlot]) return;
+            const state = ytPlayers[nextSlot].getPlayerState ? ytPlayers[nextSlot].getPlayerState() : -1;
+            if (state === YT.PlayerState.PLAYING || state === YT.PlayerState.BUFFERING) {
+                clearInterval(tryFade);
+
+                // Slot ativo vira base (permanece visível durante o fade)
+                wrappers[ytActiveSlot].className = 'bg-yt-wrap base';
+                wrappers[nextSlot].className = 'bg-yt-wrap active';
 
                 setTimeout(() => {
-                    actVideo.pause();
-                    actVideo.currentTime = 0;
-                    actVideo.className = 'bg-video';
-
-                    currentIdx = nxtIdx;
-                    nxtIdx = (currentIdx + 1) % heroVideos.length;
-
-                    const temp = actVideo;
-                    actVideo = inactVideo;
-                    inactVideo = temp;
-
-                    inactVideo.src = heroVideos[nxtIdx];
-                    inactVideo.load();
-                    inTransition = false;
-                }, 1250);
-            };
-
-            if (playPromise !== undefined) {
-                playPromise.then(executeFade).catch(err => {
-                    console.warn('Erro ao reproduzir próximo vídeo:', err);
-                    inTransition = false;
-                });
-            } else {
-                executeFade();
+                    wrappers[ytActiveSlot].className = 'bg-yt-wrap';
+                    ytCurrentIdx = nextIdx;
+                    ytActiveSlot = nextSlot;
+                    ytInTransition = false;
+                }, 1400); // Coincide com o duration da transição CSS
             }
-        };
+        }, 400);
+    };
 
-        const onProgress = (e) => {
-            const video = e.target;
-            if (video === actVideo && !inTransition && video.duration) {
-                if (video.duration - video.currentTime <= 1.5) {
-                    triggerCrossfade();
+    // Callback do player ao mudar de estado
+    let ytFirstFrameFired = false; // Garante que o evento de "pronto" dispara uma única vez
+
+    const onYtStateChange = (event) => {
+        // Quando o vídeo ativo está próximo do fim, dispara o crossfade
+        if (event.data === YT.PlayerState.PLAYING) {
+
+            // Dispara UMA vez: avisa o loader que o primeiro frame já está na tela
+            if (!ytFirstFrameFired) {
+                ytFirstFrameFired = true;
+                window.dispatchEvent(new CustomEvent('hero:first-video-ready'));
+            }
+
+            const player = event.target;
+            const duration = player.getDuration ? player.getDuration() : 0;
+            if (duration > 0) {
+                const remaining = duration - player.getCurrentTime();
+                const fadeAt = Math.max(0, (remaining - 2) * 1000);
+                setTimeout(() => {
+                    // Verifica se esse player ainda é o ativo
+                    if (!ytInTransition) ytCrossfade();
+                }, fadeAt);
+            }
+        }
+        // Se o vídeo terminar sem crossfade ter sido disparado
+        if (event.data === YT.PlayerState.ENDED) {
+            if (!ytInTransition) ytCrossfade();
+        }
+    };
+
+    // Cria os dois players YT (slot 0 = ativo inicial, slot 1 = inativo)
+    const initYtPlayers = () => {
+        [0, 1].forEach(slot => {
+            // Cria um div filho dentro do wrapper para o YT substituir
+            const div = document.createElement('div');
+            div.id = 'yt-player-' + slot;
+            wrappers[slot].appendChild(div);
+            fitYtWrapper(wrappers[slot]);
+
+            ytPlayers[slot] = new YT.Player('yt-player-' + slot, {
+                videoId: ytVideoIds[slot === 0 ? ytCurrentIdx : (ytCurrentIdx + 1) % ytVideoIds.length],
+                playerVars: { ...ytVars },
+                width: '100%',
+                height: '100%',
+                events: {
+                    onReady: (e) => {
+                        ytReady[slot] = true;
+                        e.target.mute();
+                        e.target.playVideo();
+                    },
+                    onStateChange: (e) => {
+                        if (ytActiveSlot === slot) {
+                            onYtStateChange(e);
+                        }
+                    }
                 }
-            }
+            });
+        });
+
+        // Redimensiona ao resize da janela
+        window.addEventListener('resize', () => {
+            fitYtWrapper(wrappers[0]);
+            fitYtWrapper(wrappers[1]);
+        }, { passive: true });
+    };
+
+    // Inicialização ultra-robusta da API do YouTube (funciona em produção, cache ou re-navegação)
+    if (window.YT && window.YT.Player) {
+        initYtPlayers();
+    } else {
+        const prevOnReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () {
+            if (typeof prevOnReady === 'function') prevOnReady();
+            initYtPlayers();
         };
 
-        vid1.addEventListener('timeupdate', onProgress);
-        vid2.addEventListener('timeupdate', onProgress);
-
-        vid1.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
-        vid2.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
-
-        const onVidError = () => {
-            if (inTransition) inTransition = false;
-            nxtIdx = (nxtIdx + 1) % heroVideos.length;
-            inactVideo.src = heroVideos[nxtIdx];
-            inactVideo.load();
-        };
-
-        vid1.addEventListener('error', onVidError);
-        vid2.addEventListener('error', onVidError);
+        if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+            const ytScript = document.createElement('script');
+            ytScript.src = 'https://www.youtube.com/iframe_api';
+            document.head.appendChild(ytScript);
+        }
     }
 
     // --- 2. Motor do Radar no Canto Inferior Esquerdo (Sincronização Mobile) ---

@@ -24,6 +24,7 @@
     }
 
     .main-content {
+        position: relative;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -32,6 +33,28 @@
         text-align: center;
         gap: 1.25rem;
         transform: translateY(-3vh);
+        padding: 2rem 1rem;
+    }
+
+    /* Sombra sutil com bordas que esvanecem em transparência atrás do texto */
+    .main-content::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(94vw, 960px);
+        height: 120%;
+        background: radial-gradient(
+            ellipse 65% 60% at 50% 50%,
+            rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.62) 0%,
+            rgba(var(--color-dark-rgb, 23, 30, 20), 0.32) 48%,
+            rgba(var(--color-dark-rgb, 23, 30, 20), 0) 85%
+        );
+        pointer-events: none;
+        z-index: -1;
+        border-radius: 50%;
+        filter: blur(24px);
     }
 
     .logo-container {
@@ -137,11 +160,92 @@
             line-height: 1.34;
         }
 
-        .hero-footer-text {
-            font-size: 0.75rem;
-            letter-spacing: 1.2px;
-        }
+    .hero-footer-text {
+        font-size: 0.75rem;
+        letter-spacing: 1.2px;
     }
+}
+
+/* Indicador de scroll animado ultra-sutil no canto inferior direito */
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 2.2rem;
+    right: 2.5rem;
+    z-index: 20;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration: none;
+    transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto;
+    animation: fadeIn 1.2s ease 1s forwards;
+    opacity: 0;
+}
+
+.hero-scroll-indicator:hover {
+    color: var(--color-orange);
+    opacity: 0.9 !important;
+    transform: translateY(2px);
+}
+
+.scroll-mouse {
+    width: 14px;
+    height: 22px;
+    border: 1.5px solid currentColor;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+}
+
+.scroll-wheel {
+    width: 2px;
+    height: 4px;
+    background-color: currentColor;
+    border-radius: 1px;
+    animation: scrollWheelPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.scroll-chevron {
+    animation: scrollChevronBounce 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes scrollWheelPulse {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0.2;
+        transform: translateY(5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scrollChevronBounce {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(3px);
+        opacity: 0.9;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-scroll-indicator {
+        bottom: 1.2rem;
+        right: 1.2rem;
+    }
+}
 </style>
 
 <div class="hero-content">
@@ -160,4 +264,14 @@
     <footer class="hero-footer">
         <div data-component="components/hero/hero-pillars.html"></div>
     </footer>
+
+    <!-- Indicador de scroll no canto inferior direito -->
+    <a href="#solucoes" class="hero-scroll-indicator" aria-label="Rolar para ver soluções">
+        <span class="scroll-mouse">
+            <span class="scroll-wheel"></span>
+        </span>
+        <svg class="scroll-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </a>
 </div>
