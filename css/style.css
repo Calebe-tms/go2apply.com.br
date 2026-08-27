@@ -1,0 +1,269 @@
+@font-face {
+    font-family: 'Host Grotesk';
+    src: url('../assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --color-orange: #f28e12;
+    --color-dark: #171e14;
+    --color-white: #ffffff;
+    --font-main: 'Host Grotesk', sans-serif;
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    font-family: var(--font-main);
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: var(--color-dark);
+}
+
+/* --- Hero Section --- */
+.hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* --- Video Background --- */
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.bg-video.active {
+    opacity: 1;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 20% transparency = 80% opacity (0.8), or maybe 0.2 opacity. Using 0.8 for strong darkening as requested */
+    background: linear-gradient(to bottom,
+            rgba(23, 30, 20, 0.8) 0%,
+            rgba(242, 142, 18, 0.0) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* --- Content Layer --- */
+.hero-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 2rem 4rem;
+}
+
+/* --- Header --- */
+.header {
+    width: 100%;
+    padding-top: 1rem;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: var(--transition-smooth);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-links a:hover {
+    color: var(--color-orange);
+    transform: translateY(-2px);
+}
+
+.btn-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-white);
+    color: var(--color-orange);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* --- Main Content (Logo & Title) --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+}
+
+.logo-container {
+    margin-bottom: 1rem;
+    animation: fadeInDown 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.main-logo {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.4));
+}
+
+.hero-title {
+    color: var(--color-white);
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.2px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    animation: fadeInUp 1s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
+    opacity: 0;
+}
+
+.hero-title .highlight {
+    color: var(--color-orange);
+}
+
+/* --- Footer Text --- */
+.hero-footer {
+    text-align: center;
+    padding-bottom: 1rem;
+    color: var(--color-white);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.5s ease-in 0.8s forwards;
+    opacity: 0;
+}
+
+/* --- Animations --- */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .nav-container {
+        gap: 1.5rem;
+    }
+
+    .nav-links {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        padding: 1.5rem;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .main-logo {
+        max-width: 300px;
+    }
+
+    .hero-title {
+        font-size: 1.3rem;
+    }
+}
