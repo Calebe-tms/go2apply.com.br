@@ -1,62 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>go2apply - Informações Técnicas</title>
+    <title>go2apply - Informações Técnicas da Calda à Aplicação</title>
     <meta name="description"
         content="Ferramentas e informações técnicas para apoiar suas decisões, da formação da calda à aplicação.">
+    
+    <!-- Open Graph / Redes Sociais -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="go2apply - Informações Técnicas">
+    <meta property="og:description" content="Ferramentas e informações técnicas para apoiar suas decisões no campo.">
+    <meta property="og:image" content="assets/imagens/go2apply-logo-colorido.png">
+
+    <!-- CSS Unificado (Design Tokens + Reset Base) -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="hero">
-        <!-- Video Background Container -->
-        <div class="hero-bg">
-            <video id="bg-video-1" class="bg-video active" muted playsinline></video>
-            <video id="bg-video-2" class="bg-video" muted playsinline></video>
-            <div class="overlay"></div>
-        </div>
+    <!-- 1. Componente Global: Header Navigation -->
+    <div data-component="components/header/header.html"></div>
 
-        <div class="hero-content">
-            <!-- Header Navigation -->
-            <header class="header">
-                <nav class="nav-container">
-                    <ul class="nav-links">
-                        <li><a href="#solucoes">SOLUÇÕES</a></li>
-                        <li><a href="#diferenciais">DIFERENCIAIS</a></li>
-                        <li><a href="#base-tecnica">BASE TÉCNICA</a></li>
-                        <li><a href="#planos">PLANOS</a></li>
-                    </ul>
-                    <a href="#conheca" class="btn-cta">
-                        <img src="assets/imagens/ico-1.png" alt="Ícone" class="btn-icon">
-                        Conheça a Ferramenta
-                    </a>
-                </nav>
-            </header>
+    <!-- 2. Páginas / Seções Compostas -->
+    <main id="app-root">
+        <!-- Página / Seção Home (Hero) -->
+        <div data-page="pages/home.html"></div>
 
-            <!-- Main Content -->
-            <main class="main-content">
-                <div class="logo-container">
-                    <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply logo" class="main-logo">
-                </div>
+        <!-- Página / Seção Diferenciais -->
+        <div data-page="pages/differentials.html"></div>
+    </main>
 
-                <h1 class="hero-title">
-                    Ferramentas e <span class="highlight">informações</span><br>
-                    <span class="highlight">técnicas</span> para apoiar suas decisões,<br>
-                    da formação da calda à aplicação.
-                </h1>
-            </main>
-
-            <!-- Footer Text -->
-            <footer class="hero-footer">
-                <p>FORMAÇÃO DE CALDAS &bull; PULVERIZAÇÃO &bull; PH E KOW</p>
-            </footer>
-        </div>
-    </div>
-
-    <!-- Script for video carousell -->
+    <!-- 3. Motor do Micro-Loader e Inicialização -->
+    <script src="js/component-loader.js"></script>
     <script src="js/main.js"></script>
 </body>
 

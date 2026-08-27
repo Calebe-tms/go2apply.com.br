@@ -1,0 +1,95 @@
+<!-- ==========================================================================
+   Component: Main Header Shell
+   Orquestra os 3 sub-componentes (Social, Nav, Actions) e o scroll glassmorphism
+   ========================================================================== -->
+<style>
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 1.75rem 3.5rem;
+        transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                    background-color 0.4s ease,
+                    backdrop-filter 0.4s ease,
+                    box-shadow 0.4s ease,
+                    border-color 0.4s ease;
+        border-bottom: 1px solid transparent;
+    }
+
+    /* Estado ativado ao rolar a página para baixo */
+    .header.scrolled {
+        padding: 0.85rem 3.5rem;
+        background-color: var(--color-dark-glass);
+        -webkit-backdrop-filter: var(--blur-glass);
+        backdrop-filter: var(--blur-glass);
+        border-bottom: 1px solid var(--color-border);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .nav-container {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        max-width: 1600px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    @media (max-width: 1200px) {
+        .header {
+            padding: 1.25rem 2rem;
+        }
+
+        .header.scrolled {
+            padding: 0.75rem 2rem;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .header {
+            padding: 1.1rem 1.5rem;
+        }
+
+        .header.scrolled {
+            padding: 0.75rem 1.5rem;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+</style>
+
+<header class="header" id="main-header">
+    <div class="nav-container">
+        <!-- 1. Redes Sociais (Esquerda) -->
+        <div data-component="components/header/social-links.html"></div>
+
+        <!-- 2. Menu Centralizado (Centro) -->
+        <div data-component="components/header/nav-menu.html"></div>
+
+        <!-- 3. Botão de Ação & Toggle Mobile (Direita) -->
+        <div data-component="components/header/btn-cta.html"></div>
+    </div>
+</header>
+
+<script>
+    const headerElement = document.getElementById('main-header');
+    const scrollThreshold = 30;
+
+    const onWindowScroll = () => {
+        if (!headerElement) return;
+        if (window.scrollY > scrollThreshold) {
+            headerElement.classList.add('scrolled');
+        } else {
+            headerElement.classList.remove('scrolled');
+        }
+    };
+
+    window.addEventListener('scroll', onWindowScroll, { passive: true });
+    onWindowScroll(); // Checagem imediata
+</script>

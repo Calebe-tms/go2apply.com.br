@@ -1,0 +1,133 @@
+<!-- ==========================================================================
+   Component: CTA Button & Mobile Toggle (Header)
+   Botão de ação com ícone e botão hambúrguer responsivo
+   ========================================================================== -->
+<style>
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        justify-self: end;
+    }
+
+    .btn-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background-color: var(--color-white);
+        color: var(--color-orange);
+        text-decoration: none;
+        padding: clamp(0.7rem, 0.85vw, 0.9rem) clamp(1.25rem, 1.5vw, 1.8rem);
+        border-radius: var(--radius-md);
+        font-weight: 700;
+        font-size: var(--font-size-base);
+        transition: var(--transition-smooth);
+        box-shadow: var(--shadow-sm);
+        white-space: nowrap;
+    }
+
+    .btn-cta:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow: var(--shadow-glow);
+        background-color: #fff9f2;
+    }
+
+    .btn-icon {
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+    }
+
+    .nav-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 32px;
+        height: 22px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1100;
+    }
+
+    .nav-toggle .bar {
+        width: 100%;
+        height: 3px;
+        background-color: var(--color-white);
+        border-radius: var(--radius-sm);
+        transition: var(--transition-smooth);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Animação do botão hambúrguer para 'X' */
+    .nav-toggle.active .bar:nth-child(1) {
+        transform: translateY(9.5px) rotate(45deg);
+        background-color: var(--color-orange);
+    }
+
+    .nav-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    .nav-toggle.active .bar:nth-child(3) {
+        transform: translateY(-9.5px) rotate(-45deg);
+        background-color: var(--color-orange);
+    }
+
+    @media (max-width: 992px) {
+        .nav-toggle {
+            display: flex;
+        }
+
+        .header-actions {
+            gap: 0.85rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .btn-cta {
+            padding: 0.6rem 0.9rem;
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<div class="header-actions">
+    <a href="#conheca" class="btn-cta">
+        <img src="assets/icos/ico-logo-go2apply.png" alt="Ícone go2apply" class="btn-icon">
+        <span>Conheça a Ferramenta</span>
+    </a>
+
+    <!-- Botão Hambúrguer Mobile -->
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+</div>
+
+<script>
+    const toggleBtn = document.getElementById('nav-toggle');
+    const targetNav = document.getElementById('nav-center');
+
+    if (toggleBtn && targetNav) {
+        toggleBtn.addEventListener('click', () => {
+            const isOpen = targetNav.classList.toggle('active');
+            toggleBtn.classList.toggle('active', isOpen);
+            toggleBtn.setAttribute('aria-expanded', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+    }
+
+    // Acessibilidade: fechar com Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && targetNav && targetNav.classList.contains('active')) {
+            targetNav.classList.remove('active');
+            toggleBtn.classList.remove('active');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+    });
+</script>

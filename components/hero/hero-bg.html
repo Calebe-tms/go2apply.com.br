@@ -1,0 +1,605 @@
+<!-- ==========================================================================
+   Component: Hero Background
+   Carrossel contínuo de vídeos com Radar Circular Interativo & Rastro de Telemetria
+   ========================================================================== -->
+<style>
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    .bg-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        z-index: 1;
+        transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: opacity;
+    }
+
+    .bg-video.active {
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .bg-video.base {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    /* Gradiente Colorido da Marca (Verde Escuro ➔ Laranja) */
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg,
+                rgba(23, 30, 20, 0.78) 0%,
+                rgba(23, 30, 20, 0.42) 50%,
+                rgba(242, 142, 18, 0.22) 100%);
+        z-index: 3;
+        pointer-events: none;
+    }
+
+    .hero-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 6;
+        pointer-events: none;
+    }
+</style>
+
+<div class="hero-bg">
+    <video id="bg-video-1" class="bg-video active" muted playsinline></video>
+    <video id="bg-video-2" class="bg-video" muted playsinline></video>
+    <div class="hero-overlay"></div>
+</div>
+<canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
+
+<script>
+    // --- 1. Carrossel de Vídeos Contínuo ---
+    const heroVideos = [
+        'assets/videos/7542596-uhd_3840_2160_30fps.mp4',
+        'assets/videos/12093651_3840_2160_60fps.mp4',
+        'assets/videos/13678744_1920_1080_60fps.mp4',
+        'assets/videos/13958046-uhd_3840_2160_24fps.mp4',
+        'assets/videos/17642551-uhd_4096_2160_24fps.mp4'
+    ];
+
+    const vid1 = document.getElementById('bg-video-1');
+    const vid2 = document.getElementById('bg-video-2');
+
+    if (vid1 && vid2) {
+        let currentIdx = 0;
+        let actVideo = vid1;
+        let inactVideo = vid2;
+        let inTransition = false;
+
+        actVideo.className = 'bg-video active';
+        inactVideo.className = 'bg-video';
+
+        actVideo.src = heroVideos[currentIdx];
+        actVideo.load();
+        actVideo.play().catch(e => console.warn('Autoplay prevented:', e));
+
+        let nxtIdx = (currentIdx + 1) % heroVideos.length;
+        inactVideo.src = heroVideos[nxtIdx];
+        inactVideo.load();
+
+        const triggerCrossfade = () => {
+            if (inTransition) return;
+            inTransition = true;
+
+            const playPromise = inactVideo.play();
+
+            const executeFade = () => {
+                actVideo.className = 'bg-video base';
+                inactVideo.className = 'bg-video active';
+
+                setTimeout(() => {
+                    actVideo.pause();
+                    actVideo.currentTime = 0;
+                    actVideo.className = 'bg-video';
+
+                    currentIdx = nxtIdx;
+                    nxtIdx = (currentIdx + 1) % heroVideos.length;
+
+                    const temp = actVideo;
+                    actVideo = inactVideo;
+                    inactVideo = temp;
+
+                    inactVideo.src = heroVideos[nxtIdx];
+                    inactVideo.load();
+                    inTransition = false;
+                }, 1250);
+            };
+
+            if (playPromise !== undefined) {
+                playPromise.then(executeFade).catch(err => {
+                    console.warn('Erro ao reproduzir próximo vídeo:', err);
+                    inTransition = false;
+                });
+            } else {
+                executeFade();
+            }
+        };
+
+        const onProgress = (e) => {
+            const video = e.target;
+            if (video === actVideo && !inTransition && video.duration) {
+                if (video.duration - video.currentTime <= 1.5) {
+                    triggerCrossfade();
+                }
+            }
+        };
+
+        vid1.addEventListener('timeupdate', onProgress);
+        vid2.addEventListener('timeupdate', onProgress);
+
+        vid1.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
+        vid2.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
+
+        const onVidError = () => {
+            if (inTransition) inTransition = false;
+            nxtIdx = (nxtIdx + 1) % heroVideos.length;
+            inactVideo.src = heroVideos[nxtIdx];
+            inactVideo.load();
+        };
+
+        vid1.addEventListener('error', onVidError);
+        vid2.addEventListener('error', onVidError);
+    }
+
+    // --- 2. Motor do Radar no Canto Inferior Esquerdo (Sincronização Mobile) ---
+    const canvas = document.getElementById('hero-mesh-canvas');
+    if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width = 0;
+            let height = 0;
+            let dpr = window.devicePixelRatio || 1;
+            let animationFrameId = null;
+
+            const mouse = {
+                x: null,
+                y: null,
+                targetX: null,
+                targetY: null,
+                isNearObstacle: false,
+                hasMoved: false
+            };
+
+            // Centro do Radar no canto inferior esquerdo (onde fica o smartphone)
+            let phoneCenter = { x: 0, y: 0 };
+            const phoneDim = { width: 78, height: 142, radius: 14 };
+            let phoneSyncGlow = 0; // Pulso de recepção de dados no celular
+
+            // Opacidade global calibrada para discrição e elegância
+            let radarAlpha = 0.4;
+
+            // Rotação da linha do radar
+            let radarAngle = -Math.PI * 0.25;
+
+            // Ondas de pulso concêntricas a partir do celular
+            let pulses = [
+                { progress: 0.1 },
+                { progress: 0.45 },
+                { progress: 0.8 }
+            ];
+
+            // Métricas técnicas da plataforma (discretas)
+            const technicalMetrics = [
+                'pH: 6.4',
+                'Kow: 2.85',
+                'VMD: 230µm',
+                'Gotas: 215/cm²',
+                'Vazão: 110 L/ha',
+                'Calda: Estável',
+                'Deriva: Baixa',
+                'Pressão: 3.0 bar'
+            ];
+            let metricIndex = 0;
+
+            // Histórico de telemetria sincronizada na tela do smartphone
+            let phoneTelemetryList = [
+                { label: 'pH', value: '6.4' },
+                { label: 'Kow', value: '2.85' },
+                { label: 'VMD', value: '230µm' },
+                { label: 'Vazão', value: '110 L/h' },
+                { label: 'Gotas', value: '215/cm²' }
+            ];
+
+            // Fila de dados que surgem e somem no campo
+            let fieldData = [];
+            let lastSpawnPos = { x: 0, y: 0 };
+            let lastSpawnTime = 0;
+            let lastPointerMoveTime = 0;
+
+            const resizeCanvas = () => {
+                width = window.innerWidth;
+                const heroSection = document.getElementById('home');
+                const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+                const totalDocHeight = Math.max(document.documentElement.scrollHeight || 0, document.body.scrollHeight || 0, window.innerHeight * 2.5);
+
+                height = totalDocHeight;
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                ctx.scale(dpr, dpr);
+
+                // O celular é ancorado no Hero (sobe junto com o Hero no scroll)
+                phoneCenter.x = Math.max(95, width * 0.09);
+                phoneCenter.y = Math.min(heroHeight - 95, heroHeight * 0.85);
+
+                if (mouse.x === null) {
+                    mouse.x = width * 0.5;
+                    mouse.y = heroHeight * 0.4;
+                    mouse.targetX = mouse.x;
+                    mouse.targetY = mouse.y;
+                }
+            };
+
+            // Cria um dado discreto no campo e atualiza o display do celular
+            const spawnFieldData = (cursorX, cursorY) => {
+                const metric = technicalMetrics[metricIndex % technicalMetrics.length];
+                metricIndex++;
+
+                const px = phoneCenter.x;
+                const py = phoneCenter.y;
+
+                const distToCursor = Math.hypot(cursorX - px, cursorY - py);
+                const spawnRadius = Math.max(120, Math.min(distToCursor, Math.max(width, height) * 0.75));
+
+                const startX = px + Math.cos(radarAngle) * spawnRadius;
+                const startY = py + Math.sin(radarAngle) * spawnRadius;
+
+                // 1. Registra o ponto no campo
+                fieldData.push({
+                    x: startX,
+                    y: startY,
+                    text: metric,
+                    life: 1.0,
+                    decay: 0.009
+                });
+
+                if (fieldData.length > 5) {
+                    fieldData.shift();
+                }
+
+                // 2. Atualiza a lista interna do mini-celular
+                const parts = metric.split(': ');
+                if (parts.length === 2) {
+                    phoneTelemetryList.unshift({ label: parts[0], value: parts[1] });
+                    if (phoneTelemetryList.length > 5) {
+                        phoneTelemetryList.pop();
+                    }
+                }
+                phoneSyncGlow = 1.0;
+            };
+
+            // Desenha o smartphone e os dados 100% contidos na tela
+            const drawSmartphone = (cx, cy, alpha) => {
+                const w = phoneDim.width;
+                const h = phoneDim.height;
+                const r = phoneDim.radius;
+                const x = cx - w / 2;
+                const y = cy - h / 2;
+
+                ctx.save();
+
+                // 1. Corpo do smartphone em vidro escuro
+                ctx.beginPath();
+                ctx.moveTo(x + r, y);
+                ctx.lineTo(x + w - r, y);
+                ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+                ctx.lineTo(x + w, y + h - r);
+                ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                ctx.lineTo(x + r, y + h);
+                ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+                ctx.lineTo(x, y + r);
+                ctx.quadraticCurveTo(x, y, x + r, y);
+                ctx.closePath();
+
+                const bgAlpha = (0.72 + phoneSyncGlow * 0.2) * alpha;
+                ctx.fillStyle = `rgba(18, 24, 16, ${bgAlpha})`;
+                ctx.fill();
+
+                const borderAlpha = (0.6 + phoneSyncGlow * 0.35) * alpha;
+                ctx.strokeStyle = `rgba(242, 142, 18, ${borderAlpha})`;
+                ctx.lineWidth = 1.4;
+                ctx.stroke();
+
+                // 2. Notch superior
+                const notchW = 18;
+                const notchH = 3.5;
+                ctx.beginPath();
+                ctx.roundRect ? ctx.roundRect(cx - notchW / 2, y + 5, notchW, notchH, 2) : ctx.rect(cx - notchW / 2, y + 5, notchW, notchH);
+                ctx.fillStyle = `rgba(242, 142, 18, ${0.7 * alpha})`;
+                ctx.fill();
+
+                // 3. Barra inferior de navegação
+                const barW = 20;
+                ctx.beginPath();
+                ctx.moveTo(cx - barW / 2, y + h - 6);
+                ctx.lineTo(cx + barW / 2, y + h - 6);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 * alpha})`;
+                ctx.lineWidth = 1.4;
+                ctx.stroke();
+
+                // 4. Header interno do display
+                const screenAlpha = (0.9 + phoneSyncGlow * 0.1) * alpha;
+
+                ctx.font = '700 7.5px "Host Grotesk", sans-serif';
+                ctx.fillStyle = `rgba(242, 142, 18, ${screenAlpha})`;
+                ctx.fillText('go2apply', x + 8, y + 19);
+
+                // Divisória sutil
+                ctx.beginPath();
+                ctx.moveTo(x + 8, y + 23);
+                ctx.lineTo(x + w - 8, y + 23);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${0.25 * screenAlpha})`;
+                ctx.lineWidth = 0.6;
+                ctx.stroke();
+
+                // 5. Lista de Múltiplos Parâmetros Compactos e Discretos
+                const startRowY = y + 36;
+                const rowHeight = 16;
+
+                for (let idx = 0; idx < phoneTelemetryList.length; idx++) {
+                    const row = phoneTelemetryList[idx];
+                    const rowY = startRowY + idx * rowHeight;
+                    const rowAlpha = (idx === 0 ? 1.0 : Math.max(0.55, 0.88 - idx * 0.08)) * screenAlpha;
+
+                    // Micro ponto indicador
+                    ctx.beginPath();
+                    ctx.arc(x + 10, rowY - 2.5, 1.4, 0, Math.PI * 2);
+                    ctx.fillStyle = idx === 0 ? `rgba(242, 142, 18, ${rowAlpha})` : `rgba(255, 255, 255, ${rowAlpha * 0.7})`;
+                    ctx.fill();
+
+                    // Rótulo
+                    ctx.font = '500 7px "Host Grotesk", sans-serif';
+                    ctx.fillStyle = `rgba(255, 255, 255, ${rowAlpha * 0.85})`;
+                    ctx.fillText(row.label, x + 16, rowY);
+
+                    // Valor
+                    ctx.font = '600 7.5px "Host Grotesk", sans-serif';
+                    ctx.fillStyle = idx === 0 ? `rgba(242, 142, 18, ${rowAlpha})` : `rgba(255, 255, 255, ${rowAlpha})`;
+                    ctx.textAlign = 'right';
+                    ctx.fillText(row.value, x + w - 8, rowY);
+                    ctx.textAlign = 'left';
+                }
+
+                // 6. Rodapé de status sincronizado interno
+                ctx.beginPath();
+                ctx.arc(x + 10, y + h - 14, 1.8, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(242, 142, 18, ${screenAlpha})`;
+                ctx.fill();
+
+                ctx.font = '600 6.5px "Host Grotesk", sans-serif';
+                ctx.fillStyle = `rgba(242, 142, 18, ${0.9 * screenAlpha})`;
+                ctx.fillText('SYNC OK', x + 15, y + h - 12.5);
+
+                ctx.restore();
+            };
+
+            const draw = () => {
+                ctx.clearRect(0, 0, width, height);
+
+                // 1. Suavização do mouse
+                if (mouse.targetX !== null && mouse.targetY !== null) {
+                    mouse.x += (mouse.targetX - mouse.x) * 0.1;
+                    mouse.y += (mouse.targetY - mouse.y) * 0.1;
+                }
+
+                // 2. Opacidade com mais destaque e presença:
+                // Quando parado: 0.82 (nítido e presente)
+                // Quando em movimento: 0.62 (fluido e suave)
+                // Próximo a obstáculos: 0.38
+                const now = performance.now();
+                const isIdle = (now - lastPointerMoveTime > 1000);
+                let targetAlpha = isIdle ? 0.82 : 0.62;
+
+                if (mouse.isNearObstacle) {
+                    targetAlpha = 0.38;
+                }
+
+                radarAlpha += (targetAlpha - radarAlpha) * 0.05;
+
+                // Decaimento suave do pulso de sincronização do celular
+                if (phoneSyncGlow > 0) {
+                    phoneSyncGlow = Math.max(0, phoneSyncGlow - 0.02);
+                }
+
+                const px = phoneCenter.x;
+                const py = phoneCenter.y;
+                const radarRadius = Math.hypot(width, height) * 1.25;
+
+                if (radarAlpha > 0.01) {
+                    // --- A. Grid de Anéis Técnicos a partir do Smartphone (100% da tela) ---
+                    const ringFractions = [0.12, 0.25, 0.40, 0.58, 0.76, 0.94, 1.0];
+                    for (let frac of ringFractions) {
+                        const r = radarRadius * frac;
+                        ctx.beginPath();
+                        ctx.arc(px, py, r, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(242, 142, 18, ${0.18 * radarAlpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.setLineDash(frac === 1.0 || frac === 0.58 ? [5, 8] : [3, 6]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+
+                    // --- B. Ondas de Pulso Lentas que Percorrem Toda a Página ---
+                    for (let i = 0; i < pulses.length; i++) {
+                        const p = pulses[i];
+                        p.progress += 0.0018;
+                        if (p.progress > 1.0) p.progress = 0;
+
+                        const pRadius = radarRadius * p.progress;
+                        const pAlpha = (1 - p.progress) * 0.45 * radarAlpha;
+
+                        ctx.beginPath();
+                        ctx.arc(px, py, pRadius, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(242, 142, 18, ${pAlpha})`;
+                        ctx.lineWidth = 0.9;
+                        ctx.stroke();
+                    }
+
+                    // --- C. Única Linha Laser do Radar (Varrendo Toda a Página) ---
+                    radarAngle += 0.0038;
+
+                    ctx.save();
+                    const lineGrad = ctx.createLinearGradient(
+                        px, py,
+                        px + Math.cos(radarAngle) * radarRadius,
+                        py + Math.sin(radarAngle) * radarRadius
+                    );
+                    lineGrad.addColorStop(0, `rgba(242, 142, 18, ${0.85 * radarAlpha})`);
+                    lineGrad.addColorStop(0.35, `rgba(242, 142, 18, ${0.55 * radarAlpha})`);
+                    lineGrad.addColorStop(0.75, `rgba(242, 142, 18, ${0.25 * radarAlpha})`);
+                    lineGrad.addColorStop(1, 'rgba(242, 142, 18, 0)');
+
+                    // Linha laser principal
+                    ctx.beginPath();
+                    ctx.moveTo(px, py);
+                    ctx.lineTo(px + Math.cos(radarAngle) * radarRadius, py + Math.sin(radarAngle) * radarRadius);
+                    ctx.strokeStyle = lineGrad;
+                    ctx.lineWidth = 1.1;
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // --- D. Desenha o Smartphone com Telemetria Replicada ---
+                    drawSmartphone(px, py, radarAlpha);
+
+                    // --- E. Linha Guia Dinâmica: Cursor do Mouse ➔ Smartphone ---
+                    if (mouse.hasMoved && mouse.x !== null && mouse.y !== null) {
+                        const distToPhone = Math.hypot(mouse.x - px, mouse.y - py);
+                        if (distToPhone > 70) {
+                            ctx.beginPath();
+                            ctx.moveTo(mouse.x, mouse.y);
+                            ctx.lineTo(px, py);
+                            ctx.strokeStyle = `rgba(242, 142, 18, ${0.2 * radarAlpha})`;
+                            ctx.lineWidth = 0.7;
+                            ctx.setLineDash([4, 6]);
+                            ctx.stroke();
+                            ctx.setLineDash([]);
+
+                            // Micro retículo no cursor
+                            ctx.beginPath();
+                            ctx.arc(mouse.x, mouse.y, 4.5, 0, Math.PI * 2);
+                            ctx.strokeStyle = `rgba(242, 142, 18, ${0.5 * radarAlpha})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // --- F. Dados Discretos que Surgem e Somem no Campo ---
+                for (let i = fieldData.length - 1; i >= 0; i--) {
+                    const item = fieldData[i];
+                    item.life -= item.decay;
+
+                    if (item.life <= 0) {
+                        fieldData.splice(i, 1);
+                        continue;
+                    }
+
+                    let itemOpacity = 1.0;
+                    if (item.life > 0.8) {
+                        itemOpacity = (1.0 - item.life) / 0.2;
+                    } else if (item.life < 0.3) {
+                        itemOpacity = item.life / 0.3;
+                    }
+
+                    const currentAlpha = itemOpacity * (mouse.isNearObstacle ? 0.35 : 0.95) * radarAlpha;
+
+                    ctx.save();
+                    // Micro-ponto indicador no local do campo com brilho
+                    ctx.beginPath();
+                    ctx.arc(item.x, item.y, 2.4, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(242, 142, 18, ${0.95 * currentAlpha})`;
+                    ctx.shadowColor = 'rgba(242, 142, 18, 0.7)';
+                    ctx.shadowBlur = 6;
+                    ctx.fill();
+
+                    // Anel fino pulsante no campo
+                    ctx.beginPath();
+                    ctx.arc(item.x, item.y, 6 + (1 - item.life) * 5, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(242, 142, 18, ${0.45 * currentAlpha})`;
+                    ctx.lineWidth = 0.7;
+                    ctx.stroke();
+
+                    // Linha guia fina
+                    ctx.beginPath();
+                    ctx.moveTo(item.x + 4, item.y);
+                    ctx.lineTo(item.x + 12, item.y);
+                    ctx.strokeStyle = `rgba(242, 142, 18, ${0.5 * currentAlpha})`;
+                    ctx.lineWidth = 0.6;
+                    ctx.stroke();
+
+                    // Rótulo nítido do dado no campo
+                    ctx.font = '600 10.5px "Host Grotesk", sans-serif';
+                    ctx.fillStyle = `rgba(255, 255, 255, ${0.9 * currentAlpha})`;
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                    ctx.shadowBlur = 4;
+                    ctx.fillText(item.text, item.x + 16, item.y + 3.5);
+                    ctx.restore();
+                }
+
+                animationFrameId = requestAnimationFrame(draw);
+            };
+
+            // Rastreamento do cursor e detecção esparsa
+            const onPointerMove = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                if (clientY <= rect.bottom && clientY >= rect.top) {
+                    lastPointerMoveTime = performance.now();
+                    mouse.targetX = clientX - rect.left;
+                    mouse.targetY = clientY - rect.top;
+                    mouse.hasMoved = true;
+
+                    // Checa proximidade com componentes
+                    const targetElement = document.elementFromPoint(clientX, clientY);
+                    if (targetElement) {
+                        const isObstacle = targetElement.closest('a, button, .header, .btn-cta, .nav-toggle, .social-link, h1, h2, h3, .hero-title, .main-logo, .hero-footer, .diff-card, p, input, select, textarea');
+                        mouse.isNearObstacle = !!isObstacle || clientY < 80;
+                    }
+
+                    // Gera nova telemetria de forma esparsa no campo
+                    const now = performance.now();
+                    const distMoved = Math.hypot(mouse.targetX - lastSpawnPos.x, mouse.targetY - lastSpawnPos.y);
+
+                    if ((distMoved > 160 && now - lastSpawnTime > 1800) && !mouse.isNearObstacle) {
+                        spawnFieldData(mouse.targetX, mouse.targetY);
+                        lastSpawnPos.x = mouse.targetX;
+                        lastSpawnPos.y = mouse.targetY;
+                        lastSpawnTime = now;
+                    }
+                }
+            };
+
+            window.addEventListener('mousemove', onPointerMove, { passive: true });
+            window.addEventListener('touchmove', onPointerMove, { passive: true });
+
+            window.addEventListener('resize', resizeCanvas, { passive: true });
+            window.addEventListener('components:ready', resizeCanvas, { passive: true });
+            window.addEventListener('load', resizeCanvas, { passive: true });
+            resizeCanvas();
+            draw();
+        }
+</script>
