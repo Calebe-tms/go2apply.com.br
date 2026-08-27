@@ -1,6 +1,6 @@
 <!-- ==========================================================================
    Component: Hero Background
-   Carrossel contínuo de vídeos com Radar Circular Interativo & Rastro de Telemetria
+   Carrossel contínuo de vídeos Cloudinary com Radar Circular Interativo
    ========================================================================== -->
 <style>
     .hero-bg {
@@ -13,51 +13,22 @@
         overflow: hidden;
     }
 
-    /* Wrapper de cada player YT — cobre o hero com escala proporcional */
-    .bg-yt-wrap {
+    .bg-video {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /* Largura e altura ajustadas via JS para garantir cobertura total */
-        min-width: 100%;
-        min-height: 100%;
-        pointer-events: none !important;
-        user-select: none;
-        opacity: 0;
-        visibility: hidden;
-        z-index: 1;
-        transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.4s ease;
-        will-change: opacity;
-    }
-
-    .bg-yt-wrap * {
-        pointer-events: none !important;
-    }
-
-    /* Camada bloqueadora opaca acima do iframe — impede que QUALQUER evento
-       de mouse/touch chegue ao YouTube, eliminando o pause nativo */
-    .bg-yt-wrap::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        z-index: 10;
-        background: transparent;
-    }
-
-    .bg-yt-wrap.active { opacity: 1; visibility: visible; z-index: 2; }
-    .bg-yt-wrap.base   { opacity: 1; visibility: visible; z-index: 1; }
-
-    /* O iframe em si ocupa 100% do wrapper com escala para ocultar títulos/overlays nativos */
-    .bg-yt-wrap iframe {
-        display: block;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        pointer-events: none !important;
-        border: none;
-        transform: scale(1.25);
-        transform-origin: center center;
+        object-fit: cover;
+        opacity: 0;
+        z-index: 1;
+        transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: opacity;
+        pointer-events: none;
     }
+
+    .bg-video.active { opacity: 1; z-index: 2; }
+    .bg-video.base   { opacity: 1; z-index: 1; }
 
     /* Overlay Gradiente Vinculado aos Tokens Oficiais do DS */
     .hero-overlay {
@@ -71,23 +42,6 @@
         pointer-events: none;
     }
 
-    /* Máscara radial sutil no centro — cobre overlays nativos do YouTube (pause, loading)
-       que escapam pelo gradiente transparente do hero-overlay.
-       Opacidade calibrada para ser imperceptível ao olho, mas suficiente para apagar
-       o ícone cinza do YouTube. */
-    .hero-yt-mask {
-        position: absolute;
-        inset: 0;
-        z-index: 4;
-        pointer-events: none;
-        background: radial-gradient(
-            ellipse 55% 45% at 50% 50%,
-            rgba(10, 14, 9, 0.18) 0%,
-            rgba(10, 14, 9, 0.06) 55%,
-            transparent 80%
-        );
-    }
-
     .hero-canvas {
         position: absolute;
         top: 0;
@@ -98,190 +52,113 @@
 </style>
 
 <div class="hero-bg">
-    <!-- Wrappers dos players YouTube (conteúdo injetado pelo JS após a API carregar) -->
-    <div class="bg-yt-wrap active" id="yt-wrap-0"></div>
-    <div class="bg-yt-wrap" id="yt-wrap-1"></div>
+    <video id="bg-video-1" class="bg-video active" muted playsinline autoplay></video>
+    <video id="bg-video-2" class="bg-video" muted playsinline></video>
     <div class="hero-overlay"></div>
-    <!-- Máscara que cobre overlays nativos do YouTube no centro da tela -->
-    <div class="hero-yt-mask"></div>
 </div>
 <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
 
 <script>
-    // --- 1. Carrossel de Vídeos YouTube como Fundo ---
-    // IDs dos vídeos (ordem do carrossel)
-    const ytVideoIds = [
-        'RVxPTrdKp2o',
-        'kRHYmD0R4Jk'
+    // --- 1. Carrossel de Vídeos Nativo HTML5 (Cloudinary MP4 Direct CDN) ---
+    const heroVideos = [
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863810/12093651_3840_2160_60fps.mp4',
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863807/13678744_1920_1080_60fps.mp4',
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863806/7542596-uhd_3840_2160_30fps.mp4'
     ];
 
-    // Estado do carrossel
-    let ytCurrentIdx  = 0;
-    let ytActiveSlot  = 0;  // 0 ou 1 (alternância entre os dois wrappers)
-    let ytInTransition = false;
-    let ytPlayers     = [null, null]; // instâncias YT.Player
-    let ytReady       = [false, false];
+    const vid1 = document.getElementById('bg-video-1');
+    const vid2 = document.getElementById('bg-video-2');
 
-    const wrappers = [
-        document.getElementById('yt-wrap-0'),
-        document.getElementById('yt-wrap-1')
-    ];
+    if (vid1 && vid2) {
+        let currentIdx = 0;
+        let actVideo = vid1;
+        let inactVideo = vid2;
+        let inTransition = false;
+        let firstFrameFired = false;
 
-    // Parâmetros do player: autoplay, sem controles, loop, mudo
-    const ytVars = {
-        autoplay: 1,
-        mute: 1,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
-        iv_load_policy: 3,
-        modestbranding: 1,
-        rel: 0,
-        showinfo: 0,
-        playsinline: 1,
-        enablejsapi: 1
-    };
-
-    // Ajusta o tamanho do iframe para cobrir proporcionalmente o hero (sem barras pretas)
-    const fitYtWrapper = (wrapEl) => {
-        const hero = document.getElementById('home');
-        if (!hero || !wrapEl) return;
-        const hW = hero.offsetWidth;
-        const hH = hero.offsetHeight;
-        const ratio = 16 / 9;
-        let iW, iH;
-        if (hW / hH > ratio) {
-            iW = hW;
-            iH = hW / ratio;
-        } else {
-            iH = hH;
-            iW = hH * ratio;
-        }
-        // Acrescenta 20% para esconder barra do YouTube no topo
-        iW *= 1.2;
-        iH *= 1.2;
-        wrapEl.style.width  = iW + 'px';
-        wrapEl.style.height = iH + 'px';
-    };
-
-    // Cria o crossfade entre os dois slots
-    const ytCrossfade = () => {
-        if (ytInTransition) return;
-        ytInTransition = true;
-
-        const nextSlot = ytActiveSlot === 0 ? 1 : 0;
-        const nextIdx  = (ytCurrentIdx + 1) % ytVideoIds.length;
-
-        // Carrega o próximo vídeo no slot inativo
-        if (ytPlayers[nextSlot] && ytReady[nextSlot]) {
-            ytPlayers[nextSlot].loadVideoById(ytVideoIds[nextIdx]);
-        }
-
-        // Aguarda o player inativo estar reproduzindo para fazer o fade
-        const tryFade = setInterval(() => {
-            if (!ytPlayers[nextSlot]) return;
-            const state = ytPlayers[nextSlot].getPlayerState ? ytPlayers[nextSlot].getPlayerState() : -1;
-            if (state === YT.PlayerState.PLAYING || state === YT.PlayerState.BUFFERING) {
-                clearInterval(tryFade);
-
-                // Slot ativo vira base (permanece visível durante o fade)
-                wrappers[ytActiveSlot].className = 'bg-yt-wrap base';
-                wrappers[nextSlot].className = 'bg-yt-wrap active';
-
-                setTimeout(() => {
-                    wrappers[ytActiveSlot].className = 'bg-yt-wrap';
-                    ytCurrentIdx = nextIdx;
-                    ytActiveSlot = nextSlot;
-                    ytInTransition = false;
-                }, 1400); // Coincide com o duration da transição CSS
-            }
-        }, 400);
-    };
-
-    // Callback do player ao mudar de estado
-    let ytFirstFrameFired = false; // Garante que o evento de "pronto" dispara uma única vez
-
-    const onYtStateChange = (event) => {
-        // Quando o vídeo ativo está próximo do fim, dispara o crossfade
-        if (event.data === YT.PlayerState.PLAYING) {
-
-            // Dispara UMA vez: avisa o loader que o primeiro frame já está na tela
-            if (!ytFirstFrameFired) {
-                ytFirstFrameFired = true;
+        const notifyFirstFrame = () => {
+            if (!firstFrameFired) {
+                firstFrameFired = true;
                 window.dispatchEvent(new CustomEvent('hero:first-video-ready'));
             }
-
-            const player = event.target;
-            const duration = player.getDuration ? player.getDuration() : 0;
-            if (duration > 0) {
-                const remaining = duration - player.getCurrentTime();
-                const fadeAt = Math.max(0, (remaining - 2) * 1000);
-                setTimeout(() => {
-                    // Verifica se esse player ainda é o ativo
-                    if (!ytInTransition) ytCrossfade();
-                }, fadeAt);
-            }
-        }
-        // Se o vídeo terminar sem crossfade ter sido disparado
-        if (event.data === YT.PlayerState.ENDED) {
-            if (!ytInTransition) ytCrossfade();
-        }
-    };
-
-    // Cria os dois players YT (slot 0 = ativo inicial, slot 1 = inativo)
-    const initYtPlayers = () => {
-        [0, 1].forEach(slot => {
-            // Cria um div filho dentro do wrapper para o YT substituir
-            const div = document.createElement('div');
-            div.id = 'yt-player-' + slot;
-            wrappers[slot].appendChild(div);
-            fitYtWrapper(wrappers[slot]);
-
-            ytPlayers[slot] = new YT.Player('yt-player-' + slot, {
-                videoId: ytVideoIds[slot === 0 ? ytCurrentIdx : (ytCurrentIdx + 1) % ytVideoIds.length],
-                playerVars: { ...ytVars },
-                width: '100%',
-                height: '100%',
-                events: {
-                    onReady: (e) => {
-                        ytReady[slot] = true;
-                        e.target.mute();
-                        e.target.playVideo();
-                    },
-                    onStateChange: (e) => {
-                        if (ytActiveSlot === slot) {
-                            onYtStateChange(e);
-                        }
-                    }
-                }
-            });
-        });
-
-        // Redimensiona ao resize da janela
-        window.addEventListener('resize', () => {
-            fitYtWrapper(wrappers[0]);
-            fitYtWrapper(wrappers[1]);
-        }, { passive: true });
-    };
-
-    // Inicialização ultra-robusta da API do YouTube (funciona em produção, cache ou re-navegação)
-    if (window.YT && window.YT.Player) {
-        initYtPlayers();
-    } else {
-        const prevOnReady = window.onYouTubeIframeAPIReady;
-        window.onYouTubeIframeAPIReady = function () {
-            if (typeof prevOnReady === 'function') prevOnReady();
-            initYtPlayers();
         };
 
-        if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
-            const ytScript = document.createElement('script');
-            ytScript.src = 'https://www.youtube.com/iframe_api';
-            document.head.appendChild(ytScript);
-        }
+        actVideo.addEventListener('playing', notifyFirstFrame);
+        actVideo.addEventListener('canplay', notifyFirstFrame);
+
+        actVideo.src = heroVideos[currentIdx];
+        actVideo.load();
+        actVideo.play().catch(e => console.warn('Autoplay video 1:', e));
+
+        let nxtIdx = (currentIdx + 1) % heroVideos.length;
+        inactVideo.src = heroVideos[nxtIdx];
+        inactVideo.load();
+
+        const triggerCrossfade = () => {
+            if (inTransition) return;
+            inTransition = true;
+
+            const playPromise = inactVideo.play();
+
+            const executeFade = () => {
+                actVideo.className = 'bg-video base';
+                inactVideo.className = 'bg-video active';
+
+                setTimeout(() => {
+                    actVideo.pause();
+                    actVideo.currentTime = 0;
+                    actVideo.className = 'bg-video';
+
+                    currentIdx = nxtIdx;
+                    nxtIdx = (currentIdx + 1) % heroVideos.length;
+
+                    const temp = actVideo;
+                    actVideo = inactVideo;
+                    inactVideo = temp;
+
+                    inactVideo.src = heroVideos[nxtIdx];
+                    inactVideo.load();
+                    inTransition = false;
+                }, 1400);
+            };
+
+            if (playPromise !== undefined) {
+                playPromise.then(executeFade).catch(err => {
+                    console.warn('Erro crossfade:', err);
+                    inTransition = false;
+                });
+            } else {
+                executeFade();
+            }
+        };
+
+        const onProgress = (e) => {
+            const video = e.target;
+            if (video === actVideo && !inTransition && video.duration) {
+                if (video.duration - video.currentTime <= 1.5) {
+                    triggerCrossfade();
+                }
+            }
+        };
+
+        vid1.addEventListener('timeupdate', onProgress);
+        vid2.addEventListener('timeupdate', onProgress);
+
+        vid1.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
+        vid2.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
+
+        const onVidError = () => {
+            if (inTransition) inTransition = false;
+            nxtIdx = (nxtIdx + 1) % heroVideos.length;
+            inactVideo.src = heroVideos[nxtIdx];
+            inactVideo.load();
+        };
+
+        vid1.addEventListener('error', onVidError);
+        vid2.addEventListener('error', onVidError);
     }
 
-    // --- 2. Motor do Radar no Canto Inferior Esquerdo (Sincronização Mobile) ---
+    // --- 2. Motor do Radar no Canto Inferior Esquerdo (Oculta mini-celular no mobile) ---
     const canvas = document.getElementById('hero-mesh-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -299,25 +176,19 @@
             hasMoved: false
         };
 
-        // Centro do Radar no canto inferior esquerdo (onde fica o smartphone)
         let phoneCenter = { x: 0, y: 0 };
         let phoneDim = { width: 78, height: 142, radius: 14 };
-        let phoneSyncGlow = 0; // Pulso de recepção de dados no celular
+        let phoneSyncGlow = 0;
 
-        // Opacidade global calibrada para discrição e elegância
         let radarAlpha = 0.4;
-
-        // Rotação da linha do radar
         let radarAngle = -Math.PI * 0.25;
 
-        // Ondas de pulso concêntricas a partir do celular
         let pulses = [
             { progress: 0.1 },
             { progress: 0.45 },
             { progress: 0.8 }
         ];
 
-        // Métricas técnicas da plataforma (discretas)
         const technicalMetrics = [
             'pH: 6.4',
             'Kow: 2.85',
@@ -330,7 +201,6 @@
         ];
         let metricIndex = 0;
 
-        // Histórico de telemetria sincronizada na tela do smartphone
         let phoneTelemetryList = [
             { label: 'pH', value: '6.4' },
             { label: 'Kow', value: '2.85' },
@@ -339,7 +209,6 @@
             { label: 'Gotas', value: '215/cm²' }
         ];
 
-        // Fila de dados que surgem e somem no campo
         let fieldData = [];
         let lastSpawnPos = { x: 0, y: 0 };
         let lastSpawnTime = 0;
@@ -360,20 +229,8 @@
             canvas.height = height * dpr;
             ctx.scale(dpr, dpr);
 
-            // O celular é ancorado no Hero (sobe junto com o Hero no scroll)
-            if (width <= 600) {
-                phoneDim.width = 58;
-                phoneDim.height = 106;
-                phoneDim.radius = 10;
-                phoneCenter.x = Math.max(42, width * 0.12);
-                phoneCenter.y = heroHeight * 0.58; // Fica na zona livre acima dos pilares de rodapé
-            } else {
-                phoneDim.width = 78;
-                phoneDim.height = 142;
-                phoneDim.radius = 14;
-                phoneCenter.x = Math.max(95, width * 0.09);
-                phoneCenter.y = Math.min(heroHeight - 95, heroHeight * 0.85);
-            }
+            phoneCenter.x = Math.max(95, width * 0.09);
+            phoneCenter.y = Math.min(heroHeight - 95, heroHeight * 0.85);
 
             if (mouse.x === null) {
                 mouse.x = width * 0.5;
@@ -383,7 +240,6 @@
             }
         };
 
-        // Cria um dado discreto no campo e atualiza o display do celular
         const spawnFieldData = (cursorX, cursorY) => {
             const metric = technicalMetrics[metricIndex % technicalMetrics.length];
             metricIndex++;
@@ -397,7 +253,6 @@
             const startX = px + Math.cos(radarAngle) * spawnRadius;
             const startY = py + Math.sin(radarAngle) * spawnRadius;
 
-            // 1. Registra o ponto no campo
             fieldData.push({
                 x: startX,
                 y: startY,
@@ -410,7 +265,6 @@
                 fieldData.shift();
             }
 
-            // 2. Atualiza a lista interna do mini-celular
             const parts = metric.split(': ');
             if (parts.length === 2) {
                 phoneTelemetryList.unshift({ label: parts[0], value: parts[1] });
@@ -421,7 +275,6 @@
             phoneSyncGlow = 1.0;
         };
 
-        // Desenha o smartphone e os dados 100% contidos na tela
         const drawSmartphone = (cx, cy, alpha) => {
             const w = phoneDim.width;
             const h = phoneDim.height;
@@ -431,7 +284,6 @@
 
             ctx.save();
 
-            // 1. Corpo do smartphone em vidro escuro translúcido discreto
             ctx.beginPath();
             ctx.moveTo(x + r, y);
             ctx.lineTo(x + w - r, y);
@@ -453,7 +305,6 @@
             ctx.lineWidth = 1.0;
             ctx.stroke();
 
-            // 2. Notch superior
             const notchW = 18;
             const notchH = 3.5;
             ctx.beginPath();
@@ -461,7 +312,6 @@
             ctx.fillStyle = `rgba(242, 142, 18, ${0.45 * alpha})`;
             ctx.fill();
 
-            // 3. Barra inferior de navegação
             const barW = 20;
             ctx.beginPath();
             ctx.moveTo(cx - barW / 2, y + h - 6);
@@ -470,14 +320,12 @@
             ctx.lineWidth = 1.0;
             ctx.stroke();
 
-            // 4. Header interno do display
             const screenAlpha = (0.75 + phoneSyncGlow * 0.15) * alpha;
 
             ctx.font = '700 7.5px "Host Grotesk", sans-serif';
             ctx.fillStyle = `rgba(242, 142, 18, ${screenAlpha})`;
             ctx.fillText('go2apply', x + 8, y + 19);
 
-            // Divisória sutil
             ctx.beginPath();
             ctx.moveTo(x + 8, y + 23);
             ctx.lineTo(x + w - 8, y + 23);
@@ -485,7 +333,6 @@
             ctx.lineWidth = 0.5;
             ctx.stroke();
 
-            // 5. Lista de Múltiplos Parâmetros Compactos e Discretos
             const startRowY = y + 36;
             const rowHeight = 16;
 
@@ -494,18 +341,15 @@
                 const rowY = startRowY + idx * rowHeight;
                 const rowAlpha = (idx === 0 ? 0.95 : Math.max(0.4, 0.75 - idx * 0.08)) * screenAlpha;
 
-                // Micro ponto indicador
                 ctx.beginPath();
                 ctx.arc(x + 10, rowY - 2.5, 1.2, 0, Math.PI * 2);
                 ctx.fillStyle = idx === 0 ? `rgba(242, 142, 18, ${rowAlpha})` : `rgba(255, 255, 255, ${rowAlpha * 0.5})`;
                 ctx.fill();
 
-                // Rótulo
                 ctx.font = '500 7px "Host Grotesk", sans-serif';
                 ctx.fillStyle = `rgba(255, 255, 255, ${rowAlpha * 0.7})`;
                 ctx.fillText(row.label, x + 16, rowY);
 
-                // Valor
                 ctx.font = '600 7.5px "Host Grotesk", sans-serif';
                 ctx.fillStyle = idx === 0 ? `rgba(242, 142, 18, ${rowAlpha})` : `rgba(255, 255, 255, ${rowAlpha * 0.85})`;
                 ctx.textAlign = 'right';
@@ -513,7 +357,6 @@
                 ctx.textAlign = 'left';
             }
 
-            // 6. Rodapé de status sincronizado interno
             ctx.beginPath();
             ctx.arc(x + 10, y + h - 14, 1.5, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(242, 142, 18, ${screenAlpha})`;
@@ -529,13 +372,11 @@
         const draw = () => {
             ctx.clearRect(0, 0, width, height);
 
-            // 1. Suavização do mouse
             if (mouse.targetX !== null && mouse.targetY !== null) {
                 mouse.x += (mouse.targetX - mouse.x) * 0.1;
                 mouse.y += (mouse.targetY - mouse.y) * 0.1;
             }
 
-            // 2. Opacidade suave e discreta
             const now = performance.now();
             const isIdle = (now - lastPointerMoveTime > 1000);
             let targetAlpha = isIdle ? 0.65 : 0.45;
@@ -546,7 +387,6 @@
 
             radarAlpha += (targetAlpha - radarAlpha) * 0.04;
 
-            // Decaimento suave do pulso de sincronização do celular
             if (phoneSyncGlow > 0) {
                 phoneSyncGlow = Math.max(0, phoneSyncGlow - 0.02);
             }
@@ -556,7 +396,6 @@
             const radarRadius = Math.hypot(width, height) * 1.25;
 
             if (radarAlpha > 0.01) {
-                // --- A. Grid de Anéis Técnicos a partir do Smartphone (Sutil e Discreto) ---
                 const ringFractions = [0.12, 0.25, 0.40, 0.58, 0.76, 0.94, 1.0];
                 for (let frac of ringFractions) {
                     const r = radarRadius * frac;
@@ -569,14 +408,13 @@
                     ctx.setLineDash([]);
                 }
 
-                // --- B. Ondas de Pulso Suaves com Velocidade Desacelerada ---
                 for (let i = 0; i < pulses.length; i++) {
                     const p = pulses[i];
-                    p.progress += 0.0008; // Velocidade desacelerada (ondas calmas e contínuas)
+                    p.progress += 0.0008;
                     if (p.progress > 1.0) p.progress = 0;
 
                     const pRadius = radarRadius * p.progress;
-                    const pAlpha = (1 - p.progress) * 0.28 * radarAlpha; // Transparência suave
+                    const pAlpha = (1 - p.progress) * 0.28 * radarAlpha;
 
                     ctx.beginPath();
                     ctx.arc(px, py, pRadius, 0, Math.PI * 2);
@@ -585,7 +423,6 @@
                     ctx.stroke();
                 }
 
-                // --- C. Linha Laser Principal do Radar (Discreta, Fina e Suave) ---
                 radarAngle += 0.0038;
 
                 ctx.save();
@@ -599,7 +436,6 @@
                 lineGrad.addColorStop(0.75, `rgba(242, 142, 18, ${0.1 * radarAlpha})`);
                 lineGrad.addColorStop(1, 'rgba(242, 142, 18, 0)');
 
-                // Linha laser com traçado fino e discreto
                 ctx.beginPath();
                 ctx.moveTo(px, py);
                 ctx.lineTo(px + Math.cos(radarAngle) * radarRadius, py + Math.sin(radarAngle) * radarRadius);
@@ -608,11 +444,13 @@
                 ctx.stroke();
                 ctx.restore();
 
-                // --- D. Desenha o Smartphone com Telemetria Replicada ---
-                drawSmartphone(px, py, radarAlpha);
+                // Desenha o mini-smartphone APENAS em telas desktop/tablet (>600px).
+                // Em smartphones (<=600px), ele fica oculto para manter a tela limpa.
+                if (width > 600) {
+                    drawSmartphone(px, py, radarAlpha);
+                }
 
-                // --- E. Linha Guia Dinâmica: Cursor do Mouse ➔ Smartphone ---
-                if (mouse.hasMoved && mouse.x !== null && mouse.y !== null) {
+                if (mouse.hasMoved && mouse.x !== null && mouse.y !== null && width > 600) {
                     const distToPhone = Math.hypot(mouse.x - px, mouse.y - py);
                     if (distToPhone > 70) {
                         ctx.beginPath();
@@ -624,7 +462,6 @@
                         ctx.stroke();
                         ctx.setLineDash([]);
 
-                        // Micro retículo no cursor
                         ctx.beginPath();
                         ctx.arc(mouse.x, mouse.y, 4.5, 0, Math.PI * 2);
                         ctx.strokeStyle = `rgba(242, 142, 18, ${0.5 * radarAlpha})`;
@@ -634,7 +471,6 @@
                 }
             }
 
-            // --- F. Dados Discretos que Surgem e Somem no Campo ---
             for (let i = fieldData.length - 1; i >= 0; i--) {
                 const item = fieldData[i];
                 item.life -= item.decay;
@@ -654,7 +490,6 @@
                 const currentAlpha = itemOpacity * (mouse.isNearObstacle ? 0.35 : 0.95) * radarAlpha;
 
                 ctx.save();
-                // Micro-ponto indicador no local do campo com brilho
                 ctx.beginPath();
                 ctx.arc(item.x, item.y, 2.4, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(242, 142, 18, ${0.95 * currentAlpha})`;
@@ -662,14 +497,12 @@
                 ctx.shadowBlur = 6;
                 ctx.fill();
 
-                // Anel fino pulsante no campo
                 ctx.beginPath();
                 ctx.arc(item.x, item.y, 6 + (1 - item.life) * 5, 0, Math.PI * 2);
                 ctx.strokeStyle = `rgba(242, 142, 18, ${0.45 * currentAlpha})`;
                 ctx.lineWidth = 0.7;
                 ctx.stroke();
 
-                // Linha guia fina
                 ctx.beginPath();
                 ctx.moveTo(item.x + 4, item.y);
                 ctx.lineTo(item.x + 12, item.y);
@@ -677,7 +510,6 @@
                 ctx.lineWidth = 0.6;
                 ctx.stroke();
 
-                // Rótulo nítido do dado no campo
                 ctx.font = '600 10.5px "Host Grotesk", sans-serif';
                 ctx.fillStyle = `rgba(255, 255, 255, ${0.9 * currentAlpha})`;
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
@@ -689,7 +521,6 @@
             animationFrameId = requestAnimationFrame(draw);
         };
 
-        // Rastreamento do cursor e detecção esparsa
         const onPointerMove = (e) => {
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -701,14 +532,12 @@
                 mouse.targetY = clientY - rect.top;
                 mouse.hasMoved = true;
 
-                // Checa proximidade com componentes
                 const targetElement = document.elementFromPoint(clientX, clientY);
                 if (targetElement) {
                     const isObstacle = targetElement.closest('a, button, .header, .btn-cta, .nav-toggle, .social-link, h1, h2, h3, .hero-title, .main-logo, .hero-footer, .diff-card, p, input, select, textarea');
                     mouse.isNearObstacle = !!isObstacle || clientY < 80;
                 }
 
-                // Gera nova telemetria de forma esparsa no campo
                 const now = performance.now();
                 const distMoved = Math.hypot(mouse.targetX - lastSpawnPos.x, mouse.targetY - lastSpawnPos.y);
 
