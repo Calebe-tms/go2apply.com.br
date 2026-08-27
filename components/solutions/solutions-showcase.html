@@ -400,20 +400,43 @@
    Mobile
    ========================================================================== */
 @media (max-width: 768px) {
+    .sol {
+        min-height: auto;
+    }
+
+    .sol__inner {
+        padding: 4rem 1.25rem 2.5rem 1.25rem;
+    }
+
+    .sol.stage-open .sol__tablet-wrap {
+        max-height: 280px;
+        margin-bottom: 1.5rem;
+    }
+
+    .sol__tablet {
+        aspect-ratio: 16 / 9;
+        border-radius: 12px;
+    }
+
     .sol.stage-open .sol__list {
         flex-direction: column;
         max-width: 100%;
         gap: 0.25rem;
     }
+
     .sol.stage-open .sol__item {
         flex-direction: row;
         text-align: left;
         justify-content: flex-start;
+        padding: 0.65rem 0.85rem;
     }
+
     .sol.stage-open .sol__desc {
-        max-height: 80px;
-        opacity: 0.78;
+        max-height: 60px;
+        opacity: 0.75;
+        font-size: 0.85rem;
     }
+
     .sol__bg { grid-template-columns: 1fr; }
     .sol__bg-glow { display: none; }
 }

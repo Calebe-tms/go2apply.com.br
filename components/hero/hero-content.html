@@ -151,20 +151,37 @@
     }
 
     @media (max-width: 600px) {
+        .hero-content {
+            padding: 4.5rem 1rem 1.5rem 1rem;
+            min-height: 100dvh;
+        }
+
+        .main-content {
+            transform: none;
+            gap: 0.9rem;
+            padding: 1rem 0.25rem;
+        }
+
+        .main-content::before {
+            width: 100%;
+            height: 100%;
+            filter: blur(16px);
+        }
+
         .main-logo {
-            max-width: 290px;
+            max-width: 250px;
         }
 
         .hero-title {
-            font-size: 1.18rem;
+            font-size: 1.08rem;
             line-height: 1.34;
         }
 
-    .hero-footer-text {
-        font-size: 0.75rem;
-        letter-spacing: 1.2px;
+        .hero-footer-text {
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+        }
     }
-}
 
 /* Indicador de scroll animado ultra-sutil no canto inferior direito */
 .hero-scroll-indicator {

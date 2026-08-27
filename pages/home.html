@@ -5,11 +5,17 @@
 <style>
     .hero {
         position: relative;
-        width: 100vw;
-        height: 100vh;
-        min-height: 700px;
+        width: 100%;
+        min-height: 100dvh;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
+    }
+
+    @media (max-width: 600px) {
+        .hero {
+            min-height: 100dvh;
+        }
     }
 </style>
 
