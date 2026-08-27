@@ -301,7 +301,7 @@
 
         // Centro do Radar no canto inferior esquerdo (onde fica o smartphone)
         let phoneCenter = { x: 0, y: 0 };
-        const phoneDim = { width: 78, height: 142, radius: 14 };
+        let phoneDim = { width: 78, height: 142, radius: 14 };
         let phoneSyncGlow = 0; // Pulso de recepção de dados no celular
 
         // Opacidade global calibrada para discrição e elegância
@@ -361,8 +361,19 @@
             ctx.scale(dpr, dpr);
 
             // O celular é ancorado no Hero (sobe junto com o Hero no scroll)
-            phoneCenter.x = Math.max(95, width * 0.09);
-            phoneCenter.y = Math.min(heroHeight - 95, heroHeight * 0.85);
+            if (width <= 600) {
+                phoneDim.width = 58;
+                phoneDim.height = 106;
+                phoneDim.radius = 10;
+                phoneCenter.x = Math.max(42, width * 0.12);
+                phoneCenter.y = heroHeight * 0.58; // Fica na zona livre acima dos pilares de rodapé
+            } else {
+                phoneDim.width = 78;
+                phoneDim.height = 142;
+                phoneDim.radius = 14;
+                phoneCenter.x = Math.max(95, width * 0.09);
+                phoneCenter.y = Math.min(heroHeight - 95, heroHeight * 0.85);
+            }
 
             if (mouse.x === null) {
                 mouse.x = width * 0.5;
