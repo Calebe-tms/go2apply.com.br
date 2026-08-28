@@ -1,0 +1,177 @@
+<!-- ==========================================================================
+   Component: Hero Ticker Bar
+   Barra técnica deslizante infinita no rodapé do Hero
+   ========================================================================== -->
+<style>
+    .hero-ticker-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 25;
+        background: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.88);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid var(--color-border-subtle, rgba(254, 252, 248, 0.12));
+        border-bottom: 1px solid var(--color-border, rgba(254, 252, 248, 0.06));
+        overflow: hidden;
+        user-select: none;
+        padding: 0.65rem 0;
+        pointer-events: auto;
+        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-ticker-track {
+        display: flex;
+        width: max-content;
+        animation: hero-ticker-scroll 42s linear infinite;
+        will-change: transform;
+    }
+
+    .hero-ticker-container:hover .hero-ticker-track {
+        animation-play-state: paused;
+    }
+
+    .hero-ticker-group {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .ticker-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: 'Space Mono', 'Consolas', 'Menlo', 'Courier New', monospace;
+        font-size: clamp(0.7rem, 0.8vw, 0.82rem);
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--color-white, #fefcf8);
+        opacity: 0.88;
+        white-space: nowrap;
+        transition: opacity 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    .ticker-item:hover {
+        opacity: 1;
+        transform: translateY(-1px);
+    }
+
+    /* Cores das 3 Soluções Oficiais do DS */
+    .ticker-item.t-caldas {
+        color: var(--color-caldas-light, #168653);
+    }
+    .ticker-item.t-caldas:hover {
+        text-shadow: 0 0 12px var(--color-caldas-glow, rgba(14, 96, 59, 0.6));
+    }
+
+    .ticker-item.t-kow {
+        color: var(--color-kow-light, #03a9be);
+    }
+    .ticker-item.t-kow:hover {
+        text-shadow: 0 0 12px var(--color-kow-glow, rgba(2, 138, 155, 0.6));
+    }
+
+    .ticker-item.t-pulver {
+        color: var(--color-pulver-light, #f5c43d);
+    }
+    .ticker-item.t-pulver:hover {
+        text-shadow: 0 0 12px var(--color-pulver-glow, rgba(238, 179, 25, 0.6));
+    }
+
+    .ticker-item.t-brand {
+        color: var(--color-orange, #f28e13);
+    }
+    .ticker-item.t-brand:hover {
+        text-shadow: 0 0 12px var(--color-orange-glow, rgba(242, 142, 19, 0.6));
+    }
+
+    .ticker-separator {
+        display: inline-block;
+        color: var(--color-orange, #f28e13);
+        margin: 0 1.8rem;
+        font-weight: 700;
+        font-size: 0.85rem;
+        opacity: 0.65;
+        text-shadow: 0 0 8px var(--color-orange-glow, rgba(242, 142, 19, 0.4));
+    }
+
+    @keyframes hero-ticker-scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-ticker-container {
+            padding: 0.55rem 0;
+        }
+        .ticker-item {
+            font-size: 0.68rem;
+            letter-spacing: 1.6px;
+        }
+        .ticker-separator {
+            margin: 0 1.2rem;
+        }
+    }
+</style>
+
+<div class="hero-ticker-container" aria-label="Tópicos técnicos de aplicação">
+    <div class="hero-ticker-track">
+        <!-- Grupo 1 -->
+        <div class="hero-ticker-group">
+            <span class="ticker-item t-caldas">FORMAÇÃO DE CALDAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE FÍSICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE QUÍMICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-kow">pH &amp; KOW DE ATIVOS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-kow">TRANSLOCAÇÃO SISTÊMICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">PULVERIZAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">SELEÇÃO DE PONTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">ESPECTRO DE GOTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">VOLUME DE APLICAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">CONTROLE DE DERIVA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-brand">DECISÕES COM BASE TÉCNICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+        </div>
+
+        <!-- Grupo 2 (Duplicado para efeito de loop contínuo sem saltos) -->
+        <div class="hero-ticker-group" aria-hidden="true">
+            <span class="ticker-item t-caldas">FORMAÇÃO DE CALDAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE FÍSICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE QUÍMICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-kow">pH &amp; KOW DE ATIVOS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-kow">TRANSLOCAÇÃO SISTÊMICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">PULVERIZAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">SELEÇÃO DE PONTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">ESPECTRO DE GOTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">VOLUME DE APLICAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">CONTROLE DE DERIVA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-brand">DECISÕES COM BASE TÉCNICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+        </div>
+    </div>
+</div>

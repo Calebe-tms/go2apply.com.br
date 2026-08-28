@@ -5,48 +5,50 @@
    ========================================================================== -->
 <style>
     .hero-pillars {
-        display: inline-flex;
-        align-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
         justify-content: center;
-        gap: clamp(1.2rem, 2.8vw, 3rem);
-        flex-wrap: wrap;
-        width: 100%;
-        padding: 0.25rem 1rem;
+        gap: 0.85rem;
+        width: fit-content;
+        margin: 0 auto;
+        padding: 0 1rem;
+        transform: translateY(-52px);
     }
 
     .pillar-item {
         display: inline-flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.55rem;
         color: var(--color-white, #fefcf8);
         text-decoration: none;
         font-family: var(--font-main);
-        font-size: clamp(0.82rem, 1vw, 1rem);
+        font-size: clamp(0.7rem, 0.8vw, 0.8rem);
         font-weight: 500;
-        letter-spacing: 1.6px;
+        letter-spacing: 1.2px;
         text-transform: uppercase;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.9);
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
         transition: var(--transition-smooth);
         cursor: default;
     }
 
     /* Micro-box individual para os ícones com fundo branco quente */
     .pillar-icon-box {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: var(--color-white, #fefcf8);
-        border-radius: var(--radius-sm, 7px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
         transition: var(--transition-smooth);
         flex-shrink: 0;
     }
 
     .pillar-icon {
-        width: 18px;
-        height: 18px;
+        width: 13px;
+        height: 13px;
         object-fit: contain;
         transition: var(--transition-smooth);
     }
@@ -93,38 +95,28 @@
         border-color: var(--color-kow-light, #03a9be);
     }
 
-    /* Separadores sutis entre os pilares */
-    .pillar-bullet {
-        color: rgba(var(--color-white-rgb), 0.45);
-        font-size: 0.9rem;
-        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
-        user-select: none;
-    }
-
     @media (max-width: 768px) {
         .hero-pillars {
-            gap: 0.85rem 1.4rem;
-        }
-
-        .pillar-bullet {
-            display: none;
+            gap: 0.65rem;
+            padding: 0 1rem;
+            transform: translateY(-32px);
         }
 
         .pillar-item {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             letter-spacing: 1px;
-            gap: 0.5rem;
+            gap: 0.45rem;
         }
 
         .pillar-icon-box {
-            width: 24px;
-            height: 24px;
-            border-radius: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
         }
 
         .pillar-icon {
-            width: 14px;
-            height: 14px;
+            width: 11px;
+            height: 11px;
         }
     }
 </style>
@@ -138,8 +130,6 @@
         <span class="pillar-text">Formação de Caldas</span>
     </div>
 
-    <span class="pillar-bullet" aria-hidden="true">&bull;</span>
-
     <!-- Pilar 2: pH & Kow -->
     <div class="pillar-item pillar-kow">
         <span class="pillar-icon-box">
@@ -147,8 +137,6 @@
         </span>
         <span class="pillar-text">pH & Kow</span>
     </div>
-
-    <span class="pillar-bullet" aria-hidden="true">&bull;</span>
 
     <!-- Pilar 3: Pulverização -->
     <div class="pillar-item pillar-pulver">

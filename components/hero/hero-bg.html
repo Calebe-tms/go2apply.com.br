@@ -59,9 +59,8 @@
 <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
 
 <script>
-    // --- 1. Carrossel de Vídeos Nativo HTML5 (Cloudinary MP4 Direct CDN) ---
+    // --- 1. Carrossel de Vídeos Nativo HTML5 Resiliente em Loop Infinito ---
     const heroVideos = [
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863810/12093651_3840_2160_60fps.mp4',
         'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863807/13678744_1920_1080_60fps.mp4',
         'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863806/7542596-uhd_3840_2160_30fps.mp4'
     ];
@@ -69,13 +68,15 @@
     const vid1 = document.getElementById('bg-video-1');
     const vid2 = document.getElementById('bg-video-2');
 
-    if (vid1 && vid2) {
+    if (vid1 && vid2 && heroVideos.length > 0) {
         let currentIdx = 0;
         let actVideo = vid1;
         let inactVideo = vid2;
         let inTransition = false;
         let firstFrameFired = false;
+        let transitionTimeout = null;
 
+        // Notifica o loader global que o primeiro vídeo iniciou
         const notifyFirstFrame = () => {
             if (!firstFrameFired) {
                 firstFrameFired = true;
@@ -83,24 +84,33 @@
             }
         };
 
-        actVideo.addEventListener('playing', notifyFirstFrame);
-        actVideo.addEventListener('canplay', notifyFirstFrame);
+        [vid1, vid2].forEach(v => {
+            v.addEventListener('playing', notifyFirstFrame);
+            v.addEventListener('canplay', notifyFirstFrame);
+        });
 
+        // Configuração inicial do primeiro vídeo
         actVideo.src = heroVideos[currentIdx];
         actVideo.load();
         actVideo.play().catch(e => console.warn('Autoplay video 1:', e));
 
+        // Pré-carrega o próximo vídeo no buffer
         let nxtIdx = (currentIdx + 1) % heroVideos.length;
         inactVideo.src = heroVideos[nxtIdx];
         inactVideo.load();
 
+        // Executa a transição suave de crossfade entre os dois elementos de vídeo
         const triggerCrossfade = () => {
             if (inTransition) return;
             inTransition = true;
 
-            const playPromise = inactVideo.play();
+            // Timer de segurança contra travamento de Promise
+            if (transitionTimeout) clearTimeout(transitionTimeout);
+            transitionTimeout = setTimeout(() => {
+                inTransition = false;
+            }, 3000);
 
-            const executeFade = () => {
+            const startFade = () => {
                 actVideo.className = 'bg-video base';
                 inactVideo.className = 'bg-video active';
 
@@ -116,25 +126,37 @@
                     actVideo = inactVideo;
                     inactVideo = temp;
 
+                    // Prepara o próximo item da lista
                     inactVideo.src = heroVideos[nxtIdx];
                     inactVideo.load();
+
                     inTransition = false;
+                    if (transitionTimeout) clearTimeout(transitionTimeout);
                 }, 1400);
             };
 
+            const playPromise = inactVideo.play();
             if (playPromise !== undefined) {
-                playPromise.then(executeFade).catch(err => {
-                    console.warn('Erro crossfade:', err);
-                    inTransition = false;
-                });
+                playPromise
+                    .then(startFade)
+                    .catch(err => {
+                        console.warn('Recuperando erro de crossfade:', err);
+                        // Fallback: se o próximo falhar, reinicia o vídeo atual para nunca pausar
+                        inTransition = false;
+                        if (actVideo.paused) {
+                            actVideo.currentTime = 0;
+                            actVideo.play().catch(() => {});
+                        }
+                    });
             } else {
-                executeFade();
+                startFade();
             }
         };
 
+        // Monitora o progresso do vídeo ativo para disparar o crossfade 1.5s antes do fim
         const onProgress = (e) => {
             const video = e.target;
-            if (video === actVideo && !inTransition && video.duration) {
+            if (video === actVideo && !inTransition && video.duration && !isNaN(video.duration)) {
                 if (video.duration - video.currentTime <= 1.5) {
                     triggerCrossfade();
                 }
@@ -144,11 +166,19 @@
         vid1.addEventListener('timeupdate', onProgress);
         vid2.addEventListener('timeupdate', onProgress);
 
-        vid1.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
-        vid2.addEventListener('ended', () => { if (!inTransition) triggerCrossfade(); });
+        // Fallback no evento ended caso timeupdate tenha sido suspenso pelo navegador
+        const onEnded = (e) => {
+            if (e.target === actVideo) {
+                triggerCrossfade();
+            }
+        };
 
+        vid1.addEventListener('ended', onEnded);
+        vid2.addEventListener('ended', onEnded);
+
+        // Watchdog para erros de carregamento e stalls de rede
         const onVidError = () => {
-            if (inTransition) inTransition = false;
+            inTransition = false;
             nxtIdx = (nxtIdx + 1) % heroVideos.length;
             inactVideo.src = heroVideos[nxtIdx];
             inactVideo.load();
@@ -156,6 +186,13 @@
 
         vid1.addEventListener('error', onVidError);
         vid2.addEventListener('error', onVidError);
+
+        // Retomada automática caso a aba do navegador volte a ficar ativa
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && actVideo && actVideo.paused) {
+                actVideo.play().catch(() => {});
+            }
+        });
     }
 
     // --- 2. Motor do Radar no Canto Inferior Esquerdo (Oculta mini-celular no mobile) ---
