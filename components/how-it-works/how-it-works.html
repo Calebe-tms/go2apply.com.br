@@ -1,0 +1,181 @@
+<!-- ==========================================================================
+   Component: How It Works Section
+   4 etapas numeradas, da dúvida à decisão
+   ========================================================================== -->
+<style>
+    .how {
+        position: relative;
+        padding: var(--space-2xl) 2rem;
+        background: var(--color-white);
+        border-top: 1px solid rgba(var(--color-dark-rgb), 0.06);
+    }
+
+    .how__header {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto var(--space-2xl) auto;
+    }
+
+    .how__badge {
+        display: inline-block;
+        color: var(--color-orange);
+        font-size: var(--font-size-xs);
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: var(--space-sm);
+        padding: 0.35rem 1rem;
+        background: var(--color-orange-subtle);
+        border: 1px solid rgba(var(--color-orange-rgb), 0.25);
+        border-radius: var(--radius-full);
+    }
+
+    .how__title {
+        font-size: clamp(2rem, 3vw, 2.8rem);
+        color: var(--color-dark);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .how__steps {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-lg);
+        position: relative;
+    }
+
+    .how__steps::before {
+        content: '';
+        position: absolute;
+        top: 28px;
+        left: calc(12.5% + 1rem);
+        right: calc(12.5% + 1rem);
+        height: 1px;
+        background: repeating-linear-gradient(
+            to right,
+            rgba(var(--color-dark-rgb), 0.14) 0,
+            rgba(var(--color-dark-rgb), 0.14) 6px,
+            transparent 6px,
+            transparent 12px
+        );
+    }
+
+    .how__step {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .how.in-view .how__step {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .how.in-view .how__step:nth-child(2) { transition-delay: 0.08s; }
+    .how.in-view .how__step:nth-child(3) { transition-delay: 0.16s; }
+    .how.in-view .how__step:nth-child(4) { transition-delay: 0.24s; }
+
+    .how__step-number {
+        position: relative;
+        z-index: 2;
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-full);
+        background: var(--color-dark);
+        color: var(--color-orange);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-md);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        border: 1px solid rgba(var(--color-orange-rgb), 0.3);
+    }
+
+    .how__step-title {
+        color: var(--color-dark);
+        font-size: var(--font-size-md);
+        font-weight: 600;
+    }
+
+    .how__step-text {
+        color: rgba(var(--color-dark-rgb), 0.65);
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+        .how__steps {
+            grid-template-columns: repeat(2, 1fr);
+            row-gap: var(--space-xl);
+        }
+
+        .how__steps::before {
+            display: none;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .how {
+            padding: var(--space-xl) 1.25rem;
+        }
+
+        .how__steps {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section id="como-funciona" class="how">
+    <div class="how__header">
+        <span class="how__badge">COMO FUNCIONA</span>
+        <h2 class="how__title">Da dúvida à decisão em poucos passos.</h2>
+    </div>
+
+    <div class="how__steps">
+        <div class="how__step">
+            <span class="how__step-number">01</span>
+            <h3 class="how__step-title">Escolha o cenário</h3>
+            <p class="how__step-text">Selecione a ferramenta ou situação de aplicação que deseja avaliar.</p>
+        </div>
+        <div class="how__step">
+            <span class="how__step-number">02</span>
+            <h3 class="how__step-title">Informe os dados</h3>
+            <p class="how__step-text">Insira os parâmetros necessários para sua operação.</p>
+        </div>
+        <div class="how__step">
+            <span class="how__step-number">03</span>
+            <h3 class="how__step-title">Analise os resultados</h3>
+            <p class="how__step-text">Tenha acesso aos cálculos, avaliações e informações técnicas.</p>
+        </div>
+        <div class="how__step">
+            <span class="how__step-number">04</span>
+            <h3 class="how__step-title">Tome uma decisão</h3>
+            <p class="how__step-text">Use os dados para tomar decisões mais precisas e seguras no campo.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        var el = document.getElementById('como-funciona');
+        if (!el || typeof IntersectionObserver === 'undefined') return;
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    el.classList.add('in-view');
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        observer.observe(el);
+    })();
+</script>

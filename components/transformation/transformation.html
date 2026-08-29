@@ -1,0 +1,214 @@
+<!-- ==========================================================================
+   Component: Transformation Section (Antes x Depois)
+   Comparação visual entre o cenário sem e com o Go2Apply
+   ========================================================================== -->
+<style>
+    .transformation {
+        position: relative;
+        padding: var(--space-2xl) 2rem;
+        background:
+            radial-gradient(circle at 85% 15%, rgba(var(--color-green-rgb), 0.08) 0%, transparent 45%),
+            var(--color-dark);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .transformation__header {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto var(--space-2xl) auto;
+    }
+
+    .transformation__badge {
+        display: inline-block;
+        color: var(--color-green);
+        font-size: var(--font-size-xs);
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: var(--space-sm);
+        padding: 0.35rem 1rem;
+        background: var(--color-green-subtle);
+        border: 1px solid rgba(var(--color-green-rgb), 0.3);
+        border-radius: var(--radius-full);
+    }
+
+    .transformation__title {
+        font-size: clamp(2rem, 3vw, 2.8rem);
+        color: var(--color-white);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .transformation__grid {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-lg);
+    }
+
+    .transformation__col {
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg) var(--space-md);
+        border: 1px solid var(--color-border);
+    }
+
+    .transformation__col--before {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .transformation__col--after {
+        background: var(--color-green-subtle);
+        border-color: rgba(var(--color-green-rgb), 0.3);
+    }
+
+    .transformation__col-title {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: var(--font-size-md);
+        font-weight: 700;
+        margin-bottom: var(--space-md);
+    }
+
+    .transformation__col--before .transformation__col-title {
+        color: rgba(var(--color-white-rgb), 0.55);
+    }
+
+    .transformation__col--after .transformation__col-title {
+        color: var(--color-green);
+    }
+
+    .transformation__list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+
+    .transformation__list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.65rem;
+        font-size: var(--font-size-base);
+        line-height: 1.5;
+    }
+
+    .transformation__col--before .transformation__list li {
+        color: rgba(var(--color-white-rgb), 0.5);
+    }
+
+    .transformation__col--after .transformation__list li {
+        color: var(--color-white);
+    }
+
+    .transformation__icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .transformation__col--before .transformation__icon {
+        color: rgba(var(--color-white-rgb), 0.35);
+    }
+
+    .transformation__col--after .transformation__icon {
+        color: var(--color-green);
+    }
+
+    @media (max-width: 700px) {
+        .transformation__grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .transformation {
+            padding: var(--space-xl) 1.25rem;
+        }
+    }
+</style>
+
+<section id="transformacao" class="transformation">
+    <div class="transformation__header">
+        <span class="transformation__badge">TRANSFORMAÇÃO</span>
+        <h2 class="transformation__title">Menos achismo. Mais precisão.</h2>
+    </div>
+
+    <div class="transformation__grid">
+        <div class="transformation__col transformation__col--before">
+            <div class="transformation__col-title">Antes</div>
+            <ul class="transformation__list">
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Decisões espalhadas em planilhas
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Cálculos manuais
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Dúvidas sobre compatibilidade
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Equipamentos fora de calibração
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Informações técnicas difíceis de consultar
+                </li>
+            </ul>
+        </div>
+
+        <div class="transformation__col transformation__col--after">
+            <div class="transformation__col-title">Com o Go2Apply</div>
+            <ul class="transformation__list">
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Dados organizados
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Cálculos mais rápidos
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Apoio à tomada de decisão
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Avaliações técnicas
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Relatórios
+                </li>
+                <li>
+                    <svg class="transformation__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Conhecimento especializado em uma única plataforma
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
