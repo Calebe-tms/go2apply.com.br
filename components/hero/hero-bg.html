@@ -38,19 +38,12 @@
         object-fit: cover;
         opacity: 0;
         z-index: 1;
-        transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
-        will-change: opacity;
         pointer-events: none;
     }
 
     .bg-video.active {
         opacity: 1;
         z-index: 2;
-    }
-
-    .bg-video.base {
-        opacity: 1;
-        z-index: 1;
     }
 
     /* Overlay Gradiente Vinculado aos Tokens Oficiais do DS - */
@@ -100,23 +93,20 @@
         const dpr = window.devicePixelRatio || 1;
 
         if (isMobile) {
-            // Mobile: EXTREMAMENTE otimizado para carregar rápido
-            // 480p, qualidade 35%, frame rate reduzido, bitrate agressivo
-            return baseUrl.replace('/upload/', '/upload/w_480,q_35,eo_-3s,fl_lossy,f_auto/');
+            // Mobile: 540p, qualidade 50% (ruído mascara compressão)
+            return baseUrl.replace('/upload/', '/upload/w_540,q_50,fl_lossy,f_auto/');
         } else if (dpr > 1.5) {
-            // Tablet HD: bem otimizado
-            // 720p, qualidade 50%
-            return baseUrl.replace('/upload/', '/upload/w_1280,q_50,fl_lossy,f_auto/');
+            // Tablet HD: 900p, qualidade 60%
+            return baseUrl.replace('/upload/', '/upload/w_1280,q_60,fl_lossy,f_auto/');
         } else {
-            // Desktop: qualidade decente
-            // 1080p, qualidade 65%
-            return baseUrl.replace('/upload/', '/upload/w_1920,q_65,fl_lossy,f_auto/');
+            // Desktop: 1080p, qualidade 70%
+            return baseUrl.replace('/upload/', '/upload/w_1920,q_70,fl_lossy,f_auto/');
         }
     };
 
     const HERO_VIDEOS = [
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863807/13678744_1920_1080_60fps.mp4',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863806/7542596-uhd_3840_2160_30fps.mp4'
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863806/7542596-uhd_3840_2160_30fps.mp4',
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863807/13678744_1920_1080_60fps.mp4'
     ];
     const RADAR_RING_FRACTIONS = [0.12, 0.25, 0.40, 0.58, 0.76, 0.94, 1.0];
     const RADAR_ROTATION_SPEED = 0.0038;
@@ -135,19 +125,14 @@
 
     // --- FUNÇÕES DO CARROSSEL E RADAR ---
 
-    // --- 1. Carrossel de Vídeos Nativo HTML5 Resiliente em Loop Infinito ---
+    // --- 1. Carrossel de Vídeos Nativo HTML5 Simples em Loop ---
     function initVideoCarousel() {
         const vid1 = document.getElementById('bg-video-1');
         const vid2 = document.getElementById('bg-video-2');
         if (!vid1 || !vid2 || HERO_VIDEOS.length === 0) return;
 
         let currentIdx = 0;
-        let actVideo = vid1;
-        let inactVideo = vid2;
-        let inTransition = false;
         let firstFrameFired = false;
-        let transitionTimeout = null;
-        let nxtIdx = (currentIdx + 1) % HERO_VIDEOS.length;
 
         const notifyFirstFrame = () => {
             if (firstFrameFired) return;
@@ -155,103 +140,39 @@
             window.dispatchEvent(new CustomEvent('hero:first-video-ready'));
         };
 
-        // Troca as classes ativa/base e recicla o vídeo anterior após o crossfade
-        const startFade = () => {
-            actVideo.className = 'bg-video base';
-            inactVideo.className = 'bg-video active';
+        // Alterna para o próximo vídeo quando o atual termina
+        const playNextVideo = (e) => {
+            const currentVideo = e.target;
+            currentIdx = (currentIdx + 1) % HERO_VIDEOS.length;
 
-            setTimeout(() => {
-                actVideo.pause();
-                actVideo.currentTime = 0;
-                actVideo.className = 'bg-video';
-
-                currentIdx = nxtIdx;
-                nxtIdx = (currentIdx + 1) % HERO_VIDEOS.length;
-
-                const temp = actVideo;
-                actVideo = inactVideo;
-                inactVideo = temp;
-
-                inactVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[nxtIdx]);
-                inactVideo.load();
-
-                inTransition = false;
-                if (transitionTimeout) clearTimeout(transitionTimeout);
-            }, 1400);
-        };
-
-        // Executa a transição suave de crossfade entre os dois elementos de vídeo
-        const triggerCrossfade = () => {
-            if (inTransition) return;
-            inTransition = true;
-
-            // Timer de segurança contra travamento de Promise
-            if (transitionTimeout) clearTimeout(transitionTimeout);
-            transitionTimeout = setTimeout(() => {
-                inTransition = false;
-            }, 3000);
-
-            const playPromise = inactVideo.play();
-            if (playPromise === undefined) {
-                startFade();
-                return;
+            if (currentVideo === vid1) {
+                // Vid1 terminou, toca vid2
+                vid2.className = 'bg-video active';
+                vid1.className = 'bg-video';
+                vid2.play().catch(err => console.warn('Erro ao tocar vid2:', err));
+            } else {
+                // Vid2 terminou, toca vid1
+                vid1.className = 'bg-video active';
+                vid2.className = 'bg-video';
+                vid1.play().catch(err => console.warn('Erro ao tocar vid1:', err));
             }
-
-            playPromise
-                .then(startFade)
-                .catch(err => {
-                    console.warn('Recuperando erro de crossfade:', err);
-                    // Fallback: se o próximo falhar, reinicia o vídeo atual para nunca pausar
-                    inTransition = false;
-                    if (actVideo.paused) {
-                        actVideo.currentTime = 0;
-                        actVideo.play().catch(() => { });
-                    }
-                });
-        };
-
-        // Monitora o progresso do vídeo ativo para disparar o crossfade 1.5s antes do fim
-        const onProgress = (e) => {
-            const video = e.target;
-            if (video !== actVideo || inTransition || !video.duration || isNaN(video.duration)) return;
-            if (video.duration - video.currentTime <= 1.5) {
-                triggerCrossfade();
-            }
-        };
-
-        // Fallback no evento ended caso timeupdate tenha sido suspenso pelo navegador
-        const onEnded = (e) => {
-            if (e.target === actVideo) triggerCrossfade();
-        };
-
-        // Watchdog para erros de carregamento e stalls de rede
-        const onVidError = () => {
-            inTransition = false;
-            nxtIdx = (nxtIdx + 1) % HERO_VIDEOS.length;
-            inactVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[nxtIdx]);
-            inactVideo.load();
         };
 
         [vid1, vid2].forEach(v => {
             v.addEventListener('playing', notifyFirstFrame);
             v.addEventListener('canplay', notifyFirstFrame);
+            v.addEventListener('ended', playNextVideo);
         });
 
-        // Configuração inicial do primeiro vídeo (com otimização de resolução)
-        actVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[currentIdx]);
-        actVideo.load();
-        actVideo.play().catch(e => console.warn('Autoplay video 1:', e));
+        // Inicia com vídeo 1
+        vid1.className = 'bg-video active';
+        vid1.src = getOptimizedVideoUrl(HERO_VIDEOS[0]);
+        vid1.load();
+        vid1.play().catch(e => console.warn('Autoplay video 1:', e));
 
-        // Pré-carrega o próximo vídeo no buffer (com otimização)
-        inactVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[nxtIdx]);
-        inactVideo.load();
-
-        vid1.addEventListener('timeupdate', onProgress);
-        vid2.addEventListener('timeupdate', onProgress);
-        vid1.addEventListener('ended', onEnded);
-        vid2.addEventListener('ended', onEnded);
-        vid1.addEventListener('error', onVidError);
-        vid2.addEventListener('error', onVidError);
+        // Pré-carrega vídeo 2
+        vid2.src = getOptimizedVideoUrl(HERO_VIDEOS[1]);
+        vid2.load();
 
         // Pausa quando sai da tela, retoma quando volta (economiza banda/CPU)
         const heroSection = document.getElementById('home');
