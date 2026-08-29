@@ -74,16 +74,20 @@
 
     @media (max-width: 600px) {
         .hero-content {
-            padding-top: 4.25rem;
-            padding-bottom: 5.25rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+            /* Alinhamento pelo Ponto de Ouro (~38% da viewport) */
+            padding-top: max(4.2rem, 11dvh);
+            padding-bottom: max(5.5rem, 17dvh);
+            padding-left: 1.15rem;
+            padding-right: 1.15rem;
             min-height: 100dvh;
+            justify-content: flex-start;
         }
 
         .main-content {
-            gap: 1rem;
+            margin: auto 0;
+            gap: 1.15rem;
             padding: 0.5rem 0.25rem;
+            transform: translateY(-2.5vh);
         }
 
         .main-content::before {

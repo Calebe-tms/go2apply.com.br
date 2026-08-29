@@ -615,76 +615,43 @@
                 // Desenha o mini-smartphone (adaptado proporcionalmente tanto para desktop quanto para mobile)
                 drawSmartphone(px, py, radarAlpha);
 
-                if (mouse.hasMoved && mouse.x !== null && mouse.y !== null) {
+                // Marcador do cursor apenas no Desktop
+                if (mouse.hasMoved && mouse.x !== null && mouse.y !== null && width > MOBILE_BREAKPOINT) {
                     drawPointerMarker();
                 }
             }
 
             drawFieldMarkers();
-            updateMobileAutoTelemetry();
+            updateMobileRandomTelemetry();
 
             animationFrameId = requestAnimationFrame(draw);
         }
 
-        let lastTilt = { gamma: 0, beta: 0 };
-
-        // Processa a inclinação física do smartphone (giroscópio / acelerômetro)
-        function onDeviceOrientation(e) {
-            if (e.gamma === null && e.beta === null) return;
-            const heroSection = document.getElementById('home');
-            const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-
-            // Normaliza a rotação do aparelho (-35° a 35° horizontal e 15° a 65° vertical)
-            const gamma = Math.max(-35, Math.min(35, e.gamma || 0));
-            const beta = Math.max(15, Math.min(65, e.beta || 0));
-
-            const targetX = width * (0.5 + (gamma / 70));
-            const targetY = heroHeight * (0.28 + ((beta - 20) / 60));
-
-            const dTilt = Math.hypot(gamma - lastTilt.gamma, beta - lastTilt.beta);
-            lastTilt.gamma = gamma;
-            lastTilt.beta = beta;
-
-            lastPointerMoveTime = performance.now();
-            mouse.targetX = targetX;
-            mouse.targetY = targetY;
-            mouse.hasMoved = true;
-
-            const now = performance.now();
-            const distMoved = Math.hypot(targetX - lastSpawnPos.x, targetY - lastSpawnPos.y);
-
-            if ((distMoved > 40 && now - lastSpawnTime > 400 || dTilt > 2.5 && now - lastSpawnTime > 450) && !mouse.isNearObstacle) {
-                spawnFieldData(targetX, targetY);
-                lastSpawnPos.x = targetX;
-                lastSpawnPos.y = targetY;
-                lastSpawnTime = now;
-            }
-        }
-
-        // Em smartphones, assegura emissão contínua e suave de telemetria
-        function updateMobileAutoTelemetry() {
+        // Gera dados técnicos de forma randômica e suave na tela do mobile
+        function updateMobileRandomTelemetry() {
             if (width <= MOBILE_BREAKPOINT) {
                 const now = performance.now();
-                if (now - lastSpawnTime > 1800 && !mouse.isNearObstacle) {
+                if (now - lastSpawnTime > 2800) {
                     const heroSection = document.getElementById('home');
                     const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-                    const randomX = width * (0.2 + Math.random() * 0.6);
-                    const randomY = heroHeight * (0.25 + Math.random() * 0.45);
-                    mouse.targetX = randomX;
-                    mouse.targetY = randomY;
-                    mouse.hasMoved = true;
-                    spawnFieldData(randomX, randomY);
-                    lastSpawnPos.x = randomX;
-                    lastSpawnPos.y = randomY;
+                    // Coordenadas randômicas seguras no terço visual da tela
+                    const randX = width * (0.15 + Math.random() * 0.7);
+                    const randY = heroHeight * (0.2 + Math.random() * 0.5);
+                    spawnFieldData(randX, randY);
+                    lastSpawnPos.x = randX;
+                    lastSpawnPos.y = randY;
                     lastSpawnTime = now;
                 }
             }
         }
 
         function onPointerMove(e) {
+            // Desativa rastreamento de mouse/ponteiro no mobile
+            if (width <= MOBILE_BREAKPOINT) return;
+
             const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const clientX = e.clientX;
+            const clientY = e.clientY;
 
             if (clientY <= rect.bottom && clientY >= rect.top) {
                 lastPointerMoveTime = performance.now();
@@ -710,10 +677,8 @@
             }
         }
 
+        // Listener de mouse exclusivo para Desktop
         window.addEventListener('mousemove', onPointerMove, { passive: true });
-        window.addEventListener('touchmove', onPointerMove, { passive: true });
-        window.addEventListener('touchstart', onPointerMove, { passive: true });
-        window.addEventListener('deviceorientation', onDeviceOrientation, { passive: true });
 
         window.addEventListener('resize', resizeCanvas, { passive: true });
         window.addEventListener('components:ready', resizeCanvas, { passive: true });
