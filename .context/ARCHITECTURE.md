@@ -47,7 +47,7 @@ go2apply.com.br/
 │   │   ├── header.html                 # Shell do Header (Grid 3 colunas, scroll e glassmorphism)
 │   │   ├── social-links.html           # Ícones vetoriais de redes sociais (SVG com hover)
 │   │   ├── nav-menu.html               # Links de navegação e gaveta para smartphone
-│   │   └── btn-cta.html                # Botão de CTA ("Conheça a Ferramenta")
+│   │   └── header-actions.html         # Botão de CTA ("Conheça a Ferramenta") e toggle mobile
 │   │
 │   ├── hero/                           # [Componentes da Home / Hero]
 │   │   ├── hero-bg.html                # Carrossel de vídeo contínuo em camadas sem telas pretas
