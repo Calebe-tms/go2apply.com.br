@@ -18,75 +18,10 @@
     <link rel="stylesheet" href="css/reset.css?v=1.1">
     <link rel="stylesheet" href="css/style.css?v=1.1">
 
-    <style>
-    #app-loader {
-        position: fixed;
-        inset: 0;
-        z-index: 99999;
-        background: #1a1e14;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition:
-            opacity  0.7s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    #app-loader.is-hidden {
-        opacity: 0;
-        transform: translateY(-12px);
-        pointer-events: none;
-    }
-
-    .loader__spinner {
-        position: relative;
-        width: clamp(80px, 12vw, 120px);
-        height: clamp(80px, 12vw, 120px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .loader__circle {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 3px solid rgba(255, 255, 255, 0.12);
-        border-top-color: #5b8c45;
-        border-right-color: #f28e13;
-        border-radius: 50%;
-        animation: loader-spin 1.4s linear infinite;
-    }
-
-    @keyframes loader-spin {
-        to { transform: rotate(360deg); }
-    }
-
-    .loader__percent {
-        position: relative;
-        z-index: 2;
-        font-family: -apple-system, 'Host Grotesk', sans-serif;
-        font-size: clamp(16px, 2vw, 24px);
-        font-weight: 700;
-        font-variant-numeric: tabular-nums;
-        color: #fefcf8;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .loader__circle { animation: none; opacity: 0.6; }
-        #app-loader { transition: opacity 300ms ease; }
-    }
-    </style>
 </head>
 
 <body>
 
-    <div id="app-loader" role="status" aria-label="Carregando go2apply">
-        <div class="loader__spinner">
-            <div class="loader__circle"></div>
-            <div class="loader__percent" id="loader-percent">0%</div>
-        </div>
-    </div>
     <div data-component="components/header/header.html"></div>
     <main id="app-root">
         <div data-page="pages/home.html"></div>
@@ -97,91 +32,6 @@
     <script src="js/component-loader.js"></script>
     <script src="js/lazy-loader.js"></script>
     <script src="js/main.js"></script>
-
-    <script>
-    // Gerenciador de Progresso Real do Carregamento
-    (function () {
-        var loader = document.getElementById('app-loader');
-        var barFill = document.getElementById('loader-bar-fill');
-        var percentText = document.getElementById('loader-percent');
-        if (!loader || !barFill) return;
-
-        var currentPercent = 0;
-        var isDismissed = false;
-        var progressInterval = null;
-
-        function updateProgress(targetPercent) {
-            targetPercent = Math.max(0, Math.min(100, Math.round(targetPercent)));
-            if (targetPercent > currentPercent) {
-                currentPercent = targetPercent;
-                barFill.style.width = currentPercent + '%';
-                if (percentText) {
-                    percentText.textContent = currentPercent + '%';
-                }
-            }
-        }
-
-        function startContinuousProgress() {
-            if (progressInterval) clearInterval(progressInterval);
-            progressInterval = setInterval(() => {
-                if (currentPercent < 85 && !isDismissed) {
-                    var increment = Math.random() * (3 - 0.5) + 0.5;
-                    updateProgress(currentPercent + increment);
-                }
-            }, 400);
-        }
-
-        updateProgress(15);
-        startContinuousProgress();
-
-        window.addEventListener('loader:progress', function (e) {
-            if (e.detail && typeof e.detail.percentage === 'number') {
-                var progress = 15 + (e.detail.percentage * 0.70);
-                updateProgress(progress);
-            }
-        });
-
-        function dismiss() {
-            if (isDismissed) return;
-            isDismissed = true;
-            if (progressInterval) clearInterval(progressInterval);
-            updateProgress(100);
-
-            setTimeout(function () {
-                loader.classList.add('is-hidden');
-                loader.addEventListener('transitionend', function () {
-                    loader.remove();
-                }, { once: true });
-            }, 300);
-        }
-
-        window.addEventListener('components:ready', function () {
-            updateProgress(90);
-
-            var videoReady = false;
-            window.addEventListener('hero:first-video-ready', function () {
-                videoReady = true;
-                updateProgress(100);
-                setTimeout(dismiss, 180);
-            }, { once: true });
-
-            setTimeout(function () {
-                if (!videoReady && !isDismissed) {
-                    updateProgress(100);
-                    setTimeout(dismiss, 180);
-                }
-            }, 2500);
-        }, { once: true });
-
-        setTimeout(function () {
-            if (!isDismissed) {
-                updateProgress(100);
-                setTimeout(dismiss, 300);
-            }
-        }, 2500);
-
-    })();
-    </script>
 </body>
 
 </html>
