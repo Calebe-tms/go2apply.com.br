@@ -10,7 +10,7 @@
         justify-self: end;
     }
 
-    .btn-cta {
+    .header-btn-cta {
         display: inline-flex;
         align-items: center;
         text-decoration: none;
@@ -37,13 +37,13 @@
                     box-shadow 0.25s ease;
     }
 
-    .btn-cta.is-visible {
+    .header-btn-cta.is-visible {
         opacity: 1;
         transform: translateY(0) scale(1);
         pointer-events: auto;
     }
 
-    .btn-cta:hover {
+    .header-btn-cta:hover {
         transform: translateY(-2px) scale(1.02);
         box-shadow: 0 8px 25px rgba(242, 142, 18, 0.45), 0 0 20px rgba(242, 142, 18, 0.25);
         background-color: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.98);
@@ -51,11 +51,11 @@
         color: #ffffff;
     }
 
-    .btn-cta:hover .btn-icon {
+    .header-btn-cta:hover .btn-icon {
         transform: scale(1.1) rotate(6deg);
     }
 
-    .btn-cta:active {
+    .header-btn-cta:active {
         transform: translateY(0);
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
     }
@@ -73,7 +73,7 @@
         transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
     }
 
-    .btn-cta:hover .btn-label {
+    .header-btn-cta:hover .btn-label {
         color: #ffffff;
     }
 
@@ -125,7 +125,7 @@
     }
 
     @media (max-width: 600px) {
-        .btn-cta {
+        .header-btn-cta {
             padding: 0.45rem 0.85rem;
             font-size: 0.82rem;
             gap: 0.45rem;
@@ -148,7 +148,7 @@
 </style>
 
 <div class="header-actions" id="header-actions">
-    <a href="#solucoes" class="btn-cta cta-btn-base" id="header-btn-cta">
+    <a href="#solucoes" class="header-btn-cta cta-btn-base" id="header-btn-cta">
         <img src="assets/icos/ico-logo-go2apply.png" alt="Ícone go2apply" class="btn-icon">
         <span class="btn-label">Conheça a Ferramenta</span>
     </a>

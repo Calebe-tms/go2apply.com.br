@@ -3,13 +3,19 @@
    Botão de CTA institucional com suporte a hover iluminado e animação de aura
    ========================================================================== -->
 <style>
-    .btn-cta-wrapper {
-        margin-top: 0.25rem;
+    .btn-cta {
+        margin-top: 0.35rem;
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 100%;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
         animation: btnCtaFadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
         opacity: 0;
+        pointer-events: auto;
     }
 
     .btn-cta-element {
