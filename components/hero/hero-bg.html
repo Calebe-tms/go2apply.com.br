@@ -95,13 +95,22 @@
         const vid2 = document.getElementById('bg-video-2');
         if (!vid1 || !vid2 || HERO_VIDEOS.length === 0) return;
 
+        // Otimização drástica de rede e decodificação para mobile: baixa resolução (w_800)
+        const isMobile = window.innerWidth <= 600;
+        const optimizedVideos = HERO_VIDEOS.map(url => {
+            if (isMobile && url.includes('f_auto,q_auto/')) {
+                return url.replace('f_auto,q_auto/', 'f_auto,q_auto,w_800,c_scale/');
+            }
+            return url;
+        });
+
         let currentIdx = 0;
         let actVideo = vid1;
         let inactVideo = vid2;
         let inTransition = false;
         let firstFrameFired = false;
         let transitionTimeout = null;
-        let nxtIdx = (currentIdx + 1) % HERO_VIDEOS.length;
+        let nxtIdx = (currentIdx + 1) % optimizedVideos.length;
 
         const notifyFirstFrame = () => {
             if (firstFrameFired) return;
@@ -120,13 +129,13 @@
                 actVideo.className = 'bg-video';
 
                 currentIdx = nxtIdx;
-                nxtIdx = (currentIdx + 1) % HERO_VIDEOS.length;
+                nxtIdx = (currentIdx + 1) % optimizedVideos.length;
 
                 const temp = actVideo;
                 actVideo = inactVideo;
                 inactVideo = temp;
 
-                inactVideo.src = HERO_VIDEOS[nxtIdx];
+                inactVideo.src = optimizedVideos[nxtIdx];
                 inactVideo.load();
 
                 inTransition = false;
@@ -192,12 +201,12 @@
         });
 
         // Configuração inicial do primeiro vídeo
-        actVideo.src = HERO_VIDEOS[currentIdx];
+        actVideo.src = optimizedVideos[currentIdx];
         actVideo.load();
         actVideo.play().catch(e => console.warn('Autoplay video 1:', e));
 
         // Pré-carrega o próximo vídeo no buffer
-        inactVideo.src = HERO_VIDEOS[nxtIdx];
+        inactVideo.src = optimizedVideos[nxtIdx];
         inactVideo.load();
 
         vid1.addEventListener('timeupdate', onProgress);
@@ -280,7 +289,11 @@
             const totalDocHeight = Math.max(document.documentElement.scrollHeight || 0, document.body.scrollHeight || 0, window.innerHeight * 2.5);
 
             height = totalDocHeight;
-            dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+            
+            const isMobile = width <= MOBILE_BREAKPOINT;
+            
+            // Otimização extrema de canvas para mobile: Força DPR 1 para evitar quadros grandes e travamentos
+            dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, MAX_DPR);
 
             canvas.style.width = width + 'px';
             canvas.style.height = height + 'px';
