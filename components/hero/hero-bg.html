@@ -107,8 +107,8 @@
         const dpr = window.devicePixelRatio || 1;
 
         if (isMobile) {
-            // Mobile: 540p, qualidade 65% (melhor definição)
-            return baseUrl.replace('/upload/', '/upload/w_540,q_65,fl_lossy,f_auto/');
+            // Mobile: 720p, qualidade 75% (alta definição)
+            return baseUrl.replace('/upload/', '/upload/w_720,q_75,fl_lossy,f_auto/');
         } else if (dpr > 1.5) {
             // Tablet HD: 900p, qualidade 60%
             return baseUrl.replace('/upload/', '/upload/w_1280,q_60,fl_lossy,f_auto/');
