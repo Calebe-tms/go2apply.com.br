@@ -1,14 +1,22 @@
+<!-- ==========================================================================
+   Component: Hero Background
+   Carrossel contínuo de vídeos Cloudinary com Radar Circular Interativo e Telemetria
+   ========================================================================== -->
 <style>
     .hero-bg {
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         z-index: 1;
         overflow: hidden;
     }
 
     .bg-video {
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -23,12 +31,30 @@
         z-index: 2;
     }
 
+    /* Overlay Gradiente Suave do DS */
     .hero-overlay {
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--hero-overlay-gradient);
         z-index: 3;
         pointer-events: none;
-        background: var(--hero-overlay-gradient);
+    }
+
+    .hero-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 6;
+        pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+        .hero-canvas {
+            display: none;
+        }
     }
 </style>
 
@@ -36,32 +62,58 @@
     <video id="bg-video-1" class="bg-video active" muted playsinline autoplay></video>
     <video id="bg-video-2" class="bg-video" muted playsinline></video>
     <div class="hero-overlay"></div>
+    <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
 </div>
 
 <script>
+    // Constantes de configuração
     const MOBILE_BREAKPOINT = 600;
-    const HERO_VIDEOS = [
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/v1788029484/bg-1.webm',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/v1788029486/bg-2.webm'
-    ];
+    const MAX_DPR = 2;
+    const RADAR_ACCENT_RGB = '242, 142, 18';
+    const PHONE_BG_RGB = '18, 24, 16';
+    const RADAR_WHITE_RGB = '255, 255, 255';
+    const PHONE_FONT_TITLE = '700 7.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    const PHONE_FONT_LABEL = '500 7px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    const PHONE_FONT_VALUE = '600 7.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    const PHONE_FONT_FOOTER = '500 6.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    const FIELD_MARKER_FONT = '600 10.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
 
-    function getOptimizedVideoUrl(baseUrl) {
+    // Otimiza URLs de vídeo baseado no viewport e device pixel ratio
+    const getOptimizedVideoUrl = (baseUrl) => {
         const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
         const dpr = window.devicePixelRatio || 1;
 
         if (isMobile) {
             return baseUrl.replace('/upload/', '/upload/w_720,q_75,fl_lossy,f_auto/');
-        }
-        if (dpr > 1.5) {
+        } else if (dpr > 1.5) {
             return baseUrl.replace('/upload/', '/upload/w_1280,q_60,fl_lossy,f_auto/');
+        } else {
+            return baseUrl.replace('/upload/', '/upload/w_1920,q_70,fl_lossy,f_auto/');
         }
-        return baseUrl.replace('/upload/', '/upload/w_1920,q_70,fl_lossy,f_auto/');
-    }
+    };
 
+    const HERO_VIDEOS = [
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/v1788029484/bg-1.webm',
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/v1788029486/bg-2.webm'
+    ];
+    const RADAR_RING_FRACTIONS = [0.0012, 0.25, 0.40, 0.58, 0.76, 0.94, 1.0];
+    const RADAR_ROTATION_SPEED = 0.000010;
+    const RADAR_PULSE_SPEED = 0.0005;
+    const RADAR_ALPHA_LERP_FACTOR = 0.04;
+    const RADAR_ALPHA_IDLE = 0.20;
+    const RADAR_ALPHA_ACTIVE = 0.65;
+    const RADAR_ALPHA_OBSTACLE = 0.35;
+    const POINTER_LERP_FACTOR = 9.1;
+    const POINTER_IDLE_MS = 1000;
+    const PHONE_GLOW_DECAY = 9.02;
+
+    let isMobile = false;
+
+    // --- 1. Carrossel de Vídeos Nativo HTML5 Simples em Loop ---
     function initVideoCarousel() {
         const vid1 = document.getElementById('bg-video-1');
         const vid2 = document.getElementById('bg-video-2');
-        if (!vid1 || !vid2) return;
+        if (!vid1 || !vid2 || HERO_VIDEOS.length === 0) return;
 
         let currentIdx = 0;
         let firstFrameFired = false;
@@ -79,7 +131,7 @@
 
             prevVideo.classList.remove('active');
             nextVideo.classList.add('active');
-            nextVideo.play().catch(err => console.warn('Playback error:', err));
+            nextVideo.play().catch(err => console.warn('Erro ao tocar vídeo:', err));
         };
 
         [vid1, vid2].forEach(v => {
@@ -91,31 +143,619 @@
         vid1.classList.add('active');
         vid1.src = getOptimizedVideoUrl(HERO_VIDEOS[0]);
         vid1.load();
-        vid1.play().catch(err => console.warn('Autoplay error:', err));
+        vid1.play().catch(e => console.warn('Autoplay video 1:', e));
 
         vid2.src = getOptimizedVideoUrl(HERO_VIDEOS[1]);
         vid2.load();
 
-        const heroSection = document.getElementById('hero');
+        const heroSection = document.getElementById('hero') || document.getElementById('home');
         if (heroSection) {
-            const videoObserver = new IntersectionObserver(entries => {
-                const activeVideo = document.querySelector('.bg-video.active');
-                if (!activeVideo) return;
-
-                if (entries[0].isIntersecting && activeVideo.paused) {
-                    activeVideo.play().catch(() => {});
-                } else if (!entries[0].isIntersecting && !activeVideo.paused) {
-                    activeVideo.pause();
+            const videoObserver = new IntersectionObserver((entries) => {
+                const actVideo = document.querySelector('.bg-video.active');
+                if (!actVideo) return;
+                if (entries[0].isIntersecting && actVideo.paused) {
+                    actVideo.play().catch(() => { });
+                } else if (!entries[0].isIntersecting && !actVideo.paused) {
+                    actVideo.pause();
                 }
-            });
-
+            }, { threshold: 0.1 });
             videoObserver.observe(heroSection);
         }
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initVideoCarousel);
-    } else {
-        initVideoCarousel();
+    // --- 2. Motor do Radar no Canto Inferior Esquerdo com Telemetria ---
+    function initRadarCanvas() {
+        const canvas = document.getElementById('hero-mesh-canvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        let width = 0;
+        let height = 0;
+        let dpr = window.devicePixelRatio || 1;
+        let animationFrameId = null;
+        let isCanvasVisible = true;
+
+        const mouse = {
+            x: null,
+            y: null,
+            targetX: null,
+            targetY: null,
+            isNearObstacle: false,
+            hasMoved: false
+        };
+
+        let phoneCenter = { x: 0, y: 0 };
+        let phoneDim = { width: 78, height: 142, radius: 14 };
+        let phoneSyncGlow = 0;
+
+        let radarAlpha = 0.80;
+
+        let pulses = [
+            { progress: 0.05 },
+            { progress: 0.28 },
+            { progress: 0.52 },
+            { progress: 0.76 }
+        ];
+
+        const technicalMetrics = [
+            '6.4',
+            '2.85',
+            '230µm',
+            '215/cm²',
+            '110 L/ha',
+            'Estável',
+            'Baixa',
+            '3.0 bar'
+        ];
+        let metricIndex = 0;
+
+        let phoneTelemetryList = [
+            { label: 'pH', value: '6.4' },
+            { label: 'Kow', value: '2.85' },
+            { label: 'VMD', value: '230µm' },
+            { label: 'Vazão', value: '110 L/h' },
+            { label: 'Gotas', value: '215/cm²' }
+        ];
+
+        let fieldData = [];
+        let lastSpawnPos = { x: 0, y: 0 };
+        let lastSpawnTime = 0;
+        let lastPointerMoveTime = 0;
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            const heroSection = document.getElementById('hero') || document.getElementById('home');
+            const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+            const totalDocHeight = Math.max(document.documentElement.scrollHeight || 0, document.body.scrollHeight || 0, window.innerHeight * 2.5);
+
+            height = totalDocHeight;
+            isMobile = width <= MOBILE_BREAKPOINT;
+            dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, MAX_DPR);
+
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.scale(dpr, dpr);
+
+            if (isMobile) {
+                phoneDim = { width: 44, height: 78, radius: 7 };
+                phoneCenter.x = 18 + phoneDim.width / 2;
+                phoneCenter.y = heroHeight - 118;
+            } else {
+                phoneDim = { width: 78, height: 142, radius: 14 };
+                phoneCenter.x = 42 + phoneDim.width / 2;
+                phoneCenter.y = heroHeight - 156;
+            }
+
+            if (mouse.x === null) {
+                mouse.x = width * 0.5;
+                mouse.y = heroHeight * 0.38;
+                mouse.targetX = mouse.x;
+                mouse.targetY = mouse.y;
+            }
+        }
+
+        function spawnWaveWakeData(waveX, waveY, waveAngle) {
+            const metric = technicalMetrics[metricIndex % technicalMetrics.length];
+            metricIndex++;
+
+            fieldData.push({
+                x: waveX,
+                y: waveY,
+                originX: waveX,
+                originY: waveY,
+                vx: Math.cos(waveAngle) * 0.12,
+                vy: -0.25,
+                text: metric,
+                fromWake: true,
+                life: 1.0,
+                decay: 0.0055
+            });
+
+            if (fieldData.length > 12) {
+                fieldData.shift();
+            }
+
+            const parts = metric.split(': ');
+            if (parts.length === 2) {
+                phoneTelemetryList.unshift({ label: parts[0], value: parts[1] });
+                if (phoneTelemetryList.length > 5) {
+                    phoneTelemetryList.pop();
+                }
+            }
+            phoneSyncGlow = 1.0;
+        }
+
+        function spawnFieldData(cursorX, cursorY) {
+            const metric = technicalMetrics[metricIndex % technicalMetrics.length];
+            metricIndex++;
+
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 6 + Math.random() * 14;
+            const startX = cursorX + Math.cos(angle) * dist;
+            const startY = cursorY + Math.sin(angle) * dist;
+
+            fieldData.push({
+                x: startX,
+                y: startY,
+                originX: startX,
+                originY: startY,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: -0.30 - Math.random() * 0.20,
+                text: metric,
+                fromWake: false,
+                life: 1.0,
+                decay: 0.007
+            });
+
+            if (fieldData.length > 12) {
+                fieldData.shift();
+            }
+
+            const parts = metric.split(': ');
+            if (parts.length === 2) {
+                phoneTelemetryList.unshift({ label: parts[0], value: parts[1] });
+                if (phoneTelemetryList.length > 5) {
+                    phoneTelemetryList.pop();
+                }
+            }
+            phoneSyncGlow = 1.0;
+        }
+
+        function drawPhoneFrame(x, y, w, h, r, cx, alpha) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+
+            const bgAlpha = (0.40 + phoneSyncGlow * 0.15) * alpha;
+            ctx.fillStyle = `rgba(${PHONE_BG_RGB}, ${bgAlpha})`;
+            ctx.fill();
+
+            const borderAlpha = (0.35 + phoneSyncGlow * 0.20) * alpha;
+            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${borderAlpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+
+            const notchW = w < 50 ? 11 : 18;
+            const notchH = w < 50 ? 2.5 : 3.5;
+            ctx.beginPath();
+            if (ctx.roundRect) {
+                ctx.roundRect(cx - notchW / 2, y + (w < 50 ? 3.5 : 5), notchW, notchH, 1.5);
+            } else {
+                ctx.rect(cx - notchW / 2, y + (w < 50 ? 3.5 : 5), notchW, notchH);
+            }
+            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.45 * alpha})`;
+            ctx.fill();
+
+            const barW = w < 50 ? 13 : 20;
+            ctx.beginPath();
+            ctx.moveTo(cx - barW / 2, y + h - (w < 50 ? 4.5 : 6));
+            ctx.lineTo(cx + barW / 2, y + h - (w < 50 ? 4.5 : 6));
+            ctx.strokeStyle = `rgba(${RADAR_WHITE_RGB}, ${0.40 * alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+        }
+
+        function drawPhoneHeader(x, y, w, screenAlpha) {
+            const isSmall = w < 50;
+            ctx.font = isSmall ? '700 5.2px "Host Grotesk", sans-serif' : (w < 65 ? '700 6px "Host Grotesk", sans-serif' : PHONE_FONT_TITLE);
+            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${screenAlpha})`;
+            ctx.fillText('go2apply', x + (isSmall ? 4.5 : 8), y + (isSmall ? 11.5 : 19));
+
+            ctx.beginPath();
+            ctx.moveTo(x + (isSmall ? 4.5 : 8), y + (isSmall ? 14 : 23));
+            ctx.lineTo(x + w - (isSmall ? 4.5 : 8), y + (isSmall ? 14 : 23));
+            ctx.strokeStyle = `rgba(${RADAR_WHITE_RGB}, ${0.15 * screenAlpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+        }
+
+        function drawPhoneTelemetryRows(x, y, w, screenAlpha) {
+            const isSmall = w < 50;
+            const startRowY = y + (isSmall ? 22 : 36);
+            const rowHeight = isSmall ? 9.5 : 16;
+            const maxRows = isSmall ? 4 : phoneTelemetryList.length;
+
+            for (let idx = 0; idx < Math.min(maxRows, phoneTelemetryList.length); idx++) {
+                const row = phoneTelemetryList[idx];
+                const rowY = startRowY + idx * rowHeight;
+                const rowAlpha = (idx === 0 ? 0.95 : Math.max(0.4, 0.75 - idx * 0.08)) * screenAlpha;
+
+                ctx.beginPath();
+                ctx.arc(x + (isSmall ? 5.5 : 10), rowY - 1.8, isSmall ? 0.8 : 1.2, 0, Math.PI * 2);
+                ctx.fillStyle = idx === 0 ? `rgba(${RADAR_ACCENT_RGB}, ${rowAlpha})` : `rgba(${RADAR_WHITE_RGB}, ${rowAlpha * 0.5})`;
+                ctx.fill();
+
+                ctx.font = isSmall ? '500 4.8px "Host Grotesk", sans-serif' : (w < 65 ? '500 5.5px "Host Grotesk", sans-serif' : PHONE_FONT_LABEL);
+                ctx.fillStyle = `rgba(${RADAR_WHITE_RGB}, ${rowAlpha * 0.7})`;
+                ctx.fillText(row.label, x + (isSmall ? 9 : 16), rowY);
+
+                ctx.font = isSmall ? '600 5.2px "Host Grotesk", sans-serif' : (w < 65 ? '600 6px "Host Grotesk", sans-serif' : PHONE_FONT_VALUE);
+                ctx.fillStyle = idx === 0 ? `rgba(${RADAR_ACCENT_RGB}, ${rowAlpha})` : `rgba(${RADAR_WHITE_RGB}, ${rowAlpha * 0.85})`;
+                ctx.textAlign = 'right';
+                ctx.fillText(row.value, x + w - (isSmall ? 4.5 : 8), rowY);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        function drawPhoneFooter(x, y, h, screenAlpha) {
+            const isSmall = phoneDim.width < 50;
+            ctx.beginPath();
+            ctx.arc(x + (isSmall ? 5.5 : 10), y + h - (isSmall ? 7.5 : 14), isSmall ? 1.0 : 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${screenAlpha})`;
+            ctx.fill();
+
+            ctx.font = isSmall ? '500 4.5px "Host Grotesk", sans-serif' : (phoneDim.width < 65 ? '500 5px "Host Grotesk", sans-serif' : PHONE_FONT_FOOTER);
+            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.75 * screenAlpha})`;
+            ctx.fillText('SYNC OK', x + (isSmall ? 8.5 : 15), y + h - (isSmall ? 6.2 : 12.5));
+        }
+
+        function drawSmartphone(cx, cy, alpha) {
+            const w = phoneDim.width;
+            const h = phoneDim.height;
+            const r = phoneDim.radius;
+            const x = cx - w / 2;
+            const y = cy - h / 2;
+            const screenAlpha = (0.75 + phoneSyncGlow * 0.15) * alpha;
+
+            ctx.save();
+            drawPhoneFrame(x, y, w, h, r, cx, alpha);
+            drawPhoneHeader(x, y, w, screenAlpha);
+            drawPhoneTelemetryRows(x, y, w, screenAlpha);
+            drawPhoneFooter(x, y, h, screenAlpha);
+            ctx.restore();
+        }
+
+        function updatePointerLerp() {
+            if (mouse.targetX === null || mouse.targetY === null) return;
+            mouse.x += (mouse.targetX - mouse.x) * POINTER_LERP_FACTOR;
+            mouse.y += (mouse.targetY - mouse.y) * POINTER_LERP_FACTOR;
+        }
+
+        function updateGlowState() {
+            const now = performance.now();
+            const isIdle = (now - lastPointerMoveTime > POINTER_IDLE_MS);
+            let targetAlpha = isIdle ? RADAR_ALPHA_IDLE : RADAR_ALPHA_ACTIVE;
+
+            if (mouse.isNearObstacle) {
+                targetAlpha = RADAR_ALPHA_OBSTACLE;
+            }
+
+            radarAlpha += (targetAlpha - radarAlpha) * RADAR_ALPHA_LERP_FACTOR;
+
+            if (phoneSyncGlow > 0) {
+                phoneSyncGlow = Math.max(0, phoneSyncGlow - PHONE_GLOW_DECAY);
+            }
+        }
+
+        function drawRadarRings(px, py, radarRadius) {
+            for (const frac of RADAR_RING_FRACTIONS) {
+                const r = radarRadius * frac;
+                ctx.beginPath();
+                ctx.arc(px, py, r, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.20 * radarAlpha})`;
+                ctx.lineWidth = 0.8;
+                ctx.setLineDash(frac === 1.0 || frac === 0.58 ? [4, 8] : [2, 6]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        }
+
+        let lastWakeGlobalSpawnTime = 0;
+
+        function drawRadarPulses(px, py, radarRadius) {
+            const heroSection = document.getElementById('hero') || document.getElementById('home');
+            const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+            const now = performance.now();
+
+            for (let i = 0; i < pulses.length; i++) {
+                const p = pulses[i];
+                p.progress += RADAR_PULSE_SPEED;
+                if (p.progress > 1.0) {
+                    p.progress = 0;
+                }
+
+                const pRadius = radarRadius * p.progress;
+                let waveAlpha = (1 - p.progress) * 0.70 * radarAlpha;
+                if (p.progress < 0.06) {
+                    waveAlpha *= (p.progress / 0.06);
+                }
+
+                // 1. Faixa sutil de refração ótica na crista da onda
+                const bandWidth = Math.max(10, 24 * (1 - p.progress * 0.3));
+                const innerRadius = Math.max(0, pRadius - bandWidth * 0.5);
+                const outerRadius = pRadius + bandWidth * 0.5;
+
+                ctx.save();
+                const distGrad = ctx.createRadialGradient(px, py, innerRadius, px, py, outerRadius);
+                distGrad.addColorStop(0, `rgba(${RADAR_ACCENT_RGB}, 0)`);
+                distGrad.addColorStop(0.35, `rgba(${RADAR_ACCENT_RGB}, ${0.04 * waveAlpha})`);
+                distGrad.addColorStop(0.5, `rgba(255, 255, 255, ${0.08 * waveAlpha})`);
+                distGrad.addColorStop(0.65, `rgba(${RADAR_ACCENT_RGB}, ${0.02 * waveAlpha})`);
+                distGrad.addColorStop(1, `rgba(${RADAR_ACCENT_RGB}, 0)`);
+
+                ctx.beginPath();
+                ctx.arc(px, py, outerRadius, 0, Math.PI * 2);
+                ctx.fillStyle = distGrad;
+                ctx.fill();
+                ctx.restore();
+
+                // 2. Linha visível e elegante da crista da onda
+                ctx.beginPath();
+                ctx.arc(px, py, pRadius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${waveAlpha * 0.75})`;
+                ctx.lineWidth = Math.max(0.7, 1.3 * (1 - p.progress * 0.5));
+                ctx.stroke();
+            }
+
+            // Emissão contínua de dados agronômicos no rastro das ondas
+            if (now - lastWakeGlobalSpawnTime > 1200) {
+                const activePulses = pulses.filter(p => p.progress >= 0.15 && p.progress <= 0.75);
+                if (activePulses.length > 0) {
+                    const chosenPulse = activePulses[Math.floor(Math.random() * activePulses.length)];
+                    const pRadius = radarRadius * chosenPulse.progress;
+
+                    const angles = [-1.35, -1.10, -0.85, -0.60, -0.35, -0.10, 0.08];
+                    const angle = angles[Math.floor(Math.random() * angles.length)] + (Math.random() - 0.5) * 0.12;
+                    const spawnX = px + Math.cos(angle) * pRadius;
+                    const spawnY = py + Math.sin(angle) * pRadius;
+
+                    if (spawnX > 40 && spawnX < width - 60 && spawnY > 60 && spawnY < heroHeight - 40) {
+                        spawnWaveWakeData(spawnX, spawnY, angle);
+                        lastWakeGlobalSpawnTime = now;
+                    }
+                }
+            }
+        }
+
+        function drawPointerMarker() {
+            const markerAlpha = Math.max(0.55, radarAlpha);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(mouse.x, mouse.y, 5.0, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.75 * markerAlpha})`;
+            ctx.lineWidth = 1.0;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(mouse.x, mouse.y, 1.6, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.90 * markerAlpha})`;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function drawFieldMarker(item) {
+            let itemOpacity = 1.0;
+            if (item.life > 0.8) {
+                itemOpacity = (1.0 - item.life) / 0.2;
+            } else if (item.life < 0.25) {
+                itemOpacity = item.life / 0.25;
+            }
+
+            const currentAlpha = itemOpacity * (mouse.isNearObstacle ? 0.55 : 0.90) * radarAlpha;
+            if (currentAlpha <= 0.01) return;
+
+            ctx.save();
+
+            // Rastro deixado no ponto de passagem da onda
+            if (item.fromWake && item.originY) {
+                const wakeAge = 1.0 - item.life;
+                if (wakeAge < 0.35) {
+                    const pingRadius = 2.5 + wakeAge * 18;
+                    const pingAlpha = (1.0 - wakeAge / 0.35) * 0.55 * currentAlpha;
+                    ctx.beginPath();
+                    ctx.arc(item.originX, item.originY, pingRadius, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${pingAlpha})`;
+                    ctx.lineWidth = 0.7;
+                    ctx.stroke();
+                }
+
+                // Linha guia conectora
+                ctx.beginPath();
+                ctx.moveTo(item.originX, item.originY);
+                ctx.lineTo(item.x, item.y);
+                ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.22 * currentAlpha})`;
+                ctx.lineWidth = 0.5;
+                ctx.setLineDash([2, 2]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Ponto de luz na coordenada
+            ctx.beginPath();
+            ctx.arc(item.x, item.y, 2.4, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.90 * currentAlpha})`;
+            if (!isMobile) {
+                ctx.shadowColor = `rgba(${RADAR_ACCENT_RGB}, 0.6)`;
+                ctx.shadowBlur = 4;
+            }
+            ctx.fill();
+
+            // Anel pulsante
+            ctx.beginPath();
+            ctx.arc(item.x, item.y, 5 + (1 - item.life) * 3.5, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.45 * currentAlpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+
+            // Traço horizontal para o badge
+            ctx.beginPath();
+            ctx.moveTo(item.x + 3, item.y);
+            ctx.lineTo(item.x + 11, item.y);
+            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.55 * currentAlpha})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+
+            // Tag com background escuro translúcido
+            ctx.font = FIELD_MARKER_FONT;
+            const textMetrics = ctx.measureText(item.text);
+            const textWidth = textMetrics.width;
+            const pillPaddingH = 5.5;
+            const pillHeight = 17;
+            const pillX = item.x + 13;
+            const pillY = item.y - pillHeight / 2;
+
+            ctx.beginPath();
+            if (ctx.roundRect) {
+                ctx.roundRect(pillX, pillY, textWidth + pillPaddingH * 2, pillHeight, 3);
+            } else {
+                ctx.rect(pillX, pillY, textWidth + pillPaddingH * 2, pillHeight);
+            }
+            ctx.fillStyle = `rgba(${PHONE_BG_RGB}, ${0.75 * currentAlpha})`;
+            ctx.fill();
+            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.45 * currentAlpha})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+
+            // Texto branco nítido
+            ctx.fillStyle = `rgba(${RADAR_WHITE_RGB}, ${0.95 * currentAlpha})`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(item.text, pillX + pillPaddingH, item.y + 0.5);
+            ctx.restore();
+        }
+
+        function drawFieldMarkers() {
+            for (let i = fieldData.length - 1; i >= 0; i--) {
+                const item = fieldData[i];
+                item.x += item.vx || 0;
+                item.y += item.vy || 0;
+                item.life -= item.decay;
+
+                if (item.life <= 0) {
+                    fieldData.splice(i, 1);
+                    continue;
+                }
+
+                drawFieldMarker(item);
+            }
+        }
+
+        function draw() {
+            if (!isCanvasVisible) {
+                animationFrameId = requestAnimationFrame(draw);
+                return;
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            updatePointerLerp();
+            updateGlowState();
+
+            const px = phoneCenter.x;
+            const py = phoneCenter.y;
+            const radarRadius = Math.hypot(width, height) * 1.25;
+
+            if (radarAlpha > 0.01) {
+                drawRadarRings(px, py, radarRadius);
+                drawRadarPulses(px, py, radarRadius);
+
+                drawSmartphone(px, py, radarAlpha);
+
+                if (mouse.hasMoved && mouse.x !== null && mouse.y !== null && width > MOBILE_BREAKPOINT) {
+                    drawPointerMarker();
+                }
+            }
+
+            drawFieldMarkers();
+            updateMobileRandomTelemetry();
+
+            animationFrameId = requestAnimationFrame(draw);
+        }
+
+        function updateMobileRandomTelemetry() {
+            if (width <= MOBILE_BREAKPOINT) {
+                const now = performance.now();
+                if (now - lastSpawnTime > 2800) {
+                    const heroSection = document.getElementById('hero') || document.getElementById('home');
+                    const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+                    const randX = width * (0.15 + Math.random() * 0.7);
+                    const randY = heroHeight * (0.2 + Math.random() * 0.5);
+                    spawnFieldData(randX, randY);
+                    lastSpawnPos.x = randX;
+                    lastSpawnPos.y = randY;
+                    lastSpawnTime = now;
+                }
+            }
+        }
+
+        function onPointerMove(e) {
+            if (width <= MOBILE_BREAKPOINT) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX;
+            const clientY = e.clientY;
+
+            if (clientY <= rect.bottom && clientY >= rect.top) {
+                lastPointerMoveTime = performance.now();
+                mouse.targetX = clientX - rect.left;
+                mouse.targetY = clientY - rect.top;
+                mouse.hasMoved = true;
+
+                const targetElement = document.elementFromPoint(clientX, clientY);
+                if (targetElement) {
+                    const isObstacle = targetElement.closest('a, button, .header, .btn-cta, .nav-toggle, .social-link, h1, h2, h3, .hero-title, .main-logo, .hero-footer, .diff-card, p, input, select, textarea');
+                    mouse.isNearObstacle = !!isObstacle || clientY < 80;
+                }
+
+                const now = performance.now();
+                const distMoved = Math.hypot(mouse.targetX - lastSpawnPos.x, mouse.targetY - lastSpawnPos.y);
+
+                if ((distMoved > 55 && now - lastSpawnTime > 400) && !mouse.isNearObstacle) {
+                    spawnFieldData(mouse.targetX, mouse.targetY);
+                    lastSpawnPos.x = mouse.targetX;
+                    lastSpawnPos.y = mouse.targetY;
+                    lastSpawnTime = now;
+                }
+            }
+        }
+
+        window.addEventListener('mousemove', onPointerMove, { passive: true });
+        window.addEventListener('resize', resizeCanvas, { passive: true });
+        window.addEventListener('components:ready', resizeCanvas, { passive: true });
+        window.addEventListener('load', resizeCanvas, { passive: true });
+
+        const canvasObserver = new IntersectionObserver((entries) => {
+            isCanvasVisible = entries[0].isIntersecting;
+            if (isCanvasVisible && !animationFrameId) {
+                animationFrameId = requestAnimationFrame(draw);
+            }
+        }, { threshold: 0.1 });
+        canvasObserver.observe(canvas);
+
+        resizeCanvas();
+        draw();
     }
+
+    initVideoCarousel();
+    initRadarCanvas();
 </script>

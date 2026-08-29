@@ -18,9 +18,94 @@
     <link rel="stylesheet" href="css/reset.css?v=1.1">
     <link rel="stylesheet" href="css/style.css?v=1.1">
 
+    <style>
+    body.is-loading {
+        overflow: hidden !important;
+        height: 100vh !important;
+        touch-action: none;
+    }
+
+    #app-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        background: #121810;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        transition:
+            opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #app-loader.is-hidden {
+        opacity: 0;
+        transform: scale(1.02);
+        pointer-events: none;
+    }
+
+    .loader__spinner {
+        position: relative;
+        width: clamp(90px, 12vw, 130px);
+        height: clamp(90px, 12vw, 130px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .loader__circle {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2.5px solid rgba(255, 255, 255, 0.08);
+        border-top-color: #5b8c45;
+        border-right-color: #f28e13;
+        border-radius: 50%;
+        animation: loader-spin 1.2s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+    }
+
+    @keyframes loader-spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .loader__percent {
+        position: relative;
+        z-index: 2;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: clamp(20px, 2.5vw, 28px);
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        color: #fefcf8;
+        letter-spacing: -0.02em;
+    }
+
+    .loader__tag {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(254, 252, 248, 0.6);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .loader__circle { animation: none; opacity: 0.6; }
+        #app-loader { transition: opacity 300ms ease; }
+    }
+    </style>
 </head>
 
-<body>
+<body class="is-loading">
+
+    <div id="app-loader" role="status" aria-label="Carregando go2apply">
+        <div class="loader__spinner">
+            <div class="loader__circle"></div>
+            <div class="loader__percent" id="loader-percent">0%</div>
+        </div>
+        <div class="loader__tag">Iniciando Sistema</div>
+    </div>
 
     <div data-component="components/header/header.html"></div>
     <main id="app-root">
@@ -34,6 +119,94 @@
 if (window.location.protocol === 'file:') {
   document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#1a1e14;color:#fefcf8;font-family:system-ui,sans-serif;text-align:center;padding:2rem"><div><h1 style="margin:0 0 1rem;font-size:1.5rem">⚠️ Servidor Necessário</h1><p style="margin:0;opacity:0.8;max-width:400px">Este site requer um servidor HTTP local para funcionar corretamente.<br><br>Use: <code style="background:rgba(255,255,255,0.1);padding:0.5rem;border-radius:4px;display:inline-block;margin:1rem 0">python -m http.server 8000</code><br>Depois visite: <a href="http://localhost:8000" style="color:#f28e13;text-decoration:none">http://localhost:8000</a></p></div></div>';
 } else {
+  (function () {
+      const loader = document.getElementById('app-loader');
+      const percentText = document.getElementById('loader-percent');
+      if (!loader) return;
+
+      let displayedPercent = 0;
+      let targetPercent = 8;
+      let isReadyToDismiss = false;
+      let isDismissed = false;
+
+      function updateTarget(val) {
+          targetPercent = Math.max(targetPercent, Math.min(100, val));
+      }
+
+      function dismiss() {
+          if (isDismissed) return;
+          isDismissed = true;
+          document.body.classList.remove('is-loading');
+
+          setTimeout(() => {
+              loader.classList.add('is-hidden');
+              loader.addEventListener('transitionend', () => {
+                  loader.remove();
+              }, { once: true });
+          }, 220);
+      }
+
+      // Loop suave de interpolação da porcentagem
+      function renderProgress() {
+          if (displayedPercent < targetPercent) {
+              const diff = targetPercent - displayedPercent;
+              // Velocidade progressiva natural
+              const step = Math.max(0.4, Math.min(diff * 0.09, 2.2));
+              displayedPercent = Math.min(targetPercent, displayedPercent + step);
+
+              if (percentText) {
+                  percentText.textContent = Math.floor(displayedPercent) + '%';
+              }
+          }
+
+          if (displayedPercent >= 100 && isReadyToDismiss && !isDismissed) {
+              if (percentText) percentText.textContent = '100%';
+              dismiss();
+              return;
+          }
+
+          if (!isDismissed) {
+              requestAnimationFrame(renderProgress);
+          }
+      }
+
+      requestAnimationFrame(renderProgress);
+
+      // Avanço gradual do progresso conforme componentes carregam
+      window.addEventListener('loader:progress', function (e) {
+          if (e.detail && typeof e.detail.percentage === 'number') {
+              const progress = 12 + (e.detail.percentage * 0.72);
+              updateTarget(progress);
+          }
+      });
+
+      // Quando todos os blocos DOM forem montados
+      window.addEventListener('components:ready', function () {
+          updateTarget(92);
+
+          let heroReady = false;
+          window.addEventListener('hero:first-video-ready', function () {
+              heroReady = true;
+              updateTarget(100);
+              isReadyToDismiss = true;
+          }, { once: true });
+
+          // Fallback de segurança caso vídeo demore para dar play
+          setTimeout(function () {
+              if (!heroReady) {
+                  updateTarget(100);
+                  isReadyToDismiss = true;
+              }
+          }, 1600);
+      }, { once: true });
+
+      // Fallback global de segurança absoluta
+      setTimeout(function () {
+          updateTarget(100);
+          isReadyToDismiss = true;
+      }, 3500);
+  })();
+
   class ComponentLoader{constructor(){this.loadedStyles=new Set(),this.totalComponents=0,this.loadedComponents=0}emitProgress(){const t=Math.max(1,this.totalComponents),e=Math.min(100,Math.round(this.loadedComponents/t*100));window.dispatchEvent(new CustomEvent("loader:progress",{detail:{loaded:this.loadedComponents,total:this.totalComponents,percentage:e}}))}async fetchComponent(t){try{const e=await fetch(t);if(!e.ok)throw new Error(`Falha ao carregar componente: ${t} (Status ${e.status})`);return await e.text()}catch(e){return console.error("Component load error:",t,e),""}}async mountElement(t){const e=t.getAttribute("data-component")||t.getAttribute("data-page");if(!e)return;const n=await this.fetchComponent(e),o=new DOMParser,i=o.parseFromString(n,"text/html");i.querySelectorAll("style").forEach((t=>{const n=`style-${e.replace(/[^a-zA-Z0-9]/g,"-")}`;if(!this.loadedStyles.has(n)){const o=document.createElement("style");o.id=n,o.textContent=t.textContent,document.head.appendChild(o),this.loadedStyles.add(n)}t.remove()}));const s=[];i.querySelectorAll("script").forEach((t=>{s.push(t.textContent),t.remove()})),t.innerHTML=i.body.innerHTML,t.removeAttribute("data-component"),t.removeAttribute("data-page"),t.classList.add("component-mounted"),s.forEach((t=>{try{(new Function(t))()}catch(e){console.error(`Erro ao executar script do componente (${e}):`,e)}})),this.loadedComponents++,this.emitProgress(),await this.loadAll(t)}async loadAll(t=document){const e=Array.from(t.querySelectorAll("[data-component], [data-page]"));if(0===e.length)return;this.totalComponents+=e.length,this.emitProgress();const n=window.innerWidth<=600;if(n)for(const t of e)await this.mountElement(t),await new Promise((t=>setTimeout(t,0)));else await Promise.all(e.map((t=>this.mountElement(t))))}async init(){await this.loadAll(document),this.loadedComponents=Math.max(this.loadedComponents,this.totalComponents),this.emitProgress(),window.dispatchEvent(new CustomEvent("components:ready"))}}window.componentLoader=new ComponentLoader,"loading"===document.readyState?document.addEventListener("DOMContentLoaded",(()=>window.componentLoader.init())):window.componentLoader.init();
 }
     </script>
