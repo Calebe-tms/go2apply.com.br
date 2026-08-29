@@ -93,8 +93,8 @@
 
     .nav-toggle .bar {
         width: 100%;
-        height: 3px;
-        background-color: var(--color-white);
+        height: 2.5px;
+        background: linear-gradient(90deg, var(--color-green, #5b8c45) 0%, var(--color-orange, #f28e13) 100%);
         border-radius: var(--radius-sm);
         transition: var(--transition-smooth);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -136,6 +136,15 @@
         .btn-icon {
             width: 16px;
             height: 16px;
+        }
+
+        .nav-toggle {
+            width: 26px;
+            height: 18px;
+        }
+
+        .nav-toggle .bar {
+            height: 2px;
         }
     }
 </style>
