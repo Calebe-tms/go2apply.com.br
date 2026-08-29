@@ -60,7 +60,7 @@
         pointer-events: none;
         z-index: -1;
         border-radius: 50%;
-        /* filter: blur removido pois o radial-gradient já é naturalmente difuso, poupando processamento excessivo da GPU */
+        filter: blur(24px);
     }
 
     @media (max-width: 992px) {
@@ -93,10 +93,7 @@
         .main-content::before {
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse 70% 65% at 50% 50%,
-                    rgba(var(--color-dark-surface-rgb), 0.7) 0%,
-                    rgba(var(--color-dark-rgb), 0.4) 55%,
-                    rgba(var(--color-dark-rgb), 0) 90%);
+            filter: blur(16px);
         }
     }
 </style>

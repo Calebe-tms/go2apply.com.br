@@ -127,14 +127,15 @@ O carregador varre o DOM procurando atributos declarativos:
 1. `data-component="caminho/do/componente.html"`: Carrega um componente atômico.
 2. `data-page="caminho/da/pagina.html"`: Carrega uma página completa.
 
-### Fluxo de Execução:
-1. O navegador carrega o `index.html` com o CSS global (`tokens.css` e `reset.css`).
-2. O `component-loader.js` faz `fetch()` assíncrono dos arquivos `.html`.
-3. O conteúdo HTML é inserido no elemento alvo.
-4. Qualquer tag `<style>` dentro do componente é injetada no documento, herdando todos os tokens do `:root`.
-5. Qualquer tag `<script>` dentro do componente é executada no ciclo de vida correto.
-6. O loader suporta **componentes aninhados** (um componente que carrega outros sub-componentes).
-7. Quando tudo está renderizado, o evento `components:ready` é disparado.
+### O Motor do Micro-Loader (`js/component-loader.js`)
+
+1. **Varredura Recursiva:** O script busca todos os nós com os atributos `data-component` ou `data-page`.
+2. **Telemetria de Progresso Real:** Calcula em tempo real o total de componentes declarados e concluídos, emitindo o evento `loader:progress` com a porcentagem calculada (`{ loaded, total, percentage }`).
+3. **Download Assíncrono:** Executa o `fetch` assíncrono do arquivo `.html`.
+4. **Isolamento e Injeção de Estilos:** Extrai as tags `<style>`, gerando IDs únicos para evitar injeções duplicadas no `<head>`.
+5. **Injeção de DOM & Execução de Scripts:** Insere o HTML no nó e executa o código JavaScript do componente através de um *Function Runner* encapsulado.
+6. **Descoberta Aninhada:** Permite que componentes contenham outros sub-componentes internamente (composição multinível).
+7. **Disparo de Prontidão Global:** Ao finalizar a montagem de todos os nós, dispara o evento `components:ready`. O `#app-loader` sincroniza a barra e a porcentagem com esses eventos e realiza o fade-out assim que as fontes e componentes estão 100% prontos.
 
 ---
 

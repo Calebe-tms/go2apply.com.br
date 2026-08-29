@@ -59,13 +59,14 @@
         50%      { transform: scale(1.06); opacity: 0.75; }
     }
 
-    /* Barra de progresso fina */
+    /* Barra de progresso real */
     .loader__bar {
-        width: clamp(140px, 20vw, 200px);
-        height: 2px;
+        width: clamp(160px, 22vw, 220px);
+        height: 3px;
         border-radius: 9999px;
         background: rgba(23, 30, 20, 0.08);
         overflow: hidden;
+        position: relative;
     }
 
     .loader__bar-fill {
@@ -77,28 +78,31 @@
             #5b8c45,
             #f28e13
         );
-        animation: loader-progress 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    @keyframes loader-progress {
-        0%   { width: 0%;   }
-        60%  { width: 75%;  }
-        100% { width: 100%; }
-    }
-
-    /* Label de versão */
-    .loader__label {
+    /* Status e Porcentagem Real */
+    .loader__status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         font-family: -apple-system, 'Host Grotesk', sans-serif;
         font-size: 11px;
         font-weight: 600;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: rgba(23, 30, 20, 0.35);
+        color: rgba(23, 30, 20, 0.45);
+    }
+
+    .loader__percent {
+        font-variant-numeric: tabular-nums;
+        color: #5b8c45;
+        font-weight: 700;
     }
 
     @media (prefers-reduced-motion: reduce) {
         .loader__logo { animation: none; }
-        .loader__bar-fill { animation: none; width: 100%; }
+        .loader__bar-fill { transition: none; }
         #app-loader { transition: opacity 300ms ease; }
     }
     </style>
@@ -106,7 +110,7 @@
 
 <body>
 
-    <!-- Loading Screen (renderizado antes de qualquer componente) -->
+    <!-- Loading Screen com cálculo de progresso real -->
     <div id="app-loader" role="status" aria-label="Carregando go2apply">
         <!-- Logo SVG inline: não depende de fetch, exibe instantaneamente -->
         <svg class="loader__logo"
@@ -124,10 +128,14 @@
         </svg>
 
         <div class="loader__bar" aria-hidden="true">
-            <div class="loader__bar-fill"></div>
+            <div class="loader__bar-fill" id="loader-bar-fill"></div>
         </div>
 
-        <span class="loader__label">go2apply</span>
+        <div class="loader__status">
+            <span class="loader__label">go2apply</span>
+            <span class="loader__dot" style="opacity: 0.35;">•</span>
+            <span class="loader__percent" id="loader-percent">0%</span>
+        </div>
     </div>
     <!-- 1. Componente Global: Header Navigation -->
     <div data-component="components/header/header.html"></div>
@@ -173,54 +181,74 @@
     <script src="js/main.js"></script>
 
     <script>
-    // Esconde o loading screen somente quando:
-    // 1. Todos os componentes HTML foram montados (components:ready)
-    // 2. O primeiro vídeo do hero começou a reproduzir (hero:first-video-ready)
+    // Gerenciador de Progresso Real do Carregamento
     (function () {
         var loader = document.getElementById('app-loader');
-        if (!loader) return;
+        var barFill = document.getElementById('loader-bar-fill');
+        var percentText = document.getElementById('loader-percent');
+        if (!loader || !barFill) return;
 
-        window.__loaderStart = Date.now();
+        var currentPercent = 0;
+        var isDismissed = false;
 
-        // Converte cada evento em uma Promise que resolve ao disparar
-        function waitFor(eventName, timeoutMs) {
-            return new Promise(function (resolve) {
-                var done = false;
-
-                // Fallback: resolve mesmo se o evento nunca vir (ex: erro de rede)
-                var timer = setTimeout(function () {
-                    if (!done) { done = true; resolve(); }
-                }, timeoutMs || 12000);
-
-                window.addEventListener(eventName, function handler() {
-                    if (!done) {
-                        done = true;
-                        clearTimeout(timer);
-                        window.removeEventListener(eventName, handler);
-                        resolve();
-                    }
-                }, { once: true });
-            });
+        function updateProgress(targetPercent) {
+            targetPercent = Math.max(0, Math.min(100, Math.round(targetPercent)));
+            if (targetPercent > currentPercent) {
+                currentPercent = targetPercent;
+                barFill.style.width = currentPercent + '%';
+                if (percentText) {
+                    percentText.textContent = currentPercent + '%';
+                }
+            }
         }
 
+        // Progresso inicial ao renderizar a casca HTML
+        updateProgress(15);
+
+        // 1. Escuta o progresso real de cada componente HTML baixado e montado
+        window.addEventListener('loader:progress', function (e) {
+            if (e.detail && typeof e.detail.percentage === 'number') {
+                // Componentes compõem 15% -> 85% da carga total
+                var progress = 15 + (e.detail.percentage * 0.70);
+                updateProgress(progress);
+            }
+        });
+
         function dismiss() {
-            // Garante ao menos 700ms para a barra de progresso completar
-            var elapsed = Date.now() - window.__loaderStart;
-            var delay   = Math.max(0, 700 - elapsed);
+            if (isDismissed) return;
+            isDismissed = true;
+            updateProgress(100);
 
             setTimeout(function () {
                 loader.classList.add('is-hidden');
                 loader.addEventListener('transitionend', function () {
                     loader.remove();
                 }, { once: true });
-            }, delay);
+            }, 300);
         }
 
-        // Aguarda os DOIS sinais em paralelo antes de liberar
-        Promise.all([
-            waitFor('components:ready',       10000),  // Timeout: 10s
-            waitFor('hero:first-video-ready', 12000)   // Timeout: 12s (YouTube pode demorar)
-        ]).then(dismiss);
+        // 2. Quando todos os componentes HTML estiverem montados
+        window.addEventListener('components:ready', function () {
+            updateProgress(90);
+
+            // Aguarda as fontes renderizarem para evitar layout shift
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(function () {
+                    updateProgress(100);
+                    setTimeout(dismiss, 180);
+                }).catch(function () {
+                    dismiss();
+                });
+            } else {
+                updateProgress(100);
+                setTimeout(dismiss, 180);
+            }
+        }, { once: true });
+
+        // Salvaguarda máxima (timeout de 5s caso ocorra instabilidade de rede externa)
+        setTimeout(function () {
+            dismiss();
+        }, 5000);
 
     })();
     </script>

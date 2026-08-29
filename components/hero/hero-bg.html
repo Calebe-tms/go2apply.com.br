@@ -59,10 +59,9 @@
 <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
 
 <script>
-    // Usando resolução máxima segura (w_1280) e q_auto:eco para garantir velocidade de carregamento em qualquer dispositivo
     const HERO_VIDEOS = [
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto:eco,w_1280/v1787863807/13678744_1920_1080_60fps.mp4',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto:eco,w_1280/v1787863806/7542596-uhd_3840_2160_30fps.mp4'
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863807/13678744_1920_1080_60fps.mp4',
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863806/7542596-uhd_3840_2160_30fps.mp4'
     ];
 
     // Cores e fontes do radar/mini-celular: valores exatos já usados no canvas
@@ -281,11 +280,7 @@
             const totalDocHeight = Math.max(document.documentElement.scrollHeight || 0, document.body.scrollHeight || 0, window.innerHeight * 2.5);
 
             height = totalDocHeight;
-            
-            const isMobile = width <= MOBILE_BREAKPOINT;
-            
-            // Otimização extrema de canvas para mobile: Força DPR 1 para evitar quadros grandes e travamentos
-            dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, MAX_DPR);
+            dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
 
             canvas.style.width = width + 'px';
             canvas.style.height = height + 'px';

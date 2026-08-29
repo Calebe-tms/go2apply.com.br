@@ -1,12 +1,30 @@
 /**
  * Component Loader - go2apply
  * Motor assíncrono nativo para carregamento de Single-File Components (.html)
- * Suporta componentes aninhados, injeção de estilos e execução de scripts.
+ * Suporta componentes aninhados, injeção de estilos, execução de scripts e
+ * telemetria precisa de progresso real em tempo real.
  */
 
 class ComponentLoader {
     constructor() {
         this.loadedStyles = new Set();
+        this.totalComponents = 0;
+        this.loadedComponents = 0;
+    }
+
+    /**
+     * Emite evento global com o progresso real calculado
+     */
+    emitProgress() {
+        const total = Math.max(1, this.totalComponents);
+        const percentage = Math.min(100, Math.round((this.loadedComponents / total) * 100));
+        window.dispatchEvent(new CustomEvent('loader:progress', {
+            detail: {
+                loaded: this.loadedComponents,
+                total: this.totalComponents,
+                percentage: percentage
+            }
+        }));
     }
 
     /**
@@ -74,6 +92,10 @@ class ComponentLoader {
             }
         });
 
+        // Incrementa o contador de componentes concluídos e notifica o loader
+        this.loadedComponents++;
+        this.emitProgress();
+
         // 5. Varre recursivamente por sub-componentes aninhados
         await this.loadAll(element);
     }
@@ -85,6 +107,10 @@ class ComponentLoader {
         const targets = Array.from(container.querySelectorAll('[data-component], [data-page]'));
         if (targets.length === 0) return;
 
+        // Atualiza a meta total de componentes a carregar
+        this.totalComponents += targets.length;
+        this.emitProgress();
+
         // Monta todos os componentes em paralelo
         await Promise.all(targets.map(el => this.mountElement(el)));
     }
@@ -94,6 +120,9 @@ class ComponentLoader {
      */
     async init() {
         await this.loadAll(document);
+        // Garante 100% de conclusão do carregamento de componentes
+        this.loadedComponents = Math.max(this.loadedComponents, this.totalComponents);
+        this.emitProgress();
         window.dispatchEvent(new CustomEvent('components:ready'));
     }
 }
