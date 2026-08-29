@@ -32,6 +32,18 @@ class ComponentLoader {
      */
     async fetchComponent(url) {
         try {
+            const isLocal = window.location.protocol === 'file:';
+
+            if (isLocal) {
+                const xhr = new XMLHttpRequest();
+                return new Promise((resolve, reject) => {
+                    xhr.onload = () => resolve(xhr.responseText);
+                    xhr.onerror = () => reject(new Error(`Falha ao carregar: ${url}`));
+                    xhr.open('GET', url, true);
+                    xhr.send();
+                });
+            }
+
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Falha ao carregar componente: ${url} (Status ${response.status})`);
