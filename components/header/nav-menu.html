@@ -1,6 +1,6 @@
 <!-- ==========================================================================
    Component: Nav Menu (Header)
-   Links centrais de navegação com underline dinâmico e gaveta mobile
+   Links centrais de navegação com destaque em pill no hover e gaveta mobile
    ========================================================================== -->
 <style>
     .nav-center {
@@ -10,7 +10,7 @@
     .nav-links {
         display: flex;
         align-items: center;
-        gap: clamp(1.5rem, 2.8vw, 3.5rem);
+        gap: clamp(0.25rem, 1vw, 0.75rem);
     }
 
     .nav-links a {
@@ -23,29 +23,16 @@
         text-transform: uppercase;
         transition: var(--transition-smooth);
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-        padding: 0.35rem 0;
+        padding: 0.55rem 1.1rem;
+        border-radius: var(--radius-full);
+        border: 1px solid transparent;
         display: inline-block;
-    }
-
-    .nav-links a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0%;
-        height: 2px;
-        background-color: var(--color-orange);
-        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        border-radius: var(--radius-sm);
     }
 
     .nav-links a:hover {
         color: var(--color-orange);
-        transform: translateY(-2px);
-    }
-
-    .nav-links a:hover::after {
-        width: 100%;
+        background-color: var(--color-orange-subtle);
+        border-color: rgba(var(--color-orange-rgb), 0.4);
     }
 
     .drawer-social {
@@ -116,9 +103,11 @@
 
 <nav class="nav-center" id="nav-center">
     <ul class="nav-links">
-        <li><a href="#solucoes">SOLUÇÕES</a></li>
-        <li><a href="#base-tecnica">BASE TÉCNICA</a></li>
-        <li><a href="#planos">PLANOS</a></li>
+        <li><a href="#solucoes">PLATAFORMA</a></li>
+        <li><a href="#diferenciais">RECURSOS</a></li>
+        <li><a href="#">PARA QUEM É</a></li>
+        <li><a href="#">PLANOS</a></li>
+        <li><a href="#">FAQ</a></li>
     </ul>
 
     <div class="drawer-social">

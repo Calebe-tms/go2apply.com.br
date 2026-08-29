@@ -11,21 +11,13 @@
     }
 
     .btn-cta {
-        display: inline-flex;
-        align-items: center;
         gap: 0.65rem;
-        background-color: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.88);
+        background-color: rgba(var(--color-dark-surface-rgb), 0.88);
         -webkit-backdrop-filter: blur(12px);
         backdrop-filter: blur(12px);
-        color: var(--color-white, #fefcf8);
-        text-decoration: none;
         padding: 0.6rem 1.35rem;
-        border-radius: var(--radius-md, 10px);
-        font-family: var(--font-main);
-        font-weight: 600;
         font-size: var(--font-size-base);
         letter-spacing: 0.1px;
-        border: 1.2px solid var(--color-orange, #f28e13);
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 0 14px var(--color-orange-subtle);
         white-space: nowrap;
         opacity: 0;
@@ -38,8 +30,7 @@
                     box-shadow 0.25s ease;
     }
 
-    /* Visível apenas ao rolar para além da Hero */
-    .header.scrolled .btn-cta,
+    /* Visível apenas quando o CTA da Hero sai da tela */
     .btn-cta.is-visible {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -49,8 +40,8 @@
     .btn-cta:hover {
         transform: translateY(-2px) scale(1.02);
         box-shadow: 0 8px 25px rgba(242, 142, 18, 0.45), 0 0 20px rgba(242, 142, 18, 0.25);
-        background-color: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.98);
-        border-color: var(--color-orange-hover, #e07d08);
+        background-color: rgba(var(--color-dark-surface-rgb), 0.98);
+        border-color: var(--color-orange-hover);
         color: #ffffff;
     }
 
@@ -72,7 +63,7 @@
     }
 
     .btn-label {
-        color: var(--color-white, #fefcf8);
+        color: var(--color-white);
         transition: var(--transition-smooth);
     }
 
@@ -143,7 +134,7 @@
 </style>
 
 <div class="header-actions">
-    <a href="#solucoes" class="btn-cta" id="header-btn-cta">
+    <a href="#solucoes" class="btn-cta cta-btn-base" id="header-btn-cta">
         <img src="assets/icos/ico-logo-go2apply.png" alt="Ícone go2apply" class="btn-icon">
         <span class="btn-label">Conheça a Ferramenta</span>
     </a>
@@ -180,17 +171,14 @@
         }
     });
 
-    // Controla o fluxo de aparição do CTA do Header ao rolar para a 2ª seção
+    // Mostra o CTA do Header somente depois que o CTA da Hero sair da tela
     const checkHeaderCtaFlow = () => {
         if (!headerCta) return;
-        const heroSection = document.getElementById('home');
-        if (heroSection) {
-            const rect = heroSection.getBoundingClientRect();
-            if (rect.bottom < window.innerHeight * 0.6) {
-                headerCta.classList.add('is-visible');
-            } else {
-                headerCta.classList.remove('is-visible');
-            }
+        const heroCta = document.getElementById('hero-main-cta');
+        if (heroCta) {
+            const rect = heroCta.getBoundingClientRect();
+            const heroCtaOnScreen = rect.bottom > 0 && rect.top < window.innerHeight;
+            headerCta.classList.toggle('is-visible', !heroCtaOnScreen);
         }
     };
 

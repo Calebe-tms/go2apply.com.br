@@ -1,6 +1,6 @@
 <!-- ==========================================================================
    Component: Hero Content
-   Logo principal animado, título com destaque e rodapé institucional
+   Logo principal animado, título com destaque e CTA principal
    ========================================================================== -->
 <style>
     .hero-content {
@@ -11,8 +11,9 @@
         justify-content: space-between;
         min-height: 100vh;
         width: 100%;
-        padding: 5.5rem 2rem 2.5rem 2rem;
-        pointer-events: none; /* Permite que o mouse passe livremente para a camada de fundo */
+        padding: 2.5rem 2rem 2.5rem 2rem;
+        pointer-events: none;
+        /* Permite que o mouse passe livremente para a camada de fundo */
     }
 
     .hero-content a,
@@ -45,12 +46,10 @@
         transform: translate(-50%, -50%);
         width: min(94vw, 960px);
         height: 120%;
-        background: radial-gradient(
-            ellipse 65% 60% at 50% 50%,
-            rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.62) 0%,
-            rgba(var(--color-dark-rgb, 23, 30, 20), 0.32) 48%,
-            rgba(var(--color-dark-rgb, 23, 30, 20), 0) 85%
-        );
+        background: radial-gradient(ellipse 65% 60% at 50% 50%,
+                rgba(var(--color-dark-surface-rgb), 0.62) 0%,
+                rgba(var(--color-dark-rgb), 0.32) 48%,
+                rgba(var(--color-dark-rgb), 0) 85%);
         pointer-events: none;
         z-index: -1;
         border-radius: 50%;
@@ -102,21 +101,13 @@
     }
 
     .hero-cta-btn {
-        display: inline-flex;
-        align-items: center;
         gap: 0.75rem;
-        background: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.85);
+        background: rgba(var(--color-dark-surface-rgb), 0.85);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
-        color: var(--color-white, #fefcf8);
-        text-decoration: none;
         padding: 0.75rem 1.85rem;
-        border-radius: var(--radius-md, 10px);
-        font-family: var(--font-main);
-        font-weight: 600;
         font-size: clamp(0.92rem, 1.05vw, 1.05rem);
         letter-spacing: 0.2px;
-        border: 1.2px solid var(--color-orange, #f28e13);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 18px rgba(242, 142, 19, 0.2);
         transition: var(--transition-smooth);
         cursor: pointer;
@@ -124,8 +115,8 @@
 
     .hero-cta-btn:hover {
         transform: translateY(-3px) scale(1.02);
-        background: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.96);
-        border-color: var(--color-orange-hover, #e07d08);
+        background: rgba(var(--color-dark-surface-rgb), 0.96);
+        border-color: var(--color-orange-hover);
         box-shadow: 0 8px 28px rgba(242, 142, 18, 0.45), 0 0 24px rgba(242, 142, 18, 0.35);
         color: #ffffff;
     }
@@ -143,7 +134,7 @@
 
     .hero-cta-arrow {
         transition: transform 0.3s ease;
-        color: var(--color-orange, #f28e13);
+        color: var(--color-orange);
     }
 
     .hero-cta-btn:hover .hero-cta-arrow {
@@ -151,29 +142,12 @@
         color: #ffffff;
     }
 
-    .hero-footer {
-        text-align: center;
-        padding-bottom: 0.5rem;
-        animation: fadeIn 1.2s ease 0.5s forwards;
-        opacity: 0;
-    }
-
-    .hero-footer-text {
-        color: rgba(255, 255, 255, 0.95);
-        font-family: var(--font-main);
-        font-size: clamp(0.85rem, 1.1vw, 1.05rem);
-        font-weight: 500;
-        letter-spacing: 1.8px;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.9);
-        margin: 0;
-        text-transform: uppercase;
-    }
-
     @keyframes fadeInDown {
         from {
             opacity: 0;
             transform: translateY(-24px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -185,18 +159,10 @@
             opacity: 0;
             transform: translateY(24px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
         }
     }
 
@@ -236,93 +202,7 @@
             font-size: 1.08rem;
             line-height: 1.34;
         }
-
-        .hero-footer-text {
-            font-size: 0.72rem;
-            letter-spacing: 1px;
-        }
     }
-
-/* Indicador de scroll animado ultra-sutil no canto inferior direito */
-.hero-scroll-indicator {
-    position: absolute;
-    bottom: 3.4rem;
-    right: 2.2rem;
-    z-index: 20;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    color: rgba(255, 255, 255, 0.45);
-    text-decoration: none;
-    transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
-    cursor: pointer;
-    pointer-events: auto;
-    animation: fadeIn 1.2s ease 1s forwards;
-    opacity: 0;
-}
-
-.hero-scroll-indicator:hover {
-    color: var(--color-orange);
-    opacity: 0.9 !important;
-    transform: translateY(2px);
-}
-
-.scroll-mouse {
-    width: 14px;
-    height: 22px;
-    border: 1.5px solid currentColor;
-    border-radius: 8px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    padding-top: 4px;
-}
-
-.scroll-wheel {
-    width: 2px;
-    height: 4px;
-    background-color: currentColor;
-    border-radius: 1px;
-    animation: scrollWheelPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.scroll-chevron {
-    animation: scrollChevronBounce 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-@keyframes scrollWheelPulse {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    50% {
-        opacity: 0.2;
-        transform: translateY(5px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes scrollChevronBounce {
-    0%, 100% {
-        transform: translateY(0);
-        opacity: 0.5;
-    }
-    50% {
-        transform: translateY(3px);
-        opacity: 0.9;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-scroll-indicator {
-        bottom: 1.5rem;
-        right: 1.2rem;
-    }
-}
 </style>
 
 <div class="hero-content">
@@ -338,27 +218,18 @@
 
         <!-- Botão CTA Principal da Hero -->
         <div class="hero-cta-wrapper">
-            <a href="#solucoes" class="hero-cta-btn" id="hero-main-cta">
+            <a href="#solucoes" class="hero-cta-btn cta-btn-base" id="hero-main-cta">
                 <img src="assets/icos/ico-logo-go2apply.png" alt="" class="hero-cta-icon" aria-hidden="true">
                 <span class="hero-cta-label">Conheça a Ferramenta</span>
-                <svg class="hero-cta-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                <svg class="hero-cta-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
             </a>
         </div>
     </main>
 
-    <footer class="hero-footer">
-        <div data-component="components/hero/hero-pillars.html"></div>
-    </footer>
+    <div data-component="components/hero/hero-scroll-indicator.html"></div>
 
-    <!-- Indicador de scroll no canto inferior direito -->
-    <a href="#solucoes" class="hero-scroll-indicator" aria-label="Rolar para ver soluções">
-        <span class="scroll-mouse">
-            <span class="scroll-wheel"></span>
-        </span>
-        <svg class="scroll-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-    </a>
+    <div data-component="components/hero/hero-ticker.html"></div>
 </div>

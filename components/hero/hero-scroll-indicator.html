@@ -1,0 +1,88 @@
+<!-- ==========================================================================
+   Component: Hero Scroll Indicator
+   Cápsula centralizada com seta deslizante, sempre acima do ticker
+   ========================================================================== -->
+<style>
+    .hero-scroll-cta {
+        position: absolute;
+        left: 50%;
+        bottom: var(--space-xl);
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--space-lg);
+        height: var(--space-xl);
+        border-radius: var(--radius-full);
+        border: 1.5px solid var(--color-green);
+        background-color: rgba(var(--color-dark-surface-rgb), 0.4);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        color: var(--color-green);
+        text-decoration: none;
+        cursor: pointer;
+        pointer-events: auto;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateX(-50%);
+        transition: var(--transition-smooth);
+        animation: heroScrollFadeIn 1.2s ease 1s forwards;
+    }
+
+    .hero-scroll-cta:hover {
+        color: var(--color-orange);
+        border-color: var(--color-orange);
+        background-color: var(--color-orange-subtle);
+        box-shadow: 0 0 18px var(--color-orange-glow);
+        transform: translateX(-50%) translateY(-3px);
+    }
+
+    .hero-scroll-icon {
+        width: 18px;
+        height: 18px;
+        animation: heroScrollIconSlide 1.8s ease-in-out 2.2s infinite;
+    }
+
+    .hero-scroll-cta:hover .hero-scroll-icon {
+        animation-play-state: paused;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @keyframes heroScrollFadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes heroScrollIconSlide {
+        0% {
+            transform: translateY(-10px);
+            opacity: 0;
+        }
+
+        20% {
+            opacity: 1;
+        }
+
+        80% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+    }
+</style>
+
+<a href="#solucoes" class="hero-scroll-cta" aria-label="Rolar para ver soluções">
+    <svg class="hero-scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+</a>

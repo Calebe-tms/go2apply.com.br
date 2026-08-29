@@ -15,6 +15,8 @@ Be concise, direct, and solution-focused. Write code directly, fix bugs immediat
 - Functions: Max 20 lines. Do one thing. One level of abstraction. Max 3 arguments. No side effects.
 - Structure: Use guard clauses (early returns). Avoid deep nesting (max 2 levels). Colocate related code.
 - Anti-patterns to avoid: Obvious comments, single-use helpers/factories (inline them), magic numbers, god functions.
+- Magic numbers exception (animation/motion): raw numeric literals ARE allowed for animation/transition values in CSS and JS — durations, easings, delays, translate/scale/rotate deltas, opacity/alpha/transparency values. These do not need named constants.
+- Never allowed as raw literals, even in animation code: colors (always use design tokens/CSS variables) and font sizes (always use the typography scale/tokens). No hardcoded hex/rgb colors or px/rem font-size values, ever.
 
 ## 2. Mandatory Pre-Edit & Post-Edit Checks
 - BEFORE EDITING: Analyze what imports the file, what it imports, test coverage, and shared components. You MUST edit the file and all dependent files in the SAME task. Never leave broken imports.
