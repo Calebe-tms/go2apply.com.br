@@ -1,12 +1,12 @@
 <!-- ==========================================================================
    Component: Hero Scroll Indicator
-   Cápsula centralizada com seta deslizante, sempre acima do ticker
+   Cápsula com seta deslizante, centralizada no respiro entre o CTA e o Ticker
    ========================================================================== -->
 <style>
     .hero-scroll-cta {
         position: absolute;
         left: 50%;
-        bottom: var(--space-xl, 3.5rem);
+        bottom: calc(44px + clamp(1.25rem, 2.5vh, 2.25rem));
         z-index: 20;
         display: inline-flex;
         align-items: center;
@@ -77,23 +77,24 @@
             transform: translateY(10px);
             opacity: 0;
         }
+    }
+
     @media (max-width: 600px) {
         .hero-scroll-cta {
-            left: auto;
-            right: 1.25rem;
-            bottom: 3.2rem;
-            width: 1.45rem;
-            height: 2.45rem;
-            transform: none;
+            left: 50%;
+            bottom: calc(38px + 1rem);
+            width: 1.55rem;
+            height: 2.65rem;
+            transform: translateX(-50%);
         }
 
         .hero-scroll-cta:hover {
-            transform: translateY(-3px);
+            transform: translateX(-50%) translateY(-3px);
         }
 
         .hero-scroll-icon {
-            width: 13px;
-            height: 13px;
+            width: 14px;
+            height: 14px;
         }
     }
 </style>

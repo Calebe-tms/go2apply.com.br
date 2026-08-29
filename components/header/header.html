@@ -1,6 +1,7 @@
 <!-- ==========================================================================
    Component: Main Header Shell
-   Orquestra os 3 sub-componentes (Social, Nav, Actions) e o scroll glassmorphism
+   Orquestra a barra de navegação centralizada, redes sociais e botão de ação
+   com visibilidade sincronizada ao rolar a página
    ========================================================================== -->
 <style>
     .header {
@@ -18,8 +19,7 @@
         border-bottom: 1px solid transparent;
     }
 
-    /* Scrim permanente atrás do header para garantir contraste sobre o vídeo do hero,
-       independente do estado de scroll */
+    /* Scrim permanente atrás do header para garantir contraste sobre o vídeo do hero */
     .header::before {
         content: '';
         position: absolute;
@@ -75,7 +75,7 @@
 
         .nav-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
         }
     }
@@ -93,10 +93,10 @@
 
 <header class="header" id="main-header">
     <div class="nav-container">
-        <!-- 1. Redes Sociais (Esquerda) -->
+        <!-- 1. Redes Sociais (Esquerda) - Aparece sincronizado com o btn-cta -->
         <div data-component="components/header/social-links.html"></div>
 
-        <!-- 2. Menu Centralizado (Centro) -->
+        <!-- 2. Menu Centralizado -->
         <div data-component="components/header/nav-menu.html"></div>
 
         <!-- 3. Botão de Ação & Toggle Mobile (Direita) -->

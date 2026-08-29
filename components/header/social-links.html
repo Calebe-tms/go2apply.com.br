@@ -1,6 +1,6 @@
 <!-- ==========================================================================
    Component: Social Links (Header)
-   Ícones vetoriais de redes sociais com micro-interações
+   Ícones vetoriais de redes sociais que aparecem sincronizados com o btn-cta do header
    ========================================================================== -->
 <style>
     .header-social {
@@ -8,6 +8,18 @@
         align-items: center;
         gap: var(--space-sm);
         justify-self: start;
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
+        pointer-events: none;
+        transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Fica visível junto com o btn-cta quando o CTA da Hero sai da tela */
+    .header-social.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
     }
 
     .social-link {
@@ -38,12 +50,13 @@
         box-shadow: var(--shadow-glow);
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 992px) {
         .header-social {
-            display: flex;
-            gap: 0.4rem;
+            display: none; /* No mobile/tablet o menu gaveta cuida da navegação */
         }
+    }
 
+    @media (max-width: 600px) {
         .social-link {
             width: 32px;
             height: 32px;
@@ -56,7 +69,7 @@
     }
 </style>
 
-<div class="header-social">
+<div class="header-social" id="header-social-container">
     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -77,3 +90,23 @@
         </svg>
     </a>
 </div>
+
+<script>
+    (function () {
+        const socialContainer = document.getElementById('header-social-container');
+
+        const checkSocialVisibility = () => {
+            if (!socialContainer) return;
+            const heroCta = document.getElementById('hero-main-cta');
+            if (heroCta) {
+                const rect = heroCta.getBoundingClientRect();
+                const heroCtaOnScreen = rect.bottom > 0 && rect.top < window.innerHeight;
+                socialContainer.classList.toggle('is-visible', !heroCtaOnScreen);
+            }
+        };
+
+        window.addEventListener('scroll', checkSocialVisibility, { passive: true });
+        window.addEventListener('components:ready', checkSocialVisibility);
+        setTimeout(checkSocialVisibility, 400);
+    })();
+</script>

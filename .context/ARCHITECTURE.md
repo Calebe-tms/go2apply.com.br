@@ -45,13 +45,17 @@ go2apply.com.br/
 │   │
 │   ├── header/                         # [Componentes do Cabeçalho Global]
 │   │   ├── header.html                 # Shell do Header (Grid 3 colunas, scroll e glassmorphism)
-│   │   ├── social-links.html           # Ícones vetoriais de redes sociais (SVG com hover)
-│   │   ├── nav-menu.html               # Links de navegação e gaveta para smartphone
+│   │   ├── social-links.html           # Ícones de redes sociais sincronizados com o btn-cta
+│   │   ├── nav-menu.html               # Links centrais de navegação e gaveta mobile limpa
 │   │   └── header-actions.html         # Botão de CTA ("Conheça a Ferramenta") e toggle mobile
 │   │
 │   ├── hero/                           # [Componentes da Home / Hero]
 │   │   ├── hero-bg.html                # Carrossel de vídeo contínuo + radar canvas interativo
-│   │   ├── hero-content.html           # Logo, títulos destacados e CTA principal
+│   │   ├── hero-content.html           # Shell orquestrador do conteúdo da hero
+│   │   ├── hero-cta.html               # Logo e título institucional com destaque
+│   │   ├── hero-btn-cta.html           # Botão principal de chamada para ação (CTA)
+│   │   ├── hero-scroll-indicator.html  # Indicador animado de rolagem
+│   │   ├── hero-whatsapp.html          # Balão do WhatsApp alinhado ao mini celular com física de inércia
 │   │   └── hero-ticker.html            # Barra técnica deslizante no rodapé do Hero
 │   │
 │   ├── solutions/                      # [Showcase interativo de soluções — App Store Morph]
@@ -82,8 +86,11 @@ go2apply.com.br/
 │   ├── cta-final/                      # [Seção CTA Final]
 │   │   └── cta-final.html              # Headline de fechamento + CTA
 │   │
-│   └── footer/                         # [Componente Global: Footer]
-│       └── footer.html                 # Logo, navegação, redes sociais e encerramento
+│   ├── footer/                         # [Componente Global: Footer]
+│   │   └── footer.html                 # Logo, navegação, redes sociais e encerramento
+│   │
+│   └── whatsapp-float/                 # [Componente Global: Botão Flutuante do WhatsApp]
+│       └── whatsapp-float.html         # Botão fixo a 42px com borda laranja do DS e persistência global
 │
 ├── pages/                              # Páginas completas (uma por seção, compostas no index.html)
 │   ├── home.html                       # Hero (hero-bg + hero-content) + Soluções

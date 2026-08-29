@@ -290,14 +290,14 @@
 
             const isMobile = width <= MOBILE_BREAKPOINT;
             if (isMobile) {
-                // Dimensões compactas e posicionamento acima do ticker sem sobreposição
+                // Dimensões compactas e posicionamento simétrico próximo à borda e mais alto
                 phoneDim = { width: 44, height: 78, radius: 7 };
-                phoneCenter.x = Math.max(30, width * 0.11);
-                phoneCenter.y = heroHeight - 88;
+                phoneCenter.x = 18 + phoneDim.width / 2;
+                phoneCenter.y = heroHeight - 118;
             } else {
                 phoneDim = { width: 78, height: 142, radius: 14 };
-                phoneCenter.x = Math.max(95, width * 0.09);
-                phoneCenter.y = Math.min(heroHeight - 95, heroHeight * 0.85);
+                phoneCenter.x = 42 + phoneDim.width / 2;
+                phoneCenter.y = heroHeight - 156;
             }
 
             if (mouse.x === null) {
@@ -523,41 +523,21 @@
             ctx.restore();
         }
 
-        function drawPointerLink(px, py) {
-            const anchorY = py - phoneDim.height / 2 + 5;
-            const distToPhone = Math.hypot(mouse.x - px, mouse.y - anchorY);
-            if (distToPhone <= POINTER_LINK_MIN_DISTANCE) return;
-
-            const linkAlpha = Math.max(0.65, radarAlpha);
+        function drawPointerMarker() {
+            const markerAlpha = Math.max(0.65, radarAlpha);
 
             ctx.save();
-            // Linha conectora de telemetria visível e nítida
-            ctx.beginPath();
-            ctx.moveTo(mouse.x, mouse.y);
-            ctx.lineTo(px, anchorY);
-            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.48 * linkAlpha})`;
-            ctx.lineWidth = 1.1;
-            ctx.setLineDash([5, 5]);
-            ctx.stroke();
-            ctx.setLineDash([]);
-
-            // Ponto de âncora no topo do celular
-            ctx.beginPath();
-            ctx.arc(px, anchorY, 2.5, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.9 * linkAlpha})`;
-            ctx.fill();
-
             // Anel externo no cursor do mouse
             ctx.beginPath();
             ctx.arc(mouse.x, mouse.y, 5.5, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.85 * linkAlpha})`;
+            ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.85 * markerAlpha})`;
             ctx.lineWidth = 1.2;
             ctx.stroke();
 
             // Ponto central no cursor
             ctx.beginPath();
             ctx.arc(mouse.x, mouse.y, 1.8, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.95 * linkAlpha})`;
+            ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.95 * markerAlpha})`;
             ctx.fill();
             ctx.restore();
         }
@@ -636,7 +616,7 @@
                 drawSmartphone(px, py, radarAlpha);
 
                 if (mouse.hasMoved && mouse.x !== null && mouse.y !== null) {
-                    drawPointerLink(px, py);
+                    drawPointerMarker();
                 }
             }
 

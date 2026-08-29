@@ -82,6 +82,9 @@
     --radius-lg: 16px;
     --radius-full: 9999px;
 
+    /* --- Tokens Semânticos de Componentes --- */
+    --radius-btn: var(--radius-md); /* 10px - Padrão unificado para botões e links interativos */
+
     /* --- Transições e Efeitos --- */
     --transition-fast: all 0.2s ease;
     --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);

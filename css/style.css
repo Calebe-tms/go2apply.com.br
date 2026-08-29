@@ -11,13 +11,14 @@
     color: var(--color-orange);
 }
 
-/* Base compartilhada dos botões CTA (header e hero) */
-.cta-btn-base {
+/* Base compartilhada dos botões CTA e interativos */
+.cta-btn-base,
+.btn-base {
     display: inline-flex;
     align-items: center;
     color: var(--color-white, #fefcf8);
     text-decoration: none;
-    border-radius: var(--radius-md, 10px);
+    border-radius: var(--radius-btn, 10px);
     font-family: var(--font-main, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
     font-weight: 600;
     border: 1.2px solid var(--color-orange, #f28e13);

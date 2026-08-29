@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Radar & Telemetry Phone Effect</title>
+    <link rel="stylesheet" href="radar-phone-effect.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f140e;
+            color: #fefcf8;
+            overflow-x: hidden;
+        }
+
+        .hero-demo {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, #1b2418 0%, #0d120c 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 span {
+            color: #f28e13;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: rgba(254, 252, 248, 0.75);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            background: rgba(18, 24, 16, 0.85);
+            border: 1.2px solid #f28e13;
+            color: #fefcf8;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 18px rgba(242, 142, 19, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: #121810;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(242, 142, 18, 0.4);
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.85rem;
+            color: rgba(254, 252, 248, 0.45);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-demo">
+        <!-- Canvas onde o efeito é renderizado -->
+        <canvas id="radar-canvas" class="radar-effect-canvas"></canvas>
+
+        <div class="hero-content">
+            <h1>Efeito Radar &amp; <span>Telemetria Mobile</span></h1>
+            <p>Mova o cursor pela tela ou incline o smartphone para gerar métricas de campo em tempo real conectadas com o mini-celular virtual.</p>
+            <a href="#" class="cta-btn">Testar Interação</a>
+        </div>
+
+        <div class="instructions">
+            ✦ Mova o mouse ou incline o celular para disparar os dados ✦
+        </div>
+    </section>
+
+    <!-- Script do Efeito -->
+    <script src="radar-phone-effect.js"></script>
+    <script>
+        // Inicialização do efeito com opções customizáveis
+        const effect = new RadarPhoneEffect({
+            canvas: 'radar-canvas',
+            brandTitle: 'go2apply',
+            accentColor: '#f28e13', // ou '242, 142, 18'
+            phoneBg: '#121810',
+            textColor: '#ffffff',
+            metrics: [
+                'pH: 6.4',
+                'Kow: 2.85',
+                'VMD: 230µm',
+                'Gotas: 215/cm²',
+                'Vazão: 110 L/ha',
+                'Calda: Estável',
+                'Deriva: Baixa',
+                'Pressão: 3.0 bar'
+            ]
+        });
+    </script>
+</body>
+</html>
