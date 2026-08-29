@@ -32,14 +32,37 @@ class ComponentLoader {
      */
     async fetchComponent(url) {
         try {
+            const isLocal = window.location.protocol === 'file:';
+
+            if (isLocal) {
+                return new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', url, true);
+                    xhr.onload = () => {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            resolve(xhr.responseText);
+                        } else {
+                            reject(new Error(`Status ${xhr.status}`));
+                        }
+                    };
+                    xhr.onerror = () => reject(new Error(`Falha ao carregar: ${url}`));
+                    xhr.onabort = () => reject(new Error(`Abortado: ${url}`));
+                    try {
+                        xhr.send();
+                    } catch (e) {
+                        reject(e);
+                    }
+                });
+            }
+
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Falha ao carregar componente: ${url} (Status ${response.status})`);
             }
             return await response.text();
         } catch (error) {
-            console.error(error);
-            return `<div class="component-error">Erro ao carregar: ${url}</div>`;
+            console.error('Component load error:', url, error);
+            return '';
         }
     }
 

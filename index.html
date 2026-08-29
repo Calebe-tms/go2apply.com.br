@@ -18,127 +18,10 @@
     <link rel="stylesheet" href="css/reset.css?v=1.1">
     <link rel="stylesheet" href="css/style.css?v=1.1">
 
-    <style>
-    #app-loader {
-        position: fixed;
-        inset: 0;
-        z-index: 99999;
-        background: #fefcf8;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 2rem;
-
-        /* Saída: fade + slide sutil */
-        transition:
-            opacity  0.7s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    #app-loader.is-hidden {
-        opacity: 0;
-        transform: translateY(-12px);
-        pointer-events: none;
-    }
-
-    /* Marca SVG centralizada */
-    .loader__logo {
-        width: clamp(80px, 12vw, 120px);
-        height: auto;
-        animation: loader-breathe 2.4s ease-in-out infinite;
-    }
-
-    @keyframes loader-breathe {
-        0%,100% { transform: scale(1);   opacity: 1;    }
-        50%      { transform: scale(1.06); opacity: 0.75; }
-    }
-
-    /* Barra de progresso real */
-    .loader__bar {
-        width: clamp(160px, 22vw, 220px);
-        height: 3px;
-        border-radius: 9999px;
-        background: rgba(23, 30, 20, 0.08);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .loader__bar-fill {
-        height: 100%;
-        width: 0%;
-        border-radius: inherit;
-        background: linear-gradient(
-            90deg,
-            #5b8c45,
-            #f28e13,
-            #5b8c45
-        );
-        background-size: 200% 100%;
-        animation: loader-shimmer 1.8s ease-in-out infinite;
-        transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes loader-shimmer {
-        0% { background-position: 200% 0; }
-        50% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
-    }
-
-    /* Status e Porcentagem Real */
-    .loader__status {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-family: -apple-system, 'Host Grotesk', sans-serif;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: rgba(23, 30, 20, 0.45);
-    }
-
-    .loader__percent {
-        font-variant-numeric: tabular-nums;
-        color: #5b8c45;
-        font-weight: 700;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .loader__logo { animation: none; }
-        .loader__bar-fill { transition: none; }
-        #app-loader { transition: opacity 300ms ease; }
-    }
-    </style>
 </head>
 
 <body>
 
-    <div id="app-loader" role="status" aria-label="Carregando go2apply">
-        <svg class="loader__logo"
-             viewBox="0 0 372.29108 437.58118"
-             xmlns="http://www.w3.org/2000/svg"
-             aria-hidden="true">
-            <g transform="translate(-437.16131,-1297.2478)">
-                <g transform="translate(-18.490797,1282.2478)">
-                    <path d="m 605.58,450.57 c 1.75,1.04 0.94,2.45 -1.08,1.88 -0.55,-0.16 -5.27,-1.47 -10.48,-2.92 -12.99,-3.61 -27.58,-9.6 -39.52,-16.21 -42.36,-23.46 -75.6,-63.38 -89.8,-107.82 -19.77,-61.89 -6.68,-129.06 34.75,-178.28 11.3,-13.43 60.81,-62 64.02,-62.8 8.68,-2.18 54.29,7.21 81.41,16.76 13.13,4.63 34.33,15.09 45.11,22.26 10.13,6.75 14.3,10.44 10.51,9.31 -1.1,-0.33 -4.73,-1.74 -8.06,-3.14 -17.87,-7.48 -45.93,-9.63 -67.22,-5.16 -19.09,4.02 -33.26,11.44 -45.78,23.98 -7.69,7.7 -9.75,10.51 -13.65,18.57 -4.98,10.27 -7.69,20.72 -8.06,31 l -0.23,6.5 19.17,0.27 19.16,0.27 0.53,-2.77 c 0.3,-1.52 0.83,-5.17 1.19,-8.09 1,-8.07 6.47,-18.06 13.43,-24.5 11.16,-10.33 23.76,-14.3 42.22,-13.31 12.88,0.69 21.22,3.23 28.4,8.64 10.19,7.65 14.9,18.1 14.9,33.01 0,8.75 -0.27,10.07 -3.29,16.2 -5.93,12.06 -21.08,22.63 -52.21,36.46 -47.38,21.05 -65.82,35.59 -77.95,61.48 -7.1,15.14 -10.18,38.78 -8.06,61.8 2.23,24.18 9.83,40.68 26.51,57.58 8.52,8.63 14.47,13.34 24.08,19.03 z"
-                          fill="#5b8c45"/>
-                    <path d="m 684.27,445.04 c -13.44,2.3 -35.41,2.53 -44.85,0.48 -25.99,-5.66 -49.04,-21.64 -58.64,-40.65 -2.05,-4.05 -4.01,-8.61 -4.36,-10.12 L 575.78,392 H 750 V 340 H 606.74 l 0.66,-4.08 c 1.09,-6.81 5.04,-13.13 12.84,-20.55 7.7,-7.3 15.31,-11.51 51.76,-28.6 23.56,-11.05 38.21,-20.98 51.37,-34.81 15.74,-16.54 22.52,-33.36 22.59,-56.08 0.03,-8.75 -0.41,-12.02 -2.52,-18.5 -5.05,-15.53 -13.88,-29.61 -27.4,-43.7 C 703.98,121.1 692.49,112.47 678,105.08 657.84,94.8 641.9,88.97 617.29,82.86 c -11.73,-2.91 -13.1,-3.5 -16.54,-7.06 -4.13,-4.28 -4.8,-7.91 -2.32,-12.6 1.82,-3.46 46.76,-48.2 48.41,-48.2 0.69,0 17.53,16.09 37.43,35.75 19.9,19.66 49.84,49.25 66.55,65.75 16.71,16.5 33.64,34.05 37.62,39 18.1,22.47 30.04,47.87 36.16,76.93 3.17,15.05 4.31,41.28 2.44,56.13 -1.34,10.67 -5.74,29.53 -9.08,38.94 -9.85,27.73 -25.71,51.35 -49.02,72.98 -27.84,25.83 -53.2,39.18 -84.67,44.56 z"
-                          fill="#f28e13"/>
-                </g>
-            </g>
-        </svg>
-
-        <div class="loader__bar" aria-hidden="true">
-            <div class="loader__bar-fill" id="loader-bar-fill"></div>
-        </div>
-
-        <div class="loader__status">
-            <span class="loader__label">go2apply</span>
-            <span class="loader__dot" style="opacity: 0.35;">•</span>
-            <span class="loader__percent" id="loader-percent">0%</span>
-        </div>
-    </div>
     <div data-component="components/header/header.html"></div>
     <main id="app-root">
         <div data-page="pages/home.html"></div>
@@ -146,90 +29,12 @@
     <div data-component="components/footer/footer.html"></div>
     <div data-component="components/whatsapp-float/whatsapp-float.html"></div>
 
-    <script src="js/component-loader.js"></script>
-    <script src="js/lazy-loader.js"></script>
-    <script src="js/main.js"></script>
-
     <script>
-    // Gerenciador de Progresso Real do Carregamento
-    (function () {
-        var loader = document.getElementById('app-loader');
-        var barFill = document.getElementById('loader-bar-fill');
-        var percentText = document.getElementById('loader-percent');
-        if (!loader || !barFill) return;
-
-        var currentPercent = 0;
-        var isDismissed = false;
-        var progressInterval = null;
-
-        function updateProgress(targetPercent) {
-            targetPercent = Math.max(0, Math.min(100, Math.round(targetPercent)));
-            if (targetPercent > currentPercent) {
-                currentPercent = targetPercent;
-                barFill.style.width = currentPercent + '%';
-                if (percentText) {
-                    percentText.textContent = currentPercent + '%';
-                }
-            }
-        }
-
-        function startContinuousProgress() {
-            if (progressInterval) clearInterval(progressInterval);
-            progressInterval = setInterval(() => {
-                if (currentPercent < 85 && !isDismissed) {
-                    var increment = Math.random() * (3 - 0.5) + 0.5;
-                    updateProgress(currentPercent + increment);
-                }
-            }, 400);
-        }
-
-        updateProgress(15);
-        startContinuousProgress();
-
-        window.addEventListener('loader:progress', function (e) {
-            if (e.detail && typeof e.detail.percentage === 'number') {
-                var progress = 15 + (e.detail.percentage * 0.70);
-                updateProgress(progress);
-            }
-        });
-
-        function dismiss() {
-            if (isDismissed) return;
-            isDismissed = true;
-            if (progressInterval) clearInterval(progressInterval);
-            updateProgress(100);
-
-            setTimeout(function () {
-                loader.classList.add('is-hidden');
-                loader.addEventListener('transitionend', function () {
-                    loader.remove();
-                }, { once: true });
-            }, 300);
-        }
-
-        window.addEventListener('components:ready', function () {
-            updateProgress(90);
-
-            var videoReady = false;
-            window.addEventListener('hero:first-video-ready', function () {
-                videoReady = true;
-                updateProgress(100);
-                setTimeout(dismiss, 180);
-            }, { once: true });
-
-            setTimeout(function () {
-                if (!videoReady) {
-                    updateProgress(100);
-                    setTimeout(dismiss, 180);
-                }
-            }, 3000);
-        }, { once: true });
-
-        setTimeout(function () {
-            dismiss();
-        }, 5000);
-
-    })();
+if (window.location.protocol === 'file:') {
+  document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#1a1e14;color:#fefcf8;font-family:system-ui,sans-serif;text-align:center;padding:2rem"><div><h1 style="margin:0 0 1rem;font-size:1.5rem">⚠️ Servidor Necessário</h1><p style="margin:0;opacity:0.8;max-width:400px">Este site requer um servidor HTTP local para funcionar corretamente.<br><br>Use: <code style="background:rgba(255,255,255,0.1);padding:0.5rem;border-radius:4px;display:inline-block;margin:1rem 0">python -m http.server 8000</code><br>Depois visite: <a href="http://localhost:8000" style="color:#f28e13;text-decoration:none">http://localhost:8000</a></p></div></div>';
+} else {
+  class ComponentLoader{constructor(){this.loadedStyles=new Set(),this.totalComponents=0,this.loadedComponents=0}emitProgress(){const t=Math.max(1,this.totalComponents),e=Math.min(100,Math.round(this.loadedComponents/t*100));window.dispatchEvent(new CustomEvent("loader:progress",{detail:{loaded:this.loadedComponents,total:this.totalComponents,percentage:e}}))}async fetchComponent(t){try{const e=await fetch(t);if(!e.ok)throw new Error(`Falha ao carregar componente: ${t} (Status ${e.status})`);return await e.text()}catch(e){return console.error("Component load error:",t,e),""}}async mountElement(t){const e=t.getAttribute("data-component")||t.getAttribute("data-page");if(!e)return;const n=await this.fetchComponent(e),o=new DOMParser,i=o.parseFromString(n,"text/html");i.querySelectorAll("style").forEach((t=>{const n=`style-${e.replace(/[^a-zA-Z0-9]/g,"-")}`;if(!this.loadedStyles.has(n)){const o=document.createElement("style");o.id=n,o.textContent=t.textContent,document.head.appendChild(o),this.loadedStyles.add(n)}t.remove()}));const s=[];i.querySelectorAll("script").forEach((t=>{s.push(t.textContent),t.remove()})),t.innerHTML=i.body.innerHTML,t.removeAttribute("data-component"),t.removeAttribute("data-page"),t.classList.add("component-mounted"),s.forEach((t=>{try{(new Function(t))()}catch(e){console.error(`Erro ao executar script do componente (${e}):`,e)}})),this.loadedComponents++,this.emitProgress(),await this.loadAll(t)}async loadAll(t=document){const e=Array.from(t.querySelectorAll("[data-component], [data-page]"));if(0===e.length)return;this.totalComponents+=e.length,this.emitProgress();const n=window.innerWidth<=600;if(n)for(const t of e)await this.mountElement(t),await new Promise((t=>setTimeout(t,0)));else await Promise.all(e.map((t=>this.mountElement(t))))}async init(){await this.loadAll(document),this.loadedComponents=Math.max(this.loadedComponents,this.totalComponents),this.emitProgress(),window.dispatchEvent(new CustomEvent("components:ready"))}}window.componentLoader=new ComponentLoader,"loading"===document.readyState?document.addEventListener("DOMContentLoaded",(()=>window.componentLoader.init())):window.componentLoader.init();
+}
     </script>
 </body>
 
