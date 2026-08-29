@@ -34,14 +34,19 @@ Este documento descreve a arquitetura do projeto **go2apply**, baseada no princ�
 go2apply.com.br/
 │
 ├── .context/
-│   └── ARCHITECTURE.md                 # Este documento de referência
+│   ├── ARCHITECTURE.md                 # Este documento de referência
+│   ├── DESIGN_SYSTEM.md                # Diretrizes de design tokens e UI
+│   └── FORMULARIO_CADASTRO_UX.md       # Especificações do fluxo de autenticação e Drawer
 │
 ├── css/
 │   ├── tokens.css                      # Design Tokens em variáveis CSS (:root)
 │   ├── reset.css                       # Resets essenciais, fontes e scroll suave
 │   └── style.css                       # Ponto de entrada CSS unificado
 │
-├── components/                         # Pastas de componentes divididas por seção/página
+├── components/                         # Componentes modulares SFC
+│   │
+│   ├── auth/                           # [Drawer de Autenticação / Cadastro]
+│   │   └── form-auth-drawer.html       # Painel lateral flutuante (Criar Conta / Login)
 │   │
 │   ├── header/                         # [Componentes do Cabeçalho Global]
 │   │   ├── header.html                 # Shell do Header (Grid 3 colunas, scroll e glassmorphism)
@@ -55,36 +60,7 @@ go2apply.com.br/
 │   │   ├── hero-cta.html               # Logo e título institucional com destaque
 │   │   ├── hero-btn-cta.html           # Botão principal de chamada para ação (CTA)
 │   │   ├── hero-scroll-indicator.html  # Indicador animado de rolagem
-│   │   ├── hero-whatsapp.html          # Balão do WhatsApp alinhado ao mini celular com física de inércia
 │   │   └── hero-ticker.html            # Barra técnica deslizante no rodapé do Hero
-│   │
-│   ├── solutions/                      # [Showcase interativo de soluções — App Store Morph]
-│   │   └── solutions-showcase.html     # Lista de soluções que expande para tablet com vídeo/imagem
-│   │
-│   ├── problem/                        # [Seção Problema — funil de dor/contexto]
-│   │   └── problem.html                # Lista de causas de perda + frase de impacto
-│   │
-│   ├── differentials/                  # [Componentes de Diferenciais]
-│   │   ├── differentials-header.html   # Badge, título e subtítulo
-│   │   └── differentials-grid.html     # Cards de diferenciais com ícones e hover
-│   │
-│   ├── authority/                      # [Seção Autoridade — +10 anos de pesquisa]
-│   │   └── authority.html              # Texto institucional + stats numéricos
-│   │
-│   ├── how-it-works/                   # [Seção Como Funciona]
-│   │   └── how-it-works.html           # 4 passos numerados (escolher → decidir)
-│   │
-│   ├── transformation/                 # [Seção Antes x Depois]
-│   │   └── transformation.html         # Comparativo de duas colunas (sem/com Go2Apply)
-│   │
-│   ├── plans/                          # [Seção Planos / Oferta]
-│   │   └── plans.html                  # Card único de oferta, preço em placeholder
-│   │
-│   ├── faq/                            # [Seção Perguntas Frequentes]
-│   │   └── faq.html                    # Accordion com respostas objetivas
-│   │
-│   ├── cta-final/                      # [Seção CTA Final]
-│   │   └── cta-final.html              # Headline de fechamento + CTA
 │   │
 │   ├── footer/                         # [Componente Global: Footer]
 │   │   └── footer.html                 # Logo, navegação, redes sociais e encerramento
@@ -92,19 +68,12 @@ go2apply.com.br/
 │   └── whatsapp-float/                 # [Componente Global: Botão Flutuante do WhatsApp]
 │       └── whatsapp-float.html         # Botão fixo a 42px com borda laranja do DS e persistência global
 │
-├── pages/                              # Páginas completas (uma por seção, compostas no index.html)
-│   ├── home.html                       # Hero (hero-bg + hero-content) + Soluções
-│   ├── problem.html
-│   ├── differentials.html
-│   ├── authority.html
-│   ├── how-it-works.html
-│   ├── transformation.html
-│   ├── plans.html
-│   ├── faq.html
-│   └── cta-final.html
+├── pages/                              # Páginas do sistema
+│   └── home.html                       # Hero orquestrador
 │
 ├── js/
 │   ├── component-loader.js             # Motor nativo que busca, injeta e executa componentes
+│   ├── lazy-loader.js                  # Carregador assíncrono sob demanda
 │   └── main.js                         # Ponto de entrada JavaScript
 │
 └── index.html                          # Shell da aplicação (SEO, Meta Tags, Fontes e Layout)
