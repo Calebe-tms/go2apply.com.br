@@ -111,8 +111,21 @@ class ComponentLoader {
         this.totalComponents += targets.length;
         this.emitProgress();
 
-        // Monta todos os componentes em paralelo
-        await Promise.all(targets.map(el => this.mountElement(el)));
+        // Mobile: carrega em série para melhor performance
+        // Desktop: carrega em paralelo para velocidade
+        const isMobile = window.innerWidth <= 600;
+
+        if (isMobile) {
+            // Série: permite que o navegador respire entre componentes
+            for (const el of targets) {
+                await this.mountElement(el);
+                // Yield para permitir que o browser renderize
+                await new Promise(r => setTimeout(r, 0));
+            }
+        } else {
+            // Paralelo: desktop pode aproveitar múltiplas conexões
+            await Promise.all(targets.map(el => this.mountElement(el)));
+        }
     }
 
     /**

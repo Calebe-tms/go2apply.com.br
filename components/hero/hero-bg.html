@@ -66,13 +66,9 @@
 <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
 
 <script>
-    const HERO_VIDEOS = [
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863807/13678744_1920_1080_60fps.mp4',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863806/7542596-uhd_3840_2160_30fps.mp4'
-    ];
-
-    // Cores e fontes do radar/mini-celular: valores exatos já usados no canvas
-    // (RADAR_ACCENT_RGB difere em 1 unidade de --color-orange-rgb por já estar assim hoje)
+    // Constantes de configuração (definidas primeiro)
+    const MOBILE_BREAKPOINT = 600;
+    const MAX_DPR = 2;
     const RADAR_ACCENT_RGB = '242, 142, 18';
     const PHONE_BG_RGB = '18, 24, 16';
     const RADAR_WHITE_RGB = '255, 255, 255';
@@ -82,8 +78,27 @@
     const PHONE_FONT_FOOTER = '500 6.5px "Host Grotesk", sans-serif';
     const FIELD_MARKER_FONT = '600 10.5px "Host Grotesk", sans-serif';
 
-    const MOBILE_BREAKPOINT = 600;
-    const MAX_DPR = 2;
+    // Otimiza URLs de vídeo baseado no viewport e device pixel ratio
+    const getOptimizedVideoUrl = (baseUrl) => {
+        isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+        const dpr = window.devicePixelRatio || 1;
+
+        if (isMobile) {
+            // Mobile: 480p, qualidade reduzida (60%), auto format
+            return baseUrl.replace('/upload/', '/upload/w_720,q_60,f_auto/');
+        } else if (dpr > 1.5) {
+            // Tablet/Desktop com DPR alto: 1080p, qualidade 75%
+            return baseUrl.replace('/upload/', '/upload/w_1920,q_75,f_auto/');
+        } else {
+            // Desktop padrão: 1080p, qualidade 80%
+            return baseUrl.replace('/upload/', '/upload/w_1920,q_80,f_auto/');
+        }
+    };
+
+    const HERO_VIDEOS = [
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863807/13678744_1920_1080_60fps.mp4',
+        'https://res.cloudinary.com/vdgkx5jc/video/upload/f_auto,q_auto/v1787863806/7542596-uhd_3840_2160_30fps.mp4'
+    ];
     const RADAR_RING_FRACTIONS = [0.12, 0.25, 0.40, 0.58, 0.76, 0.94, 1.0];
     const RADAR_ROTATION_SPEED = 0.0038;
     const RADAR_PULSE_SPEED = 0.0008;
@@ -95,6 +110,11 @@
     const POINTER_IDLE_MS = 1000;
     const POINTER_LINK_MIN_DISTANCE = 70;
     const PHONE_GLOW_DECAY = 0.02;
+
+    // Variável global para rastrear se é mobile (reutilizada em múltiplas funções)
+    let isMobile = false;
+
+    // --- FUNÇÕES DO CARROSSEL E RADAR ---
 
     // --- 1. Carrossel de Vídeos Nativo HTML5 Resiliente em Loop Infinito ---
     function initVideoCarousel() {
@@ -133,7 +153,7 @@
                 actVideo = inactVideo;
                 inactVideo = temp;
 
-                inactVideo.src = HERO_VIDEOS[nxtIdx];
+                inactVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[nxtIdx]);
                 inactVideo.load();
 
                 inTransition = false;
@@ -189,7 +209,7 @@
         const onVidError = () => {
             inTransition = false;
             nxtIdx = (nxtIdx + 1) % HERO_VIDEOS.length;
-            inactVideo.src = HERO_VIDEOS[nxtIdx];
+            inactVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[nxtIdx]);
             inactVideo.load();
         };
 
@@ -198,13 +218,13 @@
             v.addEventListener('canplay', notifyFirstFrame);
         });
 
-        // Configuração inicial do primeiro vídeo
-        actVideo.src = HERO_VIDEOS[currentIdx];
+        // Configuração inicial do primeiro vídeo (com otimização de resolução)
+        actVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[currentIdx]);
         actVideo.load();
         actVideo.play().catch(e => console.warn('Autoplay video 1:', e));
 
-        // Pré-carrega o próximo vídeo no buffer
-        inactVideo.src = HERO_VIDEOS[nxtIdx];
+        // Pré-carrega o próximo vídeo no buffer (com otimização)
+        inactVideo.src = getOptimizedVideoUrl(HERO_VIDEOS[nxtIdx]);
         inactVideo.load();
 
         vid1.addEventListener('timeupdate', onProgress);
@@ -232,6 +252,7 @@
         let height = 0;
         let dpr = window.devicePixelRatio || 1;
         let animationFrameId = null;
+        let isCanvasVisible = true; // Renderiza apenas quando visível
 
         const mouse = {
             x: null,
@@ -287,7 +308,10 @@
             const totalDocHeight = Math.max(document.documentElement.scrollHeight || 0, document.body.scrollHeight || 0, window.innerHeight * 2.5);
 
             height = totalDocHeight;
-            dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+            isMobile = width <= MOBILE_BREAKPOINT;
+            // Em mobile: usar DPR 1 (economiza CPU/bateria)
+            // Em desktop: usar até 2x
+            dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, MAX_DPR);
 
             canvas.style.width = width + 'px';
             canvas.style.height = height + 'px';
@@ -295,7 +319,6 @@
             canvas.height = height * dpr;
             ctx.scale(dpr, dpr);
 
-            const isMobile = width <= MOBILE_BREAKPOINT;
             if (isMobile) {
                 // Dimensões compactas e posicionamento simétrico próximo à borda e mais alto
                 phoneDim = { width: 44, height: 78, radius: 7 };
@@ -563,8 +586,12 @@
             ctx.beginPath();
             ctx.arc(item.x, item.y, 2.4, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.95 * currentAlpha})`;
-            ctx.shadowColor = `rgba(${RADAR_ACCENT_RGB}, 0.7)`;
-            ctx.shadowBlur = 6;
+
+            // Shadows desabilitadas em mobile (economiza CPU)
+            if (!isMobile) {
+                ctx.shadowColor = `rgba(${RADAR_ACCENT_RGB}, 0.7)`;
+                ctx.shadowBlur = 6;
+            }
             ctx.fill();
 
             ctx.beginPath();
@@ -582,8 +609,12 @@
 
             ctx.font = FIELD_MARKER_FONT;
             ctx.fillStyle = `rgba(${RADAR_WHITE_RGB}, ${0.9 * currentAlpha})`;
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-            ctx.shadowBlur = 4;
+
+            // Shadows desabilitadas em mobile (economiza CPU)
+            if (!isMobile) {
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                ctx.shadowBlur = 4;
+            }
             ctx.fillText(item.text, item.x + 16, item.y + 3.5);
             ctx.restore();
         }
@@ -605,6 +636,12 @@
         }
 
         function draw() {
+            // Só renderiza se canvas está visível no viewport
+            if (!isCanvasVisible) {
+                animationFrameId = requestAnimationFrame(draw);
+                return;
+            }
+
             ctx.clearRect(0, 0, width, height);
             updatePointerLerp();
             updateGlowState();
@@ -690,6 +727,17 @@
         window.addEventListener('resize', resizeCanvas, { passive: true });
         window.addEventListener('components:ready', resizeCanvas, { passive: true });
         window.addEventListener('load', resizeCanvas, { passive: true });
+
+        // IntersectionObserver: só renderiza canvas quando visível (economiza bateria)
+        const canvasObserver = new IntersectionObserver((entries) => {
+            isCanvasVisible = entries[0].isIntersecting;
+            if (isCanvasVisible && !animationFrameId) {
+                // Retoma renderização quando voltar ao viewport
+                animationFrameId = requestAnimationFrame(draw);
+            }
+        }, { threshold: 0.1 });
+        canvasObserver.observe(canvas);
+
         resizeCanvas();
         draw();
     }
