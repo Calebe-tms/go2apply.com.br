@@ -23,28 +23,12 @@
         z-index: 2;
     }
 
-    /* Scanlines overlay - CRT aesthetic */
     .hero-overlay {
         position: absolute;
         inset: 0;
         z-index: 3;
         pointer-events: none;
-        background-image: repeating-linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.15) 0px,
-            rgba(0, 0, 0, 0.15) 1px,
-            transparent 1px,
-            transparent 2px
-        );
-        background:
-            repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15) 0px,
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            ),
-            var(--hero-overlay-gradient);
+        background: var(--hero-overlay-gradient);
     }
 </style>
 
