@@ -185,17 +185,11 @@
         }
     });
 
-    const checkHeaderCtaFlow = () => {
-        if (!headerCta) return;
-        const heroCta = document.getElementById('btn-cta') || document.getElementById('hero-btn-cta');
-        if (heroCta) {
-            const rect = heroCta.getBoundingClientRect();
-            const heroCtaOnScreen = rect.bottom > 0 && rect.top < window.innerHeight;
-            headerCta.classList.toggle('is-visible', !heroCtaOnScreen);
-        }
-    };
-
-    window.addEventListener('scroll', checkHeaderCtaFlow, { passive: true });
-    window.addEventListener('components:ready', checkHeaderCtaFlow);
-    setTimeout(checkHeaderCtaFlow, 400);
+    // O próprio componente do CTA da Hero avisa quando entra/sai de tela
+    // (evita que este componente dependa de um id específico de outra seção)
+    if (headerCta) {
+        window.addEventListener('btn-cta:visibility-change', (e) => {
+            headerCta.classList.toggle('is-visible', !e.detail.isOnScreen);
+        });
+    }
 </script>

@@ -132,7 +132,11 @@
         let scrollVelocity = 0;
         let currentOffset = 0;
         let isDetached = false;
+        let rafId = null;
         const DETACH_THRESHOLD = 90;
+        // Mesmo breakpoint do CSS: o botão é display:none no mobile, então a
+        // animação nem precisa rodar (evita gastar CPU/bateria à toa)
+        const hiddenOnMobileQuery = window.matchMedia('(max-width: 600px)');
 
         function updateMagneticDock() {
             const scrollY = window.scrollY || 0;
@@ -166,9 +170,21 @@
             currentOffset += (baseFloat + Math.max(-maxClamp, Math.min(maxClamp, -scrollVelocity)) - currentOffset) * (isMobile ? 0.06 : 0.1);
             container.style.transform = `translate3d(0, ${currentOffset.toFixed(2)}px, 0)`;
 
-            requestAnimationFrame(updateMagneticDock);
+            rafId = requestAnimationFrame(updateMagneticDock);
         }
 
-        requestAnimationFrame(updateMagneticDock);
+        function startLoop() {
+            if (rafId === null) rafId = requestAnimationFrame(updateMagneticDock);
+        }
+
+        function stopLoop() {
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+        }
+
+        hiddenOnMobileQuery.addEventListener('change', (e) => e.matches ? stopLoop() : startLoop());
+        if (!hiddenOnMobileQuery.matches) startLoop();
     })();
 </script>

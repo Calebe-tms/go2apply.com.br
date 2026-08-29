@@ -69,8 +69,9 @@
     // Constantes de configuração
     const MOBILE_BREAKPOINT = 600;
     const MAX_DPR = 2;
-    const RADAR_ACCENT_RGB = '242, 142, 18';
-    const PHONE_BG_RGB = '18, 24, 16';
+    const rootStyles = getComputedStyle(document.documentElement);
+    const RADAR_ACCENT_RGB = rootStyles.getPropertyValue('--color-orange-rgb').trim();
+    const PHONE_BG_RGB = rootStyles.getPropertyValue('--color-dark-surface-rgb').trim();
     const RADAR_WHITE_RGB = '255, 255, 255';
     const PHONE_FONT_TITLE = '700 7.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     const PHONE_FONT_LABEL = '500 7px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
@@ -121,6 +122,10 @@
         const notifyFirstFrame = () => {
             if (firstFrameFired) return;
             firstFrameFired = true;
+            // Só começa a baixar o segundo vídeo depois que o primeiro já está
+            // tocando, evitando que os dois disputem banda no carregamento inicial
+            vid2.src = getOptimizedVideoUrl(HERO_VIDEOS[1]);
+            vid2.load();
             window.dispatchEvent(new CustomEvent('hero:first-video-ready'));
         };
 
@@ -144,9 +149,6 @@
         vid1.src = getOptimizedVideoUrl(HERO_VIDEOS[0]);
         vid1.load();
         vid1.play().catch(e => console.warn('Autoplay video 1:', e));
-
-        vid2.src = getOptimizedVideoUrl(HERO_VIDEOS[1]);
-        vid2.load();
 
         const heroSection = document.getElementById('hero') || document.getElementById('home');
         if (heroSection) {
@@ -744,13 +746,17 @@
         window.addEventListener('components:ready', resizeCanvas, { passive: true });
         window.addEventListener('load', resizeCanvas, { passive: true });
 
+        // Observa a seção da Hero (não o canvas, que cobre a altura inteira do
+        // documento) para o loop de animação parar assim que o usuário rolar
+        // para além da Hero, em vez de continuar rodando pelo resto da página
+        const observedSection = document.getElementById('hero') || document.getElementById('home') || canvas;
         const canvasObserver = new IntersectionObserver((entries) => {
             isCanvasVisible = entries[0].isIntersecting;
             if (isCanvasVisible && !animationFrameId) {
                 animationFrameId = requestAnimationFrame(draw);
             }
         }, { threshold: 0.1 });
-        canvasObserver.observe(canvas);
+        canvasObserver.observe(observedSection);
 
         resizeCanvas();
         draw();
