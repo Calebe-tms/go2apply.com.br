@@ -11,6 +11,18 @@
     color: var(--color-orange);
 }
 
+/* Base compartilhada dos botões CTA (header e hero) */
+.cta-btn-base {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-white);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-main);
+    font-weight: 600;
+    border: 1.2px solid var(--color-orange);
+}
+
 .container {
     max-width: 1400px;
     margin: 0 auto;

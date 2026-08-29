@@ -86,6 +86,19 @@ priority: CRITICAL
 
 ---
 
+## Magic Numbers Exception: Animation & Motion
+
+Raw numeric literals are **allowed** for animation/transition values in CSS and JS — no named constant required for:
+- Durations, delays, easings (`0.4s`, `cubic-bezier(...)`)
+- Transform deltas: translate/scale/rotate amounts
+- Opacity / alpha / transparency values
+
+**Never allowed as raw literals, even inside animation code:**
+- **Colors** — always use design tokens/CSS variables, never hardcoded hex/rgb.
+- **Font sizes** — always use the typography scale/tokens, never a raw px/rem value.
+
+---
+
 ## 🔴 Before Editing ANY File (THINK FIRST!)
 
 **Before changing a file, ask yourself:**

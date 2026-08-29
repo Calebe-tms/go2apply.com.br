@@ -50,16 +50,51 @@ go2apply.com.br/
 │   │   └── btn-cta.html                # Botão de CTA ("Conheça a Ferramenta")
 │   │
 │   ├── hero/                           # [Componentes da Home / Hero]
-│   │   ├── hero-bg.html                # Carrossel de vídeo contínuo em camadas sem telas pretas
-│   │   └── hero-content.html           # Logo, títulos destacados e rodapé institucional
+│   │   ├── hero-bg.html                # Carrossel de vídeo contínuo + radar canvas interativo
+│   │   ├── hero-content.html           # Logo, títulos destacados e CTA principal
+│   │   └── hero-ticker.html            # Barra técnica deslizante no rodapé do Hero
 │   │
-│   └── differentials/                  # [Componentes de Diferenciais]
-│       ├── differentials-header.html   # Badge, título e subtítulo
-│       └── differentials-grid.html     # Cards de diferenciais com ícones e hover
+│   ├── solutions/                      # [Showcase interativo de soluções — App Store Morph]
+│   │   └── solutions-showcase.html     # Lista de soluções que expande para tablet com vídeo/imagem
+│   │
+│   ├── problem/                        # [Seção Problema — funil de dor/contexto]
+│   │   └── problem.html                # Lista de causas de perda + frase de impacto
+│   │
+│   ├── differentials/                  # [Componentes de Diferenciais]
+│   │   ├── differentials-header.html   # Badge, título e subtítulo
+│   │   └── differentials-grid.html     # Cards de diferenciais com ícones e hover
+│   │
+│   ├── authority/                      # [Seção Autoridade — +10 anos de pesquisa]
+│   │   └── authority.html              # Texto institucional + stats numéricos
+│   │
+│   ├── how-it-works/                   # [Seção Como Funciona]
+│   │   └── how-it-works.html           # 4 passos numerados (escolher → decidir)
+│   │
+│   ├── transformation/                 # [Seção Antes x Depois]
+│   │   └── transformation.html         # Comparativo de duas colunas (sem/com Go2Apply)
+│   │
+│   ├── plans/                          # [Seção Planos / Oferta]
+│   │   └── plans.html                  # Card único de oferta, preço em placeholder
+│   │
+│   ├── faq/                            # [Seção Perguntas Frequentes]
+│   │   └── faq.html                    # Accordion com respostas objetivas
+│   │
+│   ├── cta-final/                      # [Seção CTA Final]
+│   │   └── cta-final.html              # Headline de fechamento + CTA
+│   │
+│   └── footer/                         # [Componente Global: Footer]
+│       └── footer.html                 # Logo, navegação, redes sociais e encerramento
 │
-├── pages/                              # Páginas completas
-│   ├── home.html                       # Página inicial (compondo hero-bg + hero-content)
-│   └── differentials.html              # Página diferenciais (compondo header + grid)
+├── pages/                              # Páginas completas (uma por seção, compostas no index.html)
+│   ├── home.html                       # Hero (hero-bg + hero-content) + Soluções
+│   ├── problem.html
+│   ├── differentials.html
+│   ├── authority.html
+│   ├── how-it-works.html
+│   ├── transformation.html
+│   ├── plans.html
+│   ├── faq.html
+│   └── cta-final.html
 │
 ├── js/
 │   ├── component-loader.js             # Motor nativo que busca, injeta e executa componentes
@@ -67,6 +102,15 @@ go2apply.com.br/
 │
 └── index.html                          # Shell da aplicação (SEO, Meta Tags, Fontes e Layout)
 ```
+
+### Ordem das seções na Landing Page
+
+Header → Hero → Soluções (morph interativo) → Problema → Diferenciais → Autoridade →
+Como Funciona → Transformação (Antes x Depois) → Planos → FAQ → CTA Final → Footer.
+
+A seção "Demonstração da plataforma" prevista no briefing original foi absorvida pelo
+componente `solutions/solutions-showcase.html`, que já demonstra a ferramenta com
+screenshots reais em um mockup de tablet — por isso não existe uma seção separada com esse nome.
 
 ---
 

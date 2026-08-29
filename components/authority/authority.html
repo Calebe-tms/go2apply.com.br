@@ -1,0 +1,163 @@
+<!-- ==========================================================================
+   Component: Authority Section
+   Texto institucional + destaques numéricos (+10 anos, +400 ativos, etc.)
+   ========================================================================== -->
+<style>
+    .authority {
+        position: relative;
+        padding: var(--space-2xl) 2rem;
+        background: var(--color-white);
+    }
+
+    .authority__inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .authority__badge {
+        display: inline-block;
+        color: var(--color-green);
+        font-size: var(--font-size-xs);
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: var(--space-sm);
+        padding: 0.35rem 1rem;
+        background: var(--color-green-subtle);
+        border: 1px solid rgba(var(--color-green-rgb), 0.25);
+        border-radius: var(--radius-full);
+    }
+
+    .authority__title {
+        font-size: clamp(1.9rem, 3vw, 2.6rem);
+        color: var(--color-dark);
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.5px;
+        max-width: 820px;
+        margin: 0 auto var(--space-md) auto;
+    }
+
+    .authority__text {
+        color: rgba(var(--color-dark-rgb), 0.68);
+        font-size: var(--font-size-base);
+        line-height: 1.7;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .authority__stats {
+        margin-top: var(--space-2xl);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-lg);
+    }
+
+    .authority__stat {
+        padding: var(--space-lg) var(--space-md);
+        border: 1px solid rgba(var(--color-dark-rgb), 0.08);
+        border-radius: var(--radius-lg);
+        background: rgba(var(--color-dark-rgb), 0.02);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                    border-color 0.3s ease;
+    }
+
+    .authority.in-view .authority__stat {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .authority.in-view .authority__stat:nth-child(2) { transition-delay: 0.08s; }
+    .authority.in-view .authority__stat:nth-child(3) { transition-delay: 0.16s; }
+    .authority.in-view .authority__stat:nth-child(4) { transition-delay: 0.24s; }
+
+    .authority__stat:hover {
+        border-color: rgba(var(--color-orange-rgb), 0.3);
+    }
+
+    .authority__stat-number {
+        display: block;
+        font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+        font-weight: 700;
+        color: var(--color-orange);
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+    }
+
+    .authority__stat-label {
+        display: block;
+        font-size: var(--font-size-sm);
+        color: rgba(var(--color-dark-rgb), 0.65);
+        line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+        .authority__stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .authority {
+            padding: var(--space-xl) 1.25rem;
+        }
+
+        .authority__stats {
+            grid-template-columns: 1fr;
+            gap: var(--space-md);
+        }
+    }
+</style>
+
+<section id="autoridade" class="authority">
+    <div class="authority__inner">
+        <span class="authority__badge">CONHECIMENTO TÉCNICO</span>
+        <h2 class="authority__title">Não é apenas um software. É conhecimento técnico aplicado à pulverização.</h2>
+        <p class="authority__text">
+            Mais de 10 anos de pesquisa e conhecimento técnico transformados em ferramentas para apoiar suas decisões de aplicação.
+            O Go2Apply reúne conhecimento especializado e recursos práticos para ajudar profissionais do campo a analisar,
+            calcular, avaliar e tomar decisões com mais segurança.
+        </p>
+
+        <div class="authority__stats">
+            <div class="authority__stat">
+                <span class="authority__stat-number">+10 anos</span>
+                <span class="authority__stat-label">de pesquisa técnica</span>
+            </div>
+            <div class="authority__stat">
+                <span class="authority__stat-number">+400</span>
+                <span class="authority__stat-label">ingredientes ativos na base de conhecimento</span>
+            </div>
+            <div class="authority__stat">
+                <span class="authority__stat-number">Múltiplas</span>
+                <span class="authority__stat-label">ferramentas para diferentes etapas da pulverização</span>
+            </div>
+            <div class="authority__stat">
+                <span class="authority__stat-number">Suporte</span>
+                <span class="authority__stat-label">técnico especializado</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        var el = document.getElementById('autoridade');
+        if (!el || typeof IntersectionObserver === 'undefined') return;
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    el.classList.add('in-view');
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        observer.observe(el);
+    })();
+</script>

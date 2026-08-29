@@ -1,0 +1,74 @@
+<!-- ==========================================================================
+   Component: Hero Scroll Indicator
+   Botão circular centralizado que convida a rolar, sempre acima do ticker
+   ========================================================================== -->
+<style>
+    .hero-scroll-cta {
+        position: absolute;
+        left: 50%;
+        bottom: var(--space-xl);
+        z-index: 20;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: var(--radius-full);
+        border: 1.5px solid var(--color-border-subtle);
+        background-color: rgba(var(--color-dark-surface-rgb), 0.4);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        color: var(--color-white-muted);
+        text-decoration: none;
+        cursor: pointer;
+        pointer-events: auto;
+        opacity: 0;
+        transform: translateX(-50%);
+        transition: var(--transition-smooth);
+        animation: heroScrollFadeIn 1.2s ease 1s forwards,
+                   heroScrollBreathe 2.6s ease-in-out 1s infinite;
+    }
+
+    .hero-scroll-cta:hover {
+        color: var(--color-orange);
+        border-color: var(--color-orange);
+        background-color: var(--color-orange-subtle);
+        box-shadow: 0 0 18px var(--color-orange-glow);
+        animation-play-state: paused;
+        transform: translateX(-50%) translateY(-3px);
+    }
+
+    .hero-scroll-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    @keyframes heroScrollFadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes heroScrollBreathe {
+
+        0%,
+        100% {
+            transform: translateX(-50%) scale(1);
+        }
+
+        50% {
+            transform: translateX(-50%) scale(1.08);
+        }
+    }
+</style>
+
+<a href="#solucoes" class="hero-scroll-cta" aria-label="Rolar para ver soluções">
+    <svg class="hero-scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+</a>

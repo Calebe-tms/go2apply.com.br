@@ -9,11 +9,11 @@
         left: 0;
         width: 100%;
         z-index: 25;
-        background: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.88);
+        background: rgba(var(--color-dark-surface-rgb), 0.88);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
-        border-top: 1px solid var(--color-border-subtle, rgba(254, 252, 248, 0.12));
-        border-bottom: 1px solid var(--color-border, rgba(254, 252, 248, 0.06));
+        border-top: 1px solid var(--color-border-subtle);
+        border-bottom: 1px solid var(--color-border);
         overflow: hidden;
         user-select: none;
         padding: 0.65rem 0;
@@ -47,7 +47,7 @@
         font-weight: 500;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: var(--color-white, #fefcf8);
+        color: var(--color-white);
         opacity: 0.88;
         white-space: nowrap;
         transition: opacity 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
@@ -60,41 +60,41 @@
 
     /* Cores das 3 Soluções Oficiais do DS */
     .ticker-item.t-caldas {
-        color: var(--color-caldas-light, #168653);
+        color: var(--color-caldas-light);
     }
     .ticker-item.t-caldas:hover {
-        text-shadow: 0 0 12px var(--color-caldas-glow, rgba(14, 96, 59, 0.6));
+        text-shadow: 0 0 12px var(--color-caldas-glow);
     }
 
     .ticker-item.t-kow {
-        color: var(--color-kow-light, #03a9be);
+        color: var(--color-kow-light);
     }
     .ticker-item.t-kow:hover {
-        text-shadow: 0 0 12px var(--color-kow-glow, rgba(2, 138, 155, 0.6));
+        text-shadow: 0 0 12px var(--color-kow-glow);
     }
 
     .ticker-item.t-pulver {
-        color: var(--color-pulver-light, #f5c43d);
+        color: var(--color-pulver-light);
     }
     .ticker-item.t-pulver:hover {
-        text-shadow: 0 0 12px var(--color-pulver-glow, rgba(238, 179, 25, 0.6));
+        text-shadow: 0 0 12px var(--color-pulver-glow);
     }
 
     .ticker-item.t-brand {
-        color: var(--color-orange, #f28e13);
+        color: var(--color-orange);
     }
     .ticker-item.t-brand:hover {
-        text-shadow: 0 0 12px var(--color-orange-glow, rgba(242, 142, 19, 0.6));
+        text-shadow: 0 0 12px var(--color-orange-glow);
     }
 
     .ticker-separator {
         display: inline-block;
-        color: var(--color-orange, #f28e13);
+        color: var(--color-orange);
         margin: 0 1.8rem;
         font-weight: 700;
         font-size: 0.85rem;
         opacity: 0.65;
-        text-shadow: 0 0 8px var(--color-orange-glow, rgba(242, 142, 19, 0.4));
+        text-shadow: 0 0 8px var(--color-orange-glow);
     }
 
     @keyframes hero-ticker-scroll {

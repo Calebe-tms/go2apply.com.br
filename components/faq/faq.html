@@ -1,0 +1,233 @@
+<!-- ==========================================================================
+   Component: FAQ Section
+   Accordion com perguntas frequentes, respostas objetivas e sem invenções
+   ========================================================================== -->
+<style>
+    .faq {
+        position: relative;
+        padding: var(--space-2xl) 2rem;
+        background: rgba(var(--color-dark-rgb), 0.02);
+        border-top: 1px solid rgba(var(--color-dark-rgb), 0.06);
+    }
+
+    .faq__header {
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto var(--space-xl) auto;
+    }
+
+    .faq__badge {
+        display: inline-block;
+        color: var(--color-green);
+        font-size: var(--font-size-xs);
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: var(--space-sm);
+        padding: 0.35rem 1rem;
+        background: var(--color-green-subtle);
+        border: 1px solid rgba(var(--color-green-rgb), 0.25);
+        border-radius: var(--radius-full);
+    }
+
+    .faq__title {
+        font-size: clamp(2rem, 3vw, 2.8rem);
+        color: var(--color-dark);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .faq__list {
+        max-width: 780px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .faq__item {
+        border: 1px solid rgba(var(--color-dark-rgb), 0.1);
+        border-radius: var(--radius-md);
+        background: var(--color-white);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+    }
+
+    .faq__item.open {
+        border-color: rgba(var(--color-orange-rgb), 0.35);
+    }
+
+    .faq__question {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.15rem 1.5rem;
+        text-align: left;
+        color: var(--color-dark);
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .faq__icon {
+        flex-shrink: 0;
+        color: var(--color-orange);
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .faq__item.open .faq__icon {
+        transform: rotate(45deg);
+    }
+
+    .faq__answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .faq__answer-inner {
+        padding: 0 1.5rem 1.25rem 1.5rem;
+        color: rgba(var(--color-dark-rgb), 0.68);
+        font-size: var(--font-size-base);
+        line-height: 1.65;
+    }
+
+    @media (max-width: 600px) {
+        .faq {
+            padding: var(--space-xl) 1.25rem;
+        }
+
+        .faq__question {
+            padding: 1rem 1.1rem;
+            font-size: var(--font-size-sm);
+        }
+
+        .faq__answer-inner {
+            padding: 0 1.1rem 1.1rem 1.1rem;
+        }
+    }
+</style>
+
+<section id="faq" class="faq">
+    <div class="faq__header">
+        <span class="faq__badge">DÚVIDAS FREQUENTES</span>
+        <h2 class="faq__title">Perguntas frequentes</h2>
+    </div>
+
+    <div class="faq__list" id="faq-list">
+        <div class="faq__item">
+            <button class="faq__question" aria-expanded="false">
+                <span>Preciso ter conhecimento técnico para usar o Go2Apply?</span>
+                <svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <div class="faq__answer">
+                <div class="faq__answer-inner">
+                    Não. A plataforma foi desenvolvida para apoiar profissionais envolvidos com a pulverização agrícola — do produtor ao técnico de campo — guiando a análise dos dados de forma clara.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq__item">
+            <button class="faq__question" aria-expanded="false">
+                <span>O Go2Apply funciona para quais tipos de aplicação?</span>
+                <svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <div class="faq__answer">
+                <div class="faq__answer-inner">
+                    As ferramentas cobrem etapas centrais da pulverização agrícola — da formação da calda à calibração do equipamento. Fale com a nossa equipe para confirmar a compatibilidade com o seu cenário específico.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq__item">
+            <button class="faq__question" aria-expanded="false">
+                <span>Posso usar pelo celular?</span>
+                <svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <div class="faq__answer">
+                <div class="faq__answer-inner">
+                    Sim. O acesso é feito pelo navegador, permitindo consulta tanto em computador quanto em smartphone ou tablet, direto no campo.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq__item">
+            <button class="faq__question" aria-expanded="false">
+                <span>Quais culturas posso utilizar?</span>
+                <svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <div class="faq__answer">
+                <div class="faq__answer-inner">
+                    O Go2Apply reúne uma base técnica ampla de ingredientes ativos e parâmetros de aplicação. A cobertura para culturas específicas pode ser confirmada diretamente com a nossa equipe.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq__item">
+            <button class="faq__question" aria-expanded="false">
+                <span>Como funciona o período gratuito?</span>
+                <svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <div class="faq__answer">
+                <div class="faq__answer-inner">
+                    O acesso experimental à plataforma está sujeito às condições comerciais vigentes. Fale com a nossa equipe para saber mais sobre as condições atuais.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq__item">
+            <button class="faq__question" aria-expanded="false">
+                <span>Posso cancelar quando quiser?</span>
+                <svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <div class="faq__answer">
+                <div class="faq__answer-inner">
+                    As condições de cancelamento seguem a política comercial vigente do Go2Apply. Consulte a nossa equipe para mais detalhes.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq__item">
+            <button class="faq__question" aria-expanded="false">
+                <span>Existe suporte técnico?</span>
+                <svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <div class="faq__answer">
+                <div class="faq__answer-inner">
+                    Sim. Assinantes têm acesso a uma comunidade exclusiva de suporte técnico via Telegram, para tirar dúvidas e trocar experiências com outros profissionais do campo.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        var list = document.getElementById('faq-list');
+        if (!list) return;
+
+        var items = Array.from(list.querySelectorAll('.faq__item'));
+
+        items.forEach(function (item) {
+            var button = item.querySelector('.faq__question');
+            var answer = item.querySelector('.faq__answer');
+
+            button.addEventListener('click', function () {
+                var isOpen = item.classList.contains('open');
+
+                items.forEach(function (other) {
+                    other.classList.remove('open');
+                    other.querySelector('.faq__question').setAttribute('aria-expanded', 'false');
+                    other.querySelector('.faq__answer').style.maxHeight = null;
+                });
+
+                if (!isOpen) {
+                    item.classList.add('open');
+                    button.setAttribute('aria-expanded', 'true');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    })();
+</script>

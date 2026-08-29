@@ -1,0 +1,85 @@
+<!-- ==========================================================================
+   Component: Final CTA Section
+   Fechamento da página com chamada forte e link de encerramento da marca
+   ========================================================================== -->
+<style>
+    .cta-final {
+        position: relative;
+        padding: var(--space-2xl) 2rem;
+        background:
+            radial-gradient(circle at 50% 0%, rgba(var(--color-orange-rgb), 0.1) 0%, transparent 55%),
+            var(--color-dark);
+        border-top: 1px solid var(--color-border);
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .cta-final__inner {
+        position: relative;
+        max-width: 780px;
+        margin: 0 auto;
+    }
+
+    .cta-final__headline {
+        font-size: clamp(2rem, 3.6vw, 3rem);
+        color: var(--color-white);
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.5px;
+        margin-bottom: var(--space-md);
+    }
+
+    .cta-final__headline .highlight {
+        color: var(--color-orange);
+    }
+
+    .cta-final__text {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-md);
+        line-height: 1.6;
+        margin-bottom: var(--space-lg);
+    }
+
+    .cta-final__btn {
+        gap: 0.75rem;
+        background: var(--color-orange);
+        padding: 0.9rem 2rem;
+        font-size: var(--font-size-base);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: 0 8px 28px rgba(var(--color-orange-rgb), 0.35);
+        transition: var(--transition-smooth);
+    }
+
+    .cta-final__btn:hover {
+        background: var(--color-orange-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 34px rgba(var(--color-orange-rgb), 0.45);
+    }
+
+    .cta-final__closing {
+        margin-top: var(--space-xl);
+        color: rgba(var(--color-white-rgb), 0.4);
+        font-size: var(--font-size-sm);
+        letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 600px) {
+        .cta-final {
+            padding: var(--space-xl) 1.25rem;
+        }
+    }
+</style>
+
+<section id="cta-final" class="cta-final">
+    <div class="cta-final__inner">
+        <h2 class="cta-final__headline">Sua pulverização merece mais do que experiência.<br>Ela merece <span class="highlight">precisão</span>.</h2>
+        <p class="cta-final__text">Conheça o Go2Apply e leve mais tecnologia para cada decisão de aplicação.</p>
+
+        <a href="#solucoes" class="cta-final__btn cta-btn-base">
+            <span>Conhecer a Ferramenta</span>
+        </a>
+
+        <p class="cta-final__closing">Go2Apply — Da decisão à aplicação, com precisão.</p>
+    </div>
+</section>
