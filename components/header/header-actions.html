@@ -1,6 +1,6 @@
 <!-- ==========================================================================
-   Component: CTA Button & Mobile Toggle (Header)
-   Botão de ação com ícone e botão hambúrguer responsivo
+   Component: Header Actions
+   Botão de CTA com ícone e botão hambúrguer responsivo
    ========================================================================== -->
 <style>
     .header-actions {
@@ -149,11 +149,14 @@
 
 <script>
     const toggleBtn = document.getElementById('nav-toggle');
-    const targetNav = document.getElementById('nav-center');
     const headerCta = document.getElementById('header-btn-cta');
 
-    if (toggleBtn && targetNav) {
+    // 'nav-center' pertence ao componente irmão nav-menu.html, montado em paralelo:
+    // buscar sob demanda em vez de cachear, para não depender da ordem de carregamento
+    if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
+            const targetNav = document.getElementById('nav-center');
+            if (!targetNav) return;
             const isOpen = targetNav.classList.toggle('active');
             toggleBtn.classList.toggle('active', isOpen);
             toggleBtn.setAttribute('aria-expanded', isOpen);
@@ -163,6 +166,7 @@
 
     // Acessibilidade: fechar com Escape
     document.addEventListener('keydown', (e) => {
+        const targetNav = document.getElementById('nav-center');
         if (e.key === 'Escape' && targetNav && targetNav.classList.contains('active')) {
             targetNav.classList.remove('active');
             toggleBtn.classList.remove('active');
