@@ -1,0 +1,328 @@
+<!-- ==========================================================================
+   Page: Features / Ferramentas Principais
+   13 calculadoras e funcionalidades da plataforma
+   ========================================================================== -->
+<style>
+    .features-section {
+        position: relative;
+        width: 100%;
+        padding: 6rem 1.5rem;
+        background: var(--color-dark);
+        color: var(--color-white);
+    }
+
+    .features-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    /* HEADER */
+    .features-header {
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+
+    .features-headline {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+
+    .features-subtext {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        max-width: 60ch;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* GRID DE FEATURES */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .feature-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 320px;
+    }
+
+    .feature-card:hover {
+        background: rgba(91, 140, 69, 0.1);
+        border-color: rgba(91, 140, 69, 0.4);
+        transform: translateY(-4px);
+    }
+
+    .feature-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--icon-green-light, #86efac);
+        transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-card:hover .feature-icon {
+        color: var(--icon-orange-light, #fbbf24);
+    }
+
+    .feature-card h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--color-white);
+        line-height: 1.3;
+    }
+
+    .feature-card p {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* ANIMAÇÃO DE ENTRADA */
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .feature-card {
+        animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.15s; }
+    .feature-card:nth-child(3) { animation-delay: 0.2s; }
+    .feature-card:nth-child(4) { animation-delay: 0.25s; }
+    .feature-card:nth-child(5) { animation-delay: 0.3s; }
+    .feature-card:nth-child(6) { animation-delay: 0.35s; }
+    .feature-card:nth-child(7) { animation-delay: 0.4s; }
+    .feature-card:nth-child(8) { animation-delay: 0.45s; }
+    .feature-card:nth-child(9) { animation-delay: 0.5s; }
+    .feature-card:nth-child(10) { animation-delay: 0.55s; }
+    .feature-card:nth-child(11) { animation-delay: 0.6s; }
+    .feature-card:nth-child(12) { animation-delay: 0.65s; }
+    .feature-card:nth-child(13) { animation-delay: 0.7s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .features-section {
+            padding: 4rem 1rem;
+        }
+
+        .features-header {
+            margin-bottom: 3rem;
+        }
+
+        .features-headline {
+            font-size: 1.8rem;
+        }
+
+        .features-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            min-height: 280px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .features-section {
+            padding: 3rem 0.75rem;
+        }
+
+        .features-headline {
+            font-size: 1.5rem;
+        }
+
+        .features-subtext {
+            font-size: 1rem;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .feature-card {
+            padding: 1.25rem;
+            min-height: auto;
+        }
+
+        .feature-icon {
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+        }
+    }
+
+    /* Reduzir movimento para acessibilidade */
+    @media (prefers-reduced-motion: reduce) {
+        .feature-card {
+            animation: none;
+            opacity: 1;
+        }
+    }
+</style>
+
+<section id="ferramentas" class="features-section dark-bg-section">
+    <div class="features-container">
+        <!-- HEADER -->
+        <div class="features-header">
+            <h2 class="features-headline">Tudo o que você precisa</h2>
+            <p class="features-subtext">Mais de 10 anos de pesquisa em tempo integral, reunida em uma plataforma completa, prática e confiável</p>
+        </div>
+
+        <!-- GRID DE 13 FERRAMENTAS -->
+        <div class="features-grid">
+            <!-- 1. Formação de Caldas -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-caldas"></use>
+                </svg>
+                <h3>Formação de Caldas</h3>
+                <p>Com ordem e metodologia</p>
+            </div>
+
+            <!-- 2. Alertas de Incompatibilidade -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-alerta"></use>
+                </svg>
+                <h3>Alertas de Incompatibilidade</h3>
+                <p>Previne desperdício antes da aplicação</p>
+            </div>
+
+            <!-- 3. KOW e pH -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-kow"></use>
+                </svg>
+                <h3>KOW e pH de Calda</h3>
+                <p>Para mais de 400 ingredientes ativos</p>
+            </div>
+
+            <!-- 4. Dimensionamento de Espectro -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-gotas"></use>
+                </svg>
+                <h3>Dimensionamento de Espectro</h3>
+                <p>Gotas e condições ambientais otimizadas</p>
+            </div>
+
+            <!-- 5. Delta T -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-delta-t"></use>
+                </svg>
+                <h3>Determinação de Delta T</h3>
+                <p>Temperatura crítica para máxima eficiência</p>
+            </div>
+
+            <!-- 6. Pressão e Vazão -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-pressao"></use>
+                </svg>
+                <h3>Cálculos Avançados</h3>
+                <p>Pressão e vazão precisas para cada situação</p>
+            </div>
+
+            <!-- 7. Fluxômetro -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-fluxometro"></use>
+                </svg>
+                <h3>Calibração de Fluxômetro</h3>
+                <p>Medição exata do volume aplicado</p>
+            </div>
+
+            <!-- 8. Calibração -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-calibracao"></use>
+                </svg>
+                <h3>Calibração de Aeronabes</h3>
+                <p>Desempenho otimizado em solo e ar</p>
+            </div>
+
+            <!-- 9. Uniformidade -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-uniformidade"></use>
+                </svg>
+                <h3>Avaliações de Uniformidade</h3>
+                <p>Cobertura e desgaste das pontas</p>
+            </div>
+
+            <!-- 10. Relatórios -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-relatorios"></use>
+                </svg>
+                <h3>Geração de Relatórios</h3>
+                <p>Documentação em todas as ferramentas</p>
+            </div>
+
+            <!-- 11. Comunidade -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-comunidade"></use>
+                </svg>
+                <h3>Comunidade Exclusiva</h3>
+                <p>Suporte técnico via Telegram 24/7</p>
+            </div>
+
+            <!-- 12. Sistema -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-sistema"></use>
+                </svg>
+                <h3>Bicos ISO</h3>
+                <p>Seleção e compatibilidade de bicos</p>
+            </div>
+
+            <!-- 13. Análise de Compatibilidade -->
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 50 50">
+                    <use href="/assets/icos/features-icons.svg#icon-telegram"></use>
+                </svg>
+                <h3>Análise de Compatibilidade</h3>
+                <p>Física, química e sistêmica integradas</p>
+            </div>
+        </div>
+    </div>
+</section>

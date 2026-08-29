@@ -56,6 +56,12 @@
     --color-kow-glow: rgba(var(--color-kow-rgb), 0.4);
     --color-kow-subtle: rgba(var(--color-kow-rgb), 0.14);
 
+    /* --- Paleta de Ícones (4 cores conforme contraste) --- */
+    --icon-green-light: #86efac;  /* Verde claro - Para dark mode principal */
+    --icon-green-dark: #3d6b2c;   /* Verde escuro - Untuk high contrast */
+    --icon-orange-light: #fbbf24; /* Laranja claro - Para dark mode secondary */
+    --icon-orange-dark: #d97706;  /* Laranja escuro - Para high contrast */
+
     /* --- Tipografia --- */
     --font-main: 'Host Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
