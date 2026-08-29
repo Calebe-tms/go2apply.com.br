@@ -1,5 +1,5 @@
 <style>
-    .hero-ticker-container {
+    .hero-ticker {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -24,7 +24,7 @@
         will-change: transform;
     }
 
-    .hero-ticker-container:hover .hero-ticker-track {
+    .hero-ticker:hover .hero-ticker-track {
         animation-play-state: paused;
     }
 
@@ -102,7 +102,7 @@
     }
 
     @media (max-width: 768px) {
-        .hero-ticker-container {
+        .hero-ticker {
             padding: 0.55rem 0;
         }
         .ticker-item {
@@ -115,7 +115,7 @@
     }
 </style>
 
-<div class="hero-ticker-container" aria-label="Tópicos técnicos de aplicação">
+<div class="hero-ticker" id="hero-ticker" aria-label="Tópicos técnicos de aplicação">
     <div class="hero-ticker-track">
         <div class="hero-ticker-group">
             <span class="ticker-item t-caldas">FORMAÇÃO DE CALDAS</span>

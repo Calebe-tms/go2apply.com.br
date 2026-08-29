@@ -84,16 +84,16 @@
     }
 </style>
 
-<header class="header" id="main-header">
+<header class="header" id="header">
     <div class="nav-container">
-        <div data-component="components/header/social-links.html"></div>
-        <div data-component="components/header/nav-menu.html"></div>
-        <div data-component="components/header/header-actions.html"></div>
+        <div data-component="components/social-links/social-links.html"></div>
+        <div data-component="components/nav-menu/nav-menu.html"></div>
+        <div data-component="components/header-actions/header-actions.html"></div>
     </div>
 </header>
 
 <script>
-    const headerElement = document.getElementById('main-header');
+    const headerElement = document.getElementById('header');
     const scrollThreshold = 30;
 
     const onWindowScroll = () => {

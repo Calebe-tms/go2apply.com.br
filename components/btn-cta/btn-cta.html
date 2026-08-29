@@ -1,14 +1,18 @@
+<!-- ==========================================================================
+   Component: Btn CTA (Global Reutilizável)
+   Botão de CTA institucional com suporte a hover iluminado e animação de aura
+   ========================================================================== -->
 <style>
-    .hero-cta-wrapper {
+    .btn-cta-wrapper {
         margin-top: 0.25rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        animation: heroBtnFadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+        animation: btnCtaFadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
         opacity: 0;
     }
 
-    .hero-cta-btn {
+    .btn-cta-element {
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -33,19 +37,19 @@
                     box-shadow 0.35s ease;
     }
 
-    .hero-cta-btn::before {
+    .btn-cta-element::before {
         content: '';
         position: absolute;
         inset: -4px;
         border-radius: calc(var(--radius-btn, 10px) + 4px);
         border: 1.5px solid var(--color-orange, #f28e13);
         opacity: 0;
-        animation: heroAuraPulse 3.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        animation: btnCtaAuraPulse 3.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
         pointer-events: none;
         z-index: -1;
     }
 
-    .hero-cta-btn:hover {
+    .btn-cta-element:hover {
         transform: translateY(-2px) scale(1.02);
         background-color: #182015;
         border-color: var(--color-orange-hover, #ff9b26);
@@ -54,37 +58,37 @@
         color: #ffffff;
     }
 
-    .hero-cta-icon {
+    .btn-cta-icon {
         width: 22px;
         height: 22px;
         object-fit: contain;
         transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
     }
 
-    .hero-cta-btn:hover .hero-cta-icon {
+    .btn-cta-element:hover .btn-cta-icon {
         transform: scale(1.12) rotate(8deg);
     }
 
-    .hero-cta-label {
+    .btn-cta-label {
         color: var(--color-white, #fefcf8);
         transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
     }
 
-    .hero-cta-btn:hover .hero-cta-label {
+    .btn-cta-element:hover .btn-cta-label {
         color: #ffffff;
     }
 
-    .hero-cta-arrow {
+    .btn-cta-arrow {
         transition: transform 0.3s ease, color 0.3s ease;
         color: var(--color-orange, #f28e13);
     }
 
-    .hero-cta-btn:hover .hero-cta-arrow {
+    .btn-cta-element:hover .btn-cta-arrow {
         transform: translateX(4px);
         color: #ffffff;
     }
 
-    @keyframes heroAuraPulse {
+    @keyframes btnCtaAuraPulse {
         0% {
             transform: scale(0.96);
             opacity: 0.85;
@@ -102,7 +106,7 @@
         }
     }
 
-    @keyframes heroBtnFadeInUp {
+    @keyframes btnCtaFadeInUp {
         from {
             opacity: 0;
             transform: translateY(24px);
@@ -114,24 +118,24 @@
     }
 
     @media (max-width: 600px) {
-        .hero-cta-btn {
+        .btn-cta-element {
             padding: 0.65rem 1.45rem;
             font-size: 0.88rem;
             gap: 0.6rem;
         }
 
-        .hero-cta-icon {
+        .btn-cta-icon {
             width: 18px;
             height: 18px;
         }
     }
 </style>
 
-<div class="hero-cta-wrapper">
-    <button class="hero-cta-btn cta-btn-base" id="hero-main-cta" onclick="openAuthDrawer()">
-        <img src="assets/icos/ico-logo-go2apply.png" alt="" class="hero-cta-icon" aria-hidden="true">
-        <span class="hero-cta-label">Conheça a Ferramenta</span>
-        <svg class="hero-cta-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+<div class="btn-cta" id="btn-cta">
+    <button class="btn-cta-element cta-btn-base" id="main-cta-button" onclick="openAuthDrawer()">
+        <img src="assets/icos/ico-logo-go2apply.png" alt="" class="btn-cta-icon" aria-hidden="true">
+        <span class="btn-cta-label">Conheça a Ferramenta</span>
+        <svg class="btn-cta-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>

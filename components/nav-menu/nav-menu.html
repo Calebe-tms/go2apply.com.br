@@ -3,7 +3,7 @@
    Links centrais de navegação com destaque no hover e gaveta mobile limpa
    ========================================================================== -->
 <style>
-    .nav-center {
+    .nav-menu {
         justify-self: center;
     }
 
@@ -36,7 +36,7 @@
     }
 
     @media (max-width: 992px) {
-        .nav-center {
+        .nav-menu {
             position: fixed;
             top: 0;
             left: 0;
@@ -59,7 +59,7 @@
             z-index: 1050;
         }
 
-        .nav-center.active {
+        .nav-menu.active {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
@@ -78,7 +78,7 @@
     }
 </style>
 
-<nav class="nav-center" id="nav-center">
+<nav class="nav-menu" id="nav-menu">
     <ul class="nav-links">
         <li><a href="#solucoes">PLATAFORMA</a></li>
         <li><a href="#diferenciais">RECURSOS</a></li>
@@ -90,7 +90,7 @@
 
 <script>
     // Fecha o menu mobile ao clicar em um link interno
-    const mobileNav = document.getElementById('nav-center');
+    const mobileNav = document.getElementById('nav-menu');
     const navLinks = mobileNav ? mobileNav.querySelectorAll('.nav-links a') : [];
 
     navLinks.forEach(link => {

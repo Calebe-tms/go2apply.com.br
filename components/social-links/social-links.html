@@ -1,9 +1,9 @@
 <!-- ==========================================================================
    Component: Social Links (Header)
-   Ícones vetoriais de redes sociais que aparecem sincronizados com o btn-cta do header
+   Ícones vetoriais de redes sociais sincronizados com a rolagem do header
    ========================================================================== -->
 <style>
-    .header-social {
+    .social-links {
         display: flex;
         align-items: center;
         gap: var(--space-sm);
@@ -16,7 +16,7 @@
     }
 
     /* Fica visível junto com o btn-cta quando o CTA da Hero sai da tela */
-    .header-social.is-visible {
+    .social-links.is-visible {
         opacity: 1;
         transform: translateY(0) scale(1);
         pointer-events: auto;
@@ -51,7 +51,7 @@
     }
 
     @media (max-width: 992px) {
-        .header-social {
+        .social-links {
             display: none; /* No mobile/tablet o menu gaveta cuida da navegação */
         }
     }
@@ -69,7 +69,7 @@
     }
 </style>
 
-<div class="header-social" id="header-social-container">
+<div class="social-links" id="social-links">
     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -93,11 +93,11 @@
 
 <script>
     (function () {
-        const socialContainer = document.getElementById('header-social-container');
+        const socialContainer = document.getElementById('social-links');
 
         const checkSocialVisibility = () => {
             if (!socialContainer) return;
-            const heroCta = document.getElementById('hero-main-cta');
+            const heroCta = document.getElementById('btn-cta') || document.getElementById('hero-btn-cta');
             if (heroCta) {
                 const rect = heroCta.getBoundingClientRect();
                 const heroCtaOnScreen = rect.bottom > 0 && rect.top < window.innerHeight;

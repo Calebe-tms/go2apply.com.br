@@ -1,4 +1,4 @@
-# Arquitetura do Sistema: Tokens, Componentes e Páginas (go2apply)
+# Arquitetura do Sistema: Tokens, Componentes Globais e Dobras (go2apply)
 
 Este documento descreve a arquitetura do projeto **go2apply**, baseada no princípio de componentização de arquivo único (*Single-File Components - SFC*) executada nativamente pelo navegador através de um **Micro-Loader**, sem necessidade de Node.js, compiladores, Webpack ou Vite.
 
@@ -14,17 +14,30 @@ Este documento descreve a arquitetura do projeto **go2apply**, baseada no princ�
 └───────────────────────────┬────────────────────────────┘
                             │ alimentam
 ┌───────────────────────────▼────────────────────────────┐
-│ 2. COMPONENTES (components/*/*.html)                   │
-│    Blocos atômicos que encapsulam HTML, <style> e      │
-│    <script> no mesmo arquivo (estilo Svelte/Vue).     │
+│ 2. COMPONENTES GLOBAIS (components/*/*.html)           │
+│    Blocos reutilizáveis do Design System e widgets     │
+│    globais (botões, drawers, header, floaters).       │
 └───────────────────────────┬────────────────────────────┘
                             │ compõem
 ┌───────────────────────────▼────────────────────────────┐
-│ 3. PÁGINAS (pages/*.html & index.html)                 │
-│    Estruturas de layout e telas completas formadas     │
-│    pela união dos componentes.                         │
+│ 3. DOBRAS / SEÇÕES (sections/*/*.html & index.html)    │
+│    Dobra auto-contida orquestradora com seus           │
+│    subcomponentes exclusivos locais.                   │
 └────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 📏 Regra de Padronização 1:1
+
+Todos os componentes e dobras seguem estritamente a convenção de correspondência 1:1:
+
+$$\text{Pasta} \equiv \text{Arquivo} \equiv \text{Classe CSS Raiz} \equiv \text{ID Raiz}$$
+
+- **Componente Global:** `components/<nome>/<nome>.html` com `<tag class="<nome>" id="<nome>">`
+- **Dobra (Seção):** `sections/<secao>/<secao>.html` com `<section class="<secao>" id="<secao>">`
+- **Subcomponente de Dobra:** `sections/<secao>/<subcomponente>/<subcomponente>.html` com `<div class="<subcomponente>" id="<subcomponente>">`
+- **Casing:** Sempre `kebab-case` minúsculo.
 
 ---
 
@@ -43,120 +56,96 @@ go2apply.com.br/
 │   ├── reset.css                       # Resets essenciais, fontes e scroll suave
 │   └── style.css                       # Ponto de entrada CSS unificado
 │
-├── components/                         # Componentes modulares SFC
-│   │
-│   ├── auth/                           # [Drawer de Autenticação / Cadastro]
-│   │   └── form-auth-drawer.html       # Painel lateral flutuante (Criar Conta / Login)
-│   │
-│   ├── header/                         # [Componentes do Cabeçalho Global]
-│   │   ├── header.html                 # Shell do Header (Grid 3 colunas, scroll e glassmorphism)
-│   │   ├── social-links.html           # Ícones de redes sociais sincronizados com o btn-cta
-│   │   ├── nav-menu.html               # Links centrais de navegação e gaveta mobile limpa
-│   │   └── header-actions.html         # Botão de CTA ("Conheça a Ferramenta") e toggle mobile
-│   │
-│   ├── hero/                           # [Componentes da Home / Hero]
-│   │   ├── hero-bg.html                # Carrossel de vídeo contínuo + radar canvas interativo
-│   │   ├── hero-content.html           # Shell orquestrador do conteúdo da hero
-│   │   ├── hero-cta.html               # Logo e título institucional com destaque
-│   │   ├── hero-btn-cta.html           # Botão principal de chamada para ação (CTA)
-│   │   ├── hero-scroll-indicator.html  # Indicador animado de rolagem
-│   │   └── hero-ticker.html            # Barra técnica deslizante no rodapé do Hero
-│   │
-│   ├── footer/                         # [Componente Global: Footer]
-│   │   └── footer.html                 # Logo, navegação, redes sociais e encerramento
-│   │
-│   └── whatsapp-float/                 # [Componente Global: Botão Flutuante do WhatsApp]
-│       └── whatsapp-float.html         # Botão fixo a 42px com borda laranja do DS e persistência global
+├── components/                         # 1. COMPONENTES GLOBAIS REUTILIZÁVEIS
+│   ├── auth-drawer/
+│   │   └── auth-drawer.html            # Gaveta global de login/cadastro (.auth-drawer, #auth-drawer)
+│   ├── btn-cta/
+│   │   └── btn-cta.html                # Botão CTA reutilizável em múltiplas dobras (.btn-cta, #btn-cta)
+│   ├── header/
+│   │   └── header.html                 # Shell do Header (.header, #header)
+│   ├── header-actions/
+│   │   └── header-actions.html         # Ações do Header (.header-actions, #header-actions)
+│   ├── nav-menu/
+│   │   └── nav-menu.html               # Navegação (.nav-menu, #nav-menu)
+│   ├── social-links/
+│   │   └── social-links.html           # Ícones sociais (.social-links, #social-links)
+│   └── whatsapp-float/
+│       └── whatsapp-float.html         # Botão flutuante WhatsApp (.whatsapp-float, #whatsapp-float)
 │
-├── pages/                              # Páginas do sistema
-│   └── home.html                       # Hero orquestrador
+├── sections/                           # 2. DOBRAS DA LANDING PAGE
+│   ├── hero/                           # DOBRA HERO
+│   │   ├── hero-bg/                    # Subcomponente exclusivo: Carrossel de vídeo
+│   │   │   └── hero-bg.html            # (.hero-bg, #hero-bg)
+│   │   ├── hero-cta/                   # Subcomponente exclusivo: Logo institucional e título
+│   │   │   └── hero-cta.html           # (.hero-cta, #hero-cta)
+│   │   ├── hero-scroll-indicator/      # Subcomponente exclusivo: Indicador animado de scroll
+│   │   │   └── hero-scroll-indicator.html # (.hero-scroll-indicator, #hero-scroll-indicator)
+│   │   ├── hero-ticker/                # Subcomponente exclusivo: Barra técnica deslizante
+│   │   │   └── hero-ticker.html        # (.hero-ticker, #hero-ticker)
+│   │   └── hero.html                   # ORQUESTRADOR DA DOBRA HERO (.hero, #hero)
+│   │
+│   └── footer/                         # DOBRA FOOTER
+│       └── footer.html                 # ORQUESTRADOR DA DOBRA FOOTER (.footer, #footer)
 │
 ├── js/
 │   ├── component-loader.js             # Motor nativo que busca, injeta e executa componentes
 │   ├── lazy-loader.js                  # Carregador assíncrono sob demanda
 │   └── main.js                         # Ponto de entrada JavaScript
 │
-└── index.html                          # Shell da aplicação (SEO, Meta Tags, Fontes e Layout)
+└── index.html                          # 3. SHELL PRINCIPAL DA APLICAÇÃO
 ```
 
-### Ordem das seções na Landing Page
-
-Header → Hero → Soluções (morph interativo) → Problema → Diferenciais → Autoridade →
-Como Funciona → Transformação (Antes x Depois) → Planos → FAQ → CTA Final → Footer.
-
-A seção "Demonstração da plataforma" prevista no briefing original foi absorvida pelo
-componente `solutions/solutions-showcase.html`, que já demonstra a ferramenta com
-screenshots reais em um mockup de tablet — por isso não existe uma seção separada com esse nome.
-
 ---
 
-## ⚡ Como Funciona o Micro-Loader (`js/component-loader.js`)
+## ⚡ Como Funciona a Montagem das Dobras
 
-O carregador varre o DOM procurando atributos declarativos:
-1. `data-component="caminho/do/componente.html"`: Carrega um componente atômico.
-2. `data-page="caminho/da/pagina.html"`: Carrega uma página completa.
-
-### O Motor do Micro-Loader (`js/component-loader.js`)
-
-1. **Varredura Recursiva:** O script busca todos os nós com os atributos `data-component` ou `data-page`.
-2. **Telemetria de Progresso Real:** Calcula em tempo real o total de componentes declarados e concluídos, emitindo o evento `loader:progress` com a porcentagem calculada (`{ loaded, total, percentage }`).
-3. **Download Assíncrono:** Executa o `fetch` assíncrono do arquivo `.html`.
-4. **Isolamento e Injeção de Estilos:** Extrai as tags `<style>`, gerando IDs únicos para evitar injeções duplicadas no `<head>`.
-5. **Injeção de DOM & Execução de Scripts:** Insere o HTML no nó e executa o código JavaScript do componente através de um *Function Runner* encapsulado.
-6. **Descoberta Aninhada:** Permite que componentes contenham outros sub-componentes internamente (composição multinível).
-7. **Disparo de Prontidão Global:** Ao finalizar a montagem de todos os nós, dispara o evento `components:ready`. O `#app-loader` sincroniza a barra e a porcentagem com esses eventos e realiza o fade-out assim que as fontes e componentes estão 100% prontos.
-
----
-
-## ⚖️ Vantagens e Trade-offs (Análise Técnica)
-
-### ✅ Vantagens:
-* **Zero Ferramental de Build**: Não precisa de `npm install`, `node_modules`, `webpack`, `vite` ou compilação.
-* **Modularidade Extrema**: Cada componente concentra seu HTML, CSS e JS em um só lugar. Se precisar mudar o comportamento das redes sociais, você altera apenas `components/header/social-links.html`.
-* **Design System Integrado**: Todos os componentes consomem as variáveis de `css/tokens.css`. Mudar uma cor atualiza todo o site instantaneamente.
-* **Fácil de Manter por Agentes e Desenvolvedores**: O código é limpo, legível e desacoplado.
-
-### ⚠️ Trade-offs & Boas Práticas:
-* **SEO e Redes Sociais**: Robôs de pré-visualização (como WhatsApp, Facebook e LinkedIn) não executam JavaScript assíncrono. Por isso, **todas as meta tags principais (`<title>`, `<meta name="description">`, Open Graph `og:image`) devem sempre permanecer estáticas no `<head>` do `index.html`**.
-* **FOUC (*Flash of Unstyled Content*)**: Para evitar qualquer salto visual durante o carregamento de componentes assíncronos, os tokens e estilos base são carregados síncronos no `<head>`.
-
----
-
-## 🛠️ Como Criar um Novo Componente
-
-Crie um arquivo `.html` dentro da pasta `components/sua-secao/meu-componente.html`:
+No `index.html`, declaramos a ordem das dobras e os componentes estruturais globais:
 
 ```html
-<!-- Estilos locais do componente (consomem os tokens globais) -->
+<!-- Header Fixo Global -->
+<div data-component="components/header/header.html"></div>
+
+<main id="app-root">
+    <!-- Dobras da Landing Page -->
+    <div data-page="sections/hero/hero.html"></div>
+    <!-- <div data-page="sections/solutions/solutions.html"></div> -->
+    <!-- <div data-page="sections/contact/contact.html"></div> -->
+</main>
+
+<!-- Footer e Widgets Globais -->
+<div data-component="sections/footer/footer.html"></div>
+<div data-component="components/whatsapp-float/whatsapp-float.html"></div>
+<div data-component="components/auth-drawer/auth-drawer.html"></div>
+```
+
+---
+
+## 🛠️ Como Criar uma Nova Dobra (Exemplo: Contato)
+
+1. Crie a pasta `sections/contact/`
+2. Crie os subcomponentes exclusivos (ex: `sections/contact/contact-form/contact-form.html`)
+3. Crie o orquestrador da dobra `sections/contact/contact.html`:
+
+```html
 <style>
-    .meu-card {
-        background-color: var(--color-dark);
-        color: var(--color-white);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-md);
-        padding: var(--space-md);
-        transition: var(--transition-smooth);
-    }
-    .meu-card:hover {
-        border-color: var(--color-orange);
+    .contact {
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--color-dark-surface);
     }
 </style>
 
-<!-- Estrutura HTML -->
-<div class="meu-card">
-    <h3>Título do Card</h3>
-    <button id="meu-botao">Ação</button>
-</div>
+<section class="contact" id="contact">
+    <div class="contact-container">
+        <!-- Subcomponente exclusivo da dobra -->
+        <div data-component="sections/contact/contact-form/contact-form.html"></div>
 
-<!-- Lógica JS do componente -->
-<script>
-    document.getElementById('meu-botao')?.addEventListener('click', () => {
-        console.log('Ação disparada!');
-    });
-</script>
+        <!-- Componente Global Reutilizado -->
+        <div data-component="components/btn-cta/btn-cta.html"></div>
+    </div>
+</section>
 ```
 
-Para usá-lo em qualquer página ou componente:
+4. Declare a nova dobra no `index.html`:
 ```html
-<div data-component="components/sua-secao/meu-componente.html"></div>
+<div data-page="sections/contact/contact.html"></div>
 ```

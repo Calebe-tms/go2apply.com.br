@@ -1,3 +1,7 @@
+<!-- ==========================================================================
+   Component: Header Actions
+   Botão de CTA institucional e toggle do menu mobile
+   ========================================================================== -->
 <style>
     .header-actions {
         display: flex;
@@ -143,7 +147,7 @@
     }
 </style>
 
-<div class="header-actions">
+<div class="header-actions" id="header-actions">
     <a href="#solucoes" class="btn-cta cta-btn-base" id="header-btn-cta">
         <img src="assets/icos/ico-logo-go2apply.png" alt="Ícone go2apply" class="btn-icon">
         <span class="btn-label">Conheça a Ferramenta</span>
@@ -162,7 +166,7 @@
 
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
-            const targetNav = document.getElementById('nav-center');
+            const targetNav = document.getElementById('nav-menu');
             if (!targetNav) return;
             const isOpen = targetNav.classList.toggle('active');
             toggleBtn.classList.toggle('active', isOpen);
@@ -172,7 +176,7 @@
     }
 
     document.addEventListener('keydown', (e) => {
-        const targetNav = document.getElementById('nav-center');
+        const targetNav = document.getElementById('nav-menu');
         if (e.key === 'Escape' && targetNav && targetNav.classList.contains('active')) {
             targetNav.classList.remove('active');
             toggleBtn.classList.remove('active');
@@ -183,7 +187,7 @@
 
     const checkHeaderCtaFlow = () => {
         if (!headerCta) return;
-        const heroCta = document.getElementById('hero-main-cta');
+        const heroCta = document.getElementById('btn-cta') || document.getElementById('hero-btn-cta');
         if (heroCta) {
             const rect = heroCta.getBoundingClientRect();
             const heroCtaOnScreen = rect.bottom > 0 && rect.top < window.innerHeight;

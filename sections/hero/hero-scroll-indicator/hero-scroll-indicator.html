@@ -1,5 +1,5 @@
 <style>
-    .hero-scroll-cta {
+    .hero-scroll-indicator {
         position: absolute;
         left: 50%;
         bottom: calc(44px + clamp(1.25rem, 2.5vh, 2.25rem));
@@ -25,7 +25,7 @@
         animation: heroScrollFadeIn 1.2s ease 1s forwards;
     }
 
-    .hero-scroll-cta:hover {
+    .hero-scroll-indicator:hover {
         color: var(--color-orange, #f28e13);
         border-color: var(--color-orange, #f28e13);
         background-color: var(--color-orange-subtle, rgba(242, 142, 19, 0.12));
@@ -39,7 +39,7 @@
         animation: heroScrollIconSlide 1.8s ease-in-out 2.2s infinite;
     }
 
-    .hero-scroll-cta:hover .hero-scroll-icon {
+    .hero-scroll-indicator:hover .hero-scroll-icon {
         animation-play-state: paused;
         opacity: 1;
         transform: translateY(0);
@@ -76,7 +76,7 @@
     }
 
     @media (max-width: 600px) {
-        .hero-scroll-cta {
+        .hero-scroll-indicator {
             left: 50%;
             bottom: calc(38px + 1rem);
             width: 1.55rem;
@@ -84,7 +84,7 @@
             transform: translateX(-50%);
         }
 
-        .hero-scroll-cta:hover {
+        .hero-scroll-indicator:hover {
             transform: translateX(-50%) translateY(-3px);
         }
 
@@ -95,7 +95,7 @@
     }
 </style>
 
-<a href="#solucoes" class="hero-scroll-cta" aria-label="Rolar para ver soluções">
+<a href="#solucoes" class="hero-scroll-indicator" id="hero-scroll-indicator" aria-label="Rolar para ver soluções">
     <svg class="hero-scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <polyline points="6 9 12 15 18 9"></polyline>

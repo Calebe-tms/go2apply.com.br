@@ -369,14 +369,6 @@
   .auth-drawer.active {
     transform: translateY(0);
   }
-
-  .auth-drawer-header {
-    border-radius: 16px 16px 0 0;
-  }
-
-  .auth-drawer-content {
-    padding: 1.5rem 1.25rem 2rem;
-  }
 }
 
 ::-webkit-scrollbar {
@@ -399,7 +391,7 @@
 
 <div class="auth-drawer-backdrop" id="authBackdrop"></div>
 
-<div class="auth-drawer" id="authDrawer">
+<div class="auth-drawer" id="auth-drawer">
   <div class="auth-drawer-header">
     <div class="auth-drawer-logo">go2apply</div>
     <button class="auth-drawer-close" id="authClose">✕</button>
@@ -425,8 +417,8 @@
 
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <span class="auth-form-label-icon">✉️</span>
-            Email
+            <span class="auth-form-label-icon">📧</span>
+            E-mail profissional
           </label>
           <div class="auth-form-input">
             <input type="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
@@ -579,7 +571,7 @@
 <script>
 class AuthDrawer {
   constructor() {
-    this.drawer = document.getElementById('authDrawer');
+    this.drawer = document.getElementById('auth-drawer') || document.getElementById('authDrawer');
     this.backdrop = document.getElementById('authBackdrop');
     this.step1Form = document.getElementById('step1Form');
     this.step2Form = document.getElementById('step2Form');
@@ -589,27 +581,27 @@ class AuthDrawer {
   }
 
   init() {
-    document.getElementById('authClose').addEventListener('click', () => this.close());
-    this.backdrop.addEventListener('click', () => this.close());
+    document.getElementById('authClose')?.addEventListener('click', () => this.close());
+    this.backdrop?.addEventListener('click', () => this.close());
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') this.close();
     });
 
-    document.getElementById('nextStep').addEventListener('click', (e) => {
+    document.getElementById('nextStep')?.addEventListener('click', (e) => {
       e.preventDefault();
       if (this.validateStep1()) this.goToStep(2);
     });
 
-    document.getElementById('prevStep').addEventListener('click', (e) => {
+    document.getElementById('prevStep')?.addEventListener('click', (e) => {
       e.preventDefault();
       this.goToStep(1);
     });
 
-    document.getElementById('switchToLogin').addEventListener('click', () => {
+    document.getElementById('switchToLogin')?.addEventListener('click', () => {
       alert('Login não implementado ainda');
     });
 
-    this.step2Form.addEventListener('submit', (e) => {
+    this.step2Form?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.submitForm();
     });
@@ -621,13 +613,13 @@ class AuthDrawer {
   }
 
   attachValidation() {
-    const inputs = this.step1Form.querySelectorAll('input[required]');
+    const inputs = this.step1Form ? this.step1Form.querySelectorAll('input[required]') : [];
     inputs.forEach(input => {
       input.addEventListener('input', () => this.validateField(input));
       input.addEventListener('blur', () => this.validateField(input));
     });
 
-    const step2Inputs = this.step2Form.querySelectorAll('input[required]');
+    const step2Inputs = this.step2Form ? this.step2Form.querySelectorAll('input[required]') : [];
     step2Inputs.forEach(input => {
       input.addEventListener('input', () => this.validateField(input));
       input.addEventListener('blur', () => this.validateField(input));
@@ -637,6 +629,7 @@ class AuthDrawer {
   validateField(input) {
     const value = input.value.trim();
     const container = input.closest('.auth-form-input');
+    if (!container) return false;
     let isValid = false;
 
     switch (input.name) {
@@ -691,6 +684,8 @@ class AuthDrawer {
     const strength = document.querySelector('.auth-strength-fill');
     const text = document.getElementById('strengthText');
     const container = document.getElementById('passwordStrength');
+
+    if (!container || !strength || !text) return;
 
     if (password.length === 0) {
       container.classList.remove('active');
@@ -756,6 +751,7 @@ class AuthDrawer {
         e.preventDefault();
         const inputName = btn.dataset.toggle;
         const input = document.querySelector(`input[name="${inputName}"]`);
+        if (!input) return;
         const isPassword = input.type === 'password';
         input.type = isPassword ? 'text' : 'password';
         btn.textContent = isPassword ? '👁️‍🗨️' : '👁️';
@@ -842,18 +838,21 @@ class AuthDrawer {
   }
 
   open() {
+    if (!this.drawer) return;
     this.drawer.classList.add('active');
-    this.backdrop.classList.add('active');
+    if (this.backdrop) this.backdrop.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
   close() {
+    if (!this.drawer) return;
     this.drawer.classList.remove('active');
-    this.backdrop.classList.remove('active');
+    if (this.backdrop) this.backdrop.classList.remove('active');
     document.body.style.overflow = '';
   }
 
   toggle() {
+    if (!this.drawer) return;
     if (this.drawer.classList.contains('active')) {
       this.close();
     } else {

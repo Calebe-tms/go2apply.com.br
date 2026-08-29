@@ -14,6 +14,7 @@ Be concise, direct, and solution-focused. Write code directly, fix bugs immediat
 - Names: Reveal intent (userCount). Verb+noun for functions. Questions for booleans (isActive). SCREAMING_SNAKE for constants. If a name needs a comment, rename it instead.
 - Functions: Max 20 lines. Do one thing. One level of abstraction. Max 3 arguments. No side effects.
 - Structure: Use guard clauses (early returns). Avoid deep nesting (max 2 levels). Colocate related code.
+- Component & Section Standardization (1:1 Strict Parity): For every component and section, Folder == File == Root Class == Root ID (in lowercase kebab-case). Global reusable components in `components/<name>/<name>.html`, page sections/folds in `sections/<section-name>/<section-name>.html` and fold-specific components in `sections/<section-name>/<subcomponent-name>/<subcomponent-name>.html`.
 - Anti-patterns to avoid: Obvious comments, single-use helpers/factories (inline them), magic numbers, god functions.
 - Magic numbers exception (animation/motion): raw numeric literals ARE allowed for animation/transition values in CSS and JS — durations, easings, delays, translate/scale/rotate deltas, opacity/alpha/transparency values. These do not need named constants.
 - Never allowed as raw literals, even in animation code: colors (always use design tokens/CSS variables) and font sizes (always use the typography scale/tokens). No hardcoded hex/rgb colors or px/rem font-size values, ever.

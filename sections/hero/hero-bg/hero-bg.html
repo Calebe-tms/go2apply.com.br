@@ -32,7 +32,7 @@
     }
 </style>
 
-<div class="hero-bg">
+<div class="hero-bg" id="hero-bg">
     <video id="bg-video-1" class="bg-video active" muted playsinline autoplay></video>
     <video id="bg-video-2" class="bg-video" muted playsinline></video>
     <div class="hero-overlay"></div>
@@ -96,7 +96,7 @@
         vid2.src = getOptimizedVideoUrl(HERO_VIDEOS[1]);
         vid2.load();
 
-        const heroSection = document.getElementById('home');
+        const heroSection = document.getElementById('hero');
         if (heroSection) {
             const videoObserver = new IntersectionObserver(entries => {
                 const activeVideo = document.querySelector('.bg-video.active');

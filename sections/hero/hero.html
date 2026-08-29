@@ -1,4 +1,16 @@
+<!-- ==========================================================================
+   Section / Dobra: Hero (Orquestrador)
+   ========================================================================== -->
 <style>
+    .hero {
+        position: relative;
+        width: 100%;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
     .hero-content {
         position: relative;
         z-index: 10;
@@ -20,7 +32,7 @@
         pointer-events: auto;
     }
 
-    .main-content {
+    .hero-inner {
         position: relative;
         width: 100%;
         max-width: 1100px;
@@ -34,7 +46,7 @@
         padding: 0.5rem 1rem;
     }
 
-    .main-content::before {
+    .hero-inner::before {
         content: '';
         position: absolute;
         top: 50%;
@@ -62,8 +74,11 @@
     }
 
     @media (max-width: 600px) {
+        .hero {
+            min-height: 100dvh;
+        }
+
         .hero-content {
-            /* Alinhamento pelo Ponto de Ouro (~38% da viewport) */
             padding-top: max(4.2rem, 11dvh);
             padding-bottom: max(5.5rem, 17dvh);
             padding-left: 1.15rem;
@@ -72,14 +87,14 @@
             justify-content: flex-start;
         }
 
-        .main-content {
+        .hero-inner {
             margin: auto 0;
             gap: 1.15rem;
             padding: 0.5rem 0.25rem;
             transform: translateY(-2.5vh);
         }
 
-        .main-content::before {
+        .hero-inner::before {
             width: 100%;
             height: 100%;
             filter: blur(16px);
@@ -87,11 +102,24 @@
     }
 </style>
 
-<div class="hero-content">
-    <main class="main-content">
-        <div data-component="components/hero/hero-cta.html"></div>
-        <div data-component="components/hero/hero-btn-cta.html"></div>
-    </main>
-    <div data-component="components/hero/hero-scroll-indicator.html"></div>
-    <div data-component="components/hero/hero-ticker.html"></div>
-</div>
+<section class="hero" id="hero">
+    <!-- Subcomponente exclusivo 1: Fundo com carrossel de vídeos -->
+    <div data-component="sections/hero/hero-bg/hero-bg.html"></div>
+
+    <!-- Conteúdo central da dobra Hero -->
+    <div class="hero-content" id="hero-content">
+        <div class="hero-inner">
+            <!-- Subcomponente exclusivo 2: Logo e título -->
+            <div data-component="sections/hero/hero-cta/hero-cta.html"></div>
+
+            <!-- Componente Global Reutilizável: Botão CTA -->
+            <div data-component="components/btn-cta/btn-cta.html"></div>
+        </div>
+
+        <!-- Subcomponente exclusivo 3: Indicador de rolagem -->
+        <div data-component="sections/hero/hero-scroll-indicator/hero-scroll-indicator.html"></div>
+
+        <!-- Subcomponente exclusivo 4: Ticker técnico deslizante -->
+        <div data-component="sections/hero/hero-ticker/hero-ticker.html"></div>
+    </div>
+</section>
