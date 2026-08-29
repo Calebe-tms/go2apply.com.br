@@ -232,18 +232,21 @@
         window.addEventListener('components:ready', function () {
             updateProgress(90);
 
-            // Aguarda as fontes renderizarem para evitar layout shift
-            if (document.fonts && document.fonts.ready) {
-                document.fonts.ready.then(function () {
-                    updateProgress(100);
-                    setTimeout(dismiss, 180);
-                }).catch(function () {
-                    dismiss();
-                });
-            } else {
+            // Aguarda o primeiro vídeo estar pronto na tela antes de desaparecer o loader
+            var videoReady = false;
+            window.addEventListener('hero:first-video-ready', function () {
+                videoReady = true;
                 updateProgress(100);
                 setTimeout(dismiss, 180);
-            }
+            }, { once: true });
+
+            // Fallback com timeout (caso vídeo demore muito)
+            setTimeout(function () {
+                if (!videoReady) {
+                    updateProgress(100);
+                    setTimeout(dismiss, 180);
+                }
+            }, 3000);
         }, { once: true });
 
         // Salvaguarda máxima (timeout de 5s caso ocorra instabilidade de rede externa)
