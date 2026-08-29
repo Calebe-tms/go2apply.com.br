@@ -1,46 +1,52 @@
 <!-- ==========================================================================
    Component: Hero Scroll Indicator
-   Botão circular centralizado que convida a rolar, sempre acima do ticker
+   Cápsula centralizada com seta deslizante, sempre acima do ticker
    ========================================================================== -->
 <style>
     .hero-scroll-cta {
         position: absolute;
         left: 50%;
-        bottom: var(--space-xl);
+        bottom: var(--space-xl, 3.5rem);
         z-index: 20;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 2.75rem;
-        height: 2.75rem;
-        border-radius: var(--radius-full);
-        border: 1.5px solid var(--color-border-subtle);
-        background-color: rgba(var(--color-dark-surface-rgb), 0.4);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        color: var(--color-white-muted);
+        width: 1.85rem;
+        height: 3.1rem;
+        border-radius: var(--radius-full, 9999px);
+        border: 1.5px solid var(--color-green, #5b8c45);
+        background-color: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.45);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: var(--color-green, #5b8c45);
         text-decoration: none;
         cursor: pointer;
         pointer-events: auto;
+        overflow: hidden;
         opacity: 0;
         transform: translateX(-50%);
-        transition: var(--transition-smooth);
-        animation: heroScrollFadeIn 1.2s ease 1s forwards,
-                   heroScrollBreathe 2.6s ease-in-out 1s infinite;
+        transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
+        animation: heroScrollFadeIn 1.2s ease 1s forwards;
     }
 
     .hero-scroll-cta:hover {
-        color: var(--color-orange);
-        border-color: var(--color-orange);
-        background-color: var(--color-orange-subtle);
-        box-shadow: 0 0 18px var(--color-orange-glow);
-        animation-play-state: paused;
+        color: var(--color-orange, #f28e13);
+        border-color: var(--color-orange, #f28e13);
+        background-color: var(--color-orange-subtle, rgba(242, 142, 19, 0.12));
+        box-shadow: 0 0 18px var(--color-orange-glow, rgba(242, 142, 19, 0.4));
         transform: translateX(-50%) translateY(-3px);
     }
 
     .hero-scroll-icon {
         width: 18px;
         height: 18px;
+        animation: heroScrollIconSlide 1.8s ease-in-out 2.2s infinite;
+    }
+
+    .hero-scroll-cta:hover .hero-scroll-icon {
+        animation-play-state: paused;
+        opacity: 1;
+        transform: translateY(0);
     }
 
     @keyframes heroScrollFadeIn {
@@ -53,15 +59,41 @@
         }
     }
 
-    @keyframes heroScrollBreathe {
-
-        0%,
-        100% {
-            transform: translateX(-50%) scale(1);
+    @keyframes heroScrollIconSlide {
+        0% {
+            transform: translateY(-10px);
+            opacity: 0;
         }
 
-        50% {
-            transform: translateX(-50%) scale(1.08);
+        20% {
+            opacity: 1;
+        }
+
+        80% {
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(10px);
+            opacity: 0;
+        }
+    @media (max-width: 600px) {
+        .hero-scroll-cta {
+            left: auto;
+            right: 1.25rem;
+            bottom: 3.2rem;
+            width: 1.45rem;
+            height: 2.45rem;
+            transform: none;
+        }
+
+        .hero-scroll-cta:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-scroll-icon {
+            width: 13px;
+            height: 13px;
         }
     }
 </style>
