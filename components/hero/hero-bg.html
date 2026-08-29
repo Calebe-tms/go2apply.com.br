@@ -27,10 +27,17 @@
         pointer-events: none;
     }
 
-    .bg-video.active { opacity: 1; z-index: 2; }
-    .bg-video.base   { opacity: 1; z-index: 1; }
+    .bg-video.active {
+        opacity: 1;
+        z-index: 2;
+    }
 
-    /* Overlay Gradiente Vinculado aos Tokens Oficiais do DS */
+    .bg-video.base {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    /* Overlay Gradiente Vinculado aos Tokens Oficiais do DS - */
     .hero-overlay {
         position: absolute;
         top: 0;
@@ -159,7 +166,7 @@
                     inTransition = false;
                     if (actVideo.paused) {
                         actVideo.currentTime = 0;
-                        actVideo.play().catch(() => {});
+                        actVideo.play().catch(() => { });
                     }
                 });
         };
@@ -210,7 +217,7 @@
         // Retomada automática caso a aba do navegador volte a ficar ativa
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && actVideo && actVideo.paused) {
-                actVideo.play().catch(() => {});
+                actVideo.play().catch(() => { });
             }
         });
     }
