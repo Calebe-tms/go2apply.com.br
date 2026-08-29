@@ -1,8 +1,3 @@
-<!-- ==========================================================================
-   Component: Main Header Shell
-   Orquestra a barra de navegação centralizada, redes sociais e botão de ação
-   com visibilidade sincronizada ao rolar a página
-   ========================================================================== -->
 <style>
     .header {
         position: fixed;
@@ -19,7 +14,6 @@
         border-bottom: 1px solid transparent;
     }
 
-    /* Scrim permanente atrás do header para garantir contraste sobre o vídeo do hero */
     .header::before {
         content: '';
         position: absolute;
@@ -31,7 +25,6 @@
         pointer-events: none;
     }
 
-    /* Estado ativado ao rolar a página para baixo */
     .header.scrolled {
         padding: 0.85rem 3.5rem;
         background-color: var(--color-dark-glass);
@@ -93,13 +86,8 @@
 
 <header class="header" id="main-header">
     <div class="nav-container">
-        <!-- 1. Redes Sociais (Esquerda) - Aparece sincronizado com o btn-cta -->
         <div data-component="components/header/social-links.html"></div>
-
-        <!-- 2. Menu Centralizado -->
         <div data-component="components/header/nav-menu.html"></div>
-
-        <!-- 3. Botão de Ação & Toggle Mobile (Direita) -->
         <div data-component="components/header/header-actions.html"></div>
     </div>
 </header>
@@ -118,5 +106,5 @@
     };
 
     window.addEventListener('scroll', onWindowScroll, { passive: true });
-    onWindowScroll(); // Checagem imediata
+    onWindowScroll();
 </script>

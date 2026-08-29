@@ -14,17 +14,11 @@
     <meta property="og:description" content="Ferramentas e informações técnicas para apoiar suas decisões no campo.">
     <meta property="og:image" content="assets/imagens/go2apply-logo-colorido.png">
 
-    <!-- CSS Unificado (Design Tokens + Reset Base + Estilos Globais) com Cache Busting -->
     <link rel="stylesheet" href="css/tokens.css?v=1.2">
     <link rel="stylesheet" href="css/reset.css?v=1.1">
     <link rel="stylesheet" href="css/style.css?v=1.1">
-    <link rel="stylesheet" href="css/icon-system.css?v=1.0">
 
     <style>
-    /* ==========================================================================
-       Loading Screen — go2apply
-       Bloqueia render até components:ready, então faz fade-out + slide-up.
-       ========================================================================== */
     #app-loader {
         position: fixed;
         inset: 0;
@@ -111,9 +105,7 @@
 
 <body>
 
-    <!-- Loading Screen com cálculo de progresso real -->
     <div id="app-loader" role="status" aria-label="Carregando go2apply">
-        <!-- Logo SVG inline: não depende de fetch, exibe instantaneamente -->
         <svg class="loader__logo"
              viewBox="0 0 372.29108 437.58118"
              xmlns="http://www.w3.org/2000/svg"
@@ -138,22 +130,13 @@
             <span class="loader__percent" id="loader-percent">0%</span>
         </div>
     </div>
-    <!-- 1. Componente Global: Header Navigation -->
     <div data-component="components/header/header.html"></div>
-
-    <!-- 2. Páginas / Seções Compostas -->
     <main id="app-root">
-        <!-- Página / Seção Home (Hero) -->
         <div data-page="pages/home.html"></div>
     </main>
-
-    <!-- 4. Componente Global: Footer -->
     <div data-component="components/footer/footer.html"></div>
-
-    <!-- 5. Componente Global: Botão Flutuante do WhatsApp -->
     <div data-component="components/whatsapp-float/whatsapp-float.html"></div>
 
-    <!-- 3. Motor do Micro-Loader e Inicialização -->
     <script src="js/component-loader.js"></script>
     <script src="js/lazy-loader.js"></script>
     <script src="js/main.js"></script>
@@ -180,13 +163,10 @@
             }
         }
 
-        // Progresso inicial ao renderizar a casca HTML
         updateProgress(15);
 
-        // 1. Escuta o progresso real de cada componente HTML baixado e montado
         window.addEventListener('loader:progress', function (e) {
             if (e.detail && typeof e.detail.percentage === 'number') {
-                // Componentes compõem 15% -> 85% da carga total
                 var progress = 15 + (e.detail.percentage * 0.70);
                 updateProgress(progress);
             }
@@ -205,11 +185,9 @@
             }, 300);
         }
 
-        // 2. Quando todos os componentes HTML estiverem montados
         window.addEventListener('components:ready', function () {
             updateProgress(90);
 
-            // Aguarda o primeiro vídeo estar pronto na tela antes de desaparecer o loader
             var videoReady = false;
             window.addEventListener('hero:first-video-ready', function () {
                 videoReady = true;
@@ -217,7 +195,6 @@
                 setTimeout(dismiss, 180);
             }, { once: true });
 
-            // Fallback com timeout (caso vídeo demore muito)
             setTimeout(function () {
                 if (!videoReady) {
                     updateProgress(100);
@@ -226,7 +203,6 @@
             }, 3000);
         }, { once: true });
 
-        // Salvaguarda máxima (timeout de 5s caso ocorra instabilidade de rede externa)
         setTimeout(function () {
             dismiss();
         }, 5000);
