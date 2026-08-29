@@ -31,7 +31,7 @@ Este documento estabelece as regras e padrões visuais do projeto **go2apply** p
 | `--radius-sm` | `6px` | Badges, tags pequenas e tooltips |
 | `--radius-md` | `10px` | Base de cálculo dos botões |
 | `--radius-lg` | `16px` | Cards, modais e containers de destaque |
-| `--radius-full` | `9999px` | Apenas avatares circulares, badges em pílula pura ou indicadores de scroll |
+| `--radius-full` | `9999px` | Apenas avatares circulares, badges em pílula pura ou indicadoress de scroll |
 
 > [!IMPORTANT]
 > **Nunca use `--radius-full` em botões de ação ou links de menu.** Todos devem usar `var(--radius-btn, 10px)` para manter consistência visual com os CTAs principais.
