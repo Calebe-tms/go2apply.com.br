@@ -11,14 +11,21 @@
     }
 
     .btn-cta {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        font-family: var(--font-main, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+        font-weight: 600;
+        border: 1.2px solid var(--color-orange, #f28e13);
+        border-radius: var(--radius-md, 10px);
         gap: 0.65rem;
-        background-color: rgba(var(--color-dark-surface-rgb), 0.88);
+        background-color: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.88);
         -webkit-backdrop-filter: blur(12px);
         backdrop-filter: blur(12px);
         padding: 0.6rem 1.35rem;
-        font-size: var(--font-size-base);
+        font-size: var(--font-size-base, 1rem);
         letter-spacing: 0.1px;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 0 14px var(--color-orange-subtle);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 0 14px var(--color-orange-subtle, rgba(242, 142, 19, 0.12));
         white-space: nowrap;
         opacity: 0;
         transform: translateY(-8px) scale(0.95);
@@ -40,8 +47,8 @@
     .btn-cta:hover {
         transform: translateY(-2px) scale(1.02);
         box-shadow: 0 8px 25px rgba(242, 142, 18, 0.45), 0 0 20px rgba(242, 142, 18, 0.25);
-        background-color: rgba(var(--color-dark-surface-rgb), 0.98);
-        border-color: var(--color-orange-hover);
+        background-color: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.98);
+        border-color: var(--color-orange-hover, #e07d08);
         color: #ffffff;
     }
 
@@ -58,13 +65,13 @@
         width: 20px;
         height: 20px;
         object-fit: contain;
-        transition: var(--transition-smooth);
+        transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
         flex-shrink: 0;
     }
 
     .btn-label {
-        color: var(--color-white);
-        transition: var(--transition-smooth);
+        color: var(--color-white, #fefcf8);
+        transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
     }
 
     .btn-cta:hover .btn-label {
