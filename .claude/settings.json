@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Verifique se o arquivo está dentro de D:\\www\\go2apply.com.br ou suas subpastas. O caminho está em tool_input.file_path do JSON $ARGUMENTS. Se o caminho NÃO começa com 'D:\\www\\go2apply.com.br\\' (considerando case-insensitive e normalizando barras), ele está FORA do projeto. Se estiver fora, retorne {\"continue\": false, \"stopReason\": \"Arquivo fora da pasta do projeto. Confirmação necessária.\"}. Se estiver dentro, retorne {\"continue\": true}."
+            "prompt": "Verifique se o arquivo está dentro de D:\\www\\go2apply.com.br ou E:\\www\\go2apply.com.br (ou suas subpastas). O caminho está em tool_input.file_path do JSON $ARGUMENTS. Se o caminho NÃO começa com 'D:\\www\\go2apply.com.br\\' NEM com 'E:\\www\\go2apply.com.br\\' (considerando case-insensitive e normalizando barras), ele está FORA do projeto. Se estiver fora, retorne {\"continue\": false, \"stopReason\": \"Arquivo fora da pasta do projeto. Confirmação necessária.\"}. Se estiver dentro, retorne {\"continue\": true}."
           }
         ]
       }

@@ -84,6 +84,15 @@ go2apply.com.br/
 │   │   │   └── hero-ticker.html        # (.hero-ticker, #hero-ticker)
 │   │   └── hero.html                   # ORQUESTRADOR DA DOBRA HERO (.hero, #hero)
 │   │
+│   ├── objection-breaker/              # DOBRA CONTORNO DE OBJEÇÃO (2ª dobra, logo após o Hero)
+│   │   ├── objection-breaker-opening/  # Subcomponente exclusivo: headline + situações + quebra de objeção + CTA
+│   │   │   └── objection-breaker-opening.html
+│   │   ├── objection-breaker-example/  # Subcomponente exclusivo: exemplo de perda de calda em modal com slides
+│   │   │   └── objection-breaker-example.html  # (window.openObjectionExample), só abre em clique, sem libs externas
+│   │   ├── objection-breaker-closing/  # Subcomponente exclusivo: virada para o produto + oferta de 7 dias grátis
+│   │   │   └── objection-breaker-closing.html
+│   │   └── objection-breaker.html      # ORQUESTRADOR DA DOBRA (.objection-breaker, #objection-breaker)
+│   │
 │   └── footer/                         # DOBRA FOOTER
 │       └── footer.html                 # ORQUESTRADOR DA DOBRA FOOTER (.footer, #footer)
 │
@@ -108,6 +117,7 @@ No `index.html`, declaramos a ordem das dobras e os componentes estruturais glob
 <main id="app-root">
     <!-- Dobras da Landing Page -->
     <div data-page="sections/hero/hero.html"></div>
+    <div data-page="sections/objection-breaker/objection-breaker.html"></div>
     <!-- <div data-page="sections/solutions/solutions.html"></div> -->
     <!-- <div data-page="sections/contact/contact.html"></div> -->
 </main>

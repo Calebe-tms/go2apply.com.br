@@ -1,0 +1,21 @@
+<!-- ==========================================================================
+   Section / Dobra: Objection Breaker (Orquestrador)
+   Segunda dobra do site, logo abaixo do Hero — quebra a objeção de preço
+   sem expor o valor do app, usando um exemplo real de perda de calda.
+   Estrutura em 3 blocos: Abertura, Exemplo (scroll horizontal nativo) e
+   Virada/Oferta. Sem dependências externas — apenas CSS e JS nativos.
+   ========================================================================== -->
+<style>
+    .objection-breaker {
+        position: relative;
+        width: 100%;
+        background-color: var(--color-dark);
+        overflow: hidden;
+    }
+</style>
+
+<section class="objection-breaker" id="objection-breaker">
+    <div data-component="sections/objection-breaker/objection-breaker-opening/objection-breaker-opening.html"></div>
+    <div data-component="sections/objection-breaker/objection-breaker-example/objection-breaker-example.html"></div>
+    <div data-component="sections/objection-breaker/objection-breaker-closing/objection-breaker-closing.html"></div>
+</section>

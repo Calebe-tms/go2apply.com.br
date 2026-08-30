@@ -1,0 +1,403 @@
+<!-- ==========================================================================
+   Subcomponente: Objection Breaker — Example
+   Exemplo real de perda de calda (PDF "Contorno de objeção de compra"),
+   entregue como modal compacto com slides — só abre quando o visitante
+   clica no CTA da dobra de abertura (window.openObjectionExample()).
+   Nunca é forçado no fluxo de scroll da página.
+   ========================================================================== -->
+<style>
+    .ob-modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(var(--color-dark-rgb), 0.85);
+        backdrop-filter: var(--blur-glass);
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-lg);
+        z-index: 1000;
+    }
+
+    .ob-modal-overlay.is-open {
+        display: flex;
+    }
+
+    .ob-modal {
+        position: relative;
+        width: min(560px, 100%);
+        background-color: var(--color-dark-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+    }
+
+    .ob-modal-close {
+        position: absolute;
+        top: var(--space-sm);
+        right: var(--space-sm);
+        z-index: 2;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-white-muted);
+        background-color: rgba(var(--color-dark-rgb), 0.4);
+        border-radius: var(--radius-full);
+        transition: var(--transition-fast);
+    }
+
+    .ob-modal-close:hover {
+        color: var(--color-white);
+        background-color: rgba(var(--color-dark-rgb), 0.7);
+    }
+
+    .ob-modal-slides {
+        position: relative;
+        min-height: 300px;
+    }
+
+    .ob-modal-slide {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 300px;
+        padding: var(--space-xl) var(--space-lg) var(--space-md);
+        box-sizing: border-box;
+    }
+
+    .ob-modal-slide.is-active {
+        display: flex;
+    }
+
+    .ob-slide-eyebrow {
+        color: var(--color-orange);
+        font-weight: 700;
+        font-size: var(--font-size-xs);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin: 0 0 var(--space-xs);
+    }
+
+    .ob-slide-title {
+        color: var(--color-white);
+        font-family: var(--font-main);
+        font-weight: 800;
+        font-size: var(--font-size-lg);
+        line-height: 1.25;
+        margin: 0 0 var(--space-sm);
+    }
+
+    .ob-slide-support {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-sm);
+        line-height: 1.55;
+    }
+
+    .ob-slide-number {
+        color: var(--color-white);
+        font-family: var(--font-main);
+        font-weight: 900;
+        font-size: var(--font-size-hero);
+        line-height: 1;
+        margin: 0 0 var(--space-sm);
+    }
+
+    /* --- Slide: operação + produtos --- */
+    .ob-products {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+        margin-top: var(--space-sm);
+    }
+
+    .ob-products li {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-xs);
+        color: var(--color-white);
+        font-weight: 700;
+        font-size: var(--font-size-sm);
+    }
+
+    .ob-products li::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: var(--radius-full);
+        background-color: var(--color-pulver);
+        flex-shrink: 0;
+    }
+
+    .ob-products .dose {
+        color: var(--color-white-muted);
+        font-weight: 400;
+        font-size: var(--font-size-xs);
+    }
+
+    /* --- Slide: cálculo --- */
+    .ob-equation {
+        color: var(--color-white);
+        font-weight: 800;
+        font-size: var(--font-size-xl);
+        margin: 0 0 var(--space-sm);
+    }
+
+    .ob-equation .op {
+        color: var(--color-orange);
+        margin: 0 var(--space-xs);
+    }
+
+    /* --- Slide: revelação (único flip para tema claro do site) --- */
+    .ob-modal-slide.ob-slide--reveal.is-active {
+        background-color: var(--color-white);
+    }
+
+    .ob-slide--reveal .ob-slide-eyebrow {
+        color: rgba(var(--color-dark-rgb), 0.55);
+    }
+
+    .ob-slide--reveal .ob-slide-number {
+        color: var(--color-dark);
+    }
+
+    .ob-slide--reveal .ob-slide-support {
+        color: rgba(var(--color-dark-rgb), 0.7);
+    }
+
+    /* --- Slide: consequência --- */
+    .ob-slide--consequence .ob-slide-title .highlight {
+        color: var(--color-orange);
+    }
+
+    /* --- Navegação do modal --- */
+    .ob-modal-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        padding: var(--space-sm) var(--space-lg) var(--space-lg);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .ob-modal-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-full);
+        color: var(--color-white);
+        background-color: rgba(var(--color-white-rgb), 0.06);
+        transition: var(--transition-fast);
+    }
+
+    .ob-modal-arrow:hover {
+        background-color: rgba(var(--color-white-rgb), 0.14);
+    }
+
+    .ob-modal-arrow:disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .ob-modal-dots {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+    }
+
+    .ob-modal-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: var(--radius-full);
+        background-color: var(--color-border-subtle);
+        transition: var(--transition-fast);
+    }
+
+    .ob-modal-dot.is-active {
+        width: 18px;
+        background-color: var(--color-orange);
+    }
+
+    @media (max-width: 600px) {
+        .ob-modal-slide {
+            padding: var(--space-lg) var(--space-md) var(--space-sm);
+            min-height: 260px;
+        }
+
+        .ob-modal-slides {
+            min-height: 260px;
+        }
+
+        .ob-modal-nav {
+            padding: var(--space-sm) var(--space-md) var(--space-md);
+        }
+    }
+</style>
+
+<div class="ob-modal-overlay" id="ob-modal-overlay">
+    <div class="ob-modal" id="ob-modal" role="dialog" aria-modal="true" aria-label="Exemplo real de perda de calda">
+        <button class="ob-modal-close" id="ob-modal-close" type="button" aria-label="Fechar exemplo">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+        </button>
+
+        <div class="ob-modal-slides">
+            <!-- Slide 1: título -->
+            <div class="ob-modal-slide is-active">
+                <p class="ob-slide-eyebrow">Exemplo real</p>
+                <h3 class="ob-slide-title">Uma perda de calda pode custar quanto?</h3>
+                <p class="ob-slide-support">Vamos colocar uma situação real na ponta do lápis.</p>
+            </div>
+
+            <!-- Slide 2: operação + produtos -->
+            <div class="ob-modal-slide">
+                <p class="ob-slide-eyebrow">A operação, neste exemplo</p>
+                <p class="ob-slide-title" style="margin-bottom: 0.25rem;">30 hectares</p>
+                <ul class="ob-products">
+                    <li>FOX XPRO <span class="dose">0,5 L/ha</span></li>
+                    <li>AUREO <span class="dose">0,3 L/ha</span></li>
+                    <li>BELT <span class="dose">0,1 L/ha</span></li>
+                    <li>UNIZEB GOLD <span class="dose">1,5 kg/ha</span></li>
+                    <li>AG RDG <span class="dose">1 L/ha</span></li>
+                    <li>CURBIX <span class="dose">1 L/ha</span></li>
+                </ul>
+            </div>
+
+            <!-- Slide 3: cálculo -->
+            <div class="ob-modal-slide">
+                <p class="ob-slide-eyebrow">O cálculo do exemplo</p>
+                <p class="ob-equation">R$ 308/ha <span class="op">×</span> 30 ha</p>
+                <p class="ob-slide-support">Somando os valores da composição e multiplicando pela área total da operação.</p>
+            </div>
+
+            <!-- Slide 4: revelação -->
+            <div class="ob-modal-slide ob-slide--reveal">
+                <p class="ob-slide-eyebrow">Neste exemplo</p>
+                <p class="ob-slide-number" id="ob-reveal-value">R$ 0,00</p>
+                <p class="ob-slide-support">É o impacto apresentado neste exemplo quando o valor por hectare é multiplicado pela área de 30 hectares. Não representa uma perda garantida em toda aplicação.</p>
+            </div>
+
+            <!-- Slide 5: consequência -->
+            <div class="ob-modal-slide ob-slide--consequence">
+                <p class="ob-slide-support" style="margin-bottom: var(--space-sm);">Agora imagine isso acontecendo na sua operação.</p>
+                <h3 class="ob-slide-title">O problema não é apenas o custo de uma ferramenta. É o custo de uma <span class="highlight">decisão tomada sem a informação certa</span>.</h3>
+            </div>
+        </div>
+
+        <div class="ob-modal-nav">
+            <button class="ob-modal-arrow" id="ob-modal-prev" type="button" aria-label="Slide anterior">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+            </button>
+
+            <div class="ob-modal-dots" id="ob-modal-dots"></div>
+
+            <button class="ob-modal-arrow" id="ob-modal-next" type="button" aria-label="Próximo slide">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const overlay = document.getElementById('ob-modal-overlay');
+    const slides = Array.from(document.querySelectorAll('#ob-modal .ob-modal-slide'));
+    const dotsWrap = document.getElementById('ob-modal-dots');
+    const prevBtn = document.getElementById('ob-modal-prev');
+    const nextBtn = document.getElementById('ob-modal-next');
+    const closeBtn = document.getElementById('ob-modal-close');
+    if (!overlay || !slides.length || !dotsWrap) return;
+
+    // Gera os indicadores (bolinhas) dinamicamente, um por slide
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'ob-modal-dot';
+        dot.setAttribute('aria-label', `Ir para o slide ${i + 1}`);
+        dot.addEventListener('click', () => showSlide(i));
+        dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+
+    let currentIndex = 0;
+    let triggerEl = null;
+    let hasRevealPlayed = false;
+
+    function showSlide(index) {
+        currentIndex = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, i) => slide.classList.toggle('is-active', i === currentIndex));
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === currentIndex));
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === slides.length - 1;
+
+        if (slides[currentIndex].classList.contains('ob-slide--reveal')) {
+            playReveal();
+        }
+    }
+
+    function playReveal() {
+        if (hasRevealPlayed) return;
+        hasRevealPlayed = true;
+
+        const valueEl = document.getElementById('ob-reveal-value');
+        if (!valueEl) return;
+        const formatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+        const target = 9240;
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            valueEl.textContent = formatter.format(target);
+            return;
+        }
+
+        const start = performance.now();
+        function step(now) {
+            const progress = Math.min((now - start) / 900, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            valueEl.textContent = formatter.format(Math.round(target * eased));
+            if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    function handleKeydown(e) {
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
+        if (e.key === 'ArrowLeft') showSlide(currentIndex - 1);
+    }
+
+    function openModal(trigger) {
+        triggerEl = trigger || null;
+        hasRevealPlayed = false;
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        showSlide(0);
+        document.addEventListener('keydown', handleKeydown);
+        closeBtn.focus();
+    }
+
+    function closeModal() {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', handleKeydown);
+        if (triggerEl) triggerEl.focus();
+    }
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+
+    window.openObjectionExample = openModal;
+})();
+</script>
