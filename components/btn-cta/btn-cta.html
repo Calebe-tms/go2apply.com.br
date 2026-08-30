@@ -137,8 +137,8 @@
     }
 </style>
 
-<div class="btn-cta" id="btn-cta">
-    <button class="btn-cta-element cta-btn-base" id="main-cta-button">
+<div class="btn-cta">
+    <button class="btn-cta-element cta-btn-base" type="button">
         <img src="assets/icos/ico-logo-go2apply.png" alt="" class="btn-cta-icon" aria-hidden="true">
         <span class="btn-cta-label">Conheça a Ferramenta</span>
         <svg class="btn-cta-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
@@ -149,21 +149,30 @@
 </div>
 
 <script>
-    document.getElementById('main-cta-button').addEventListener('click', () => {
-        if (window.openAuthDrawer) {
-            window.openAuthDrawer();
-        } else {
-            // No mobile o auth-drawer pode ainda não ter carregado quando o
-            // botão já está clicável; reagenda a abertura para quando estiver pronto
-            window.addEventListener('components:ready', () => window.openAuthDrawer?.(), { once: true });
+    (function () {
+        // Escuta cliques em todos os botões btn-cta (suporta múltiplas instâncias no DOM)
+        if (!window.__btnCtaGlobalListener) {
+            window.__btnCtaGlobalListener = true;
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('.btn-cta-element, .cta-btn-base');
+                if (btn) {
+                    if (window.openAuthDrawer) {
+                        window.openAuthDrawer();
+                    } else {
+                        window.addEventListener('components:ready', () => window.openAuthDrawer?.(), { once: true });
+                    }
+                }
+            });
         }
-    });
 
-    // Avisa outros componentes (header, links sociais) quando este botão
-    // entra/sai de tela, para eles não precisarem conhecer seu id diretamente
-    new IntersectionObserver(([entry]) => {
-        window.dispatchEvent(new CustomEvent('btn-cta:visibility-change', {
-            detail: { isOnScreen: entry.isIntersecting }
-        }));
-    }).observe(document.getElementById('btn-cta'));
+        // Avisa outros componentes sobre a visibilidade da instância atual
+        const currentContainer = document.currentScript ? document.currentScript.previousElementSibling : null;
+        if (currentContainer && currentContainer.classList.contains('btn-cta')) {
+            new IntersectionObserver(([entry]) => {
+                window.dispatchEvent(new CustomEvent('btn-cta:visibility-change', {
+                    detail: { isOnScreen: entry.isIntersecting }
+                }));
+            }).observe(currentContainer);
+        }
+    })();
 </script>
