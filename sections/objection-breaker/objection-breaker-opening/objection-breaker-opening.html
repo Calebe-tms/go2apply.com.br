@@ -95,6 +95,25 @@
         height: 100%;
     }
 
+    /* Compensa a proporção de cada viewBox para o "peso" óptico ficar
+       igual entre os 5 ícones (sem isso, os mais estreitos/altos
+       parecem menores dentro da mesma caixa 48x48). */
+    .ob-situations li:nth-child(2) .ob-situation-icon svg {
+        transform: scale(1.09);
+    }
+
+    .ob-situations li:nth-child(3) .ob-situation-icon svg {
+        transform: scale(1.12);
+    }
+
+    .ob-situations li:nth-child(4) .ob-situation-icon svg {
+        transform: scale(1.22);
+    }
+
+    .ob-situations li:nth-child(5) .ob-situation-icon svg {
+        transform: scale(1.02);
+    }
+
     .ob-situation-text {
         color: var(--color-white);
         font-weight: 700;

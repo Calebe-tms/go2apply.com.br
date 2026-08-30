@@ -1,11 +1,11 @@
 <!-- ==========================================================================
-   Seção Orquestradora: Objection Breaker
+   Seção Orquestradora: OB (Objection Breaker)
    Organiza os subcomponentes em layouts otimizados para Desktop e Mobile.
-   Desktop: Headline (Topo Centralizado) -> Grid 50/50 (Situation + Breaker) -> Example
-   Mobile:  Headline -> Situation -> Example (3 Cards) -> Breaker
+   Mobile: Headline -> Situation -> Example -> Break
+   Desktop: Headline -> Grid 50/50 (Situation + Break) -> Example
    ========================================================================== -->
 <style>
-    .objection-breaker {
+    .ob-section {
         position: relative;
         width: 100%;
         padding: var(--space-2xl) 0;
@@ -39,9 +39,9 @@
         align-items: center;
     }
 
-    /* Responsividade Mobile: Ordem Headline -> Situation -> Example -> Breaker */
+    /* Responsividade Mobile: Ordem Situation -> Example -> Break */
     @media (max-width: 992px) {
-        .objection-breaker {
+        .ob-section {
             padding: var(--space-xl) 0;
         }
 
@@ -49,7 +49,7 @@
             gap: var(--space-xl);
         }
 
-        /* Desfaz o container intermediário para colocar situation, example e breaker no mesmo nível de flex */
+        /* Desfaz o container intermediário para colocar situation, example e break no mesmo nível de flex */
         .ob-grid-50-50 {
             display: contents;
         }
@@ -57,25 +57,25 @@
         .ob-slot-headline  { order: 1; }
         .ob-slot-situation { order: 2; }
         .ob-slot-example   { order: 3; }
-        .ob-slot-breaker   { order: 4; }
+        .ob-slot-break     { order: 4; }
     }
 </style>
 
-<section class="objection-breaker" id="objection-breaker">
+<section class="ob-section" id="ob">
     <div class="ob-inner">
         <div class="ob-flex-container">
             
-            <!-- Headline Centralizada no topo em full width -->
-            <div class="ob-slot-headline" data-component="sections/objection-breaker/ob-headline/ob-headline.html"></div>
+            <!-- Slot 1: Headline -->
+            <div class="ob-slot-headline" data-component="sections/ob/ob-headline/ob-headline.html"></div>
 
-            <!-- Grid 50/50 no Desktop (Situation + Breaker) -->
+            <!-- Slot 2 no Desktop / Desmembrado no Mobile via CSS display: contents -->
             <div class="ob-grid-50-50 ob-slot-grid">
-                <div class="ob-slot-situation" data-component="sections/objection-breaker/ob-situation/ob-situation.html"></div>
-                <div class="ob-slot-breaker" data-component="sections/objection-breaker/ob-breaker/ob-breaker.html"></div>
+                <div class="ob-slot-situation" data-component="sections/ob/ob-situation/ob-situation.html"></div>
+                <div class="ob-slot-break" data-component="sections/ob/ob-break/ob-break.html"></div>
             </div>
 
-            <!-- Example (3 Cards) -->
-            <div class="ob-slot-example" data-component="sections/objection-breaker/ob-example/ob-example.html"></div>
+            <!-- Slot 3: Example (3 Cards) -->
+            <div class="ob-slot-example" data-component="sections/ob/ob-example/ob-example.html"></div>
 
         </div>
     </div>

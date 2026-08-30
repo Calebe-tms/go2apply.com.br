@@ -1,0 +1,41 @@
+<!-- ==========================================================================
+   Subcomponente: OB — Headline
+   Título principal de impacto da seção objection-breaker.
+   ========================================================================== -->
+<style>
+    .ob-headline-wrap {
+        padding: var(--space-md) 1.5rem 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .ob-headline {
+        color: var(--color-white);
+        font-family: var(--font-main);
+        font-weight: 800;
+        font-size: calc(var(--font-size-hero) * 1.15);
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        text-transform: none;
+        max-width: 900px;
+        margin: 0 auto var(--space-xl);
+        padding: 1rem 0 1.5rem;
+        text-align: center;
+    }
+
+    .ob-headline .accent-orange {
+        color: var(--color-orange);
+    }
+
+    @media (max-width: 992px) {
+        .ob-headline {
+            font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+            margin-bottom: var(--space-md);
+            padding: 0.5rem 0;
+        }
+    }
+</style>
+
+<div class="ob-headline-wrap">
+    <h2 class="ob-headline">Quanto custa <span class="accent-orange">uma decisão<br>errada</span> na pulverização?</h2>
+</div>
