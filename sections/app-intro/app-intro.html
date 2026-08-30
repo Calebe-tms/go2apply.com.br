@@ -1,0 +1,105 @@
+<!-- ==========================================================================
+   Seção: App Intro
+   Abertura clara (light-theme) que antecede a jornada do produto: logo
+   centralizado + título de impacto. Dobra curta, estática, só para
+   respirar antes da dobra escura da jornada (app-journey).
+   ========================================================================== -->
+<style>
+    .app-intro {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        margin: -90px 0;
+        padding: calc(var(--space-2xl) + 90px) 1.5rem;
+        clip-path: polygon(0 90px, 100% 0, 100% calc(100% - 90px), 0 100%);
+        background-color: var(--color-white);
+        color: var(--color-dark);
+        text-align: center;
+        filter: drop-shadow(0 24px 32px rgba(var(--color-dark-rgb), 0.25));
+    }
+
+    .app-intro-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+        background-image:
+            radial-gradient(circle at 30% 30%, var(--color-caldas-subtle), transparent 55%),
+            radial-gradient(circle at 70% 70%, var(--color-pulver-subtle), transparent 55%);
+        background-size: 180% 180%;
+        background-position: 0% 0%, 100% 100%;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .app-intro-bg {
+            animation: app-intro-bg-drift 16s ease-in-out infinite alternate;
+        }
+    }
+
+    @keyframes app-intro-bg-drift {
+        0% { background-position: 0% 0%, 100% 100%; }
+        100% { background-position: 35% 25%, 65% 75%; }
+    }
+
+    .app-intro-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 780px;
+        margin: 0 auto;
+    }
+
+    .app-intro-logo {
+        display: block;
+        width: min(260px, 55vw);
+        height: auto;
+        margin: 0 auto var(--space-xl);
+    }
+
+    .app-intro-title {
+        font-family: var(--font-main);
+        font-weight: 800;
+        font-size: calc(var(--font-size-hero) * 0.82);
+        line-height: 1.25;
+        letter-spacing: -0.25px;
+        text-transform: uppercase;
+        margin: 0 0 var(--space-md);
+    }
+
+    .app-intro-title .highlight {
+        color: var(--color-orange);
+    }
+
+    .app-intro-subtitle {
+        color: rgba(var(--color-dark-rgb), 0.65);
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        margin: 0 auto;
+        max-width: 52ch;
+    }
+
+    @media (max-width: 600px) {
+        .app-intro {
+            margin: -48px 0;
+            padding: calc(var(--space-xl) + 48px) 1.25rem;
+            clip-path: polygon(0 48px, 100% 0, 100% calc(100% - 48px), 0 100%);
+        }
+
+        .app-intro-title {
+            font-size: var(--font-size-lg);
+        }
+
+        .app-intro-subtitle {
+            font-size: var(--font-size-sm);
+        }
+    }
+</style>
+
+<section class="app-intro" id="app-intro">
+    <div class="app-intro-bg" aria-hidden="true"></div>
+    <div class="app-intro-inner">
+        <img class="app-intro-logo" src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply">
+        <h2 class="app-intro-title">É para reduzir esse tipo de <span class="highlight">incerteza</span> que o go2apply existe.</h2>
+        <p class="app-intro-subtitle">Na prática, o go2apply ajuda você a tomar decisões mais precisas no campo.</p>
+    </div>
+</section>

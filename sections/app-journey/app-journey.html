@@ -1,0 +1,565 @@
+<!-- ==========================================================================
+   Seção: App Journey
+   Dobra escura (dark-theme) e compacta que mostra o go2apply acompanhando
+   a jornada da pulverização: Planejamento -> Operação -> Gestão, em abas
+   interativas ao lado do mockup do produto. Fecha com a virada + CTA.
+   ========================================================================== -->
+<style>
+    .app-journey {
+        position: relative;
+        width: 100%;
+        padding: var(--space-xl) 1.5rem;
+        background-color: var(--color-dark);
+        color: var(--color-white);
+    }
+
+    .app-journey-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .app-journey-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.75fr);
+        gap: var(--space-xl);
+        align-items: center;
+    }
+
+    /* --- Abas --- */
+    .app-journey-tabs {
+        position: relative;
+        display: flex;
+        gap: var(--space-lg);
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: var(--space-lg);
+    }
+
+    .app-journey-tab {
+        display: flex;
+        align-items: baseline;
+        gap: 0.4rem;
+        background: none;
+        border: none;
+        color: var(--color-white-muted);
+        font-family: var(--font-main);
+        cursor: pointer;
+        padding: 0 0 var(--space-sm);
+        transition: var(--transition-fast);
+    }
+
+    .app-journey-tab-number {
+        font-weight: 800;
+        font-size: var(--font-size-sm);
+        color: var(--tab-color, var(--color-orange));
+        opacity: 0.6;
+        transition: var(--transition-fast);
+    }
+
+    .app-journey-tab-label {
+        font-weight: 700;
+        font-size: var(--font-size-base);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .app-journey-tab:hover {
+        color: var(--color-white);
+    }
+
+    .app-journey-tab.is-active {
+        color: var(--color-white);
+    }
+
+    .app-journey-tab.is-active .app-journey-tab-number {
+        opacity: 1;
+    }
+
+    .app-journey-tab-indicator {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 90px;
+        height: 2px;
+        background-color: var(--color-orange);
+    }
+
+    /* --- Painéis --- */
+    .app-journey-panel {
+        display: none;
+    }
+
+    .app-journey-panel.is-active {
+        display: block;
+    }
+
+    .app-panel-eyebrow {
+        color: var(--tab-color, var(--color-orange));
+        font-weight: 700;
+        font-size: var(--font-size-sm);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin: 0 0 0.25rem;
+    }
+
+    .app-panel-support {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-base);
+        line-height: 1.55;
+        margin: 0 0 var(--space-md);
+        max-width: 52ch;
+    }
+
+    .app-panel-tools {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm) var(--space-md);
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .app-journey-panel[data-panel="operacao"] .app-panel-tools,
+    .app-journey-panel[data-panel="gestao"] .app-panel-tools {
+        grid-template-columns: 1fr;
+    }
+
+    .app-tool-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+    }
+
+    .app-tool-icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: var(--radius-md);
+        background-color: rgba(var(--color-white-rgb), 0.06);
+        color: var(--tab-color, var(--color-orange));
+    }
+
+    .app-tool-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        padding-top: 0.2rem;
+    }
+
+    .app-tool-name {
+        font-weight: 700;
+        font-size: var(--font-size-sm);
+        color: var(--color-white);
+        line-height: 1.3;
+    }
+
+    .app-tool-detail {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-xs);
+        line-height: 1.4;
+    }
+
+    /* --- Mockup ao lado --- */
+    .app-journey-mockup {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .app-mockup-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: min(360px, 90%);
+        aspect-ratio: 1 / 1;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, var(--color-orange-subtle) 0%, transparent 72%);
+        filter: blur(30px);
+        pointer-events: none;
+    }
+
+    .app-mockup-img {
+        position: relative;
+        width: min(230px, 80%);
+        height: auto;
+        filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.45));
+    }
+
+    /* --- Fechamento --- */
+    .app-closing {
+        text-align: center;
+        max-width: 620px;
+        margin: var(--space-xl) auto 0;
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .app-closing-quote {
+        font-family: var(--font-main);
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        line-height: 1.4;
+        margin: 0 0 var(--space-md);
+    }
+
+    .app-closing-motto {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        color: var(--color-white-muted);
+        font-weight: 800;
+        font-size: var(--font-size-sm);
+        letter-spacing: 0.14em;
+        margin: 0 0 var(--space-lg);
+    }
+
+    .app-motto-word--highlight {
+        color: var(--color-orange);
+    }
+
+    .app-closing-cta {
+        display: flex;
+        justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+        .app-journey {
+            padding-top: calc(var(--space-xl) + 80px);
+        }
+
+        .app-journey-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .app-journey-mockup {
+            position: relative;
+            z-index: 3;
+            order: -1;
+            top: -130px;
+            margin-bottom: -70px;
+        }
+
+        .app-mockup-img {
+            width: min(180px, 55%);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .app-journey {
+            padding: calc(var(--space-lg) + 80px) 1.25rem var(--space-lg);
+        }
+
+        .app-journey-tabs {
+            gap: var(--space-md);
+        }
+
+        .app-journey-tab-label {
+            font-size: var(--font-size-sm);
+        }
+
+        .app-panel-tools {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+
+<section class="app-journey" id="app-journey">
+    <div class="app-journey-inner">
+        <div class="app-journey-grid">
+            <div class="app-journey-content">
+                <div class="app-journey-tabs" role="tablist">
+                    <button class="app-journey-tab is-active" data-step="planejamento" role="tab" aria-selected="true" style="--tab-color: var(--color-caldas-light);">
+                        <span class="app-journey-tab-number">01</span>
+                        <span class="app-journey-tab-label">Planejamento</span>
+                    </button>
+                    <button class="app-journey-tab" data-step="operacao" role="tab" aria-selected="false" style="--tab-color: var(--color-pulver-light);">
+                        <span class="app-journey-tab-number">02</span>
+                        <span class="app-journey-tab-label">Operação</span>
+                    </button>
+                    <button class="app-journey-tab" data-step="gestao" role="tab" aria-selected="false" style="--tab-color: var(--color-kow-light);">
+                        <span class="app-journey-tab-number">03</span>
+                        <span class="app-journey-tab-label">Gestão</span>
+                    </button>
+                    <span class="app-journey-tab-indicator" aria-hidden="true"></span>
+                </div>
+
+                <div class="app-journey-panels">
+                    <!-- 01 — Planejamento -->
+                    <div class="app-journey-panel is-active" data-panel="planejamento" style="--tab-color: var(--color-caldas-light);">
+                        <p class="app-panel-eyebrow">Antes da operação</p>
+                        <p class="app-panel-support">Prepare a aplicação antes de entrar em campo.</p>
+                        <ul class="app-panel-tools">
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M9 3h6" />
+                                        <path d="M10 3v6.2L4.8 18.5A1.8 1.8 0 0 0 6.4 21h11.2a1.8 1.8 0 0 0 1.6-2.5L14 9.2V3" />
+                                        <path d="M8 15h8" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Formação de caldas</span>
+                                    <span class="app-tool-detail">com ordem e metodologia</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M12 9v4" />
+                                        <path d="M12 17h.01" />
+                                        <path d="M10.3 3.9 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Alertas de incompatibilidade</span>
+                                    <span class="app-tool-detail">fitotoxicidade e entupimentos</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M12 3c0 0 6 6.8 6 11a6 6 0 0 1-12 0c0-4.2 6-11 6-11Z" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Kow, adjuvantes e pH</span>
+                                    <span class="app-tool-detail">mais de 400 ingredientes ativos</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M4 15a8 8 0 1 1 16 0" />
+                                        <path d="M12 15 15.5 10" />
+                                        <path d="M12 15h.01" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Pressão e vazão</span>
+                                    <span class="app-tool-detail">ajuste por ponta e taxa</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M3 13h4l2 6 4-14 2 8h6" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Calibração de fluxômetro</span>
+                                    <span class="app-tool-detail">volume aplicado por hectare</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="2.2" />
+                                        <circle cx="5" cy="5" r="1.6" />
+                                        <circle cx="19" cy="5" r="1.6" />
+                                        <circle cx="5" cy="19" r="1.6" />
+                                        <circle cx="19" cy="19" r="1.6" />
+                                        <path d="M9.8 9.8 6.3 6.3" />
+                                        <path d="M14.2 9.8 17.7 6.3" />
+                                        <path d="M9.8 14.2 6.3 17.7" />
+                                        <path d="M14.2 14.2 17.7 17.7" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Calibração de aeronaves</span>
+                                    <span class="app-tool-detail">faixa e perfil de deposição</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 02 — Operação -->
+                    <div class="app-journey-panel" data-panel="operacao" style="--tab-color: var(--color-pulver-light);">
+                        <p class="app-panel-eyebrow">Durante a aplicação</p>
+                        <p class="app-panel-support">Durante a aplicação, transforme condições em decisões.</p>
+                        <ul class="app-panel-tools">
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M12 3v2.5" />
+                                        <path d="M7.5 6 9 7.5" />
+                                        <path d="M16.5 6 15 7.5" />
+                                        <path d="M7 13a5 5 0 0 1 10 0c0 3-2.2 8-5 8s-5-5-5-8Z" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Espectro de gotas</span>
+                                    <span class="app-tool-detail">dimensionamento por condição ambiental</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M13 4.5a1.5 1.5 0 0 0-3 0v9a3.8 3.8 0 1 0 3 0Z" />
+                                        <path d="M11.5 8h1.5" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Determinação de Delta T</span>
+                                    <span class="app-tool-detail">risco de evaporação e deriva</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 03 — Gestão -->
+                    <div class="app-journey-panel" data-panel="gestao" style="--tab-color: var(--color-kow-light);">
+                        <p class="app-panel-eyebrow">Depois da aplicação</p>
+                        <p class="app-panel-support">Depois da aplicação, transforme dados em controle.</p>
+                        <ul class="app-panel-tools">
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="9" />
+                                        <path d="m8 12.5 2.5 2.5L16 9.5" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Avaliações de uniformidade e desgaste</span>
+                                    <span class="app-tool-detail">CV e substituição pontual de bicos</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M14 3H7.8A1.8 1.8 0 0 0 6 4.8v14.4A1.8 1.8 0 0 0 7.8 21h8.4a1.8 1.8 0 0 0 1.8-1.8V8Z" />
+                                        <path d="M14 3v5h5" />
+                                        <path d="M9 13.5h6" />
+                                        <path d="M9 17h6" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Geração de relatórios</span>
+                                    <span class="app-tool-detail">em todas as ferramentas</span>
+                                </span>
+                            </li>
+                            <li class="app-tool-item">
+                                <span class="app-tool-icon">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M20 12a7.5 7.5 0 0 1-11.3 6.5L4 20l1.4-4.2A7.5 7.5 0 1 1 20 12Z" />
+                                    </svg>
+                                </span>
+                                <span class="app-tool-body">
+                                    <span class="app-tool-name">Comunidade exclusiva</span>
+                                    <span class="app-tool-detail">suporte técnico via Telegram</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-journey-mockup">
+                <div class="app-mockup-glow" aria-hidden="true"></div>
+                <img class="app-mockup-img" src="assets/imagens/iPhone-14-PRO-www.equalizagro.com.webp"
+                    alt="Interface do go2apply em um smartphone">
+            </div>
+        </div>
+
+        <div class="app-closing">
+            <p class="app-closing-quote">Do planejamento à gestão, o go2apply coloca as informações certas na hora certa para apoiar suas decisões de pulverização.</p>
+            <p class="app-closing-motto">
+                <span class="app-motto-word">PLANEJE.</span>
+                <span class="app-motto-word app-motto-word--highlight">APLIQUE.</span>
+                <span class="app-motto-word">AVALIE.</span>
+            </p>
+            <div class="app-closing-cta">
+                <div data-component="components/btn-cta/btn-cta.html"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function () {
+    function initAppJourney() {
+        const section = document.getElementById('app-journey');
+        if (!section) return;
+
+        const tabs = Array.from(section.querySelectorAll('.app-journey-tab'));
+        const panels = Array.from(section.querySelectorAll('.app-journey-panel'));
+        const indicator = section.querySelector('.app-journey-tab-indicator');
+        const hasGsap = !!window.gsap;
+
+        function moveIndicator(tab) {
+            const rowRect = tab.parentElement.getBoundingClientRect();
+            const tabRect = tab.getBoundingClientRect();
+            const left = tabRect.left - rowRect.left;
+            if (hasGsap) {
+                gsap.to(indicator, { left, width: tabRect.width, duration: 0.4, ease: 'power3.out' });
+            } else {
+                indicator.style.left = left + 'px';
+                indicator.style.width = tabRect.width + 'px';
+            }
+        }
+
+        function activateStep(step) {
+            tabs.forEach((tab) => {
+                const isActive = tab.dataset.step === step;
+                tab.classList.toggle('is-active', isActive);
+                tab.setAttribute('aria-selected', String(isActive));
+                if (isActive) moveIndicator(tab);
+            });
+
+            panels.forEach((panel) => {
+                if (panel.dataset.panel === step) {
+                    panel.classList.add('is-active');
+                    if (hasGsap) {
+                        gsap.fromTo(panel, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' });
+                    }
+                } else {
+                    panel.classList.remove('is-active');
+                }
+            });
+        }
+
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => activateStep(tab.dataset.step));
+        });
+
+        requestAnimationFrame(() => moveIndicator(tabs[0]));
+
+        if (!hasGsap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from('.app-journey-mockup', {
+            opacity: 0,
+            y: 40,
+            scale: 0.94,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: window.ScrollTrigger ? { trigger: '#app-journey', start: 'top 75%' } : undefined
+        });
+
+        gsap.from('.app-journey-content', {
+            opacity: 0,
+            y: 30,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: window.ScrollTrigger ? { trigger: '#app-journey', start: 'top 78%' } : undefined
+        });
+
+        gsap.from('.app-closing-quote, .app-closing-motto, .app-closing-cta', {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            ease: 'power3.out',
+            stagger: 0.12,
+            scrollTrigger: window.ScrollTrigger ? { trigger: '.app-closing', start: 'top 85%' } : undefined
+        });
+    }
+
+    if (window.componentLoader) {
+        window.addEventListener('components:ready', initAppJourney, { once: true });
+    } else {
+        window.addEventListener('load', initAppJourney);
+    }
+})();
+</script>

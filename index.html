@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="css/reset.css?v=1.1">
     <link rel="stylesheet" href="css/style.css?v=1.1">
 
+    <!-- GSAP: usado pela dobra app-showcase para as animações de scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
     <style>
     body.is-loading {
         overflow: hidden !important;
@@ -111,7 +115,8 @@
     <main id="app-root">
         <div data-page="sections/hero/hero.html"></div>
         <div data-page="sections/objection-breaker/objection-breaker.html"></div>
-        <div data-page="sections/app-showcase/app-showcase.html"></div>
+        <div data-page="sections/app-intro/app-intro.html"></div>
+        <div data-page="sections/app-journey/app-journey.html"></div>
     </main>
     <div data-component="sections/footer/footer.html"></div>
     <div data-component="components/whatsapp-float/whatsapp-float.html"></div>
