@@ -13,8 +13,13 @@
 
     --color-green: #5b8c45;
     --color-green-rgb: 91, 140, 69;
+    --color-green-hover: #4a7037;
     --color-green-glow: rgba(var(--color-green-rgb), 0.4);
     --color-green-subtle: rgba(var(--color-green-rgb), 0.14);
+
+    --color-danger: #ef4444;
+    --color-danger-rgb: 239, 68, 68;
+    --color-warning: #eab308;
 
     /* --- Cores Neutras & Escuras --- */
     --color-dark: #171e14;
@@ -104,7 +109,7 @@
     --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
     --shadow-light-sm: 0 4px 16px rgba(var(--color-dark-rgb), 0.06);
     --shadow-light-md: 0 12px 32px rgba(var(--color-dark-rgb), 0.12);
-    --shadow-glow: 0 0 20px rgba(242, 142, 18, 0.35);
+    --shadow-glow: 0 0 20px rgba(var(--color-orange-rgb), 0.35);
     --blur-glass: blur(16px) saturate(180%);
     --blur-drawer: blur(20px);
 }
