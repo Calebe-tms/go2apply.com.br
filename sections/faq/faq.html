@@ -1,0 +1,291 @@
+<!-- ==========================================================================
+   Seção: FAQ
+   Acordeão de perguntas frequentes. Fundo "semi-claro" dentro da família
+   dark do DS (surface elevada + cards com borda), mantendo o tema
+   consistente com as dobras vizinhas.
+   ========================================================================== -->
+<style>
+    .faq {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        margin-top: -90px;
+        padding: calc(var(--space-2xl) + 90px) 1.5rem var(--space-2xl);
+        clip-path: polygon(0 90px, 100% 0, 100% 100%, 0 100%);
+        background-color: var(--color-dark-surface);
+        color: var(--color-white);
+        text-align: center;
+    }
+
+    .faq-inner {
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+    .faq-title {
+        font-family: var(--font-main);
+        font-weight: 800;
+        font-size: var(--font-size-xl);
+        line-height: 1.2;
+        margin: 0 0 var(--space-sm);
+    }
+
+    .faq-title .highlight {
+        color: var(--color-orange);
+    }
+
+    .faq-support {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+        max-width: 52ch;
+        margin: 0 auto var(--space-xl);
+    }
+
+    .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+        text-align: left;
+    }
+
+    .faq-item {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        background-color: rgba(var(--color-white-rgb), 0.03);
+        overflow: hidden;
+        transition: var(--transition-fast);
+    }
+
+    .faq-item.is-open {
+        border-color: var(--color-border-subtle);
+        background-color: rgba(var(--color-white-rgb), 0.05);
+    }
+
+    .faq-question {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        width: 100%;
+        background: none;
+        border: none;
+        padding: var(--space-md) var(--space-lg);
+        cursor: pointer;
+        text-align: left;
+        color: var(--color-white);
+    }
+
+    .faq-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        border-radius: var(--radius-full);
+        background-color: var(--color-orange-subtle);
+        color: var(--color-orange);
+        transition: var(--transition-fast);
+    }
+
+    .faq-item.is-open .faq-icon {
+        background-color: var(--color-orange);
+        color: var(--color-dark);
+    }
+
+    .faq-question-text {
+        flex: 1;
+        font-weight: 700;
+        font-size: var(--font-size-base);
+    }
+
+    .faq-chevron {
+        flex-shrink: 0;
+        color: var(--color-white-muted);
+        transition: transform 0.3s ease;
+    }
+
+    .faq-item.is-open .faq-chevron {
+        color: var(--color-orange);
+        transform: rotate(180deg);
+    }
+
+    .faq-answer-wrap {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.35s ease;
+    }
+
+    .faq-item.is-open .faq-answer-wrap {
+        grid-template-rows: 1fr;
+    }
+
+    .faq-answer-inner {
+        overflow: hidden;
+    }
+
+    .faq-answer {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-sm);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0 var(--space-lg) var(--space-lg) calc(36px + var(--space-md) + var(--space-lg));
+    }
+
+    @media (max-width: 600px) {
+        .faq {
+            margin-top: -48px;
+            padding: calc(var(--space-xl) + 48px) 1.25rem var(--space-xl);
+            clip-path: polygon(0 48px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .faq-question {
+            padding: var(--space-sm) var(--space-md);
+            gap: var(--space-sm);
+        }
+
+        .faq-answer {
+            padding: 0 var(--space-md) var(--space-md) calc(36px + var(--space-sm) + var(--space-md));
+        }
+    }
+</style>
+
+<section class="faq" id="faq">
+    <div class="faq-inner">
+        <h2 class="faq-title">Perguntas <span class="highlight">Frequentes</span></h2>
+        <p class="faq-support">Tire suas dúvidas sobre como o go2apply funciona no dia a dia da sua operação.</p>
+
+        <div class="faq-list">
+            <div class="faq-item is-open">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <path d="M12 17h.01" />
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
+                    </span>
+                    <span class="faq-question-text">Preciso instalar algum programa para usar o go2apply?</span>
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Não. O go2apply funciona direto no navegador, do computador ou do celular, sem precisar baixar nem instalar nada.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <path d="M12 17h.01" />
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
+                    </span>
+                    <span class="faq-question-text">As calculadoras funcionam para qualquer cultura?</span>
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das operações agrícolas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <path d="M12 17h.01" />
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
+                    </span>
+                    <span class="faq-question-text">Preciso ser especialista para usar as ferramentas?</span>
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Não. As ferramentas guiam você passo a passo em cada cálculo, então dá para usar mesmo sem um conhecimento técnico aprofundado.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <path d="M12 17h.01" />
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
+                    </span>
+                    <span class="faq-question-text">Posso usar o go2apply em mais de uma fazenda ou talhão?</span>
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Sim. Não há limite de fazendas ou talhões: você organiza suas operações e acompanha cada uma separadamente dentro da plataforma.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <path d="M12 17h.01" />
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
+                    </span>
+                    <span class="faq-question-text">Como funciona o suporte técnico?</span>
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6" />
+                    </svg>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Pelo WhatsApp ou pela nossa comunidade no Telegram, com uma equipe técnica disponível para tirar dúvidas sobre as ferramentas e as decisões de aplicação.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function () {
+    function initFaq() {
+        const section = document.getElementById('faq');
+        if (!section) return;
+
+        const items = Array.from(section.querySelectorAll('.faq-item'));
+
+        items.forEach((item) => {
+            const button = item.querySelector('.faq-question');
+            button.addEventListener('click', () => {
+                const wasOpen = item.classList.contains('is-open');
+                items.forEach((other) => other.classList.remove('is-open'));
+                if (!wasOpen) item.classList.add('is-open');
+            });
+        });
+    }
+
+    if (window.componentLoader) {
+        window.addEventListener('components:ready', initFaq, { once: true });
+    } else {
+        window.addEventListener('load', initFaq);
+    }
+})();
+</script>

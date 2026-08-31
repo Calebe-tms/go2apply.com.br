@@ -1,174 +1,427 @@
 <!-- ==========================================================================
-   Component: Hero Background
-   Carrossel contínuo de vídeos Cloudinary com Radar Circular Interativo e Telemetria
+   Seção: Trust
+   Dobra de autoridade da empresa: selo de confiança + números em hierarquia
+   assimétrica (não em cards iguais) + carrossel contínuo de parceiros.
+   Fundo com foto de campo de pesquisa + animação de radar (mesma
+   linguagem visual do canvas de fundo da Hero, sem o mockup do celular).
    ========================================================================== -->
 <style>
-    .hero-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
+    .trust {
+        position: relative;
+        z-index: 2;
         width: 100%;
-        height: 100%;
-        z-index: 1;
+        margin-top: -90px;
+        padding: calc(var(--space-2xl) + 90px) 1.5rem var(--space-2xl);
+        clip-path: polygon(0 90px, 100% 0, 100% 100%, 0 100%);
         overflow: hidden;
+        color: var(--color-white);
     }
 
-    .bg-video {
+    .trust-bg {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0;
+        z-index: 0;
+    }
+
+    .trust-bg-image {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0;
-        z-index: 1;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
     }
 
-    .bg-video.active {
-        opacity: 1;
-        z-index: 2;
-    }
-
-    /* Overlay Gradiente Suave do DS */
-    .hero-overlay {
+    .trust-canvas {
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0;
         width: 100%;
         height: 100%;
-        background: var(--hero-overlay-gradient);
-        z-index: 3;
-        pointer-events: none;
     }
 
-    .hero-canvas {
+    .trust-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg,
+                rgba(var(--color-dark-rgb), 0.88) 0%,
+                rgba(var(--color-dark-rgb), 0.8) 50%,
+                rgba(var(--color-dark-rgb), 0.9) 100%);
+    }
+
+    .trust-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* --- Selo + números: composição split, não centralizada --- */
+    .trust-grid {
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        gap: var(--space-2xl);
+        align-items: center;
+        padding-bottom: var(--space-2xl);
+        margin-bottom: var(--space-2xl);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .trust-badge-icon {
+        display: flex;
+        width: 104px;
+        height: 104px;
+        color: var(--color-caldas-light);
+        margin: 0 0 var(--space-md);
+    }
+
+    .trust-title {
+        font-family: var(--font-main);
+        font-weight: 800;
+        font-size: calc(var(--font-size-hero) * 0.95);
+        line-height: 1.15;
+        text-transform: uppercase;
+        margin: 0 0 var(--space-sm);
+    }
+
+    .trust-title .highlight {
+        color: var(--color-caldas-light);
+    }
+
+    .trust-subtitle {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-md);
+        line-height: 1.6;
+        max-width: 42ch;
+        margin: 0;
+    }
+
+    .trust-subtitle .highlight {
+        color: var(--color-orange);
+        font-weight: 700;
+    }
+
+    .trust-credit {
+        color: rgba(var(--color-white-rgb), 0.5);
+        font-size: var(--font-size-sm);
+        max-width: 42ch;
+        margin: var(--space-md) 0 0;
+    }
+
+    .trust-credit a {
+        color: var(--color-caldas-light);
+        font-weight: 700;
+        transition: color 0.25s ease;
+    }
+
+    .trust-credit a:hover {
+        color: var(--color-orange);
+    }
+
+    .trust-stats-col {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xl);
+    }
+
+    .trust-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .trust-stat-icon {
+        display: flex;
+        width: 24px;
+        height: 24px;
+        color: var(--color-orange);
+        margin-bottom: 0.25rem;
+    }
+
+    .trust-stat-number {
+        font-family: var(--font-main);
+        font-weight: 800;
+        color: var(--color-white);
+        line-height: 1;
+    }
+
+    .trust-stat-label {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-sm);
+    }
+
+    /* Hierarquia assimétrica: um número protagonista, dois secundários */
+    .trust-stat--featured {
+        flex: 1.3;
+    }
+
+    .trust-stat--featured .trust-stat-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    .trust-stat--featured .trust-stat-number {
+        font-size: calc(var(--font-size-hero) * 0.9);
+    }
+
+    .trust-stat--featured .trust-stat-label {
+        font-size: var(--font-size-sm);
+    }
+
+    .trust-stat:not(.trust-stat--featured) {
+        flex: 1;
+    }
+
+    .trust-stat:not(.trust-stat--featured) .trust-stat-number {
+        font-size: var(--font-size-xl);
+    }
+
+    .trust-stat-divider {
+        align-self: stretch;
+        width: 1px;
+        background-color: var(--color-border);
+    }
+
+    /* --- Carrossel de parceiros: só logos, alto, sem texto --- */
+    .trust-marquee-wrap {
+        position: relative;
+        height: 140px;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(90deg,
+                transparent 0,
+                #000 8%,
+                #000 92%,
+                transparent 100%);
+        mask-image: linear-gradient(90deg,
+                transparent 0,
+                #000 8%,
+                #000 92%,
+                transparent 100%);
+    }
+
+    .trust-marquee-track {
+        --trust-logo-gap: 5rem;
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 6;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: max-content;
+        gap: var(--trust-logo-gap);
+        cursor: grab;
+        touch-action: pan-y;
+        user-select: none;
+        will-change: transform;
+    }
+
+    .trust-marquee-track.is-dragging {
+        cursor: grabbing;
+    }
+
+    .trust-logo {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 140px;
+        height: 72px;
+        color: var(--color-white);
+        filter: grayscale(1) opacity(0.55);
+        transition: filter 0.3s ease, transform 0.3s ease;
+        -webkit-user-drag: none;
+    }
+
+    .trust-logo:hover {
+        filter: grayscale(0) opacity(1);
+        transform: translateY(-2px);
+    }
+
+    .trust-logo svg,
+    .trust-logo img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
         pointer-events: none;
+    }
+
+    /* Divisor hiper discreto entre cada logo, centralizado no meio do gap */
+    .trust-logo:not(:first-child)::before {
+        content: '';
+        position: absolute;
+        left: calc(var(--trust-logo-gap) / -2);
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 28px;
+        background-color: rgba(var(--color-white-rgb), 0.1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .trust-marquee-track {
+            transition: none;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .trust-grid {
+            grid-template-columns: 1fr;
+            gap: var(--space-xl);
+        }
+
+        .trust-stats-col {
+            flex-wrap: wrap;
+        }
     }
 
     @media (max-width: 600px) {
-        .hero-canvas {
-            display: none;
+        .trust {
+            margin-top: -48px;
+            padding: calc(var(--space-xl) + 48px) 1.25rem var(--space-xl);
+            clip-path: polygon(0 48px, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .trust-stats-col {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--space-md);
+        }
+
+        .trust-stat-divider {
+            width: 100%;
+            height: 1px;
+        }
+
+        .trust-marquee-wrap {
+            height: 100px;
+        }
+
+        .trust-marquee-track {
+            --trust-logo-gap: 3rem;
+        }
+
+        .trust-logo {
+            width: 100px;
+            height: 52px;
+        }
+
+        .trust-logo:not(:first-child)::before {
+            height: 20px;
         }
     }
 </style>
 
-<div class="hero-bg" id="hero-bg">
-    <video id="bg-video-1" class="bg-video active" muted playsinline autoplay></video>
-    <video id="bg-video-2" class="bg-video" muted playsinline></video>
-    <div class="hero-overlay"></div>
-    <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
-</div>
+<section class="trust" id="trust">
+    <div class="trust-bg" aria-hidden="true">
+        <img class="trust-bg-image" src="assets/imagens/hero-background.png" alt="">
+        <div class="trust-overlay"></div>
+        <canvas class="trust-canvas" id="trust-canvas"></canvas>
+    </div>
+
+    <div class="trust-inner">
+        <div class="trust-grid">
+            <div class="trust-badge-col">
+                <span class="trust-badge-icon">
+                    <svg viewBox="0 0 24 24" width="104" height="104" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3Z" />
+                        <path d="m9 12 2 2 4-4" />
+                    </svg>
+                </span>
+                <h2 class="trust-title">Confiança que vem de <span class="highlight">campo</span></h2>
+                <p class="trust-subtitle">+ de 10 anos de pesquisa transformando conhecimento em <span class="highlight">resultados no campo</span>.</p>
+                <p class="trust-credit">Ferramentas desenvolvidas pela equipe técnica da <a href="https://www.equalizagro.com/" target="_blank" rel="noopener noreferrer">Equalizagro</a>.</p>
+            </div>
+
+            <div class="trust-stats-col">
+                <div class="trust-stat trust-stat--featured">
+                    <span class="trust-stat-icon">
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3 12 12 3l9 9" />
+                            <path d="M5 10v10h14V10" />
+                            <path d="M9 20v-6h6v6" />
+                        </svg>
+                    </span>
+                    <span class="trust-stat-number">1 Milhão+</span>
+                    <span class="trust-stat-label">Hectares atendidos</span>
+                </div>
+
+                <div class="trust-stat-divider" aria-hidden="true"></div>
+
+                <div class="trust-stat">
+                    <span class="trust-stat-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3 17 9 11l4 4 8-8" />
+                            <path d="M15 7h6v6" />
+                        </svg>
+                    </span>
+                    <span class="trust-stat-number">95%</span>
+                    <span class="trust-stat-label">Taxa de Sucesso</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="trust-marquee-wrap">
+            <div class="trust-marquee-track" id="trust-marquee-track">
+                <a class="trust-logo" href="https://academiadaplantabilidade.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Academia da Plantabilidade">
+                    <img src="assets/imagens/academia-plantabilidade-mono.png" alt="Academia da Plantabilidade">
+                </a>
+                <a class="trust-logo" href="https://grupocropfield.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Grupo Cropfield">
+                    <img src="assets/imagens/cropfield-mono.png" alt="Grupo Cropfield">
+                </a>
+                <a class="trust-logo" href="https://www.sicredi.com.br/home/" target="_blank" rel="noopener noreferrer" aria-label="Sicredi">
+                    <img src="assets/imagens/sicredi-mono.png" alt="Sicredi">
+                </a>
+                <a class="trust-logo" href="https://www.deere.com.br/pt/" target="_blank" rel="noopener noreferrer" aria-label="John Deere">
+                    <img src="assets/imagens/john-deere-mono.png" alt="John Deere">
+                </a>
+                <!-- Conjunto duplicado para o loop contínuo sem emenda -->
+                <a class="trust-logo" href="https://academiadaplantabilidade.com.br/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+                    <img src="assets/imagens/academia-plantabilidade-mono.png" alt="">
+                </a>
+                <a class="trust-logo" href="https://grupocropfield.com.br/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+                    <img src="assets/imagens/cropfield-mono.png" alt="">
+                </a>
+                <a class="trust-logo" href="https://www.sicredi.com.br/home/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+                    <img src="assets/imagens/sicredi-mono.png" alt="">
+                </a>
+                <a class="trust-logo" href="https://www.deere.com.br/pt/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+                    <img src="assets/imagens/john-deere-mono.png" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 
 <script>
-    // Constantes de configuração
-    const MOBILE_BREAKPOINT = 600;
-    const MAX_DPR = 2;
-    const rootStyles = getComputedStyle(document.documentElement);
-    const RADAR_ACCENT_RGB = rootStyles.getPropertyValue('--color-orange-rgb').trim();
-    const PHONE_BG_RGB = rootStyles.getPropertyValue('--color-dark-surface-rgb').trim();
-    const RADAR_WHITE_RGB = '255, 255, 255';
-    const PHONE_FONT_TITLE = '700 7.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-    const PHONE_FONT_LABEL = '500 7px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-    const PHONE_FONT_VALUE = '600 7.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-    const PHONE_FONT_FOOTER = '500 6.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-    const FIELD_MARKER_FONT = '600 10.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+(function () {
+    // Canvas de radar com mockup de celular e telemetria — mesma linguagem
+    // visual do fundo da Hero, adaptada às dimensões da seção Trust.
+    function initTrustRadarCanvas() {
+        const canvas = document.getElementById('trust-canvas');
+        const section = document.getElementById('trust');
+        if (!canvas || !section) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Otimiza URLs de vídeo baseado no viewport e device pixel ratio
-    const getOptimizedVideoUrl = (baseUrl) => {
-        const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
-        const dpr = window.devicePixelRatio || 1;
-
-        if (isMobile) {
-            return baseUrl.replace('/upload/', '/upload/w_720,q_75,fl_lossy,f_auto/');
-        } else if (dpr > 1.5) {
-            return baseUrl.replace('/upload/', '/upload/w_1280,q_60,fl_lossy,f_auto/');
-        } else {
-            return baseUrl.replace('/upload/', '/upload/w_1920,q_70,fl_lossy,f_auto/');
-        }
-    };
-
-    const HERO_VIDEOS = [
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/v1788029484/bg-1.webm',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/v1788029486/bg-2.webm'
-    ];
-    const RADAR_RING_FRACTIONS = [0.0012, 0.25, 0.40, 0.58, 0.76, 0.94, 1.0];
-    const RADAR_ROTATION_SPEED = 0.000010;
-    const RADAR_PULSE_SPEED = 0.0005;
-    const RADAR_ALPHA_LERP_FACTOR = 0.04;
-    const RADAR_ALPHA_IDLE = 0.20;
-    const RADAR_ALPHA_ACTIVE = 0.65;
-    const RADAR_ALPHA_OBSTACLE = 0.35;
-    const POINTER_LERP_FACTOR = 9.1;
-    const POINTER_IDLE_MS = 1000;
-    const PHONE_GLOW_DECAY = 9.02;
-
-    let isMobile = false;
-
-    // --- 1. Carrossel de Vídeos Nativo HTML5 Simples em Loop ---
-    function initVideoCarousel() {
-        const vid1 = document.getElementById('bg-video-1');
-        const vid2 = document.getElementById('bg-video-2');
-        if (!vid1 || !vid2 || HERO_VIDEOS.length === 0) return;
-
-        let currentIdx = 0;
-        let firstFrameFired = false;
-
-        const notifyFirstFrame = () => {
-            if (firstFrameFired) return;
-            firstFrameFired = true;
-            // Só começa a baixar o segundo vídeo depois que o primeiro já está
-            // tocando, evitando que os dois disputem banda no carregamento inicial
-            vid2.src = getOptimizedVideoUrl(HERO_VIDEOS[1]);
-            vid2.load();
-            window.dispatchEvent(new CustomEvent('hero:first-video-ready'));
-        };
-
-        const playNextVideo = () => {
-            currentIdx = (currentIdx + 1) % HERO_VIDEOS.length;
-            const nextVideo = currentIdx === 0 ? vid1 : vid2;
-            const prevVideo = currentIdx === 0 ? vid2 : vid1;
-
-            prevVideo.classList.remove('active');
-            nextVideo.classList.add('active');
-            nextVideo.play().catch(err => console.warn('Erro ao tocar vídeo:', err));
-        };
-
-        [vid1, vid2].forEach(v => {
-            v.addEventListener('playing', notifyFirstFrame, { once: true });
-            v.addEventListener('canplay', notifyFirstFrame, { once: true });
-            v.addEventListener('ended', playNextVideo);
-        });
-
-        vid1.classList.add('active');
-        vid1.src = getOptimizedVideoUrl(HERO_VIDEOS[0]);
-        vid1.load();
-        vid1.play().catch(e => console.warn('Autoplay video 1:', e));
-
-        const heroSection = document.getElementById('hero') || document.getElementById('home');
-        if (heroSection) {
-            const videoObserver = new IntersectionObserver((entries) => {
-                const actVideo = document.querySelector('.bg-video.active');
-                if (!actVideo) return;
-                if (entries[0].isIntersecting && actVideo.paused) {
-                    actVideo.play().catch(() => { });
-                } else if (!entries[0].isIntersecting && !actVideo.paused) {
-                    actVideo.pause();
-                }
-            }, { threshold: 0.1 });
-            videoObserver.observe(heroSection);
-        }
-    }
-
-    // --- 2. Motor do Radar no Canto Inferior Esquerdo com Telemetria ---
-    function initRadarCanvas() {
-        const canvas = document.getElementById('hero-mesh-canvas');
-        if (!canvas) return;
+        const MOBILE_BREAKPOINT = 600;
+        const MAX_DPR = 2;
+        const rootStyles = getComputedStyle(document.documentElement);
+        const RADAR_ACCENT_RGB = rootStyles.getPropertyValue('--color-orange-rgb').trim();
+        const PHONE_BG_RGB = rootStyles.getPropertyValue('--color-dark-surface-rgb').trim();
+        const RADAR_WHITE_RGB = '255, 255, 255';
+        const PHONE_FONT_TITLE = '700 7.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        const PHONE_FONT_LABEL = '500 7px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        const PHONE_FONT_VALUE = '600 7.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        const PHONE_FONT_FOOTER = '500 6.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        const FIELD_MARKER_FONT = '600 10.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        const RADAR_RING_FRACTIONS = [0.0012, 0.25, 0.40, 0.58, 0.76, 0.94, 1.0];
+        const RADAR_PULSE_SPEED = 0.0005;
+        const RADAR_ALPHA_LERP_FACTOR = 0.04;
+        const RADAR_ALPHA_IDLE = 0.08;
+        const RADAR_ALPHA_ACTIVE = 0.28;
+        const RADAR_ALPHA_OBSTACLE = 0.12;
+        const POINTER_LERP_FACTOR = 9.1;
+        const POINTER_IDLE_MS = 1000;
+        const PHONE_GLOW_DECAY = 9.02;
 
         const ctx = canvas.getContext('2d');
         let width = 0;
@@ -176,21 +429,14 @@
         let dpr = window.devicePixelRatio || 1;
         let animationFrameId = null;
         let isCanvasVisible = true;
+        let isMobile = false;
 
-        const mouse = {
-            x: null,
-            y: null,
-            targetX: null,
-            targetY: null,
-            isNearObstacle: false,
-            hasMoved: false
-        };
+        const mouse = { x: null, y: null, targetX: null, targetY: null, isNearObstacle: false, hasMoved: false };
 
         let phoneCenter = { x: 0, y: 0 };
         let phoneDim = { width: 78, height: 142, radius: 14 };
         let phoneSyncGlow = 0;
-
-        let radarAlpha = 0.80;
+        let radarAlpha = 0.32;
 
         let pulses = [
             { progress: 0.05 },
@@ -199,16 +445,7 @@
             { progress: 0.76 }
         ];
 
-        const technicalMetrics = [
-            '6.4',
-            '2.85',
-            '230µm',
-            '215/cm²',
-            '110 L/ha',
-            'Estável',
-            'Baixa',
-            '3.0 bar'
-        ];
+        const technicalMetrics = ['6.4', '2.85', '230µm', '215/cm²', '110 L/ha', 'Estável', 'Baixa', '3.0 bar'];
         let metricIndex = 0;
 
         let phoneTelemetryList = [
@@ -223,14 +460,11 @@
         let lastSpawnPos = { x: 0, y: 0 };
         let lastSpawnTime = 0;
         let lastPointerMoveTime = 0;
+        let lastWakeGlobalSpawnTime = 0;
 
         function resizeCanvas() {
-            width = window.innerWidth;
-            const heroSection = document.getElementById('hero') || document.getElementById('home');
-            const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-            const totalDocHeight = Math.max(document.documentElement.scrollHeight || 0, document.body.scrollHeight || 0, window.innerHeight * 2.5);
-
-            height = totalDocHeight;
+            width = section.offsetWidth;
+            height = section.offsetHeight;
             isMobile = width <= MOBILE_BREAKPOINT;
             dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, MAX_DPR);
 
@@ -238,21 +472,21 @@
             canvas.style.height = height + 'px';
             canvas.width = width * dpr;
             canvas.height = height * dpr;
-            ctx.scale(dpr, dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
             if (isMobile) {
                 phoneDim = { width: 44, height: 78, radius: 7 };
                 phoneCenter.x = 18 + phoneDim.width / 2;
-                phoneCenter.y = heroHeight - 118;
+                phoneCenter.y = height - phoneDim.height / 2 - 20;
             } else {
                 phoneDim = { width: 78, height: 142, radius: 14 };
                 phoneCenter.x = 42 + phoneDim.width / 2;
-                phoneCenter.y = heroHeight - 156;
+                phoneCenter.y = height - phoneDim.height / 2 - 32;
             }
 
             if (mouse.x === null) {
                 mouse.x = width * 0.5;
-                mouse.y = heroHeight * 0.38;
+                mouse.y = height * 0.5;
                 mouse.targetX = mouse.x;
                 mouse.targetY = mouse.y;
             }
@@ -277,14 +511,6 @@
 
             if (fieldData.length > 12) {
                 fieldData.shift();
-            }
-
-            const parts = metric.split(': ');
-            if (parts.length === 2) {
-                phoneTelemetryList.unshift({ label: parts[0], value: parts[1] });
-                if (phoneTelemetryList.length > 5) {
-                    phoneTelemetryList.pop();
-                }
             }
             phoneSyncGlow = 1.0;
         }
@@ -313,14 +539,6 @@
 
             if (fieldData.length > 12) {
                 fieldData.shift();
-            }
-
-            const parts = metric.split(': ');
-            if (parts.length === 2) {
-                phoneTelemetryList.unshift({ label: parts[0], value: parts[1] });
-                if (phoneTelemetryList.length > 5) {
-                    phoneTelemetryList.pop();
-                }
             }
             phoneSyncGlow = 1.0;
         }
@@ -472,11 +690,7 @@
             }
         }
 
-        let lastWakeGlobalSpawnTime = 0;
-
         function drawRadarPulses(px, py, radarRadius) {
-            const heroSection = document.getElementById('hero') || document.getElementById('home');
-            const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
             const now = performance.now();
 
             for (let i = 0; i < pulses.length; i++) {
@@ -492,7 +706,6 @@
                     waveAlpha *= (p.progress / 0.06);
                 }
 
-                // 1. Faixa sutil de refração ótica na crista da onda
                 const bandWidth = Math.max(10, 24 * (1 - p.progress * 0.3));
                 const innerRadius = Math.max(0, pRadius - bandWidth * 0.5);
                 const outerRadius = pRadius + bandWidth * 0.5;
@@ -511,7 +724,6 @@
                 ctx.fill();
                 ctx.restore();
 
-                // 2. Linha visível e elegante da crista da onda
                 ctx.beginPath();
                 ctx.arc(px, py, pRadius, 0, Math.PI * 2);
                 ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${waveAlpha * 0.75})`;
@@ -519,7 +731,6 @@
                 ctx.stroke();
             }
 
-            // Emissão contínua de dados agronômicos no rastro das ondas
             if (now - lastWakeGlobalSpawnTime > 1200) {
                 const activePulses = pulses.filter(p => p.progress >= 0.15 && p.progress <= 0.75);
                 if (activePulses.length > 0) {
@@ -531,7 +742,7 @@
                     const spawnX = px + Math.cos(angle) * pRadius;
                     const spawnY = py + Math.sin(angle) * pRadius;
 
-                    if (spawnX > 40 && spawnX < width - 60 && spawnY > 60 && spawnY < heroHeight - 40) {
+                    if (spawnX > 40 && spawnX < width - 60 && spawnY > 60 && spawnY < height - 40) {
                         spawnWaveWakeData(spawnX, spawnY, angle);
                         lastWakeGlobalSpawnTime = now;
                     }
@@ -569,7 +780,6 @@
 
             ctx.save();
 
-            // Rastro deixado no ponto de passagem da onda
             if (item.fromWake && item.originY) {
                 const wakeAge = 1.0 - item.life;
                 if (wakeAge < 0.35) {
@@ -582,7 +792,6 @@
                     ctx.stroke();
                 }
 
-                // Linha guia conectora
                 ctx.beginPath();
                 ctx.moveTo(item.originX, item.originY);
                 ctx.lineTo(item.x, item.y);
@@ -593,7 +802,6 @@
                 ctx.setLineDash([]);
             }
 
-            // Ponto de luz na coordenada
             ctx.beginPath();
             ctx.arc(item.x, item.y, 2.4, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.90 * currentAlpha})`;
@@ -603,14 +811,12 @@
             }
             ctx.fill();
 
-            // Anel pulsante
             ctx.beginPath();
             ctx.arc(item.x, item.y, 5 + (1 - item.life) * 3.5, 0, Math.PI * 2);
             ctx.strokeStyle = `rgba(${RADAR_ACCENT_RGB}, ${0.45 * currentAlpha})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
 
-            // Traço horizontal para o badge
             ctx.beginPath();
             ctx.moveTo(item.x + 3, item.y);
             ctx.lineTo(item.x + 11, item.y);
@@ -618,7 +824,6 @@
             ctx.lineWidth = 0.6;
             ctx.stroke();
 
-            // Tag com background escuro translúcido
             ctx.font = FIELD_MARKER_FONT;
             const textMetrics = ctx.measureText(item.text);
             const textWidth = textMetrics.width;
@@ -639,7 +844,6 @@
             ctx.lineWidth = 0.7;
             ctx.stroke();
 
-            // Texto branco nítido
             ctx.fillStyle = `rgba(${RADAR_WHITE_RGB}, ${0.95 * currentAlpha})`;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
@@ -660,6 +864,20 @@
                 }
 
                 drawFieldMarker(item);
+            }
+        }
+
+        function updateMobileRandomTelemetry() {
+            if (width <= MOBILE_BREAKPOINT) {
+                const now = performance.now();
+                if (now - lastSpawnTime > 2800) {
+                    const randX = width * (0.15 + Math.random() * 0.7);
+                    const randY = height * (0.2 + Math.random() * 0.5);
+                    spawnFieldData(randX, randY);
+                    lastSpawnPos.x = randX;
+                    lastSpawnPos.y = randY;
+                    lastSpawnTime = now;
+                }
             }
         }
 
@@ -694,26 +912,10 @@
             animationFrameId = requestAnimationFrame(draw);
         }
 
-        function updateMobileRandomTelemetry() {
-            if (width <= MOBILE_BREAKPOINT) {
-                const now = performance.now();
-                if (now - lastSpawnTime > 2800) {
-                    const heroSection = document.getElementById('hero') || document.getElementById('home');
-                    const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-                    const randX = width * (0.15 + Math.random() * 0.7);
-                    const randY = heroHeight * (0.2 + Math.random() * 0.5);
-                    spawnFieldData(randX, randY);
-                    lastSpawnPos.x = randX;
-                    lastSpawnPos.y = randY;
-                    lastSpawnTime = now;
-                }
-            }
-        }
-
         function onPointerMove(e) {
             if (width <= MOBILE_BREAKPOINT) return;
 
-            const rect = canvas.getBoundingClientRect();
+            const rect = section.getBoundingClientRect();
             const clientX = e.clientX;
             const clientY = e.clientY;
 
@@ -725,7 +927,7 @@
 
                 const targetElement = document.elementFromPoint(clientX, clientY);
                 if (targetElement) {
-                    const isObstacle = targetElement.closest('a, button, .header, .btn-cta, .nav-toggle, .social-link, h1, h2, h3, .hero-title, .main-logo, .hero-footer, .diff-card, p, input, select, textarea');
+                    const isObstacle = targetElement.closest('a, button, .trust-badge-col, .trust-stats-col, h2, p, .trust-marquee-wrap, input, select, textarea');
                     mouse.isNearObstacle = !!isObstacle || clientY < 80;
                 }
 
@@ -743,26 +945,108 @@
 
         window.addEventListener('mousemove', onPointerMove, { passive: true });
         window.addEventListener('resize', resizeCanvas, { passive: true });
-        window.addEventListener('components:ready', resizeCanvas, { passive: true });
-        window.addEventListener('load', resizeCanvas, { passive: true });
 
-        // Observa a seção da Hero (não o canvas, que cobre a altura inteira do
-        // Observa a seção da Hero (não o canvas, que cobre a altura inteira do
-        // documento) para o loop de animação parar assim que o usuário rolar
-        // para além da Hero, em vez de continuar rodando pelo resto da página
-        const observedSection = document.getElementById('hero') || document.getElementById('home') || canvas;
-        const canvasObserver = new IntersectionObserver((entries) => {
-            isCanvasVisible = entries[0].isIntersecting;
+        const observer = new IntersectionObserver(([entry]) => {
+            isCanvasVisible = entry.isIntersecting;
             if (isCanvasVisible && !animationFrameId) {
                 animationFrameId = requestAnimationFrame(draw);
             }
-        }, { threshold: 0.1 });
-        canvasObserver.observe(observedSection);
+        }, { threshold: 0.05 });
+        observer.observe(section);
 
         resizeCanvas();
         draw();
     }
 
-    initVideoCarousel();
-    initRadarCanvas();
+    // Carrossel de parceiros: rolagem automática contínua via requestAnimationFrame,
+    // que pode ser controlada com o mouse (arrastar) e retoma sozinha ao soltar.
+    function initTrustMarquee() {
+        const wrap = document.querySelector('.trust-marquee-wrap');
+        const track = document.getElementById('trust-marquee-track');
+        if (!wrap || !track) return;
+
+        const AUTO_SPEED = 0.5; // px por frame
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        let offset = 0;
+        let setWidth = 0;
+        let isDragging = false;
+        let dragMoved = false;
+        let dragStartX = 0;
+        let dragStartOffset = 0;
+
+        function measure() {
+            setWidth = track.scrollWidth / 2;
+        }
+
+        function applyTransform() {
+            if (setWidth > 0) {
+                offset = ((offset % setWidth) + setWidth) % setWidth;
+            }
+            track.style.transform = `translateX(${-offset}px)`;
+        }
+
+        function tick() {
+            if (!isDragging) {
+                offset += AUTO_SPEED;
+                applyTransform();
+            }
+            requestAnimationFrame(tick);
+        }
+
+        function onPointerDown(e) {
+            isDragging = true;
+            dragMoved = false;
+            dragStartX = e.clientX;
+            dragStartOffset = offset;
+            track.classList.add('is-dragging');
+            track.setPointerCapture(e.pointerId);
+        }
+
+        function onPointerMove(e) {
+            if (!isDragging) return;
+            const dx = e.clientX - dragStartX;
+            if (Math.abs(dx) > 4) dragMoved = true;
+            offset = dragStartOffset - dx;
+            applyTransform();
+        }
+
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            track.classList.remove('is-dragging');
+        }
+
+        track.addEventListener('pointerdown', onPointerDown);
+        track.addEventListener('pointermove', onPointerMove);
+        track.addEventListener('pointerup', endDrag);
+        track.addEventListener('pointercancel', endDrag);
+
+        // Evita que o clique no link do logo dispare após um arraste real
+        track.addEventListener('click', (e) => {
+            if (dragMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, true);
+
+        window.addEventListener('resize', measure, { passive: true });
+
+        measure();
+        if (reduceMotion) return;
+        requestAnimationFrame(tick);
+    }
+
+    if (window.componentLoader) {
+        window.addEventListener('components:ready', () => {
+            initTrustRadarCanvas();
+            initTrustMarquee();
+        }, { once: true });
+    } else {
+        window.addEventListener('load', () => {
+            initTrustRadarCanvas();
+            initTrustMarquee();
+        });
+    }
+})();
 </script>
