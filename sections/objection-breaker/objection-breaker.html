@@ -27,9 +27,17 @@
         gap: var(--space-2xl);
     }
 
-    .ob-slot-headline { order: 1; }
-    .ob-slot-grid     { order: 2; }
-    .ob-slot-example  { order: 3; }
+    .ob-slot-headline {
+        order: 1;
+    }
+
+    .ob-slot-grid {
+        order: 2;
+    }
+
+    .ob-slot-example {
+        order: 3;
+    }
 
     /* Grid 50/50 no Desktop */
     .ob-grid-50-50 {
@@ -54,28 +62,42 @@
             display: contents;
         }
 
-        .ob-slot-headline  { order: 1; }
-        .ob-slot-situation { order: 2; }
-        .ob-slot-example   { order: 3; }
-        .ob-slot-breaker   { order: 4; }
+        .ob-slot-headline {
+            order: 1;
+        }
+
+        .ob-slot-situation {
+            order: 2;
+        }
+
+        .ob-slot-example {
+            order: 3;
+        }
+
+        .ob-slot-breaker {
+            order: 4;
+        }
     }
 </style>
 
 <section class="objection-breaker" id="objection-breaker">
     <div class="ob-inner">
         <div class="ob-flex-container">
-            
+
             <!-- Headline Centralizada no topo em full width -->
-            <div class="ob-slot-headline" data-component="sections/objection-breaker/ob-headline/ob-headline.html"></div>
+            <div class="ob-slot-headline" data-component="sections/objection-breaker/ob-headline/ob-headline.html">
+            </div>
 
             <!-- Grid 50/50 no Desktop (Situation + Breaker) -->
             <div class="ob-grid-50-50 ob-slot-grid">
-                <div class="ob-slot-situation" data-component="sections/objection-breaker/ob-situation/ob-situation.html"></div>
-                <div class="ob-slot-breaker" data-component="sections/objection-breaker/ob-breaker/ob-breaker.html"></div>
+                <div class="ob-slot-situation"
+                    data-component="sections/objection-breaker/ob-situation/ob-situation.html"></div>
+                <div class="ob-slot-breaker" data-component="sections/objection-breaker/ob-breaker/ob-breaker.html">
+                </div>
             </div>
 
             <!-- Example (3 Cards) -->
-            <div class="ob-slot-example" data-component="sections/objection-breaker/ob-example/ob-example.html"></div>
+            <!-- <div class="ob-slot-example" data-component="sections/objection-breaker/ob-example/ob-example.html"></div> -->
 
         </div>
     </div>
