@@ -165,9 +165,88 @@
         justify-content: center;
     }
 
-    .app-mockup-img {
+    /* Moldura de celular em CSS puro (a arte anterior era uma foto achatada,
+       sem área transparente pra encaixar vídeo atrás) — a proporção da tela
+       segue de perto a proporção real das gravações (~9:19.5), pra ficar
+       bem ajustada sem cortar quase nada. Aro com efeito metálico (título)
+       + botões laterais, pra lembrar o mockup fotográfico anterior. */
+    .app-phone-frame {
+        position: relative;
         width: min(300px, 85%);
-        height: auto;
+        aspect-ratio: 9 / 19.5;
+        box-sizing: border-box;
+        padding: 3.5% 2.8%;
+        background:
+            linear-gradient(155deg,
+                rgba(255, 255, 255, 0.55) 0%,
+                rgba(255, 255, 255, 0.08) 6%,
+                transparent 14%,
+                transparent 86%,
+                rgba(255, 255, 255, 0.08) 94%,
+                rgba(255, 255, 255, 0.55) 100%),
+            var(--color-dark);
+        border-radius: 15% / 6.5%;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+
+    .app-phone-btn {
+        position: absolute;
+        background: var(--color-dark);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .app-phone-btn--mute {
+        left: -2px;
+        top: 16%;
+        width: 3px;
+        height: 3%;
+        border-radius: 2px 0 0 2px;
+    }
+
+    .app-phone-btn--vol-up {
+        left: -2px;
+        top: 22%;
+        width: 3px;
+        height: 6.5%;
+        border-radius: 2px 0 0 2px;
+    }
+
+    .app-phone-btn--vol-down {
+        left: -2px;
+        top: 30.5%;
+        width: 3px;
+        height: 6.5%;
+        border-radius: 2px 0 0 2px;
+    }
+
+    .app-phone-btn--power {
+        right: -2px;
+        top: 22%;
+        width: 3px;
+        height: 9%;
+        border-radius: 0 2px 2px 0;
+    }
+
+    .app-phone-screen {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12% / 5.2%;
+        background: var(--color-dark-surface);
+    }
+
+    .app-phone-notch {
+        position: absolute;
+        z-index: 2;
+        top: 5.5%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 28%;
+        height: 2.8%;
+        min-height: 14px;
+        background: var(--color-dark);
+        border-radius: var(--radius-full);
     }
 
     /* --- Fechamento --- */
@@ -225,7 +304,7 @@
             margin-bottom: -70px;
         }
 
-        .app-mockup-img {
+        .app-phone-frame {
             width: min(180px, 55%);
         }
     }
@@ -459,8 +538,15 @@
             </div>
 
             <div class="app-journey-mockup">
-                <img class="app-mockup-img" src="assets/imagens/iPhone-14-PRO-www.equalizagro.com.webp"
-                    alt="Interface do go2apply em um smartphone">
+                <div class="app-phone-frame">
+                    <video id="app-phone-video" class="app-phone-screen" muted playsinline autoplay
+                        aria-label="Demonstração do go2apply em um smartphone"></video>
+                    <div class="app-phone-notch" aria-hidden="true"></div>
+                    <div class="app-phone-btn app-phone-btn--mute" aria-hidden="true"></div>
+                    <div class="app-phone-btn app-phone-btn--vol-up" aria-hidden="true"></div>
+                    <div class="app-phone-btn app-phone-btn--vol-down" aria-hidden="true"></div>
+                    <div class="app-phone-btn app-phone-btn--power" aria-hidden="true"></div>
+                </div>
             </div>
         </div>
 
@@ -481,6 +567,21 @@
 
 <script>
     (function () {
+        const APP_PHONE_VIDEOS = [
+            'assets/videos/1.webm',
+            'assets/videos/2.webm'
+        ];
+
+        // Vídeos de demonstração dentro da moldura do celular: motor
+        // compartilhado (js/video-carousel.js), mesmo padrão da Hero/Contact.
+        function initAppPhoneVideo() {
+            if (!window.createVideoCarousel) return;
+            window.createVideoCarousel({
+                videoId: 'app-phone-video',
+                urls: APP_PHONE_VIDEOS
+            });
+        }
+
         function initAppJourney() {
             const section = document.getElementById('app-journey');
             if (!section) return;
@@ -517,6 +618,7 @@
             });
         }
 
+        initAppPhoneVideo();
         onComponentsReady(initAppJourney);
     })();
 </script>

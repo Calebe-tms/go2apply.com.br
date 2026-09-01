@@ -1,7 +1,6 @@
 <!-- ==========================================================================
    Seção: Trust
-   Dobra de autoridade da empresa: selo de confiança + números em hierarquia
-   assimétrica (não em cards iguais) + carrossel contínuo de parceiros.
+   Dobra de autoridade da empresa: selo de confiança + 3 pilares de valor.
    Fundo com foto de campo de pesquisa + animação de radar com o mockup de
    celular (mesma linguagem visual do canvas de fundo da Hero).
    ========================================================================== -->
@@ -116,151 +115,44 @@
         color: var(--color-orange);
     }
 
-    .trust-stats-col {
+    .trust-pillars-col {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: var(--space-xl);
     }
 
-    .trust-stat {
+    .trust-pillar {
         display: flex;
         flex-direction: column;
-        gap: 0.35rem;
-    }
-
-    .trust-stat-icon {
-        display: flex;
-        width: 24px;
-        height: 24px;
-        color: var(--color-orange);
-        margin-bottom: 0.25rem;
-    }
-
-    .trust-stat-number {
-        font-family: var(--font-main);
-        font-weight: 800;
-        color: var(--color-white);
-        line-height: 1;
-    }
-
-    .trust-stat-label {
-        color: var(--color-white-muted);
-        font-size: var(--font-size-sm);
-    }
-
-    /* Hierarquia assimétrica: um número protagonista, dois secundários */
-    .trust-stat--featured {
-        flex: 1.3;
-    }
-
-    .trust-stat--featured .trust-stat-icon {
-        width: 26px;
-        height: 26px;
-    }
-
-    .trust-stat--featured .trust-stat-number {
-        font-size: calc(var(--font-size-hero) * 0.9);
-    }
-
-    .trust-stat--featured .trust-stat-label {
-        font-size: var(--font-size-sm);
-    }
-
-    .trust-stat:not(.trust-stat--featured) {
+        gap: 0.5rem;
         flex: 1;
     }
 
-    .trust-stat:not(.trust-stat--featured) .trust-stat-number {
-        font-size: var(--font-size-xl);
+    .trust-pillar-icon {
+        display: flex;
+        width: 28px;
+        height: 28px;
+        color: var(--color-orange);
     }
 
-    .trust-stat-divider {
+    .trust-pillar-title {
+        font-family: var(--font-main);
+        font-weight: 800;
+        font-size: var(--font-size-base);
+        color: var(--color-white);
+        line-height: 1.3;
+    }
+
+    .trust-pillar-text {
+        color: var(--color-white-muted);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+
+    .trust-pillar-divider {
         align-self: stretch;
         width: 1px;
         background-color: var(--color-border);
-    }
-
-    /* --- Carrossel de parceiros: só logos, alto, sem texto --- */
-    .trust-marquee-wrap {
-        position: relative;
-        height: 140px;
-        overflow: hidden;
-        -webkit-mask-image: linear-gradient(90deg,
-                transparent 0,
-                #000 8%,
-                #000 92%,
-                transparent 100%);
-        mask-image: linear-gradient(90deg,
-                transparent 0,
-                #000 8%,
-                #000 92%,
-                transparent 100%);
-    }
-
-    .trust-marquee-track {
-        --trust-logo-gap: 5rem;
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        height: 100%;
-        width: max-content;
-        gap: var(--trust-logo-gap);
-        cursor: grab;
-        touch-action: pan-y;
-        user-select: none;
-        will-change: transform;
-    }
-
-    .trust-marquee-track.is-dragging {
-        cursor: grabbing;
-    }
-
-    .trust-logo {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 140px;
-        height: 72px;
-        color: var(--color-white);
-        filter: grayscale(1) opacity(0.55);
-        transition: filter 0.3s ease, transform 0.3s ease;
-        -webkit-user-drag: none;
-    }
-
-    .trust-logo:hover {
-        filter: grayscale(0) opacity(1);
-        transform: translateY(-2px);
-    }
-
-    .trust-logo svg,
-    .trust-logo img {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        pointer-events: none;
-    }
-
-    /* Divisor hiper discreto entre cada logo, centralizado no meio do gap */
-    .trust-logo:not(:first-child)::before {
-        content: '';
-        position: absolute;
-        left: calc(var(--trust-logo-gap) / -2);
-        top: 50%;
-        transform: translateY(-50%);
-        width: 1px;
-        height: 28px;
-        background-color: rgba(var(--color-white-rgb), 0.1);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .trust-marquee-track {
-            transition: none;
-        }
     }
 
     @media (max-width: 992px) {
@@ -269,7 +161,7 @@
             gap: var(--space-xl);
         }
 
-        .trust-stats-col {
+        .trust-pillars-col {
             flex-wrap: wrap;
         }
     }
@@ -281,32 +173,15 @@
             clip-path: polygon(0 48px, 100% 0, 100% 100%, 0 100%);
         }
 
-        .trust-stats-col {
+        .trust-pillars-col {
             flex-direction: column;
             align-items: flex-start;
             gap: var(--space-md);
         }
 
-        .trust-stat-divider {
+        .trust-pillar-divider {
             width: 100%;
             height: 1px;
-        }
-
-        .trust-marquee-wrap {
-            height: 100px;
-        }
-
-        .trust-marquee-track {
-            --trust-logo-gap: 3rem;
-        }
-
-        .trust-logo {
-            width: 100px;
-            height: 52px;
-        }
-
-        .trust-logo:not(:first-child)::before {
-            height: 20px;
         }
     }
 </style>
@@ -336,71 +211,45 @@
                 </p>
             </div>
 
-            <div class="trust-stats-col">
-                <div class="trust-stat trust-stat--featured">
-                    <span class="trust-stat-icon">
-                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor"
+            <div class="trust-pillars-col">
+                <div class="trust-pillar">
+                    <span class="trust-pillar-icon">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
                             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M3 12 12 3l9 9" />
-                            <path d="M5 10v10h14V10" />
-                            <path d="M9 20v-6h6v6" />
+                            <path d="M12 3 4 6v6c0 5 3.5 8.5 8 9 4.5-.5 8-4 8-9V6l-8-3Z" />
+                            <path d="m9 12 2 2 4-4" />
                         </svg>
                     </span>
-                    <span class="trust-stat-number">1 Milhão+</span>
-                    <span class="trust-stat-label">Hectares atendidos</span>
+                    <span class="trust-pillar-title">Metodologia técnica</span>
+                    <span class="trust-pillar-text">Baseada em anos de pesquisa aplicada em campo.</span>
                 </div>
 
-                <div class="trust-stat-divider" aria-hidden="true"></div>
+                <div class="trust-pillar-divider" aria-hidden="true"></div>
 
-                <div class="trust-stat">
-                    <span class="trust-stat-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                <div class="trust-pillar">
+                    <span class="trust-pillar-icon">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
                             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M3 17 9 11l4 4 8-8" />
-                            <path d="M15 7h6v6" />
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                         </svg>
                     </span>
-                    <span class="trust-stat-number">95%</span>
-                    <span class="trust-stat-label">Taxa de Sucesso</span>
+                    <span class="trust-pillar-title">Suporte direto</span>
+                    <span class="trust-pillar-text">Equipe técnica disponível para tirar dúvidas.</span>
                 </div>
-            </div>
-        </div>
 
-        <div class="trust-marquee-wrap">
-            <div class="trust-marquee-track" id="trust-marquee-track">
-                <a class="trust-logo" href="https://academiadaplantabilidade.com.br/" target="_blank"
-                    rel="noopener noreferrer" aria-label="Academia da Plantabilidade">
-                    <img src="assets/imagens/academia-plantabilidade-mono.png" alt="Academia da Plantabilidade" loading="lazy">
-                </a>
-                <a class="trust-logo" href="https://grupocropfield.com.br/" target="_blank" rel="noopener noreferrer"
-                    aria-label="Grupo Cropfield">
-                    <img src="assets/imagens/cropfield-mono.png" alt="Grupo Cropfield" loading="lazy">
-                </a>
-                <a class="trust-logo" href="https://www.sicredi.com.br/home/" target="_blank" rel="noopener noreferrer"
-                    aria-label="Sicredi">
-                    <img src="assets/imagens/sicredi-mono.png" alt="Sicredi" loading="lazy">
-                </a>
-                <a class="trust-logo" href="https://www.deere.com.br/pt/" target="_blank" rel="noopener noreferrer"
-                    aria-label="John Deere">
-                    <img src="assets/imagens/john-deere-mono.png" alt="John Deere" loading="lazy">
-                </a>
-                <!-- Conjunto duplicado para o loop contínuo sem emenda -->
-                <a class="trust-logo" href="https://academiadaplantabilidade.com.br/" target="_blank"
-                    rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-                    <img src="assets/imagens/academia-plantabilidade-mono.png" alt="" loading="lazy">
-                </a>
-                <a class="trust-logo" href="https://grupocropfield.com.br/" target="_blank" rel="noopener noreferrer"
-                    aria-hidden="true" tabindex="-1">
-                    <img src="assets/imagens/cropfield-mono.png" alt="" loading="lazy">
-                </a>
-                <a class="trust-logo" href="https://www.sicredi.com.br/home/" target="_blank" rel="noopener noreferrer"
-                    aria-hidden="true" tabindex="-1">
-                    <img src="assets/imagens/sicredi-mono.png" alt="" loading="lazy">
-                </a>
-                <a class="trust-logo" href="https://www.deere.com.br/pt/" target="_blank" rel="noopener noreferrer"
-                    aria-hidden="true" tabindex="-1">
-                    <img src="assets/imagens/john-deere-mono.png" alt="" loading="lazy">
-                </a>
+                <div class="trust-pillar-divider" aria-hidden="true"></div>
+
+                <div class="trust-pillar">
+                    <span class="trust-pillar-icon">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+                            <path d="M21 3v6h-6" />
+                        </svg>
+                    </span>
+                    <span class="trust-pillar-title">Sempre atualizado</span>
+                    <span class="trust-pillar-text">Ferramentas evoluindo com as práticas mais recentes.</span>
+                </div>
             </div>
         </div>
     </div>
@@ -416,7 +265,7 @@
             window.createRadarCanvasEngine({
                 canvasId: 'trust-canvas',
                 sectionId: 'trust',
-                obstacleSelector: 'a, button, .trust-badge-col, .trust-stats-col, h2, p, .trust-marquee-wrap, input, select, textarea',
+                obstacleSelector: 'a, button, .trust-badge-col, .trust-pillars-col, h2, p, input, select, textarea',
                 alpha: { base: 0.32, idle: 0.08, active: 0.28, obstacle: 0.12 },
                 visibilityThreshold: 0.05,
                 resizeOnComponentsReady: false,
@@ -429,88 +278,8 @@
             });
         }
 
-        // Carrossel de parceiros: rolagem automática contínua via requestAnimationFrame,
-        // que pode ser controlada com o mouse (arrastar) e retoma sozinha ao soltar.
-        function initTrustMarquee() {
-            const wrap = document.querySelector('.trust-marquee-wrap');
-            const track = document.getElementById('trust-marquee-track');
-            if (!wrap || !track) return;
-
-            const AUTO_SPEED = 0.5; // px por frame
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            let offset = 0;
-            let setWidth = 0;
-            let isDragging = false;
-            let dragMoved = false;
-            let dragStartX = 0;
-            let dragStartOffset = 0;
-
-            function measure() {
-                setWidth = track.scrollWidth / 2;
-            }
-
-            function applyTransform() {
-                if (setWidth > 0) {
-                    offset = ((offset % setWidth) + setWidth) % setWidth;
-                }
-                track.style.transform = `translateX(${-offset}px)`;
-            }
-
-            function tick() {
-                if (!isDragging) {
-                    offset += AUTO_SPEED;
-                    applyTransform();
-                }
-                requestAnimationFrame(tick);
-            }
-
-            function onPointerDown(e) {
-                isDragging = true;
-                dragMoved = false;
-                dragStartX = e.clientX;
-                dragStartOffset = offset;
-                track.classList.add('is-dragging');
-                track.setPointerCapture(e.pointerId);
-            }
-
-            function onPointerMove(e) {
-                if (!isDragging) return;
-                const dx = e.clientX - dragStartX;
-                if (Math.abs(dx) > 4) dragMoved = true;
-                offset = dragStartOffset - dx;
-                applyTransform();
-            }
-
-            function endDrag() {
-                if (!isDragging) return;
-                isDragging = false;
-                track.classList.remove('is-dragging');
-            }
-
-            track.addEventListener('pointerdown', onPointerDown);
-            track.addEventListener('pointermove', onPointerMove);
-            track.addEventListener('pointerup', endDrag);
-            track.addEventListener('pointercancel', endDrag);
-
-            // Evita que o clique no link do logo dispare após um arraste real
-            track.addEventListener('click', (e) => {
-                if (dragMoved) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            }, true);
-
-            window.addEventListener('resize', measure, { passive: true });
-
-            measure();
-            if (reduceMotion) return;
-            requestAnimationFrame(tick);
-        }
-
         onComponentsReady(() => {
             initTrustRadarCanvas();
-            initTrustMarquee();
         });
     })();
 </script>

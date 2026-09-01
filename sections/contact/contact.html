@@ -1,8 +1,8 @@
 <!-- ==========================================================================
    Seção: Contact
    Fundo com o mesmo carrossel de vídeo da Hero, rolando normalmente com a
-   seção. Dois cartões em vidro: canais de contato e um formulário que
-   monta uma mensagem pronta para o WhatsApp.
+   seção. Dois cartões em vidro: canais de contato e um mapa com a
+   localização do escritório.
    ========================================================================== -->
 <style>
     .contact {
@@ -129,100 +129,19 @@
         margin-top: auto;
     }
 
-    .contact-social a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius-btn);
-        color: var(--color-white-muted);
-        background-color: rgba(var(--color-white-rgb), 0.06);
-        transition: var(--transition-smooth);
-    }
-
-    .contact-social a:hover {
-        color: var(--color-dark);
-        background-color: var(--color-orange);
-        transform: translateY(-2px);
-    }
-
-    /* --- Cartão: formulário --- */
-    .contact-form {
+    /* --- Cartão: mapa --- */
+    .contact-card--map {
         display: flex;
         flex-direction: column;
-        gap: var(--space-md);
     }
 
-    .contact-field {
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-    }
-
-    .contact-field label {
-        color: var(--color-white-muted);
-        font-size: var(--font-size-xs);
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-    }
-
-    .contact-field input,
-    .contact-field textarea {
-        font-family: var(--font-main);
-        font-size: var(--font-size-base);
-        color: var(--color-white);
-        background-color: rgba(var(--color-white-rgb), 0.06);
-        border: 1px solid var(--color-border-subtle);
-        border-radius: var(--radius-btn);
-        padding: 0.75rem 1rem;
-        transition: var(--transition-fast);
-    }
-
-    .contact-field textarea {
-        min-height: 96px;
-        resize: vertical;
-        font-family: inherit;
-    }
-
-    .contact-field input::placeholder,
-    .contact-field textarea::placeholder {
-        color: rgba(var(--color-white-rgb), 0.35);
-    }
-
-    .contact-field input:focus,
-    .contact-field textarea:focus {
-        outline: none;
-        border-color: var(--color-orange);
-        background-color: rgba(var(--color-white-rgb), 0.1);
-    }
-
-    .contact-submit {
-        align-self: flex-start;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        background-color: var(--color-orange);
-        color: var(--color-dark);
-        font-family: var(--font-main);
-        font-weight: 700;
-        font-size: var(--font-size-base);
-        padding: 0.85rem 1.75rem;
-        border: none;
-        border-radius: var(--radius-btn);
-        cursor: pointer;
-        white-space: nowrap;
-        transition: var(--transition-smooth);
-    }
-
-    .contact-submit:hover {
-        background-color: var(--color-orange-hover);
-        transform: translateY(-2px);
-    }
-
-    .contact-submit:active {
-        transform: translateY(0) scale(0.98);
+    .contact-map-frame {
+        flex: 1;
+        width: 100%;
+        min-height: 260px;
+        border: 0;
+        border-radius: var(--radius-md);
+        filter: grayscale(0.2) contrast(1.05);
     }
 
     @media (max-width: 992px) {
@@ -300,52 +219,18 @@
             </ul>
 
             <div class="contact-social">
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                        <rect x="2" y="9" width="4" height="12"></rect>
-                        <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                </a>
+                <div data-component="components/social-links/social-links.html"></div>
             </div>
         </div>
 
-        <div class="contact-card contact-card--form">
-            <h2 class="contact-card-title">Vamos Conversar</h2>
-            <p class="contact-card-support">Preencha os campos abaixo. Vamos abrir o WhatsApp com sua mensagem pronta
-                para enviar.</p>
+        <div class="contact-card contact-card--map">
+            <h2 class="contact-card-title">Nossa Localização</h2>
+            <p class="contact-card-support">Visite nosso escritório em Cruz Alta - RS.</p>
 
-            <form class="contact-form" id="contact-form">
-                <div class="contact-field">
-                    <label for="contact-name">Nome</label>
-                    <input type="text" id="contact-name" name="nome" placeholder="Seu nome completo" required>
-                </div>
-                <div class="contact-field">
-                    <label for="contact-email">E-mail</label>
-                    <input type="email" id="contact-email" name="email" placeholder="seu@email.com" required>
-                </div>
-                <div class="contact-field">
-                    <label for="contact-message">Mensagem</label>
-                    <textarea id="contact-message" name="mensagem" placeholder="Como podemos ajudar?"
-                        required></textarea>
-                </div>
-                <button type="submit" class="contact-submit">
-                    Enviar
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </form>
+            <iframe class="contact-map-frame"
+                src="https://www.google.com/maps?q=R.%20General%20Os%C3%B3rio%2C%20117%20-%20Sala%2003%20-%20Centro%2C%20Cruz%20Alta%20-%20RS%2C%2098005-150&output=embed"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+                title="Mapa com a localização do go2apply"></iframe>
         </div>
     </div>
 </section>
@@ -367,22 +252,6 @@
             });
         }
 
-        function initWhatsAppForm() {
-            const form = document.getElementById('contact-form');
-            if (!form) return;
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const nome = form.nome.value.trim();
-                const email = form.email.value.trim();
-                const mensagem = form.mensagem.value.trim();
-
-                const texto = `Olá! Meu nome é ${nome} (${email}).\n\n${mensagem}`;
-                const url = `https://wa.me/555533432606?text=${encodeURIComponent(texto)}`;
-                window.open(url, '_blank', 'noopener,noreferrer');
-            });
-        }
-
         function initScrollReveal() {
             if (!window.gsap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -395,7 +264,7 @@
                 scrollTrigger: window.ScrollTrigger ? { trigger: '#contact', start: 'top 70%' } : undefined
             });
 
-            gsap.from('.contact-card--form', {
+            gsap.from('.contact-card--map', {
                 opacity: 0,
                 x: 30,
                 duration: 0.8,
@@ -406,7 +275,6 @@
         }
 
         initContactVideoCarousel();
-        initWhatsAppForm();
 
         onComponentsReady(initScrollReveal);
     })();

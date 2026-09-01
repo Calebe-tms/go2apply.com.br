@@ -45,10 +45,9 @@
 }
 
 .auth-drawer-logo {
-  font-family: var(--font-main, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
-  font-size: var(--font-size-md);
-  font-weight: 700;
-  color: var(--color-green, #5b8c45);
+  height: 28px;
+  width: auto;
+  display: block;
 }
 
 .auth-drawer-close {
@@ -89,6 +88,47 @@
 .auth-drawer-subtitle {
   font-size: var(--font-size-base);
   color: rgba(var(--color-white-rgb), 0.7);
+  margin: 0;
+}
+
+.auth-trial-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  background: rgba(var(--color-orange-rgb), 0.12);
+  border: 1px solid rgba(var(--color-orange-rgb), 0.3);
+  border-radius: var(--radius-btn);
+  color: var(--color-white, #fefcf8);
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.auth-trial-banner strong {
+  color: var(--color-orange);
+}
+
+.auth-trial-banner-icon {
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.auth-social-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(var(--color-white-rgb), 0.04);
+}
+
+.auth-social-label {
+  font-size: var(--font-size-xs);
+  color: rgba(var(--color-white-rgb), 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   margin: 0;
 }
 
@@ -393,7 +433,7 @@
 
 <div class="auth-drawer" id="auth-drawer">
   <div class="auth-drawer-header">
-    <div class="auth-drawer-logo">go2apply</div>
+    <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="auth-drawer-logo">
     <button class="auth-drawer-close" id="authClose">✕</button>
   </div>
 
@@ -401,6 +441,11 @@
     <div id="authFormContainer">
       <h1 class="auth-drawer-title">Criar conta</h1>
       <p class="auth-drawer-subtitle">Preencha seus dados para se cadastrar</p>
+
+      <div class="auth-trial-banner">
+        <span class="auth-trial-banner-icon">🎁</span>
+        <span>Experimente <strong>7 dias grátis</strong>, sem compromisso.</span>
+      </div>
 
       <!-- PASSO 1: Dados Essenciais -->
       <form class="auth-form-step active" id="step1Form" data-step="1">
@@ -563,6 +608,11 @@
       <div style="padding-top: 1rem; border-top: 1px solid rgba(var(--color-white-rgb), 0.04);">
         <div class="auth-divider">Já tem conta?</div>
         <button type="button" class="auth-btn auth-btn-secondary" id="switchToLogin" style="width: 100%; margin-top: 0.5rem;">Fazer login</button>
+      </div>
+
+      <div class="auth-social-row">
+        <p class="auth-social-label">Nos acompanhe</p>
+        <div data-component="components/social-links/social-links.html"></div>
       </div>
     </div>
   </div>
