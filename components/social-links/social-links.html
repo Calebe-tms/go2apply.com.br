@@ -7,28 +7,26 @@
         display: flex;
         align-items: center;
         gap: var(--space-sm);
+    }
+
+    /* No header, fica oculto até a Hero (1ª dobra) sair de tela */
+    #header .social-links {
         justify-self: start;
         opacity: 0;
         transform: translateY(-8px) scale(0.95);
         pointer-events: none;
         transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Fica visível junto com o btn-cta quando o CTA da Hero sai da tela */
-    .social-links.is-visible {
+    #header .social-links.is-visible {
         opacity: 1;
         transform: translateY(0) scale(1);
         pointer-events: auto;
     }
 
     .social-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: var(--radius-full);
+        --icon-badge-size: 38px;
         color: var(--color-white);
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid var(--color-border-subtle);
@@ -51,15 +49,15 @@
     }
 
     @media (max-width: 992px) {
-        .social-links {
-            display: none; /* No mobile/tablet o menu gaveta cuida da navegação */
+        /* No header, no mobile/tablet o menu gaveta cuida da navegação */
+        #header .social-links {
+            display: none;
         }
     }
 
     @media (max-width: 600px) {
         .social-link {
-            width: 32px;
-            height: 32px;
+            --icon-badge-size: 32px;
         }
 
         .social-link svg {
@@ -69,47 +67,48 @@
     }
 </style>
 
-<div class="social-links" id="social-links">
-    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<div class="social-links">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link icon-badge"
+        aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
         </svg>
     </a>
-    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-            <rect x="2" y="9" width="4" height="12"></rect>
-            <circle cx="4" cy="4" r="2"></circle>
-        </svg>
-    </a>
-    <a href="https://wa.me" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
+        target="_blank" rel="noopener noreferrer" class="social-link icon-badge" aria-label="WhatsApp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+            </path>
         </svg>
     </a>
 </div>
 
 <script>
     (function () {
-        const socialContainer = document.getElementById('social-links');
-        if (!socialContainer) return;
-
-        // Só aparece depois que a Hero (1ª dobra) sai de tela, ou seja, quando
-        // o usuário chega na 2ª dobra
+        // Suporta múltiplas instâncias do componente na página (ex.: header e
+        // footer): cada instância monta e executa este script separadamente,
+        // então marcamos as já observadas para não duplicar o observer.
         function observeHeroVisibility() {
             const hero = document.getElementById('hero');
             if (!hero) return;
-            new IntersectionObserver(([entry]) => {
-                socialContainer.classList.toggle('is-visible', !entry.isIntersecting);
-            }, { threshold: 0 }).observe(hero);
+
+            document.querySelectorAll('.social-links:not([data-visibility-observed])').forEach((container) => {
+                container.setAttribute('data-visibility-observed', 'true');
+                // Só se aplica dentro do header: em outros contextos (ex.: footer)
+                // os ícones ficam sempre visíveis pelo CSS padrão do componente
+                if (!container.closest('#header')) return;
+
+                new IntersectionObserver(([entry]) => {
+                    container.classList.toggle('is-visible', !entry.isIntersecting);
+                }, { threshold: 0 }).observe(hero);
+            });
         }
 
-        if (window.componentLoader) {
-            window.addEventListener('components:ready', observeHeroVisibility, { once: true });
-        } else {
-            window.addEventListener('load', observeHeroVisibility);
-        }
+        onComponentsReady(observeHeroVisibility);
     })();
 </script>

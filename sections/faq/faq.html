@@ -76,13 +76,8 @@
     }
 
     .faq-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
+        --icon-badge-size: 36px;
         flex-shrink: 0;
-        border-radius: var(--radius-full);
         background-color: var(--color-orange-subtle);
         color: var(--color-orange);
         transition: var(--transition-fast);
@@ -158,105 +153,129 @@
         <div class="faq-list">
             <div class="faq-item is-open">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <span class="faq-icon icon-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                             <path d="M12 17h.01" />
                             <circle cx="12" cy="12" r="10" />
                         </svg>
                     </span>
                     <span class="faq-question-text">Preciso instalar algum programa para usar o go2apply?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
                         <path d="m6 9 6 6 6-6" />
                     </svg>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
-                        <p class="faq-answer">Não. O go2apply funciona direto no navegador, do computador ou do celular, sem precisar baixar nem instalar nada.</p>
+                        <p class="faq-answer">Não. O go2apply funciona direto no navegador, do computador ou do celular,
+                            sem precisar baixar nem instalar nada.</p>
                     </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <span class="faq-icon icon-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                             <path d="M12 17h.01" />
                             <circle cx="12" cy="12" r="10" />
                         </svg>
                     </span>
                     <span class="faq-question-text">As calculadoras funcionam para qualquer cultura?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
                         <path d="m6 9 6 6 6-6" />
                     </svg>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
-                        <p class="faq-answer">Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das operações agrícolas.</p>
+                        <p class="faq-answer">Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e
+                            nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das
+                            operações agrícolas.</p>
                     </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <span class="faq-icon icon-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                             <path d="M12 17h.01" />
                             <circle cx="12" cy="12" r="10" />
                         </svg>
                     </span>
                     <span class="faq-question-text">Preciso ser especialista para usar as ferramentas?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
                         <path d="m6 9 6 6 6-6" />
                     </svg>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
-                        <p class="faq-answer">Não. As ferramentas guiam você passo a passo em cada cálculo, então dá para usar mesmo sem um conhecimento técnico aprofundado.</p>
+                        <p class="faq-answer">Não. As ferramentas guiam você passo a passo em cada cálculo, então dá
+                            para usar mesmo sem um conhecimento técnico aprofundado.</p>
                     </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <span class="faq-icon icon-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                             <path d="M12 17h.01" />
                             <circle cx="12" cy="12" r="10" />
                         </svg>
                     </span>
                     <span class="faq-question-text">Posso usar o go2apply em mais de uma fazenda ou talhão?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
                         <path d="m6 9 6 6 6-6" />
                     </svg>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
-                        <p class="faq-answer">Sim. Não há limite de fazendas ou talhões: você organiza suas operações e acompanha cada uma separadamente dentro da plataforma.</p>
+                        <p class="faq-answer">Sim. Não há limite de fazendas ou talhões: você organiza suas operações e
+                            acompanha cada uma separadamente dentro da plataforma.</p>
                     </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <span class="faq-icon icon-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
                             <path d="M12 17h.01" />
                             <circle cx="12" cy="12" r="10" />
                         </svg>
                     </span>
                     <span class="faq-question-text">Como funciona o suporte técnico?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
                         <path d="m6 9 6 6 6-6" />
                     </svg>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
-                        <p class="faq-answer">Pelo WhatsApp ou pela nossa comunidade no Telegram, com uma equipe técnica disponível para tirar dúvidas sobre as ferramentas e as decisões de aplicação.</p>
+                        <p class="faq-answer">
+                            Através da nossa comunidade no Telegram, com uma equipe técnica disponível
+                            para tirar dúvidas e orientar sobre a melhor forma de extrair ao máximo tudo que cada
+                            ferramenta pode entregar.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -265,27 +284,23 @@
 </section>
 
 <script>
-(function () {
-    function initFaq() {
-        const section = document.getElementById('faq');
-        if (!section) return;
+    (function () {
+        function initFaq() {
+            const section = document.getElementById('faq');
+            if (!section) return;
 
-        const items = Array.from(section.querySelectorAll('.faq-item'));
+            const items = Array.from(section.querySelectorAll('.faq-item'));
 
-        items.forEach((item) => {
-            const button = item.querySelector('.faq-question');
-            button.addEventListener('click', () => {
-                const wasOpen = item.classList.contains('is-open');
-                items.forEach((other) => other.classList.remove('is-open'));
-                if (!wasOpen) item.classList.add('is-open');
+            items.forEach((item) => {
+                const button = item.querySelector('.faq-question');
+                button.addEventListener('click', () => {
+                    const wasOpen = item.classList.contains('is-open');
+                    items.forEach((other) => other.classList.remove('is-open'));
+                    if (!wasOpen) item.classList.add('is-open');
+                });
             });
-        });
-    }
+        }
 
-    if (window.componentLoader) {
-        window.addEventListener('components:ready', initFaq, { once: true });
-    } else {
-        window.addEventListener('load', initFaq);
-    }
-})();
+        onComponentsReady(initFaq);
+    })();
 </script>

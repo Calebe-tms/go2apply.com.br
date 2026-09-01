@@ -94,15 +94,10 @@
     }
 
     .ob-node-icon {
-        width: 34px;
-        height: 34px;
-        border-radius: var(--radius-full);
+        --icon-badge-size: 34px;
         background: var(--color-dark);
         border: 2px solid rgba(var(--color-white-rgb), 0.18);
         color: var(--color-white-muted);
-        display: flex;
-        align-items: center;
-        justify-content: center;
         font-size: var(--font-size-xs);
         font-weight: 800;
         transition: all 0.35s ease;
@@ -432,19 +427,19 @@
             <div class="ob-sequence-nodes">
                 <!-- Node 1 -->
                 <div class="ob-sequence-node" data-step="0">
-                    <span class="ob-node-icon">✓</span>
+                    <span class="ob-node-icon icon-badge">✓</span>
                     <span class="ob-node-label">Operação</span>
                 </div>
 
                 <!-- Node 2 -->
                 <div class="ob-sequence-node" data-step="1">
-                    <span class="ob-node-icon">✓</span>
+                    <span class="ob-node-icon icon-badge">✓</span>
                     <span class="ob-node-label">Cálculo</span>
                 </div>
 
                 <!-- Node 3 (Falha no Final) -->
                 <div class="ob-sequence-node node--loss" data-step="2">
-                    <span class="ob-node-icon">⚠️</span>
+                    <span class="ob-node-icon icon-badge">⚠️</span>
                     <span class="ob-node-label">Prejuízo</span>
                 </div>
             </div>

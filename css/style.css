@@ -29,3 +29,14 @@
     margin: 0 auto;
     width: 100%;
 }
+
+/* Base compartilhada dos ícones circulares (badges); cada uso define
+   --icon-badge-size e a própria cor/fundo/borda */
+.icon-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-badge-size, 40px);
+    height: var(--icon-badge-size, 40px);
+    border-radius: var(--radius-full);
+}

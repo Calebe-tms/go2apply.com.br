@@ -56,13 +56,8 @@
     }
 
     .app-step-marker {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
+        --icon-badge-size: 44px;
         flex-shrink: 0;
-        border-radius: var(--radius-full);
         background-color: var(--color-dark);
         border: 2px solid var(--tab-color, var(--color-orange));
         color: var(--tab-color, var(--color-orange));
@@ -213,7 +208,7 @@
         justify-content: center;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 992px) {
         .app-journey {
             padding-top: calc(var(--space-xl) + 80px);
         }
@@ -259,7 +254,7 @@
 
                     <!-- 01 — Planejamento -->
                     <div class="app-step" style="--tab-color: var(--color-caldas-light);">
-                        <span class="app-step-marker">01</span>
+                        <span class="app-step-marker icon-badge">01</span>
                         <div class="app-step-body">
                             <p class="app-panel-eyebrow">Antes da operação</p>
                             <h3 class="app-step-title">Planejamento</h3>
@@ -365,7 +360,7 @@
 
                     <!-- 02 — Operação -->
                     <div class="app-step app-step--operacao" style="--tab-color: var(--color-pulver-light);">
-                        <span class="app-step-marker">02</span>
+                        <span class="app-step-marker icon-badge">02</span>
                         <div class="app-step-body">
                             <p class="app-panel-eyebrow">Durante a aplicação</p>
                             <h3 class="app-step-title">Operação</h3>
@@ -407,7 +402,7 @@
 
                     <!-- 03 — Gestão -->
                     <div class="app-step app-step--gestao" style="--tab-color: var(--color-kow-light);">
-                        <span class="app-step-marker">03</span>
+                        <span class="app-step-marker icon-badge">03</span>
                         <div class="app-step-body">
                             <p class="app-panel-eyebrow">Depois da aplicação</p>
                             <h3 class="app-step-title">Gestão</h3>
@@ -522,10 +517,6 @@
             });
         }
 
-        if (window.componentLoader) {
-            window.addEventListener('components:ready', initAppJourney, { once: true });
-        } else {
-            window.addEventListener('load', initAppJourney);
-        }
+        onComponentsReady(initAppJourney);
     })();
 </script>
