@@ -14,18 +14,25 @@
     <meta property="og:description" content="Ferramentas e informações técnicas para apoiar suas decisões no campo.">
     <meta property="og:image" content="assets/imagens/go2apply-logo-colorido.png">
 
+    <!-- Adianta a conexão com os domínios externos usados pelos vídeos e pelo GSAP -->
+    <link rel="preconnect" href="https://res.cloudinary.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
     <link rel="stylesheet" href="css/tokens.css?v=1.2">
-    <link rel="stylesheet" href="css/reset.css?v=1.1">
+    <link rel="stylesheet" href="css/reset.css?v=1.2">
     <link rel="stylesheet" href="css/style.css?v=1.1">
 
-    <!-- GSAP: usado pela dobra app-showcase para as animações de scroll -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <!-- GSAP: usado só pelas dobras app-journey/contact (abaixo da dobra), então
+         não precisa bloquear o parsing do HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 
-    <!-- Motor compartilhado do carrossel de vídeo (Hero e Contact) -->
+    <!-- Motor compartilhado do carrossel de vídeo (Hero e Contact) — síncrono,
+         pois a Hero monta e precisa dele imediatamente -->
     <script src="js/video-carousel.js"></script>
 
-    <!-- Widget compartilhado do mockup de celular com telemetria (Hero e Trust) -->
+    <!-- Widget compartilhado do mockup de celular com telemetria (Hero e Trust) —
+         síncrono, pelo mesmo motivo -->
     <script src="js/radar-phone-widget.js"></script>
 
     <style>

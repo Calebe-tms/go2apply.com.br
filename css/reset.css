@@ -4,7 +4,8 @@
 
 @font-face {
     font-family: 'Host Grotesk';
-    src: url('../assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.ttf') format('truetype');
+    src: url('../assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.woff2') format('woff2'),
+         url('../assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900;
     font-style: normal;
     font-display: swap;
