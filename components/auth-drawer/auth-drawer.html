@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   border-bottom: 1px solid rgba(var(--color-white-rgb), 0.04);
   flex-shrink: 0;
 }
@@ -51,42 +51,48 @@
 }
 
 .auth-drawer-close {
-  background: none;
-  border: none;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background: rgba(var(--color-white-rgb), 0.08);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-btn);
   color: var(--color-white, #fefcf8);
-  opacity: 0.6;
+  opacity: 0.85;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 200ms ease;
-  font-size: var(--font-size-lg);
+  transition: opacity 200ms ease, background-color 200ms ease, border-color 200ms ease;
+  font-size: var(--font-size-base);
   line-height: 1;
 }
 
 .auth-drawer-close:hover {
   opacity: 1;
+  background: rgba(var(--color-white-rgb), 0.14);
+  border-color: rgba(var(--color-white-rgb), 0.3);
 }
 
 .auth-drawer-content {
   flex: 1;
   overflow-y: auto;
-  padding: 2rem 1.5rem;
+  padding: 2rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .auth-drawer-title {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--color-white, #fefcf8);
   margin: 0;
 }
 
 .auth-drawer-subtitle {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   color: rgba(var(--color-white-rgb), 0.7);
   margin: 0;
 }
@@ -94,24 +100,135 @@
 .auth-trial-banner {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1rem;
-  margin-top: 1rem;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  margin-top: 1.75rem;
   background: rgba(var(--color-orange-rgb), 0.12);
   border: 1px solid rgba(var(--color-orange-rgb), 0.3);
-  border-radius: var(--radius-btn);
-  color: var(--color-white, #fefcf8);
-  font-size: var(--font-size-sm);
-  line-height: 1.4;
-}
-
-.auth-trial-banner strong {
-  color: var(--color-orange);
+  border-radius: var(--radius-lg);
 }
 
 .auth-trial-banner-icon {
-  font-size: var(--font-size-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
   flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: rgba(var(--color-orange-rgb), 0.18);
+  color: var(--color-orange);
+  font-size: 1.75rem;
+}
+
+.auth-trial-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.auth-trial-banner-title {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  color: var(--color-orange);
+  line-height: 1.2;
+}
+
+.auth-trial-banner-support {
+  font-size: var(--font-size-sm);
+  color: rgba(var(--color-white-rgb), 0.75);
+  line-height: 1.5;
+}
+
+.auth-stepper-tabs {
+  display: flex;
+  gap: 0.75rem;
+  height: 56px;
+  margin: 1.75rem 0;
+}
+
+.auth-stepper-tab {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0 1.75rem 0 1.5rem;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);
+  background: rgba(var(--color-white-rgb), 0.05);
+  color: rgba(var(--color-white-rgb), 0.5);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.auth-stepper-tab:hover {
+  background: rgba(var(--color-white-rgb), 0.1);
+  color: rgba(var(--color-white-rgb), 0.8);
+}
+
+.auth-stepper-tab-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: rgba(var(--color-white-rgb), 0.15);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  transition: background-color 250ms ease;
+}
+
+.auth-stepper-tab-check {
+  display: none;
+  font-size: 1.25rem;
+  color: var(--color-green);
+}
+
+.auth-stepper-tab.is-active {
+  background: var(--color-green);
+  color: var(--color-white);
+}
+
+.auth-stepper-tab.is-active:hover {
+  background: var(--color-green-hover);
+}
+
+.auth-stepper-tab.is-active .auth-stepper-tab-num {
+  background: rgba(var(--color-white-rgb), 0.25);
+  color: var(--color-white);
+}
+
+.auth-stepper-tab.is-complete {
+  background: var(--color-green-subtle);
+  color: var(--color-green);
+}
+
+.auth-stepper-tab.is-complete:hover {
+  background: rgba(var(--color-green-rgb), 0.22);
+}
+
+.auth-stepper-tab.is-complete .auth-stepper-tab-num {
+  display: none;
+}
+
+.auth-stepper-tab.is-complete .auth-stepper-tab-check {
+  display: flex;
+}
+
+.auth-switch-row {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(var(--color-white-rgb), 0.04);
+}
+
+.auth-switch-btn {
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
 .auth-social-row {
@@ -164,10 +281,9 @@
 }
 
 .auth-form-label-icon {
-  width: 18px;
-  height: 18px;
-  opacity: 0.6;
-  transition: opacity 200ms ease;
+  font-size: 1rem;
+  color: rgba(var(--color-white-rgb), 0.55);
+  transition: color 200ms ease;
 }
 
 .auth-form-input {
@@ -209,8 +325,9 @@
 .auth-form-check {
   position: absolute;
   right: 1rem;
+  display: flex;
   color: var(--color-green, #5b8c45);
-  font-size: var(--font-size-md);
+  font-size: 1.1rem;
   opacity: 0;
   transition: opacity 200ms ease;
 }
@@ -219,14 +336,46 @@
   opacity: 1;
 }
 
+.auth-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.auth-chip {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-btn);
+  border: 1px solid rgba(var(--color-white-rgb), 0.12);
+  background: rgba(var(--color-white-rgb), 0.04);
+  color: rgba(var(--color-white-rgb), 0.75);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.auth-chip:hover {
+  background: rgba(var(--color-white-rgb), 0.08);
+  border-color: rgba(var(--color-white-rgb), 0.2);
+}
+
+.auth-chip.is-selected {
+  background: var(--color-green);
+  border-color: var(--color-green);
+  color: var(--color-white);
+}
+
 .auth-password-toggle {
   position: absolute;
   right: 1rem;
+  display: flex;
   background: none;
   border: none;
   color: rgba(var(--color-white-rgb), 0.6);
   cursor: pointer;
   padding: 0.5rem;
+  font-size: 1.1rem;
   transition: color 200ms ease;
 }
 
@@ -281,6 +430,10 @@
   border-top: 1px solid rgba(var(--color-white-rgb), 0.04);
 }
 
+.auth-form-grid {
+  display: contents;
+}
+
 .auth-form-section-title {
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -325,6 +478,10 @@
 }
 
 .auth-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.875rem 1.5rem;
   border-radius: 10px;
   font-weight: 600;
@@ -389,13 +546,15 @@
 
 .auth-trust-signal-icon {
   font-size: var(--font-size-base);
+  color: var(--color-green);
 }
 
 @media (max-width: 768px) {
   .auth-drawer {
     width: 100%;
-    height: auto;
-    max-height: 95vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    top: 0;
     bottom: 0;
     right: 0;
     left: 0;
@@ -434,52 +593,68 @@
 <div class="auth-drawer" id="auth-drawer">
   <div class="auth-drawer-header">
     <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="auth-drawer-logo">
-    <button class="auth-drawer-close" id="authClose">✕</button>
+    <button class="auth-drawer-close" id="authClose"><i class="ph-fill ph-x"></i></button>
   </div>
 
   <div class="auth-drawer-content">
     <div id="authFormContainer">
       <h1 class="auth-drawer-title">Criar conta</h1>
-      <p class="auth-drawer-subtitle">Preencha seus dados para se cadastrar</p>
+      <p class="auth-drawer-subtitle">Acesso às ferramentas técnicas, da calda à aplicação.</p>
 
       <div class="auth-trial-banner">
-        <span class="auth-trial-banner-icon">🎁</span>
-        <span>Experimente <strong>7 dias grátis</strong>, sem compromisso.</span>
+        <span class="auth-trial-banner-icon"><i class="ph-fill ph-gift"></i></span>
+        <div class="auth-trial-banner-text">
+          <span class="auth-trial-banner-title">7 dias grátis</span>
+          <span class="auth-trial-banner-support">Teste todas as ferramentas sem compromisso.</span>
+        </div>
+      </div>
+
+      <div class="auth-stepper-tabs" id="authStepper">
+        <div class="auth-stepper-tab is-active" data-stepper="1" role="button" tabindex="0">
+          <span class="auth-stepper-tab-num">1</span>
+          <i class="ph-fill ph-check-circle auth-stepper-tab-check"></i>
+          <span>Seus dados</span>
+        </div>
+        <div class="auth-stepper-tab" data-stepper="2" role="button" tabindex="0">
+          <span class="auth-stepper-tab-num">2</span>
+          <i class="ph-fill ph-check-circle auth-stepper-tab-check"></i>
+          <span>Perfil</span>
+        </div>
       </div>
 
       <!-- PASSO 1: Dados Essenciais -->
       <form class="auth-form-step active" id="step1Form" data-step="1">
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <span class="auth-form-label-icon">👤</span>
+            <i class="ph-fill ph-user auth-form-label-icon"></i>
             Nome completo
           </label>
           <div class="auth-form-input">
             <input type="text" name="fullName" placeholder="Seu nome completo" required>
-            <span class="auth-form-check">✓</span>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
           </div>
         </div>
 
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <span class="auth-form-label-icon">📧</span>
+            <i class="ph-fill ph-envelope-simple auth-form-label-icon"></i>
             E-mail profissional
           </label>
           <div class="auth-form-input">
             <input type="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
-            <span class="auth-form-check">✓</span>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
           </div>
         </div>
 
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <span class="auth-form-label-icon">🔒</span>
+            <i class="ph-fill ph-lock auth-form-label-icon"></i>
             Senha
           </label>
           <div class="auth-form-input">
             <input type="password" name="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
-            <button type="button" class="auth-password-toggle" data-toggle="password">👁️</button>
-            <span class="auth-form-check">✓</span>
+            <button type="button" class="auth-password-toggle" data-toggle="password"><i class="ph-fill ph-eye"></i></button>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
           </div>
           <div class="auth-password-strength" id="passwordStrength">
             <div class="auth-strength-bar">
@@ -491,18 +666,21 @@
 
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <span class="auth-form-label-icon">🔒</span>
+            <i class="ph-fill ph-lock auth-form-label-icon"></i>
             Confirmar senha
           </label>
           <div class="auth-form-input">
             <input type="password" name="confirmPassword" placeholder="Repita a senha" autocomplete="new-password" required>
-            <button type="button" class="auth-password-toggle" data-toggle="confirmPassword">👁️</button>
-            <span class="auth-form-check">✓</span>
+            <button type="button" class="auth-password-toggle" data-toggle="confirmPassword"><i class="ph-fill ph-eye"></i></button>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
           </div>
         </div>
 
         <div class="auth-form-actions">
-          <button type="button" class="auth-btn auth-btn-primary" id="nextStep">Próximo</button>
+          <button type="button" class="auth-btn auth-btn-primary" id="nextStep">
+            Próximo
+            <i class="ph-fill ph-arrow-right"></i>
+          </button>
         </div>
       </form>
 
@@ -510,23 +688,23 @@
       <form class="auth-form-step" id="step2Form" data-step="2">
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <span class="auth-form-label-icon">📞</span>
+            <i class="ph-fill ph-phone auth-form-label-icon"></i>
             Telefone / WhatsApp
           </label>
           <div class="auth-form-input">
             <input type="tel" name="phone" placeholder="(11) 99999-9999" inputmode="tel" required>
-            <span class="auth-form-check">✓</span>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
           </div>
         </div>
 
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <span class="auth-form-label-icon">🪪</span>
+            <i class="ph-fill ph-identification-card auth-form-label-icon"></i>
             CPF
           </label>
           <div class="auth-form-input">
             <input type="text" name="cpf" placeholder="000.000.000-00" inputmode="numeric" required>
-            <span class="auth-form-check">✓</span>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
           </div>
           <small style="color: rgba(var(--color-white-rgb), 0.5); font-size: var(--font-size-xs);">Necessário para validar sua licença de uso da plataforma.</small>
         </div>
@@ -534,53 +712,49 @@
         <div class="auth-form-section">
           <div class="auth-form-section-title">Perfil Profissional (Opcional)</div>
 
-          <div class="auth-form-field">
-            <label class="auth-form-label">
-              <span class="auth-form-label-icon">💼</span>
-              Cargo / Função
-            </label>
-            <div class="auth-form-input">
-              <select name="role">
-                <option value="">Selecione</option>
-                <option value="agronomist">Agrônomo</option>
-                <option value="producer">Produtor</option>
-                <option value="consultant">Consultor</option>
-                <option value="applicator">Aplicador</option>
-                <option value="other">Outro</option>
-              </select>
+          <div class="auth-form-grid">
+            <div class="auth-form-field">
+              <label class="auth-form-label">
+                <i class="ph-fill ph-briefcase auth-form-label-icon"></i>
+                Cargo / Função
+              </label>
+              <div class="auth-chip-group" data-chip-group="role">
+                <button type="button" class="auth-chip" data-value="agronomist">Agrônomo</button>
+                <button type="button" class="auth-chip" data-value="producer">Produtor</button>
+                <button type="button" class="auth-chip" data-value="consultant">Consultor</button>
+                <button type="button" class="auth-chip" data-value="applicator">Aplicador</button>
+                <button type="button" class="auth-chip" data-value="other">Outro</button>
+              </div>
+              <input type="hidden" name="role">
             </div>
-          </div>
 
-          <div class="auth-form-field">
-            <label class="auth-form-label">
-              <span class="auth-form-label-icon">📍</span>
-              Região de atuação
-            </label>
-            <div class="auth-form-input">
-              <select name="region">
-                <option value="">Selecione</option>
-                <option value="north">Norte</option>
-                <option value="northeast">Nordeste</option>
-                <option value="center-west">Centro-Oeste</option>
-                <option value="southeast">Sudeste</option>
-                <option value="south">Sul</option>
-              </select>
+            <div class="auth-form-field">
+              <label class="auth-form-label">
+                <i class="ph-fill ph-map-pin auth-form-label-icon"></i>
+                Região de atuação
+              </label>
+              <div class="auth-chip-group" data-chip-group="region">
+                <button type="button" class="auth-chip" data-value="north">Norte</button>
+                <button type="button" class="auth-chip" data-value="northeast">Nordeste</button>
+                <button type="button" class="auth-chip" data-value="center-west">Centro-Oeste</button>
+                <button type="button" class="auth-chip" data-value="southeast">Sudeste</button>
+                <button type="button" class="auth-chip" data-value="south">Sul</button>
+              </div>
+              <input type="hidden" name="region">
             </div>
-          </div>
 
-          <div class="auth-form-field">
-            <label class="auth-form-label">
-              <span class="auth-form-label-icon">⭐</span>
-              Principal interesse
-            </label>
-            <div class="auth-form-input">
-              <select name="interest">
-                <option value="">Selecione</option>
-                <option value="caldas">Cálculo de Caldas</option>
-                <option value="pulverization">Pulverização</option>
-                <option value="kow">KOW</option>
-                <option value="all">Todos</option>
-              </select>
+            <div class="auth-form-field">
+              <label class="auth-form-label">
+                <i class="ph-fill ph-star auth-form-label-icon"></i>
+                Principal interesse
+              </label>
+              <div class="auth-chip-group" data-chip-group="interest">
+                <button type="button" class="auth-chip" data-value="caldas">Cálculo de Caldas</button>
+                <button type="button" class="auth-chip" data-value="pulverization">Pulverização</button>
+                <button type="button" class="auth-chip" data-value="kow">KOW</button>
+                <button type="button" class="auth-chip" data-value="all">Todos</button>
+              </div>
+              <input type="hidden" name="interest">
             </div>
           </div>
         </div>
@@ -596,18 +770,21 @@
 
         <div class="auth-form-actions">
           <button type="submit" class="auth-btn auth-btn-primary">Criar conta</button>
-          <button type="button" class="auth-btn auth-btn-secondary" id="prevStep">← Voltar</button>
+          <button type="button" class="auth-btn auth-btn-secondary" id="prevStep">
+            <i class="ph-fill ph-arrow-left"></i>
+            Voltar
+          </button>
         </div>
 
         <div class="auth-trust-signal">
-          <span class="auth-trust-signal-icon">🔒</span>
+          <i class="ph-fill ph-shield-check auth-trust-signal-icon"></i>
           <span>Seus dados estão protegidos pela LGPD</span>
         </div>
       </form>
 
-      <div style="padding-top: 1rem; border-top: 1px solid rgba(var(--color-white-rgb), 0.04);">
+      <div class="auth-switch-row">
         <div class="auth-divider">Já tem conta?</div>
-        <button type="button" class="auth-btn auth-btn-secondary" id="switchToLogin" style="width: 100%; margin-top: 0.5rem;">Fazer login</button>
+        <button type="button" class="auth-btn auth-btn-secondary auth-switch-btn" id="switchToLogin">Fazer login</button>
       </div>
 
       <div class="auth-social-row">
@@ -651,6 +828,17 @@ class AuthDrawer {
       alert('Login não implementado ainda');
     });
 
+    document.querySelectorAll('.auth-stepper-tab').forEach((tab) => {
+      const step = Number(tab.dataset.stepper);
+      tab.addEventListener('click', () => this.goToStep(step));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.goToStep(step);
+        }
+      });
+    });
+
     this.step2Form?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.submitForm();
@@ -660,6 +848,25 @@ class AuthDrawer {
     this.attachPasswordToggle();
     this.attachPhoneMask();
     this.attachCpfMask();
+    this.attachChipGroups();
+  }
+
+  attachChipGroups() {
+    document.querySelectorAll('.auth-chip-group').forEach((group) => {
+      const hiddenInput = group.parentElement.querySelector(`input[type="hidden"][name="${group.dataset.chipGroup}"]`);
+      group.querySelectorAll('.auth-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          const alreadySelected = chip.classList.contains('is-selected');
+          group.querySelectorAll('.auth-chip').forEach((c) => c.classList.remove('is-selected'));
+          if (alreadySelected) {
+            if (hiddenInput) hiddenInput.value = '';
+          } else {
+            chip.classList.add('is-selected');
+            if (hiddenInput) hiddenInput.value = chip.dataset.value;
+          }
+        });
+      });
+    });
   }
 
   attachValidation() {
@@ -801,10 +1008,12 @@ class AuthDrawer {
         e.preventDefault();
         const inputName = btn.dataset.toggle;
         const input = document.querySelector(`input[name="${inputName}"]`);
-        if (!input) return;
+        const icon = btn.querySelector('i');
+        if (!input || !icon) return;
         const isPassword = input.type === 'password';
         input.type = isPassword ? 'text' : 'password';
-        btn.textContent = isPassword ? '👁️‍🗨️' : '👁️';
+        icon.classList.toggle('ph-eye', !isPassword);
+        icon.classList.toggle('ph-eye-slash', isPassword);
       });
     });
   }
@@ -865,6 +1074,24 @@ class AuthDrawer {
     } else {
       this.step1Form.classList.remove('active');
       this.step2Form.classList.add('active');
+    }
+    this.updateStepper(step);
+  }
+
+  updateStepper(step) {
+    const stepper = document.getElementById('authStepper');
+    if (!stepper) return;
+    const step1El = stepper.querySelector('[data-stepper="1"]');
+    const step2El = stepper.querySelector('[data-stepper="2"]');
+
+    if (step === 1) {
+      step1El?.classList.add('is-active');
+      step1El?.classList.remove('is-complete');
+      step2El?.classList.remove('is-active', 'is-complete');
+    } else {
+      step1El?.classList.remove('is-active');
+      step1El?.classList.add('is-complete');
+      step2El?.classList.add('is-active');
     }
   }
 
