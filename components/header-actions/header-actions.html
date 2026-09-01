@@ -185,11 +185,21 @@
         }
     });
 
-    // O próprio componente do CTA da Hero avisa quando entra/sai de tela
-    // (evita que este componente dependa de um id específico de outra seção)
+    // Só aparece depois que a Hero (1ª dobra) sai de tela, ou seja, quando o
+    // usuário chega na 2ª dobra
     if (headerCta) {
-        window.addEventListener('btn-cta:visibility-change', (e) => {
-            headerCta.classList.toggle('is-visible', !e.detail.isOnScreen);
-        });
+        function observeHeroVisibility() {
+            const hero = document.getElementById('hero');
+            if (!hero) return;
+            new IntersectionObserver(([entry]) => {
+                headerCta.classList.toggle('is-visible', !entry.isIntersecting);
+            }, { threshold: 0 }).observe(hero);
+        }
+
+        if (window.componentLoader) {
+            window.addEventListener('components:ready', observeHeroVisibility, { once: true });
+        } else {
+            window.addEventListener('load', observeHeroVisibility);
+        }
     }
 </script>
