@@ -1,0 +1,80 @@
+<!-- ==========================================================================
+   Component: Btn Login (Global Reutilizável)
+   Botão de Login institucional reutilizável em múltiplos locais da aplicação
+   ========================================================================== -->
+<style>
+    .btn-login {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        padding: 0.55rem 1.1rem;
+        border-radius: var(--radius-btn, 10px);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1.2px solid rgba(var(--color-orange-rgb, 242, 142, 19), 0.5);
+        color: var(--color-white, #fefcf8);
+        font-family: var(--font-main, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        text-decoration: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        white-space: nowrap;
+    }
+
+    .btn-login-icon {
+        font-size: 19px;
+        color: var(--color-orange, #f28e13);
+        transition: transform 0.3s ease, color 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .btn-login:hover {
+        background: rgba(242, 142, 19, 0.18);
+        border-color: var(--color-orange, #f28e13);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 18px rgba(242, 142, 19, 0.35);
+    }
+
+    .btn-login:hover .btn-login-icon {
+        color: #ffffff;
+        transform: scale(1.12);
+    }
+
+    .btn-login:active {
+        transform: translateY(0);
+    }
+</style>
+
+<button type="button" class="btn-login cta-btn-base" aria-label="Fazer Login">
+    <i class="ph-fill ph-user-circle btn-login-icon" aria-hidden="true"></i>
+    <span class="btn-login-label">Fazer Login</span>
+</button>
+
+<script>
+    (function () {
+        if (!window.__btnLoginGlobalListener) {
+            window.__btnLoginGlobalListener = true;
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('.btn-login');
+                if (!btn) return;
+
+                // Fecha o nav-menu mobile se estiver aberto
+                if (window.go2applyNav && typeof window.go2applyNav.close === 'function') {
+                    window.go2applyNav.close();
+                }
+
+                // Abre o auth-drawer
+                if (window.openAuthDrawer) {
+                    window.openAuthDrawer();
+                } else if (window.authDrawer) {
+                    window.authDrawer.open();
+                }
+            });
+        }
+    })();
+</script>

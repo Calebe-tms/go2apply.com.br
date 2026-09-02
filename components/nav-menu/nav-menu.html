@@ -148,22 +148,23 @@
             transform: translateX(0);
         }
 
-        /* Topo do Side Drawer: Logo centralizada com botão fechar à direita */
+        /* Topo do Side Drawer: Logo à esquerda + Componente Login com folga pro fechar */
         .nav-menu-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
+            justify-content: space-between;
+            gap: 0.75rem;
             padding-bottom: 0.85rem;
+            padding-right: 48px; /* Evita sobreposição com o botão de fechar #nav-toggle no canto direito */
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             margin-bottom: 0.65rem;
             width: 100%;
+            box-sizing: border-box;
         }
 
         .nav-menu-brand {
             display: flex;
             align-items: center;
-            justify-content: center;
             text-decoration: none;
         }
 
@@ -414,25 +415,17 @@
 
     <!-- Painel Lateral (Side Drawer) -->
     <div class="nav-menu-drawer" id="nav-menu-drawer">
-        <!-- Cabeçalho com Logo -->
+        <!-- Cabeçalho com Logo e componente de Login -->
         <div class="nav-menu-header">
             <a href="#hero" class="nav-menu-brand" aria-label="Ir para a Home">
                 <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="nav-menu-logo" width="160"
                     height="40">
             </a>
+            <div data-component="components/btn-login/btn-login.html"></div>
         </div>
 
         <!-- Banner de Anúncio: 7 Dias de Teste Grátis -->
-        <button type="button" class="nav-menu-trial-card cta-btn-base" id="nav-menu-trial-btn" aria-label="Abrir 7 Dias de Teste Grátis">
-            <span class="trial-card-badge">
-                <i class="ph-fill ph-sparkle" aria-hidden="true"></i>
-            </span>
-            <span class="trial-card-content">
-                <span class="trial-card-title">7 Dias de Teste Grátis</span>
-                <span class="trial-card-sub">Acesse todas as ferramentas agora</span>
-            </span>
-            <i class="ph-fill ph-arrow-right trial-card-arrow" aria-hidden="true"></i>
-        </button>
+        <div data-component="components/trial-banner/trial-banner.html"></div>
 
         <!-- Links de navegação com ícones -->
         <ul class="nav-links">
@@ -511,7 +504,7 @@
                 // Animação stagger leve dos itens internos via GSAP
                 if (window.gsap && window.innerWidth <= 992) {
                     const headerEl = mobileNav.querySelector('.nav-menu-header');
-                    const trialCardEl = mobileNav.querySelector('.nav-menu-trial-card');
+                    const trialCardEl = mobileNav.querySelector('.trial-banner');
                     const items = mobileNav.querySelectorAll('.nav-link-item');
                     const footerEl = mobileNav.querySelector('.nav-menu-footer');
 
@@ -546,7 +539,7 @@
                 // Limpa propriedades inline do GSAP ao fechar
                 if (window.gsap) {
                     const headerEl = mobileNav.querySelector('.nav-menu-header');
-                    const trialCardEl = mobileNav.querySelector('.nav-menu-trial-card');
+                    const trialCardEl = mobileNav.querySelector('.trial-banner');
                     const items = mobileNav.querySelectorAll('.nav-link-item');
                     const footerEl = mobileNav.querySelector('.nav-menu-footer');
                     gsap.set([headerEl, trialCardEl, items, footerEl], { clearProps: 'all' });
@@ -574,21 +567,6 @@
 
             if (closeBtn) {
                 closeBtn.onclick = closeNav;
-            }
-
-            const trialBtn = document.getElementById('nav-menu-trial-btn');
-            if (trialBtn) {
-                trialBtn.onclick = function (e) {
-                    e.preventDefault();
-                    if (window.innerWidth <= 992) {
-                        closeNav();
-                    }
-                    if (window.openAuthDrawer) {
-                        window.openAuthDrawer();
-                    } else if (window.authDrawer) {
-                        window.authDrawer.open();
-                    }
-                };
             }
 
             navLinks.forEach(link => {
