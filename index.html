@@ -178,10 +178,21 @@ if (window.location.protocol === 'file:') {
           // como troca de layout) por trás do loader opaco.
           setTimeout(() => {
               loader.classList.add('is-hidden');
-              loader.addEventListener('transitionend', () => {
+
+              // O destravamento não pode depender só do transitionend: se a
+              // transição nunca roda (aba carregada em segundo plano, ambiente
+              // sem paint como o Lighthouse), o evento não dispara e o body
+              // ficaria preso em overflow:hidden/height:100vh para sempre.
+              let isReleased = false;
+              function release() {
+                  if (isReleased) return;
+                  isReleased = true;
                   document.body.classList.remove('is-loading');
                   loader.remove();
-              }, { once: true });
+              }
+
+              loader.addEventListener('transitionend', release, { once: true });
+              setTimeout(release, 800);
           }, 220);
       }
 
@@ -250,15 +261,15 @@ if (window.location.protocol === 'file:') {
           // Fallback de segurança caso vídeo demore para dar play
           setTimeout(function () {
               if (!heroReady) forceDismiss();
-          }, 1600);
+          }, 1200);
       });
 
       // Fallback global de segurança absoluta — dispara mesmo com a aba em
       // segundo plano, pois não depende do loop de animação para concluir
-      setTimeout(forceDismiss, 3500);
+      setTimeout(forceDismiss, 2500);
   })();
 
-  class ComponentLoader{constructor(){this.loadedStyles=new Set(),this.totalComponents=0,this.loadedComponents=0}emitProgress(){const t=Math.max(1,this.totalComponents),e=Math.min(100,Math.round(this.loadedComponents/t*100));window.dispatchEvent(new CustomEvent("loader:progress",{detail:{loaded:this.loadedComponents,total:this.totalComponents,percentage:e}}))}async fetchComponent(t,r=1){try{const e=await fetch(t);if(!e.ok)throw new Error(`Falha ao carregar componente: ${t} (Status ${e.status})`);return await e.text()}catch(e){return r<2?this.fetchComponent(t,r+1):(console.error("Component load error:",t,e),"")}}async mountElement(t){const e=t.getAttribute("data-component")||t.getAttribute("data-page");if(!e)return;const n=await this.fetchComponent(e),o=new DOMParser,i=o.parseFromString(n,"text/html");i.querySelectorAll("style").forEach((t=>{const n=`style-${e.replace(/[^a-zA-Z0-9]/g,"-")}`;if(!this.loadedStyles.has(n)){const o=document.createElement("style");o.id=n,o.textContent=t.textContent,document.head.appendChild(o),this.loadedStyles.add(n)}t.remove()}));const s=[];i.querySelectorAll("script").forEach((t=>{s.push(t.textContent),t.remove()})),t.innerHTML=i.body.innerHTML,t.removeAttribute("data-component"),t.removeAttribute("data-page"),t.classList.add("component-mounted"),s.forEach((t=>{try{(new Function(t))()}catch(e){console.error(`Erro ao executar script do componente (${e}):`,e)}})),this.loadedComponents++,this.emitProgress(),await this.loadAll(t),window.dispatchEvent(new CustomEvent("component:mounted",{detail:{path:e}}))}async loadAll(t=document){const e=Array.from(t.querySelectorAll("[data-component], [data-page]"));if(0===e.length)return;this.totalComponents+=e.length,this.emitProgress(),await Promise.all(e.map((t=>this.mountElement(t))))}async init(){await this.loadAll(document),this.loadedComponents=Math.max(this.loadedComponents,this.totalComponents),this.emitProgress(),window.dispatchEvent(new CustomEvent("components:ready"))}}window.componentLoader=new ComponentLoader,"loading"===document.readyState?document.addEventListener("DOMContentLoaded",(()=>window.componentLoader.init())):window.componentLoader.init();
+  class ComponentLoader{constructor(){this.loadedStyles=new Set(),this.fetchCache=new Map(),this.totalComponents=0,this.loadedComponents=0}emitProgress(){const t=Math.max(1,this.totalComponents),e=Math.min(100,Math.round(this.loadedComponents/t*100));window.dispatchEvent(new CustomEvent("loader:progress",{detail:{loaded:this.loadedComponents,total:this.totalComponents,percentage:e}}))}fetchComponent(t){if(this.fetchCache.has(t))return this.fetchCache.get(t);const e=this.fetchOnce(t).then((n=>(n||this.fetchCache.delete(t),n)));return this.fetchCache.set(t,e),e}async fetchOnce(t,r=1){try{const e=await fetch(t);if(!e.ok)throw new Error(`Falha ao carregar componente: ${t} (Status ${e.status})`);return await e.text()}catch(e){return r<2?this.fetchOnce(t,r+1):(console.error("Component load error:",t,e),"")}}async mountElement(t){const e=t.getAttribute("data-component")||t.getAttribute("data-page");if(!e)return;const n=await this.fetchComponent(e),o=new DOMParser,i=o.parseFromString(n,"text/html");i.querySelectorAll("style").forEach((t=>{const n=`style-${e.replace(/[^a-zA-Z0-9]/g,"-")}`;if(!this.loadedStyles.has(n)){const o=document.createElement("style");o.id=n,o.textContent=t.textContent,document.head.appendChild(o),this.loadedStyles.add(n)}t.remove()}));const s=[];i.querySelectorAll("script").forEach((t=>{s.push(t.textContent),t.remove()})),t.innerHTML=i.body.innerHTML,t.removeAttribute("data-component"),t.removeAttribute("data-page"),t.classList.add("component-mounted"),s.forEach((t=>{try{(new Function(t))()}catch(e){console.error(`Erro ao executar script do componente (${e}):`,e)}})),this.loadedComponents++,this.emitProgress(),await this.loadAll(t),window.dispatchEvent(new CustomEvent("component:mounted",{detail:{path:e}}))}async loadAll(t=document){const e=Array.from(t.querySelectorAll("[data-component], [data-page]"));if(0===e.length)return;this.totalComponents+=e.length,this.emitProgress(),await Promise.all(e.map((t=>this.mountElement(t))))}async init(){await this.loadAll(document),this.loadedComponents=Math.max(this.loadedComponents,this.totalComponents),this.emitProgress(),window.dispatchEvent(new CustomEvent("components:ready"))}}window.componentLoader=new ComponentLoader,"loading"===document.readyState?document.addEventListener("DOMContentLoaded",(()=>window.componentLoader.init())):window.componentLoader.init();
 }
     </script>
 </body>

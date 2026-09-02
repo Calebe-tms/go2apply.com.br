@@ -61,18 +61,20 @@
 </div>
 
 <script>
-    const HERO_VIDEOS = [
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230093/Tk-3-0988.webm',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230096/Tk-2-0615-P1.webm',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230093/Tk-1.webm',
-        'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230094/Tk-4-0615-P1.webm',
+    // Public IDs do Cloudinary; as transformações de formato/resolução são
+    // aplicadas por window.videoSources (js/video-carousel.js)
+    const HERO_VIDEO_IDS = [
+        'v1788230093/Tk-3-0988.webm',
+        'v1788230096/Tk-2-0615-P1.webm',
+        'v1788230093/Tk-1.webm',
+        'v1788230094/Tk-4-0615-P1.webm',
     ];
 
     function initVideoCarousel() {
-        if (!window.createVideoCarousel) return;
+        if (!window.createVideoCarousel || !window.videoSources) return;
         window.createVideoCarousel({
             videoId: 'bg-video-1',
-            urls: HERO_VIDEOS,
+            urls: window.videoSources(HERO_VIDEO_IDS),
             onFirstFrame: () => window.dispatchEvent(new CustomEvent('hero:first-video-ready'))
         });
     }
