@@ -166,7 +166,11 @@
     const headerCta = document.getElementById('header-btn-cta');
 
     if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
+        toggleBtn.addEventListener('click', (e) => {
+            if (window.go2applyNav) {
+                window.go2applyNav.toggle();
+                return;
+            }
             const targetNav = document.getElementById('nav-menu');
             if (!targetNav) return;
             const isOpen = targetNav.classList.toggle('active');
@@ -179,6 +183,10 @@
     document.addEventListener('keydown', (e) => {
         const targetNav = document.getElementById('nav-menu');
         if (e.key === 'Escape' && targetNav && targetNav.classList.contains('active')) {
+            if (window.go2applyNav) {
+                window.go2applyNav.close();
+                return;
+            }
             targetNav.classList.remove('active');
             toggleBtn.classList.remove('active');
             toggleBtn.setAttribute('aria-expanded', 'false');
