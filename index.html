@@ -177,11 +177,16 @@ if (window.location.protocol === 'file:') {
       function dismiss() {
           if (isDismissed) return;
           isDismissed = true;
-          document.body.classList.remove('is-loading');
 
+          // Só destrava o scroll/altura do body quando o overlay do loader já
+          // estiver de fato invisível: as dobras abaixo da dobra inicial ainda
+          // estão montando em segundo plano nesse meio-tempo, e destravar
+          // antes deixaria esse crescimento de altura visível (e contando
+          // como troca de layout) por trás do loader opaco.
           setTimeout(() => {
               loader.classList.add('is-hidden');
               loader.addEventListener('transitionend', () => {
+                  document.body.classList.remove('is-loading');
                   loader.remove();
               }, { once: true });
           }, 220);
