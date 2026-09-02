@@ -66,6 +66,19 @@
         -webkit-backdrop-filter: var(--blur-glass);
         padding: var(--space-xl);
         box-shadow: var(--shadow-lg);
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .contact-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--color-border);
+    }
+
+    .contact-brand-logo {
+        height: 30px;
+        width: auto;
+        align-self: flex-start;
+        margin: 0 0 var(--space-lg);
     }
 
     .contact-card-title {
@@ -112,15 +125,16 @@
     }
 
     .contact-info-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
+        --icon-badge-size: 36px;
         flex-shrink: 0;
-        border-radius: var(--radius-btn);
         background-color: rgba(var(--color-white-rgb), 0.06);
         color: var(--color-orange);
+        font-size: var(--font-size-base);
+        transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .contact-info-list a:hover .contact-info-icon {
+        background-color: rgba(var(--color-orange-rgb), 0.14);
     }
 
     .contact-social {
@@ -142,6 +156,22 @@
         border: 0;
         border-radius: var(--radius-md);
         filter: grayscale(0.2) contrast(1.05);
+    }
+
+    .contact-map-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: var(--space-sm);
+        color: var(--color-white-muted);
+        font-size: var(--font-size-sm);
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.25s ease;
+    }
+
+    .contact-map-link:hover {
+        color: var(--color-orange);
     }
 
     @media (max-width: 992px) {
@@ -178,40 +208,29 @@
 
     <div class="contact-inner">
         <div class="contact-card contact-card--info">
+            <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="contact-brand-logo">
             <h2 class="contact-card-title">Fale Conosco</h2>
             <p class="contact-card-support">Estamos por perto para tirar dúvidas sobre a plataforma.</p>
 
             <ul class="contact-info-list">
                 <li>
-                    <span class="contact-info-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
+                    <span class="contact-info-icon icon-badge">
+                        <i class="ph-fill ph-map-pin" aria-hidden="true"></i>
                     </span>
                     <span>R. General Osório, 117 - Sala 03 - Centro, Cruz Alta - RS, 98005-150</span>
                 </li>
                 <li>
                     <a href="mailto:contato@go2apply.com.br">
-                        <span class="contact-info-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <rect x="2" y="4" width="20" height="16" rx="3" />
-                                <path d="m3 7 9 6 9-6" />
-                            </svg>
+                        <span class="contact-info-icon icon-badge">
+                            <i class="ph-fill ph-envelope-simple" aria-hidden="true"></i>
                         </span>
                         <span>contato@go2apply.com.br</span>
                     </a>
                 </li>
                 <li>
                     <a href="https://wa.me/555533432606" target="_blank" rel="noopener noreferrer">
-                        <span class="contact-info-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path
-                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                            </svg>
+                        <span class="contact-info-icon icon-badge">
+                            <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
                         </span>
                         <span>+55 55 3343-2606</span>
                     </a>
@@ -231,6 +250,13 @@
                 src="https://www.google.com/maps?q=R.%20General%20Os%C3%B3rio%2C%20117%20-%20Sala%2003%20-%20Centro%2C%20Cruz%20Alta%20-%20RS%2C%2098005-150&output=embed"
                 loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
                 title="Mapa com a localização do go2apply"></iframe>
+
+            <a class="contact-map-link"
+                href="https://www.google.com/maps/search/?api=1&query=R.%20General%20Os%C3%B3rio%2C%20117%20-%20Sala%2003%20-%20Centro%2C%20Cruz%20Alta%20-%20RS%2C%2098005-150"
+                target="_blank" rel="noopener noreferrer">
+                Abrir no Google Maps
+                <i class="ph-fill ph-arrow-square-out" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
 </section>

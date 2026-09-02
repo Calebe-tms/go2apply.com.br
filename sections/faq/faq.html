@@ -15,9 +15,32 @@
         background-color: var(--color-dark-surface);
         color: var(--color-white);
         text-align: center;
+        overflow: hidden;
+    }
+
+    /* Marca-d'água do logo bem discreta no fundo da dobra: grande, mas com
+       respiro nas bordas, desfocada e quase transparente pra não atrapalhar
+       o contraste do texto por cima */
+    .faq-bg-logo {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .faq-bg-logo img {
+        width: min(800px, 70%);
+        height: auto;
+        opacity: 0.07;
+        filter: blur(14px);
     }
 
     .faq-inner {
+        position: relative;
+        z-index: 1;
         max-width: 760px;
         margin: 0 auto;
     }
@@ -54,7 +77,9 @@
         border-radius: var(--radius-lg);
         background-color: rgba(var(--color-white-rgb), 0.03);
         overflow: hidden;
-        transition: var(--transition-fast);
+        /* Escopado só nas propriedades do hover/is-open: "all" brigava com
+           opacity/transform que o GSAP anima na entrada da seção */
+        transition: border-color 0.2s ease, background-color 0.2s ease;
     }
 
     .faq-item.is-open {
@@ -146,6 +171,9 @@
 </style>
 
 <section class="faq" id="faq">
+    <div class="faq-bg-logo" aria-hidden="true">
+        <img src="assets/imagens/go2apply-logo-colorido.png" alt="" loading="lazy">
+    </div>
     <div class="faq-inner">
         <h2 class="faq-title">Perguntas <span class="highlight">Frequentes</span></h2>
         <p class="faq-support">Tire suas dúvidas sobre como o go2apply funciona no dia a dia da sua operação.</p>
@@ -301,6 +329,32 @@
             });
         }
 
-        onComponentsReady(initFaq);
+        function initFaqReveal() {
+            if (!window.gsap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+            gsap.from('.faq-title, .faq-support', {
+                opacity: 0,
+                y: 24,
+                duration: 0.7,
+                ease: 'power3.out',
+                stagger: 0.1,
+                scrollTrigger: window.ScrollTrigger ? { trigger: '#faq', start: 'top 75%' } : undefined
+            });
+
+            gsap.from('.faq-item', {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                ease: 'power3.out',
+                stagger: 0.08,
+                scrollTrigger: window.ScrollTrigger ? { trigger: '.faq-list', start: 'top 80%' } : undefined
+            });
+        }
+
+        onComponentsReady(() => {
+            initFaq();
+            initFaqReveal();
+        });
     })();
 </script>

@@ -251,18 +251,12 @@
 
 .auth-form-step {
   display: none;
-  animation: fadeIn 300ms ease;
 }
 
 .auth-form-step.active {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 .auth-form-field {
@@ -360,7 +354,23 @@
   gap: 0.5rem;
 }
 
+/* Elemento invisível que força a quebra de linha num ponto exato, pra
+   sempre fechar em 2 linhas balanceadas em vez de deixar um item sozinho
+   numa segunda linha quase vazia */
+.auth-chip-break {
+  flex-basis: 100%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
 .auth-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex: 1 1 0;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-btn);
   border: 1px solid rgba(var(--color-white-rgb), 0.12);
@@ -369,8 +379,15 @@
   font-family: inherit;
   font-size: var(--font-size-sm);
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
   transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.auth-chip-icon {
+  font-size: 1rem;
+  opacity: 0.5;
+  transition: opacity 200ms ease;
 }
 
 .auth-chip:hover {
@@ -382,6 +399,10 @@
   background: var(--color-green);
   border-color: var(--color-green);
   color: var(--color-white);
+}
+
+.auth-chip.is-selected .auth-chip-icon {
+  opacity: 1;
 }
 
 .auth-password-toggle {
@@ -745,11 +766,12 @@
                 Cargo / Função
               </label>
               <div class="auth-chip-group" data-chip-group="role">
-                <button type="button" class="auth-chip" data-value="agronomist">Agrônomo</button>
-                <button type="button" class="auth-chip" data-value="producer">Produtor</button>
-                <button type="button" class="auth-chip" data-value="consultant">Consultor</button>
-                <button type="button" class="auth-chip" data-value="applicator">Aplicador</button>
-                <button type="button" class="auth-chip" data-value="other">Outro</button>
+                <button type="button" class="auth-chip" data-value="agronomist"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Agrônomo</button>
+                <button type="button" class="auth-chip" data-value="producer"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Produtor</button>
+                <button type="button" class="auth-chip" data-value="consultant"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Consultor</button>
+                <div class="auth-chip-break"></div>
+                <button type="button" class="auth-chip" data-value="applicator"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Aplicador</button>
+                <button type="button" class="auth-chip" data-value="other"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Outro</button>
               </div>
               <input type="hidden" name="role">
             </div>
@@ -760,11 +782,12 @@
                 Região de atuação
               </label>
               <div class="auth-chip-group" data-chip-group="region">
-                <button type="button" class="auth-chip" data-value="north">Norte</button>
-                <button type="button" class="auth-chip" data-value="northeast">Nordeste</button>
-                <button type="button" class="auth-chip" data-value="center-west">Centro-Oeste</button>
-                <button type="button" class="auth-chip" data-value="southeast">Sudeste</button>
-                <button type="button" class="auth-chip" data-value="south">Sul</button>
+                <button type="button" class="auth-chip" data-value="north"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Norte</button>
+                <button type="button" class="auth-chip" data-value="northeast"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Nordeste</button>
+                <button type="button" class="auth-chip" data-value="center-west"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Centro-Oeste</button>
+                <div class="auth-chip-break"></div>
+                <button type="button" class="auth-chip" data-value="southeast"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Sudeste</button>
+                <button type="button" class="auth-chip" data-value="south"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Sul</button>
               </div>
               <input type="hidden" name="region">
             </div>
@@ -775,10 +798,11 @@
                 Principal interesse
               </label>
               <div class="auth-chip-group" data-chip-group="interest">
-                <button type="button" class="auth-chip" data-value="caldas">Cálculo de Caldas</button>
-                <button type="button" class="auth-chip" data-value="pulverization">Pulverização</button>
-                <button type="button" class="auth-chip" data-value="kow">KOW</button>
-                <button type="button" class="auth-chip" data-value="all">Todos</button>
+                <button type="button" class="auth-chip" data-value="caldas"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Cálculo de Caldas</button>
+                <button type="button" class="auth-chip" data-value="pulverization"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Pulverização</button>
+                <div class="auth-chip-break"></div>
+                <button type="button" class="auth-chip" data-value="kow"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>KOW</button>
+                <button type="button" class="auth-chip" data-value="all"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Todos</button>
               </div>
               <input type="hidden" name="interest">
             </div>
@@ -878,16 +902,27 @@ class AuthDrawer {
   }
 
   attachChipGroups() {
+    const setChipIcon = (chip, selected) => {
+      const icon = chip.querySelector('.auth-chip-icon');
+      if (!icon) return;
+      icon.classList.toggle('ph-plus-circle', !selected);
+      icon.classList.toggle('ph-check-circle', selected);
+    };
+
     document.querySelectorAll('.auth-chip-group').forEach((group) => {
       const hiddenInput = group.parentElement.querySelector(`input[type="hidden"][name="${group.dataset.chipGroup}"]`);
       group.querySelectorAll('.auth-chip').forEach((chip) => {
         chip.addEventListener('click', () => {
           const alreadySelected = chip.classList.contains('is-selected');
-          group.querySelectorAll('.auth-chip').forEach((c) => c.classList.remove('is-selected'));
+          group.querySelectorAll('.auth-chip').forEach((c) => {
+            c.classList.remove('is-selected');
+            setChipIcon(c, false);
+          });
           if (alreadySelected) {
             if (hiddenInput) hiddenInput.value = '';
           } else {
             chip.classList.add('is-selected');
+            setChipIcon(chip, true);
             if (hiddenInput) hiddenInput.value = chip.dataset.value;
           }
         });
@@ -1097,14 +1132,33 @@ class AuthDrawer {
   }
 
   goToStep(step) {
+    if (step === this.currentStep) return;
+    const goingForward = step > this.currentStep;
     this.currentStep = step;
-    if (step === 1) {
-      this.step1Form.classList.add('active');
-      this.step2Form.classList.remove('active');
+    const outgoing = step === 1 ? this.step2Form : this.step1Form;
+    const incoming = step === 1 ? this.step1Form : this.step2Form;
+
+    const swap = () => {
+      outgoing.classList.remove('active');
+      incoming.classList.add('active');
+    };
+
+    if (window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const distance = goingForward ? 24 : -24;
+      gsap.to(outgoing, {
+        opacity: 0,
+        x: -distance,
+        duration: 0.18,
+        ease: 'power2.in',
+        onComplete: () => {
+          swap();
+          gsap.fromTo(incoming, { opacity: 0, x: distance }, { opacity: 1, x: 0, duration: 0.28, ease: 'power2.out' });
+        }
+      });
     } else {
-      this.step1Form.classList.remove('active');
-      this.step2Form.classList.add('active');
+      swap();
     }
+
     this.updateStepper(step);
   }
 

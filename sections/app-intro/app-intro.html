@@ -103,3 +103,37 @@
         <p class="app-intro-subtitle">Na prática, o go2apply ajuda você a tomar decisões mais precisas no campo.</p>
     </div>
 </section>
+
+<script>
+    (function () {
+        function initAppIntroReveal() {
+            if (!window.gsap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+            // O gradiente de fundo já esmaece pra transparente nas bordas,
+            // então um deslocamento sutil aqui não deixa nenhuma emenda à
+            // mostra: só reforça profundidade na costura diagonal da dobra
+            gsap.to('.app-intro-bg', {
+                y: 30,
+                ease: 'none',
+                scrollTrigger: window.ScrollTrigger ? {
+                    trigger: '#app-intro',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                } : undefined
+            });
+
+            gsap.from('.app-intro-logo, .app-intro-title, .app-intro-subtitle', {
+                opacity: 0,
+                y: 24,
+                duration: 0.8,
+                ease: 'power3.out',
+                stagger: 0.12,
+                scrollTrigger: window.ScrollTrigger ? { trigger: '#app-intro', start: 'top 70%' } : undefined
+            });
+        }
+
+        onComponentsReady(initAppIntroReveal);
+    })();
+</script>
