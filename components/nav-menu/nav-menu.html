@@ -21,12 +21,27 @@
         font-weight: 600;
         letter-spacing: 0.75px;
         text-transform: uppercase;
+        white-space: nowrap;
         transition: var(--transition-smooth);
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
         padding: 0.55rem 1.1rem;
         border-radius: var(--radius-btn, 10px);
         border: 1px solid transparent;
         display: inline-block;
+    }
+
+    /* Faixa entre a gaveta mobile (992px) e o header com folga total (1210px):
+       o menu ainda cabe em uma linha, mas precisa de espaçamentos mais
+       enxutos para não quebrar os links em duas linhas */
+    @media (min-width: 993px) and (max-width: 1210px) {
+        .nav-links {
+            gap: 0.3rem;
+        }
+
+        .nav-links a {
+            padding: 0.55rem 0.7rem;
+            font-size: 0.9rem;
+        }
     }
 
     .nav-links a:hover {

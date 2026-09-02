@@ -14,6 +14,7 @@
         display: inline-flex;
         align-items: center;
         text-decoration: none;
+        cursor: pointer;
         font-family: var(--font-main, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
         font-weight: 600;
         border: 1.2px solid var(--color-orange, #f28e13);
@@ -148,10 +149,10 @@
 </style>
 
 <div class="header-actions" id="header-actions">
-    <a href="#solucoes" class="header-btn-cta cta-btn-base" id="header-btn-cta">
+    <button type="button" class="header-btn-cta cta-btn-base" id="header-btn-cta">
         <img src="assets/icos/ico-logo-go2apply.png" alt="Ícone go2apply" class="btn-icon">
         <span class="btn-label">Conheça a Ferramenta</span>
-    </a>
+    </button>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" aria-expanded="false">
         <span class="bar"></span>
