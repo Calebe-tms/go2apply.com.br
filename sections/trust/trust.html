@@ -31,13 +31,6 @@
         transform: scale(1.1);
     }
 
-    .trust-canvas {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-    }
-
     .trust-overlay {
         position: absolute;
         inset: 0;
@@ -197,7 +190,6 @@
     <div class="trust-bg" aria-hidden="true">
         <img class="trust-bg-image" src="assets/imagens/hero-background.webp" alt="" loading="lazy" width="1280" height="720">
         <div class="trust-overlay"></div>
-        <canvas class="trust-canvas" id="trust-canvas"></canvas>
     </div>
 
     <div class="trust-inner">
@@ -249,27 +241,6 @@
 
 <script>
     (function () {
-        // Canvas de radar com mockup de celular e telemetria: motor
-        // compartilhado (js/radar-canvas-engine.js), mesma linguagem visual
-        // do fundo da Hero, adaptada às dimensões da seção Trust.
-        function initTrustRadarCanvas() {
-            if (!window.createRadarCanvasEngine) return;
-            window.createRadarCanvasEngine({
-                canvasId: 'trust-canvas',
-                sectionId: 'trust',
-                obstacleSelector: 'a, button, .trust-badge-col, .trust-pillars-col, h2, p, input, select, textarea',
-                alpha: { base: 0.32, idle: 0.08, active: 0.28, obstacle: 0.12 },
-                visibilityThreshold: 0.05,
-                resizeOnComponentsReady: false,
-                initialMouseYFactor: 0.5,
-                getWidth: (section) => section.offsetWidth,
-                getCanvasHeight: (section) => section.offsetHeight,
-                getRefHeight: (section) => section.offsetHeight,
-                computePhoneY: (refHeight, phoneDim, isMobile) =>
-                    isMobile ? refHeight - phoneDim.height / 2 - 20 : refHeight - phoneDim.height / 2 - 32
-            });
-        }
-
         function initTrustReveal() {
             if (!window.gsap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -306,7 +277,6 @@
         }
 
         onComponentsReady(() => {
-            initTrustRadarCanvas();
             initTrustReveal();
         });
     })();

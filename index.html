@@ -23,9 +23,7 @@
     <link rel="preconnect" href="https://res.cloudinary.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-    <link rel="stylesheet" href="css/tokens.css?v=1.2">
-    <link rel="stylesheet" href="css/reset.css?v=1.2">
-    <link rel="stylesheet" href="css/style.css?v=1.1">
+    <link rel="stylesheet" href="css/main.css?v=2.0">
 
     <!-- GSAP: usado só pelas dobras app-journey/contact (abaixo da dobra), então
          não precisa bloquear o parsing do HTML -->
@@ -42,16 +40,11 @@
          component-loader monta), então não precisa bloquear o parsing -->
     <script src="js/video-carousel.js" defer></script>
 
-    <!-- Widget compartilhado do mockup de celular com telemetria (Hero e Trust) —
-         defer, pelo mesmo motivo -->
-    <script src="js/radar-phone-widget.js" defer></script>
-
-    <!-- Motor compartilhado do canvas de radar (Hero e Trust) — defer,
-         pelo mesmo motivo -->
-    <script src="js/radar-canvas-engine.js" defer></script>
-
     <!-- Helper compartilhado: aguarda os componentes montarem -->
     <script src="js/on-ready.js" defer></script>
+
+    <!-- Preload font para melhor performance -->
+    <link rel="preload" href="assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
 
     <style>
     body.is-loading {

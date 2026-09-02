@@ -51,19 +51,6 @@
         opacity: 0.1;
     }
 
-    .hero-canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 6;
-        pointer-events: none;
-    }
-
-    @media (max-width: 600px) {
-        .hero-canvas {
-            display: none;
-        }
-    }
 </style>
 
 <div class="hero-bg" id="hero-bg">
@@ -71,19 +58,16 @@
         poster="https://res.cloudinary.com/vdgkx5jc/video/upload/so_0,w_960,q_50,f_jpg/v1788029484/bg-1.jpg"></video>
     <div class="hero-overlay"></div>
     <div class="hero-grid-overlay" aria-hidden="true"></div>
-    <canvas id="hero-mesh-canvas" class="hero-canvas"></canvas>
 </div>
 
 <script>
-    // Constantes de configuração
-
     const HERO_VIDEOS = [
         'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230093/Tk-3-0988.webm',
         'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230096/Tk-2-0615-P1.webm',
         'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230093/Tk-1.webm',
         'https://res.cloudinary.com/vdgkx5jc/video/upload/q_auto/v1788230094/Tk-4-0615-P1.webm',
     ];
-    // --- 1. Carrossel de Vídeos: motor compartilhado (js/video-carousel.js) ---
+
     function initVideoCarousel() {
         if (!window.createVideoCarousel) return;
         window.createVideoCarousel({
@@ -93,24 +77,5 @@
         });
     }
 
-    // --- 2. Motor do Radar: motor compartilhado (js/radar-canvas-engine.js) ---
-    function initRadarCanvas() {
-        if (!window.createRadarCanvasEngine) return;
-        window.createRadarCanvasEngine({
-            canvasId: 'hero-mesh-canvas',
-            sectionId: 'hero',
-            obstacleSelector: 'a, button, .header, .btn-cta, .nav-toggle, .social-link, h1, h2, h3, .hero-title, .main-logo, .hero-footer, .diff-card, p, input, select, textarea',
-            alpha: { base: 0.80, idle: 0.20, active: 0.65, obstacle: 0.35 },
-            visibilityThreshold: 0.1,
-            resizeOnComponentsReady: true,
-            initialMouseYFactor: 0.38,
-            getWidth: () => window.innerWidth,
-            getCanvasHeight: () => Math.max(document.documentElement.scrollHeight || 0, document.body.scrollHeight || 0, window.innerHeight * 2.5),
-            getRefHeight: (section) => section.offsetHeight,
-            computePhoneY: (refHeight, phoneDim, isMobile) => isMobile ? refHeight - 118 : refHeight - 156
-        });
-    }
-
     initVideoCarousel();
-    initRadarCanvas();
 </script>
