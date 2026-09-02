@@ -101,16 +101,17 @@
     }
 
     .faq-icon {
-        --icon-badge-size: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex-shrink: 0;
-        background-color: var(--color-orange-subtle);
         color: var(--color-orange);
+        font-size: 1.25rem;
         transition: var(--transition-fast);
     }
 
     .faq-item.is-open .faq-icon {
-        background-color: var(--color-orange);
-        color: var(--color-dark);
+        color: var(--color-green);
     }
 
     .faq-question-text {
@@ -121,12 +122,13 @@
 
     .faq-chevron {
         flex-shrink: 0;
+        font-size: 18px;
         color: var(--color-white-muted);
         transition: transform 0.3s ease;
     }
 
     .faq-item.is-open .faq-chevron {
-        color: var(--color-orange);
+        color: var(--color-green);
         transform: rotate(180deg);
     }
 
@@ -149,7 +151,7 @@
         font-size: var(--font-size-sm);
         line-height: 1.6;
         margin: 0;
-        padding: 0 var(--space-lg) var(--space-lg) calc(36px + var(--space-md) + var(--space-lg));
+        padding: 0 var(--space-lg) var(--space-lg) calc(20px + var(--space-md) + var(--space-lg));
     }
 
     @media (max-width: 600px) {
@@ -165,7 +167,7 @@
         }
 
         .faq-answer {
-            padding: 0 var(--space-md) var(--space-md) calc(36px + var(--space-sm) + var(--space-md));
+            padding: 0 var(--space-md) var(--space-md) calc(20px + var(--space-sm) + var(--space-md));
         }
     }
 </style>
@@ -181,20 +183,11 @@
         <div class="faq-list">
             <div class="faq-item is-open">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon icon-badge">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <path d="M12 17h.01" />
-                            <circle cx="12" cy="12" r="10" />
-                        </svg>
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
                     </span>
                     <span class="faq-question-text">Preciso instalar algum programa para usar o go2apply?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="m6 9 6 6 6-6" />
-                    </svg>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
@@ -206,20 +199,11 @@
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon icon-badge">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <path d="M12 17h.01" />
-                            <circle cx="12" cy="12" r="10" />
-                        </svg>
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
                     </span>
                     <span class="faq-question-text">As calculadoras funcionam para qualquer cultura?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="m6 9 6 6 6-6" />
-                    </svg>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
@@ -232,20 +216,11 @@
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon icon-badge">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <path d="M12 17h.01" />
-                            <circle cx="12" cy="12" r="10" />
-                        </svg>
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
                     </span>
                     <span class="faq-question-text">Preciso ser especialista para usar as ferramentas?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="m6 9 6 6 6-6" />
-                    </svg>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
@@ -257,20 +232,11 @@
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon icon-badge">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <path d="M12 17h.01" />
-                            <circle cx="12" cy="12" r="10" />
-                        </svg>
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
                     </span>
                     <span class="faq-question-text">Posso usar o go2apply em mais de uma fazenda ou talhão?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="m6 9 6 6 6-6" />
-                    </svg>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">
@@ -282,20 +248,11 @@
 
             <div class="faq-item">
                 <button class="faq-question" type="button">
-                    <span class="faq-icon icon-badge">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <path d="M12 17h.01" />
-                            <circle cx="12" cy="12" r="10" />
-                        </svg>
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
                     </span>
                     <span class="faq-question-text">Como funciona o suporte técnico?</span>
-                    <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        aria-hidden="true">
-                        <path d="m6 9 6 6 6-6" />
-                    </svg>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
                 </button>
                 <div class="faq-answer-wrap">
                     <div class="faq-answer-inner">

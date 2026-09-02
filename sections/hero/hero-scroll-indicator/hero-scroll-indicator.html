@@ -34,8 +34,18 @@
     }
 
     .hero-scroll-icon {
+        display: block;
         width: 18px;
         height: 18px;
+        background-color: currentColor;
+        -webkit-mask-image: url('assets/icos/ico-scroll-chevron.svg');
+        mask-image: url('assets/icos/ico-scroll-chevron.svg');
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
         animation: heroScrollIconSlide 1.8s ease-in-out 2.2s infinite;
     }
 
@@ -96,8 +106,5 @@
 </style>
 
 <a href="#objection-breaker" class="hero-scroll-indicator" id="hero-scroll-indicator" aria-label="Rolar para a próxima seção">
-    <svg class="hero-scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="6 9 12 15 18 9"></polyline>
-    </svg>
+    <span class="hero-scroll-icon" aria-hidden="true"></span>
 </a>
