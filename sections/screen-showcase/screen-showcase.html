@@ -69,7 +69,7 @@
 
     .screen-showcase-header {
         max-width: 42ch;
-        margin: 0 0 var(--space-lg);
+        margin: 0 0 var(--space-md);
     }
 
     .showcase-logo-img {
@@ -77,6 +77,7 @@
         width: 100%;
         height: auto;
         margin-bottom: var(--space-md);
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
     }
 
     .screen-showcase-title {
@@ -84,11 +85,24 @@
     }
 
     .screen-showcase-subtitle {
-        color: rgba(var(--color-dark-rgb), 0.65);
-        font-size: var(--font-size-base);
-        line-height: 1.6;
+        color: rgba(var(--color-dark-rgb), 0.82);
+        font-family: var(--font-main);
+        font-size: var(--font-size-md);
+        font-weight: 600;
+        line-height: 1.45;
         margin: 0;
-        max-width: 40ch;
+        max-width: 36ch;
+    }
+
+    .showcase-cta {
+        margin: var(--space-md) 0 var(--space-lg);
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .showcase-cta .btn-cta {
+        justify-content: flex-start;
+        width: auto;
     }
 
     /* --- Palco ---
@@ -100,12 +114,12 @@
     .showcase-stage {
         /* Tokens moram no palco: a altura do palco consome `--stage-height`,
            e cena, slides e molduras herdam o resto */
-        --phone-width: 300px;
+        --phone-width: 326px;
         --phone-frame: 8px;
-        --phone-radius: 40px;
-        /* Bem menor que os 533px do aparelho: essa diferença é o transbordo
+        --phone-radius: 42px;
+        /* Bem menor que os 590px do aparelho: essa diferença é o transbordo
            que invade as dobras vizinhas */
-        --stage-height: 280px;
+        --stage-height: 290px;
 
         position: relative;
         perspective: 1600px;
@@ -305,22 +319,50 @@
         }
 
         .screen-showcase-copy {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
+        }
+
+        .showcase-logo-img {
+            display: block;
+            margin-inline: auto;
         }
 
         .screen-showcase-header {
             max-width: 46ch;
             margin-inline: auto;
+            text-align: center;
         }
 
         .screen-showcase-subtitle {
             max-width: 46ch;
             margin-inline: auto;
+            text-align: center;
+        }
+
+        .showcase-cta {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: var(--space-md) auto var(--space-lg);
+        }
+
+        .showcase-cta .btn-cta {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .showcase-caption {
+            text-align: center;
+            width: 100%;
         }
 
         .screen-showcase.is-live .showcase-controls {
             justify-content: center;
             margin-left: 0;
+            width: 100%;
         }
 
         .showcase-stage {
@@ -336,12 +378,16 @@
             padding: calc(var(--space-lg) + var(--showcase-seam)) 1.25rem;
         }
 
+        .showcase-logo-img {
+            max-width: 230px;
+        }
+
         .screen-showcase-title {
             font-size: var(--font-size-lg);
         }
 
         .screen-showcase-subtitle {
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-base);
         }
 
         .showcase-stage {
@@ -364,8 +410,12 @@
                 <img class="showcase-logo-img" src="assets/imagens/go2apply-logo-colorido.png"
                     alt="go2apply" loading="lazy" decoding="async">
                 <h2 class="screen-showcase-title">Por dentro do <span class="highlight">go2apply</span></h2>
-                <p class="screen-showcase-subtitle">Telas reais do aplicativo</p>
+                <p class="screen-showcase-subtitle">O go2apply coloca as informações certas na hora certa para apoiar suas decisões.</p>
             </header>
+
+            <div class="showcase-cta">
+                <div data-component="components/btn-cta/btn-cta.html"></div>
+            </div>
 
             <div class="showcase-caption" aria-live="polite">
                 <p class="showcase-caption-name">Ingrediente ativo</p>
@@ -439,9 +489,9 @@
         // saem de interpolação, o que deixa o arraste contínuo
         const ORBIT_DESKTOP = [
             { x: 0, z: 0, ry: 0, scale: 1, opacity: 1 },
-            { x: 184, z: -160, ry: -22, scale: 0.74, opacity: 0.72 },
-            { x: 292, z: -320, ry: -30, scale: 0.56, opacity: 0.36 },
-            { x: 356, z: -420, ry: -34, scale: 0.46, opacity: 0 }
+            { x: 198, z: -160, ry: -22, scale: 0.74, opacity: 0.72 },
+            { x: 312, z: -320, ry: -30, scale: 0.56, opacity: 0.36 },
+            { x: 380, z: -420, ry: -34, scale: 0.46, opacity: 0 }
         ];
 
         const ORBIT_TABLET = [
@@ -825,12 +875,12 @@
             if (!reduceMotion && window.ScrollTrigger) {
                 gsap.registerPlugin(ScrollTrigger);
 
-                gsap.from('.screen-showcase-title, .screen-showcase-subtitle', {
+                gsap.from('.showcase-logo-img, .screen-showcase-subtitle, .showcase-cta, .showcase-caption, .showcase-controls', {
                     opacity: 0,
-                    y: 24,
+                    y: 20,
                     duration: 0.8,
                     ease: 'power3.out',
-                    stagger: 0.12,
+                    stagger: 0.1,
                     scrollTrigger: { trigger: '#screen-showcase', start: 'top 75%' }
                 });
             }
