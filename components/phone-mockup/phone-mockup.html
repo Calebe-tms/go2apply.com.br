@@ -1,0 +1,127 @@
+<!-- ==========================================================================
+   Component: Phone Mockup
+   Moldura de smartphone desenhada em CSS puro, sem imagem de mockup e sem
+   tela própria: o "vidro" é vazado e quem aparece atrás dele é o conteúdo
+   que o consumidor colocar (no screen-showcase, o slide do carrossel).
+
+   Encaixe pixel-perfect sem gambiarra visível: a moldura é feita com
+   `border`, e o CSS já calcula o raio interno de uma borda como
+   `raio externo - espessura` (40px - 8px = 32px). Então o conteúdo atrás
+   fecha exatamente na curva interna usando o mesmo `--phone-screen-radius`,
+   sem blur nem gradiente pra disfarçar emenda.
+
+   O corpo é dividido em duas metades justapostas justamente pra permitir a
+   animação de desmontar e remontar: cada metade carrega a borda de três
+   lados e os dois cantos correspondentes, e juntas fecham a moldura inteira.
+
+   Tokens customizáveis pelo consumidor: `--phone-width`, `--phone-frame`,
+   `--phone-radius` e `--phone-glass-ratio`.
+   ========================================================================== -->
+<style>
+    .phone-mockup {
+        /* Todos múltiplos de 4px. Entram como fallback e não como definição
+           própria, senão a declaração local venceria a do consumidor e a
+           escala deixaria de ser customizável de fora */
+        position: relative;
+        width: var(--phone-width, 264px);
+        padding: var(--phone-frame, 8px);
+        box-sizing: border-box;
+        /* A moldura é decorativa e não pode roubar o arraste do carrossel */
+        pointer-events: none;
+        /* Sombra em camadas difusas no tom neutro escuro do DS: dá peso ao
+           objeto sem chapar nem colorir o fundo */
+        filter:
+            drop-shadow(0 2px 4px rgba(var(--color-dark-rgb), 0.1))
+            drop-shadow(0 16px 32px rgba(var(--color-dark-rgb), 0.14));
+    }
+
+    /* Espaçador transparente: só existe pra dar altura à moldura a partir
+       da proporção do conteúdo que vai aparecer atrás */
+    .phone-mockup-glass {
+        display: block;
+        width: 100%;
+        aspect-ratio: var(--phone-glass-ratio, 738 / 1344);
+    }
+
+    .phone-mockup-half {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 50%;
+        border: var(--phone-frame, 8px) solid var(--color-dark);
+    }
+
+    .phone-mockup-half--top {
+        top: 0;
+        border-bottom: 0;
+        border-radius: var(--phone-radius, 40px) var(--phone-radius, 40px) 0 0;
+    }
+
+    .phone-mockup-half--bottom {
+        bottom: 0;
+        border-top: 0;
+        border-radius: 0 0 var(--phone-radius, 40px) var(--phone-radius, 40px);
+    }
+
+    /* Botões laterais: saliências finas na mesma cor do corpo, então
+       aparecem só pela silhueta. Ficam na metade de cima pra acompanharem
+       o movimento dela na desmontagem */
+    .phone-mockup-half--top::before,
+    .phone-mockup-half--top::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        border-radius: var(--radius-full);
+        background-color: var(--color-dark);
+    }
+
+    /* Volume */
+    .phone-mockup-half--top::before {
+        top: 88px;
+        left: -4px;
+        height: 32px;
+    }
+
+    /* Power */
+    .phone-mockup-half--top::after {
+        top: 104px;
+        right: -4px;
+        height: 48px;
+    }
+
+    /* Câmera frontal: furo discreto no topo, como num aparelho rodando o
+       app em tela cheia */
+    .phone-mockup-camera {
+        position: absolute;
+        top: var(--phone-frame, 8px);
+        left: 50%;
+        width: 8px;
+        height: 8px;
+        margin-left: -4px;
+        border-radius: var(--radius-full);
+        background-color: rgba(var(--color-dark-rgb), 0.92);
+        box-shadow: inset 0 0 0 1px rgba(var(--color-white-rgb), 0.1);
+    }
+
+    /* Indicador de gesto do sistema, sutil sobre o conteúdo */
+    .phone-mockup-indicator {
+        position: absolute;
+        bottom: var(--phone-frame, 8px);
+        left: 50%;
+        width: 96px;
+        height: 4px;
+        margin-left: -48px;
+        border-radius: var(--radius-full);
+        background-color: rgba(var(--color-dark-rgb), 0.28);
+    }
+</style>
+
+<div class="phone-mockup" id="phone-mockup" aria-hidden="true">
+    <span class="phone-mockup-glass"></span>
+    <span class="phone-mockup-half phone-mockup-half--top">
+        <span class="phone-mockup-camera"></span>
+    </span>
+    <span class="phone-mockup-half phone-mockup-half--bottom">
+        <span class="phone-mockup-indicator"></span>
+    </span>
+</div>
