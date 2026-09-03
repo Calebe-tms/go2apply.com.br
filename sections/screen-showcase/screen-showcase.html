@@ -675,7 +675,12 @@
                 dragPointer = null;
                 scene.classList.remove('is-dragging');
 
-                if (dragMoved <= DRAG_CLICK_SLOP) {
+                // Reza pra o dragMoved ser zerado imediatamente depois que o drag
+                // termina, pra um clique subsequente num slide não seja bloqueado
+                const wasMoved = dragMoved > DRAG_CLICK_SLOP;
+                dragMoved = 0;
+
+                if (!wasMoved) {
                     startAutoplay();
                     return;
                 }
