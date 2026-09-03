@@ -5,13 +5,16 @@
    cima e pra baixo, invadindo as dobras escuras vizinhas (app-journey e
    app-closing).
 
-   O aparelho fica parado no centro do palco emoldurando a tela ativa. Como
-   o corpo é opaco, ele se desfaz enquanto o carrossel anda e se reconstrói
-   quando a próxima tela encaixa: o slide central segue visível por baixo
-   com a mesma imagem, então a dissolução não deixa costura.
+   Cada slide é um aparelho completo, alternando os dois mockups do
+   catálogo (phone-mockup e phone-mockup-alt) pra o carrossel não parecer o
+   mesmo celular repetido cinco vezes.
 
-   Arraste funciona com dedo e com mouse. Sem JavaScript a faixa continua
-   útil: vira uma galeria em fila com scroll horizontal nativo.
+   O aparelho é uma moldura sobreposta e a screenshot mora no slide, então
+   cada instância tem a sua tela. O `padding` do slide reserva a espessura
+   da moldura e a janela usa o mesmo raio interno que o `border` do mockup
+   calcula, então as curvas coincidem.
+
+   Arraste funciona com dedo e com mouse.
    ========================================================================== -->
 <style>
     .screen-showcase {
@@ -98,13 +101,11 @@
        próprio elemento que define a perspectiva giraria o ponto de fuga
        junto e achataria a profundidade */
     .showcase-stage {
-        /* Tokens moram no palco, não na cena: a altura do palco consome
-           `--stage-height`, e cena, slides e moldura herdam o resto */
+        /* Tokens moram no palco: a altura do palco consome `--stage-height`,
+           e cena, slides e molduras herdam o resto */
         --phone-width: 300px;
         --phone-frame: 8px;
         --phone-radius: 40px;
-        --screen-width: calc(var(--phone-width) - var(--phone-frame) * 2);
-        --screen-radius: calc(var(--phone-radius) - var(--phone-frame));
         /* Bem menor que os 533px do aparelho: essa diferença é o transbordo
            que invade as dobras vizinhas */
         --stage-height: 280px;
@@ -122,40 +123,39 @@
         transform-style: preserve-3d;
     }
 
-    /* Estado base (sem JS): galeria rolável */
+    /* Estado antes do JS assumir: fila rolável, pra não haver salto de
+       layout entre montar os componentes e iniciar o carrossel */
     .showcase-track {
         display: flex;
         gap: var(--space-md);
         width: 100%;
         padding-bottom: var(--space-sm);
         overflow-x: auto;
-        scroll-snap-type: x mandatory;
         transform-style: preserve-3d;
     }
 
     .showcase-slide {
+        position: relative;
         flex: 0 0 auto;
         width: 160px;
-        padding: 0;
+        /* Reserva a espessura da moldura que o mockup desenha por cima */
+        padding: var(--phone-frame);
+        box-sizing: border-box;
         border: 0;
-        border-radius: var(--radius-lg);
         background: none;
-        scroll-snap-align: center;
         cursor: pointer;
     }
 
     .showcase-slide-screen {
-        position: relative;
         display: block;
         /* Recorte útil da screenshot: 738x1344 dos 738x1600 originais,
            descontando o cromo do sistema operacional */
         aspect-ratio: 738 / 1344;
         overflow: hidden;
-        border-radius: var(--radius-lg);
+        /* Mesmo raio interno que o `border` do mockup produz, então a
+           screenshot fecha exatamente na curva do aparelho */
+        border-radius: calc(var(--phone-radius) - var(--phone-frame));
         background-color: var(--color-dark-surface);
-        box-shadow:
-            0 2px 4px rgba(var(--color-dark-rgb), 0.06),
-            0 12px 28px rgba(var(--color-dark-rgb), 0.1);
     }
 
     .showcase-slide-shot {
@@ -175,15 +175,9 @@
         outline-offset: 8px;
     }
 
-    /* A moldura só entra em cena junto com o JS: sem carrossel ativo ela
-       não teria uma tela pra emoldurar */
-    .showcase-frame {
-        display: none;
-    }
-
     /* --- Estado ativo: assumido pelo JS quando o GSAP está disponível --- */
     .screen-showcase.is-live .showcase-stage {
-        height: var(--stage-height, 260px);
+        height: var(--stage-height, 280px);
     }
 
     .screen-showcase.is-live .showcase-scene {
@@ -212,32 +206,12 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: var(--screen-width);
+        width: var(--phone-width);
         /* Centraliza no layout, e não só no transform: com `left: 50%` puro
            a caixa de layout sairia pela direita do palco e engordaria o
            scroll horizontal da página mesmo com o slide já reposicionado */
-        margin-left: calc(var(--screen-width) / -2);
-        will-change: transform;
-    }
-
-    .screen-showcase.is-live .showcase-slide-screen {
-        /* Mesmo raio interno da moldura, então a tela que para no centro
-           fecha exatamente na curva do aparelho */
-        border-radius: var(--screen-radius);
-        box-shadow:
-            0 2px 4px rgba(var(--color-dark-rgb), 0.06),
-            0 16px 32px rgba(var(--color-dark-rgb), 0.12);
-    }
-
-    .screen-showcase.is-live .showcase-frame {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        display: block;
-        width: var(--phone-width);
         margin-left: calc(var(--phone-width) / -2);
-        /* A moldura não intercepta ponteiro: o arraste pertence à cena */
-        pointer-events: none;
+        will-change: transform;
     }
 
     /* --- Legenda da tela ativa --- */
@@ -400,6 +374,7 @@
                                 alt="Tela de ingrediente ativo do go2apply com o Kow do tebuconazol, tendência de adjuvante e faixa de pH"
                                 loading="lazy" decoding="async" width="738" height="1600">
                         </span>
+                        <div data-component="components/phone-mockup/phone-mockup.html"></div>
                     </button>
 
                     <button class="showcase-slide" type="button" data-name="Espectro de gotas"
@@ -409,6 +384,7 @@
                                 alt="Tela de espectro de gotas do go2apply com DMV, densidade calculada e Delta T limite"
                                 loading="lazy" decoding="async" width="738" height="1600">
                         </span>
+                        <div data-component="components/phone-mockup-alt/phone-mockup-alt.html"></div>
                     </button>
 
                     <button class="showcase-slide" type="button" data-name="Identificação da operação"
@@ -418,6 +394,7 @@
                                 alt="Tela de identificação do go2apply com cliente, equipamento, responsável e data da operação"
                                 loading="lazy" decoding="async" width="738" height="1600">
                         </span>
+                        <div data-component="components/phone-mockup/phone-mockup.html"></div>
                     </button>
 
                     <button class="showcase-slide" type="button" data-name="Coleta por ponta"
@@ -427,6 +404,7 @@
                                 alt="Tela de coleta por ponta do go2apply com o volume medido em cada uma das doze pontas"
                                 loading="lazy" decoding="async" width="738" height="1600">
                         </span>
+                        <div data-component="components/phone-mockup-alt/phone-mockup-alt.html"></div>
                     </button>
 
                     <button class="showcase-slide" type="button" data-name="Resultado da calibração"
@@ -436,12 +414,8 @@
                                 alt="Tela de resultado do go2apply com vazão coletada, desvio da medição e nova constante do fluxômetro"
                                 loading="lazy" decoding="async" width="738" height="1600">
                         </span>
+                        <div data-component="components/phone-mockup/phone-mockup.html"></div>
                     </button>
-                </div>
-
-                <!-- Depois da track no DOM pra ficar por cima da tela central -->
-                <div class="showcase-frame">
-                    <div data-component="components/phone-mockup/phone-mockup.html"></div>
                 </div>
             </div>
         </div>
@@ -454,22 +428,22 @@
         // saem de interpolação, o que deixa o arraste contínuo
         const ORBIT_DESKTOP = [
             { x: 0, z: 0, ry: 0, scale: 1, opacity: 1 },
-            { x: 184, z: -160, ry: -22, scale: 0.72, opacity: 0.62 },
-            { x: 292, z: -320, ry: -30, scale: 0.54, opacity: 0.3 },
-            { x: 356, z: -420, ry: -34, scale: 0.44, opacity: 0 }
+            { x: 184, z: -160, ry: -22, scale: 0.74, opacity: 0.72 },
+            { x: 292, z: -320, ry: -30, scale: 0.56, opacity: 0.36 },
+            { x: 356, z: -420, ry: -34, scale: 0.46, opacity: 0 }
         ];
 
         const ORBIT_TABLET = [
             { x: 0, z: 0, ry: 0, scale: 1, opacity: 1 },
-            { x: 188, z: -160, ry: -22, scale: 0.66, opacity: 0.54 },
-            { x: 304, z: -320, ry: -30, scale: 0.48, opacity: 0.24 },
+            { x: 188, z: -160, ry: -22, scale: 0.66, opacity: 0.62 },
+            { x: 304, z: -320, ry: -30, scale: 0.48, opacity: 0.28 },
             { x: 380, z: -420, ry: -34, scale: 0.4, opacity: 0 }
         ];
 
         const ORBIT_MOBILE = [
             { x: 0, z: 0, ry: 0, scale: 1, opacity: 1 },
-            { x: 152, z: -180, ry: -24, scale: 0.6, opacity: 0.4 },
-            { x: 240, z: -340, ry: -32, scale: 0.44, opacity: 0.16 },
+            { x: 152, z: -180, ry: -24, scale: 0.6, opacity: 0.44 },
+            { x: 240, z: -340, ry: -32, scale: 0.44, opacity: 0.18 },
             { x: 300, z: -440, ry: -36, scale: 0.36, opacity: 0 }
         ];
 
@@ -488,14 +462,8 @@
             const controls = section.querySelector('.showcase-controls');
             const captionName = section.querySelector('.showcase-caption-name');
             const captionDetail = section.querySelector('.showcase-caption-detail');
-            const frame = section.querySelector('.showcase-frame');
-            const mockup = section.querySelector('.phone-mockup');
-            const frameShot = section.querySelector('.phone-mockup-shot');
-            // Peças que remontam depois do corpo, reforçando a leitura de
-            // aparelho montado por partes
-            const frameParts = Array.from(section.querySelectorAll('.phone-mockup-camera, .phone-mockup-indicator'));
             const slides = Array.from(section.querySelectorAll('.showcase-slide'));
-            if (!stage || !scene || !controls || !frame || !mockup || slides.length < 3) return;
+            if (!stage || !scene || !controls || slides.length < 3) return;
 
             const total = slides.length;
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -508,10 +476,9 @@
             let autoplay = null;
             let snapTween = null;
             // Fator que encolhe a órbita quando o palco é mais estreito do
-            // que os deslocamentos em px pedem, senão os cards das pontas
-            // vazariam a viewport e criariam scroll horizontal
+            // que os deslocamentos em px pedem, senão os aparelhos das
+            // pontas vazariam a viewport e criariam scroll horizontal
             let orbitFit = 1;
-            let frameState = 'assembled';
 
             section.classList.add('is-live');
 
@@ -622,13 +589,9 @@
 
             function syncActive() {
                 const next = ((Math.round(position) % total) + total) % total;
-                if (next === active) return false;
+                if (next === active) return;
                 active = next;
                 paintCaption();
-                // Com movimento reduzido o aparelho nunca se desfaz, então a
-                // tela dele precisa acompanhar aqui
-                if (frameState === 'assembled') paintFrameShot();
-                return true;
             }
 
             function paintCaption() {
@@ -637,64 +600,6 @@
                 captionDetail.textContent = slide.getAttribute('data-detail');
                 dots.forEach(function (dot, index) {
                     dot.setAttribute('aria-current', index === active ? 'true' : 'false');
-                });
-            }
-
-            // Espelha no aparelho a tela que está no centro. Roda só com o
-            // aparelho invisível, então a troca de imagem nunca pisca
-            function paintFrameShot() {
-                if (!frameShot) return;
-                const slide = slides[active];
-                const shot = slide.querySelector('img');
-                frameShot.setAttribute('src', shot.getAttribute('src'));
-                frameShot.style.setProperty('--shot-crop',
-                    slide.style.getPropertyValue('--shot-crop').trim() || '65.625%');
-            }
-
-            // O aparelho se desfaz enquanto o carrossel anda e se reconstrói
-            // quando a tela encaixa. Além do efeito, isso resolve um
-            // problema real: o corpo é opaco, então se ficasse parado
-            // durante o movimento o carrossel deslizaria escondido atrás
-            // dele. Como o slide central fica visível por baixo com a mesma
-            // tela, a dissolução revela um conteúdo idêntico e a troca não
-            // tem costura
-            function dissolveFrame() {
-                if (reduceMotion || frameState === 'dissolved') return;
-                frameState = 'dissolved';
-                gsap.killTweensOf([mockup].concat(frameParts));
-                gsap.to(mockup, {
-                    opacity: 0,
-                    scale: 1.03,
-                    duration: 0.22,
-                    ease: 'power2.in'
-                });
-                gsap.to(frameParts, {
-                    opacity: 0,
-                    duration: 0.14,
-                    ease: 'power2.in'
-                });
-            }
-
-            function assembleFrame() {
-                if (reduceMotion || frameState === 'assembled') return;
-                frameState = 'assembled';
-                paintFrameShot();
-                gsap.killTweensOf([mockup].concat(frameParts));
-                // `expo.out` desacelera longo no fim: o corpo chega devagar
-                // no lugar exato em vez de bater
-                gsap.to(mockup, {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.85,
-                    ease: 'expo.out'
-                });
-                // Câmera e indicador encaixam depois do corpo
-                gsap.to(frameParts, {
-                    opacity: 1,
-                    duration: 0.5,
-                    delay: 0.14,
-                    ease: 'expo.out',
-                    stagger: 0.06
                 });
             }
 
@@ -707,8 +612,6 @@
                     syncActive();
                     return;
                 }
-
-                if (Math.abs(target - position) > 0.01) dissolveFrame();
 
                 // `expo.out` desacelera longo no fim: é o que dá inércia em
                 // vez de transição mecânica
@@ -726,7 +629,6 @@
                         // crescer sem limite ao longo da navegação
                         position = ((position % total) + total) % total;
                         render();
-                        assembleFrame();
                     }
                 });
             }
@@ -763,9 +665,6 @@
                 dragMoved = Math.max(dragMoved, Math.abs(delta));
                 dragVelocity = event.clientX - dragLastX;
                 dragLastX = event.clientX;
-                // Um toque parado não desmonta a moldura: só um arraste de
-                // verdade, passando da folga de clique
-                if (dragMoved > DRAG_CLICK_SLOP) dissolveFrame();
                 position = dragStartPosition - delta / dragUnit();
                 render();
                 syncActive();
@@ -778,7 +677,6 @@
                 scene.classList.remove('is-dragging');
 
                 if (dragMoved <= DRAG_CLICK_SLOP) {
-                    assembleFrame();
                     startAutoplay();
                     return;
                 }
@@ -873,7 +771,6 @@
             }
 
             pickOrbit();
-            gsap.set(frame, { yPercent: -50 });
             paintCaption();
 
             // --- Parallax de cursor: só em ponteiro fino, e sutil ---

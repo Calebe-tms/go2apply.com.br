@@ -1,0 +1,72 @@
+<!-- ==========================================================================
+   Component: Phone Mockup Alt
+   Segundo aparelho do catálogo, pra o carrossel não parecer o mesmo
+   celular repetido. Linha "grafite": corpo num tom mais escuro que o
+   phone-mockup, notch em pílula no lugar do furo de câmera redondo, os
+   dois botões do mesmo lado e sem indicador de gesto.
+
+   Mantém a mesma geometria do phone-mockup (moldura e raio), porque é ela
+   que garante o encaixe da screenshot: a moldura é feita com `border` e o
+   CSS calcula o raio interno como `raio externo - espessura`
+   (40px - 8px = 32px), o mesmo cálculo que o consumidor aplica na janela
+   da imagem. O que muda entre os dois aparelhos é o acabamento, não o
+   encaixe.
+
+   Uso: o pai precisa ter `position` e o tamanho do aparelho, com
+   `padding` igual a `--phone-frame` reservando o espaço da moldura.
+   Tokens: `--phone-frame` e `--phone-radius`.
+   ========================================================================== -->
+<style>
+    .phone-mockup-alt {
+        position: absolute;
+        inset: 0;
+        border: var(--phone-frame, 8px) solid var(--color-dark-surface);
+        border-radius: var(--phone-radius, 40px);
+        box-shadow:
+            inset 0 0 0 1px rgba(var(--color-white-rgb), 0.06),
+            0 2px 4px rgba(var(--color-dark-rgb), 0.08),
+            0 8px 16px rgba(var(--color-dark-rgb), 0.07),
+            0 24px 48px rgba(var(--color-dark-rgb), 0.1),
+            0 48px 80px rgba(var(--color-dark-rgb), 0.08);
+        pointer-events: none;
+    }
+
+    /* Volume e power juntos, os dois à direita */
+    .phone-mockup-alt::before,
+    .phone-mockup-alt::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        right: calc(var(--phone-frame, 8px) * -1 - 4px);
+        border-radius: var(--radius-full);
+        background-color: var(--color-dark-surface);
+    }
+
+    .phone-mockup-alt::before {
+        top: 80px;
+        height: 28px;
+    }
+
+    .phone-mockup-alt::after {
+        top: 120px;
+        height: 40px;
+    }
+
+    /* Notch em pílula em vez do furo redondo do phone-mockup: é a diferença
+       que mais se nota de relance entre os dois aparelhos */
+    .phone-mockup-alt-notch {
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        width: 56px;
+        height: 16px;
+        margin-left: -28px;
+        border-radius: var(--radius-full);
+        background-color: rgba(var(--color-dark-rgb), 0.95);
+        box-shadow: inset 0 0 0 1px rgba(var(--color-white-rgb), 0.08);
+    }
+</style>
+
+<span class="phone-mockup-alt" aria-hidden="true">
+    <span class="phone-mockup-alt-notch"></span>
+</span>
