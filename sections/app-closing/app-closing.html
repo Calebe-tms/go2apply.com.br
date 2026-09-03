@@ -1,0 +1,97 @@
+<!-- ==========================================================================
+   Seção: App Closing
+   Fechamento da jornada do app: quote motivacional, motto visual e CTA
+   ========================================================================== -->
+<style>
+    .app-closing {
+        position: relative;
+        width: 100%;
+        padding: var(--space-xl) 1.5rem;
+        background-color: var(--color-dark);
+        color: var(--color-white);
+        text-align: center;
+    }
+
+    .app-closing-inner {
+        max-width: 620px;
+        margin: 0 auto;
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .app-closing-quote {
+        font-family: var(--font-main);
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        line-height: 1.4;
+        margin: 0 0 var(--space-md);
+    }
+
+    .app-closing-motto {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        color: var(--color-white-muted);
+        font-weight: 800;
+        font-size: var(--font-size-sm);
+        letter-spacing: 0.14em;
+        margin: 0 0 var(--space-lg);
+    }
+
+    .app-motto-word--highlight {
+        color: var(--color-orange);
+    }
+
+    .app-closing-cta {
+        display: flex;
+        justify-content: center;
+    }
+
+    @media (max-width: 600px) {
+        .app-closing {
+            padding: var(--space-lg) 1.25rem;
+        }
+
+        .app-closing-inner {
+            padding-top: var(--space-lg);
+        }
+    }
+</style>
+
+<section class="app-closing" id="app-closing">
+    <div class="app-closing-inner">
+        <p class="app-closing-quote">Do planejamento à gestão, o go2apply coloca as informações certas na hora certa
+            para apoiar suas decisões de pulverização.</p>
+        <p class="app-closing-motto">
+            <span class="app-motto-word">PLANEJE.</span>
+            <span class="app-motto-word app-motto-word--highlight">APLIQUE.</span>
+            <span class="app-motto-word">AVALIE.</span>
+        </p>
+        <div class="app-closing-cta">
+            <div data-component="components/btn-cta/btn-cta.html"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        function initAppClosing() {
+            const section = document.getElementById('app-closing');
+            if (!section) return;
+            if (!window.gsap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+            gsap.from('.app-closing-quote, .app-closing-motto, .app-closing-cta', {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                ease: 'power3.out',
+                stagger: 0.12,
+                scrollTrigger: window.ScrollTrigger ? { trigger: '#app-closing', start: 'top 85%' } : undefined
+            });
+        }
+
+        onComponentsReady(initAppClosing);
+    })();
+</script>

@@ -171,43 +171,6 @@
         filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.45));
     }
 
-    /* --- Fechamento --- */
-    .app-closing {
-        text-align: center;
-        max-width: 620px;
-        margin: var(--space-xl) auto 0;
-        padding-top: var(--space-xl);
-        border-top: 1px solid var(--color-border);
-    }
-
-    .app-closing-quote {
-        font-family: var(--font-main);
-        font-weight: 700;
-        font-size: var(--font-size-lg);
-        line-height: 1.4;
-        margin: 0 0 var(--space-md);
-    }
-
-    .app-closing-motto {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 0.5em;
-        color: var(--color-white-muted);
-        font-weight: 800;
-        font-size: var(--font-size-sm);
-        letter-spacing: 0.14em;
-        margin: 0 0 var(--space-lg);
-    }
-
-    .app-motto-word--highlight {
-        color: var(--color-orange);
-    }
-
-    .app-closing-cta {
-        display: flex;
-        justify-content: center;
-    }
 
     @media (max-width: 992px) {
         .app-journey {
@@ -396,19 +359,6 @@
                     alt="Interface do go2apply em um smartphone" loading="lazy" decoding="async" width="764" height="1558">
             </div>
         </div>
-
-        <div class="app-closing">
-            <p class="app-closing-quote">Do planejamento à gestão, o go2apply coloca as informações certas na hora certa
-                para apoiar suas decisões de pulverização.</p>
-            <p class="app-closing-motto">
-                <span class="app-motto-word">PLANEJE.</span>
-                <span class="app-motto-word app-motto-word--highlight">APLIQUE.</span>
-                <span class="app-motto-word">AVALIE.</span>
-            </p>
-            <div class="app-closing-cta">
-                <div data-component="components/btn-cta/btn-cta.html"></div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -438,15 +388,6 @@
                 ease: 'power3.out',
                 stagger: 0.15,
                 scrollTrigger: window.ScrollTrigger ? { trigger: '.app-journey-steps', start: 'top 80%' } : undefined
-            });
-
-            gsap.from('.app-closing-quote, .app-closing-motto, .app-closing-cta', {
-                opacity: 0,
-                y: 20,
-                duration: 0.8,
-                ease: 'power3.out',
-                stagger: 0.12,
-                scrollTrigger: window.ScrollTrigger ? { trigger: '.app-closing', start: 'top 85%' } : undefined
             });
         }
 
