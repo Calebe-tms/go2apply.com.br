@@ -446,8 +446,8 @@
             { x: 300, z: -440, ry: -36, scale: 0.36, opacity: 0 }
         ];
 
-        const AUTOPLAY_DELAY = 4.8;
-        const SNAP_DURATION = 0.9;
+        const AUTOPLAY_DELAY = 2.4;
+        const SNAP_DURATION = 0.5;
         const DRAG_CLICK_SLOP = 8;
         const TILT_Y = 8;
         const TILT_X = -5;
@@ -497,9 +497,6 @@
                 const name = slide.getAttribute('data-name');
                 slide.setAttribute('aria-label', 'Ver tela: ' + name);
                 slide.addEventListener('click', function () {
-                    // Um arraste que termina sobre um slide não deve contar
-                    // como clique nele
-                    if (dragMoved > DRAG_CLICK_SLOP) return;
                     goTo(nearestRouteTo(index));
                     restartAutoplay();
                 });
