@@ -5,10 +5,10 @@
    cima e pra baixo, invadindo as dobras escuras vizinhas (app-journey e
    app-closing).
 
-   A moldura do celular fica parada no centro e as telas deslizam por trás
-   dela: como a moldura é vazada, a tela que para no centro aparece dentro
-   do aparelho. A cada troca a moldura se divide em duas metades que se
-   separam e voltam a encaixar, reforçando o encaixe exato.
+   O aparelho fica parado no centro do palco emoldurando a tela ativa. Como
+   o corpo é opaco, ele se desfaz enquanto o carrossel anda e se reconstrói
+   quando a próxima tela encaixa: o slide central segue visível por baixo
+   com a mesma imagem, então a dissolução não deixa costura.
 
    Arraste funciona com dedo e com mouse. Sem JavaScript a faixa continua
    útil: vira uma galeria em fila com scroll horizontal nativo.
@@ -489,9 +489,13 @@
             const captionName = section.querySelector('.showcase-caption-name');
             const captionDetail = section.querySelector('.showcase-caption-detail');
             const frame = section.querySelector('.showcase-frame');
-            const halves = Array.from(section.querySelectorAll('.phone-mockup-half'));
+            const mockup = section.querySelector('.phone-mockup');
+            const frameShot = section.querySelector('.phone-mockup-shot');
+            // Peças que remontam depois do corpo, reforçando a leitura de
+            // aparelho montado por partes
+            const frameParts = Array.from(section.querySelectorAll('.phone-mockup-camera, .phone-mockup-indicator'));
             const slides = Array.from(section.querySelectorAll('.showcase-slide'));
-            if (!stage || !scene || !controls || !frame || slides.length < 3) return;
+            if (!stage || !scene || !controls || !frame || !mockup || slides.length < 3) return;
 
             const total = slides.length;
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -507,6 +511,7 @@
             // que os deslocamentos em px pedem, senão os cards das pontas
             // vazariam a viewport e criariam scroll horizontal
             let orbitFit = 1;
+            let frameState = 'assembled';
 
             section.classList.add('is-live');
 
@@ -620,6 +625,9 @@
                 if (next === active) return false;
                 active = next;
                 paintCaption();
+                // Com movimento reduzido o aparelho nunca se desfaz, então a
+                // tela dele precisa acompanhar aqui
+                if (frameState === 'assembled') paintFrameShot();
                 return true;
             }
 
@@ -632,37 +640,61 @@
                 });
             }
 
-            // A moldura se desfaz enquanto o carrossel anda e se reconstrói
-            // quando a tela encaixa. Além do efeito, isso resolve um
-            // problema real: com a moldura parada durante o movimento, o
-            // aparelho exibiria duas telas cortadas ao mesmo tempo
-            let frameState = 'assembled';
+            // Espelha no aparelho a tela que está no centro. Roda só com o
+            // aparelho invisível, então a troca de imagem nunca pisca
+            function paintFrameShot() {
+                if (!frameShot) return;
+                const slide = slides[active];
+                const shot = slide.querySelector('img');
+                frameShot.setAttribute('src', shot.getAttribute('src'));
+                frameShot.style.setProperty('--shot-crop',
+                    slide.style.getPropertyValue('--shot-crop').trim() || '65.625%');
+            }
 
+            // O aparelho se desfaz enquanto o carrossel anda e se reconstrói
+            // quando a tela encaixa. Além do efeito, isso resolve um
+            // problema real: o corpo é opaco, então se ficasse parado
+            // durante o movimento o carrossel deslizaria escondido atrás
+            // dele. Como o slide central fica visível por baixo com a mesma
+            // tela, a dissolução revela um conteúdo idêntico e a troca não
+            // tem costura
             function dissolveFrame() {
-                if (reduceMotion || !halves.length || frameState === 'dissolved') return;
+                if (reduceMotion || frameState === 'dissolved') return;
                 frameState = 'dissolved';
-                gsap.killTweensOf(halves);
-                gsap.to(halves, {
-                    y: function (i) { return i === 0 ? -20 : 20; },
+                gsap.killTweensOf([mockup].concat(frameParts));
+                gsap.to(mockup, {
                     opacity: 0,
+                    scale: 1.03,
                     duration: 0.22,
-                    ease: 'power2.in',
-                    stagger: 0.03
+                    ease: 'power2.in'
+                });
+                gsap.to(frameParts, {
+                    opacity: 0,
+                    duration: 0.14,
+                    ease: 'power2.in'
                 });
             }
 
             function assembleFrame() {
-                if (reduceMotion || !halves.length || frameState === 'assembled') return;
+                if (reduceMotion || frameState === 'assembled') return;
                 frameState = 'assembled';
-                gsap.killTweensOf(halves);
-                // `expo.out` desacelera longo no fim: as metades chegam
-                // devagar no lugar exato em vez de baterem
-                gsap.to(halves, {
-                    y: 0,
+                paintFrameShot();
+                gsap.killTweensOf([mockup].concat(frameParts));
+                // `expo.out` desacelera longo no fim: o corpo chega devagar
+                // no lugar exato em vez de bater
+                gsap.to(mockup, {
                     opacity: 1,
+                    scale: 1,
                     duration: 0.85,
+                    ease: 'expo.out'
+                });
+                // Câmera e indicador encaixam depois do corpo
+                gsap.to(frameParts, {
+                    opacity: 1,
+                    duration: 0.5,
+                    delay: 0.14,
                     ease: 'expo.out',
-                    stagger: 0.05
+                    stagger: 0.06
                 });
             }
 

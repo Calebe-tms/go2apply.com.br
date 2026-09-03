@@ -1,18 +1,18 @@
 <!-- ==========================================================================
    Component: Phone Mockup
-   Moldura de smartphone desenhada em CSS puro, sem imagem de mockup e sem
-   tela própria: o "vidro" é vazado e quem aparece atrás dele é o conteúdo
-   que o consumidor colocar (no screen-showcase, o slide do carrossel).
+   Moldura de smartphone desenhada em CSS puro (sem imagem de mockup):
+   corpo fosco sólido, bisel de vidro, câmera frontal discreta, botões
+   laterais em relevo e indicador de gesto.
 
-   Encaixe pixel-perfect sem gambiarra visível: a moldura é feita com
-   `border`, e o CSS já calcula o raio interno de uma borda como
-   `raio externo - espessura` (40px - 8px = 32px). Então o conteúdo atrás
-   fecha exatamente na curva interna usando o mesmo `--phone-screen-radius`,
-   sem blur nem gradiente pra disfarçar emenda.
-
-   O corpo é dividido em duas metades justapostas justamente pra permitir a
-   animação de desmontar e remontar: cada metade carrega a borda de três
-   lados e os dois cantos correspondentes, e juntas fecham a moldura inteira.
+   Encaixe pixel-perfect da screenshot:
+   - a tela é uma janela com `overflow: hidden` cujo raio é derivado do
+     corpo (raio do corpo - espessura da moldura), então a imagem acompanha
+     exatamente a curva sem vazar e sem precisar de blur ou gradiente pra
+     disfarçar emenda;
+   - as screenshots do app têm 738x1600 e carregam cromo do sistema
+     (status bar, barra do navegador, barra de navegação do Android). A
+     janela usa o recorte útil de 738x1344 e cada screenshot informa
+     quanto cortar no topo pela variável `--shot-crop`.
 
    Tokens customizáveis pelo consumidor: `--phone-width`, `--phone-frame`,
    `--phone-radius` e `--phone-glass-ratio`.
@@ -26,48 +26,24 @@
         width: var(--phone-width, 264px);
         padding: var(--phone-frame, 8px);
         box-sizing: border-box;
-        /* A moldura é decorativa e não pode roubar o arraste do carrossel */
-        pointer-events: none;
-        /* Sombra em camadas difusas no tom neutro escuro do DS: dá peso ao
-           objeto sem chapar nem colorir o fundo */
-        filter:
-            drop-shadow(0 2px 4px rgba(var(--color-dark-rgb), 0.1))
-            drop-shadow(0 16px 32px rgba(var(--color-dark-rgb), 0.14));
+        border-radius: var(--phone-radius, 40px);
+        background-color: var(--color-dark);
+        /* Bisel de vidro na borda interna + sombra em camadas difusas, todas
+           no tom neutro escuro do DS: dá peso ao objeto sem chapar nem
+           colorir o fundo */
+        box-shadow:
+            inset 0 0 0 1px rgba(var(--color-white-rgb), 0.06),
+            0 2px 4px rgba(var(--color-dark-rgb), 0.08),
+            0 8px 16px rgba(var(--color-dark-rgb), 0.07),
+            0 24px 48px rgba(var(--color-dark-rgb), 0.1),
+            0 48px 80px rgba(var(--color-dark-rgb), 0.08);
     }
 
-    /* Espaçador transparente: só existe pra dar altura à moldura a partir
-       da proporção do conteúdo que vai aparecer atrás */
-    .phone-mockup-glass {
-        display: block;
-        width: 100%;
-        aspect-ratio: var(--phone-glass-ratio, 738 / 1344);
-    }
-
-    .phone-mockup-half {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 50%;
-        border: var(--phone-frame, 8px) solid var(--color-dark);
-    }
-
-    .phone-mockup-half--top {
-        top: 0;
-        border-bottom: 0;
-        border-radius: var(--phone-radius, 40px) var(--phone-radius, 40px) 0 0;
-    }
-
-    .phone-mockup-half--bottom {
-        bottom: 0;
-        border-top: 0;
-        border-radius: 0 0 var(--phone-radius, 40px) var(--phone-radius, 40px);
-    }
-
-    /* Botões laterais: saliências finas na mesma cor do corpo, então
-       aparecem só pela silhueta. Ficam na metade de cima pra acompanharem
-       o movimento dela na desmontagem */
-    .phone-mockup-half--top::before,
-    .phone-mockup-half--top::after {
+    /* Botões laterais: saliências finas fora do corpo, na mesma cor, então
+       aparecem só pela silhueta contra o fundo claro. São pseudo-elementos
+       pra acompanharem o corpo de graça em qualquer animação */
+    .phone-mockup::before,
+    .phone-mockup::after {
         content: '';
         position: absolute;
         width: 4px;
@@ -76,25 +52,53 @@
     }
 
     /* Volume */
-    .phone-mockup-half--top::before {
-        top: 88px;
+    .phone-mockup::before {
+        top: 96px;
         left: -4px;
         height: 32px;
     }
 
     /* Power */
-    .phone-mockup-half--top::after {
-        top: 104px;
+    .phone-mockup::after {
+        top: 112px;
         right: -4px;
         height: 48px;
     }
 
-    /* Câmera frontal: furo discreto no topo, como num aparelho rodando o
-       app em tela cheia */
+    .phone-mockup-screen {
+        position: relative;
+        display: block;
+        /* Recorte útil da screenshot: 738x1344 dos 738x1600 originais,
+           descontando o cromo do sistema operacional */
+        aspect-ratio: var(--phone-glass-ratio, 738 / 1344);
+        overflow: hidden;
+        /* Raio interno = raio do corpo - moldura. É essa subtração que faz
+           a screenshot fechar na curva da tela sem folga nem sobra */
+        border-radius: calc(var(--phone-radius, 40px) - var(--phone-frame, 8px));
+        background-color: var(--color-dark-surface);
+    }
+
+    .phone-mockup-shot {
+        --shot-crop: 65.625%;
+
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* A janela é mais curta que a imagem, então sobram 256px verticais
+           pra distribuir. `--shot-crop` é quanto desses 256px sai do topo:
+           65.625% = 168px (status bar + barra do navegador),
+           25% = 64px (só status bar) */
+        object-position: 50% var(--shot-crop);
+    }
+
+    /* Câmera frontal: furo discreto de 8px no topo da tela, como num
+       aparelho real rodando o app em tela cheia */
     .phone-mockup-camera {
         position: absolute;
-        top: var(--phone-frame, 8px);
+        top: 8px;
         left: 50%;
+        z-index: 2;
         width: 8px;
         height: 8px;
         margin-left: -4px;
@@ -103,11 +107,12 @@
         box-shadow: inset 0 0 0 1px rgba(var(--color-white-rgb), 0.1);
     }
 
-    /* Indicador de gesto do sistema, sutil sobre o conteúdo */
+    /* Indicador de gesto do sistema, sutil sobre o conteúdo do app */
     .phone-mockup-indicator {
         position: absolute;
-        bottom: var(--phone-frame, 8px);
+        bottom: 8px;
         left: 50%;
+        z-index: 2;
         width: 96px;
         height: 4px;
         margin-left: -48px;
@@ -117,11 +122,13 @@
 </style>
 
 <div class="phone-mockup" id="phone-mockup" aria-hidden="true">
-    <span class="phone-mockup-glass"></span>
-    <span class="phone-mockup-half phone-mockup-half--top">
+    <span class="phone-mockup-screen">
+        <!-- Decorativa: quem descreve a tela pra leitor de tela é o
+             consumidor do componente (no showcase, a galeria de telas e a
+             legenda com aria-live) -->
+        <img class="phone-mockup-shot" src="assets/imagens/prints-go2apply/tebuconazol.webp" alt="" loading="lazy"
+            decoding="async" width="738" height="1600" style="--shot-crop: 25%">
         <span class="phone-mockup-camera"></span>
-    </span>
-    <span class="phone-mockup-half phone-mockup-half--bottom">
         <span class="phone-mockup-indicator"></span>
     </span>
 </div>
