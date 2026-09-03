@@ -4,11 +4,20 @@
    ícones, redes sociais e animações GSAP
    ========================================================================== -->
 <style>
+    /* ==========================================================================
+       1. CONTAINER & ESTRUTURA BASE (Desktop)
+       ========================================================================== */
+
+    /* Posicionamento centralizado do container de navegação no grid do Header */
     .nav-menu {
         justify-self: center;
     }
 
-    /* Oculta elementos exclusivos da gaveta lateral mobile em telas desktop */
+    /* ==========================================================================
+       2. REGRAS DE VISIBILIDADE DESKTOP (Telas >= 993px)
+       ========================================================================== */
+
+    /* Em telas Desktop, oculta elementos que pertencem exclusivamente à gaveta lateral mobile (backdrop, header do drawer, banners promocionais internos, divisores e setas) */
     @media (min-width: 993px) {
         .nav-menu-backdrop,
         .nav-menu-header,
@@ -20,75 +29,98 @@
             display: none !important;
         }
 
+        /* Faz com que o corpo da navegação se comporte de forma transparente no fluxo de layout desktop */
         .nav-menu-body {
             display: contents !important;
         }
     }
 
+    /* ==========================================================================
+       3. LISTA DE LINKS DESKTOP (.nav-links)
+       ========================================================================== */
+
+    /* Container flex horizontal com espaçamento fluido entre os itens de menu */
     .nav-links {
         display: flex;
         align-items: center;
-        gap: clamp(0.25rem, 1vw, 0.75rem);
+        gap: clamp(0.25rem, 0.8vw, 0.6rem);
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
+    /* ==========================================================================
+       4. ITENS E BOTÕES DE NAVEGAÇÃO (.nav-link-item)
+       ========================================================================== */
+
+    /* Estilo de cada link do menu principal: tipografia reduzida e elegante, espaçamentos compactos e bordas sutis */
     .nav-link-item {
         position: relative;
         text-decoration: none;
         color: var(--color-white);
-        font-size: var(--font-size-md);
+        font-size: 0.84rem; /* Tamanho reduzido para um cabeçalho mais sofisticado e equilibrado */
         font-weight: 600;
-        letter-spacing: 0.75px;
+        letter-spacing: 0.6px;
         text-transform: uppercase;
         white-space: nowrap;
         transition: var(--transition-smooth);
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-        padding: 0.55rem 1.1rem;
+        padding: 0.45rem 0.85rem;
         border-radius: var(--radius-btn, 10px);
         border: 1px solid transparent;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.45rem;
     }
 
+    /* Ícone ilustrativo ao lado do texto do link */
     .nav-link-icon {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 15px;
+        font-size: 14px; /* Proporcional ao novo tamanho da tipografia */
         color: var(--color-orange);
         transition: var(--transition-smooth);
     }
 
-    /* Faixa entre a gaveta mobile (992px) e o header com folga total (1210px) */
+    /* ==========================================================================
+       5. RESPONSIVIDADE INTERMEDIÁRIA (993px a 1210px)
+       ========================================================================== */
+
+    /* Faixa de transição entre o fechamento do menu mobile e o header desktop com folga completa */
     @media (min-width: 993px) and (max-width: 1210px) {
         .nav-links {
-            gap: 0.3rem;
+            gap: 0.25rem; /* Redução de espaçamento entre itens para não quebrar o layout */
         }
 
         .nav-link-item {
-            padding: 0.55rem 0.7rem;
-            font-size: 0.9rem;
-            gap: 0.35rem;
+            padding: 0.4rem 0.55rem;
+            font-size: 0.78rem; /* Redução proporcional do texto para telas intermediárias */
+            gap: 0.3rem;
         }
 
         .nav-link-icon {
-            font-size: 14px;
+            font-size: 13px; /* Ícone reduzido para caber confortavelmente */
         }
     }
 
+    /* ==========================================================================
+       6. ESTADOS DE INTERAÇÃO (HOVER, ACTIVE & DESTAQUE)
+       ========================================================================== */
+
+    /* Efeito de hover no link: mudança para a cor de destaque laranja e fundo translúcido */
     .nav-link-item:hover {
         color: var(--color-orange);
         background-color: var(--color-orange-subtle);
         border-color: rgba(var(--color-orange-rgb), 0.4);
     }
 
+    /* Leve ampliação do ícone ao passar o mouse sobre o link */
     .nav-link-item:hover .nav-link-icon {
         transform: scale(1.15);
     }
 
+    /* Variação especial para links em destaque (ex: "O RISCO") */
     .nav-link-item.nav-link-highlight {
         color: var(--color-pulver-light);
     }
@@ -97,8 +129,12 @@
         color: var(--color-pulver-light);
     }
 
-    /* Estilos da Gaveta Lateral (Side Drawer) Mobile */
+    /* ==========================================================================
+       7. GAVETA LATERAL MOBILE - SIDE DRAWER (Telas <= 992px)
+       ========================================================================== */
+
     @media (max-width: 992px) {
+        /* Container principal fixo em tela cheia com controle de visibilidade */
         .nav-menu {
             position: fixed;
             inset: 0;
@@ -108,12 +144,13 @@
             transition: visibility 0.4s ease;
         }
 
+        /* Estado ativo: habilita interação por clique e visibilidade */
         .nav-menu.active {
             pointer-events: auto;
             visibility: visible;
         }
 
-        /* Fundo escuro com blur ao abrir o menu */
+        /* Backdrop (cortina escura) de fundo com efeito blur ao abrir o menu mobile */
         .nav-menu-backdrop {
             display: block;
             position: fixed;
@@ -127,11 +164,12 @@
             z-index: 1051;
         }
 
+        /* Torna o backdrop visível quando o menu está ativo */
         .nav-menu.active .nav-menu-backdrop {
             opacity: 1;
         }
 
-        /* Painel do Side Drawer lateral à direita */
+        /* Painel deslizante do Side Drawer (desliza da direita para a esquerda) */
         .nav-menu-drawer {
             position: fixed;
             top: 0;
@@ -152,19 +190,19 @@
             box-sizing: border-box;
         }
 
+        /* Posição final aberta do painel lateral */
         .nav-menu.active .nav-menu-drawer {
             transform: translateX(0);
         }
 
-        /* Topo do Side Drawer: Logo à esquerda + Ícone de Login com folga pro fechar */
+        /* Topo do Side Drawer: Logo + Botão de Login */
         .nav-menu-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 0.75rem;
             padding-bottom: 0.85rem;
-            padding-right: 48px;
-            /* Evita sobreposição com o botão de fechar #nav-toggle no canto direito */
+            padding-right: 48px; /* Folga para evitar conflito com o botão de fechar #nav-toggle */
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             margin-bottom: 0;
             width: 100%;
@@ -172,6 +210,7 @@
             flex-shrink: 0;
         }
 
+        /* Link com a logo no topo da gaveta */
         .nav-menu-brand {
             display: flex;
             align-items: center;
@@ -185,7 +224,7 @@
             filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
         }
 
-        /* Botão de login no header do mobile: SOMENTE ÍCONE */
+        /* Botão de login compacto (apenas ícone) no header mobile */
         .nav-menu-header .btn-login {
             padding: 0;
             width: 38px;
@@ -200,6 +239,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
         }
 
+        /* Oculta o rótulo de texto do login para manter formato de ícone compacto */
         .nav-menu-header .btn-login-label {
             display: none !important;
         }
@@ -210,7 +250,7 @@
             color: var(--color-orange, #f28e13);
         }
 
-        /* Conteúdo: centralizado verticamente e alinhado à esquerda horizontalmente */
+        /* Corpo central da gaveta: organiza links e anúncios verticais */
         .nav-menu-body {
             display: flex;
             flex-direction: column;
@@ -222,7 +262,7 @@
             box-sizing: border-box;
         }
 
-        /* Banner de Anúncio de 7 Dias de Teste Grátis (exclusivo para o Drawer Mobile) */
+        /* Banner de Trial / Teste Grátis no Drawer Mobile */
         .nav-menu .trial-banner,
         .nav-menu [data-component*="trial-banner"] {
             display: flex;
@@ -231,24 +271,24 @@
             flex-shrink: 0;
         }
 
-        /* Linha divisória entre a propaganda e o menu */
+        /* Linha divisória com gradiente entre o banner e a lista de links */
         .nav-menu-divider {
             width: 100%;
             height: 1px;
             background: linear-gradient(90deg,
-                rgba(var(--color-orange-rgb, 242, 142, 19), 0.45) 0%,
-                rgba(255, 255, 255, 0.12) 50%,
-                rgba(255, 255, 255, 0.03) 100%);
+                    rgba(var(--color-orange-rgb, 242, 142, 19), 0.45) 0%,
+                    rgba(255, 255, 255, 0.12) 50%,
+                    rgba(255, 255, 255, 0.03) 100%);
             margin: 0.85rem 0;
             flex-shrink: 0;
         }
 
-        /* Lista de Links: Botões compactos com 100% de largura */
+        /* Lista vertical de links para navegação mobile */
         .nav-links {
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            gap: 0.5rem;
+            gap: 0.45rem;
             width: 100%;
             padding: 0;
             margin: 0;
@@ -264,57 +304,62 @@
             box-sizing: border-box;
         }
 
+        /* Itens de navegação mobile em formato de botão expandido */
         .nav-link-item {
             display: flex;
             align-items: center;
             justify-content: flex-start;
             width: 100%;
             box-sizing: border-box;
-            padding: 0.65rem 0.9rem;
+            padding: 0.6rem 0.85rem;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.07);
             text-decoration: none;
             color: var(--color-white);
-            font-size: 0.88rem;
+            font-size: 0.82rem; /* Tamanho reduzido e refinado para o menu mobile */
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.45px;
             text-transform: uppercase;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             text-shadow: none;
         }
 
+        /* Ícone quadrado com fundo translúcido no menu mobile */
         .nav-link-icon {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.08);
             color: var(--color-orange);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
-            margin-right: 0.75rem;
+            font-size: 14px;
+            margin-right: 0.7rem;
             flex-shrink: 0;
             transition: all 0.3s ease;
         }
 
+        /* Texto do link preenchendo o espaço central */
         .nav-link-text {
             flex-grow: 1;
             text-align: left !important;
         }
 
+        /* Seta indicadora à direita do link mobile */
         .nav-link-arrow {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.35);
             margin-left: auto;
             flex-shrink: 0;
             transition: all 0.3s ease;
         }
 
+        /* Estado interativo de toque/hover nos links do menu mobile */
         .nav-link-item:hover,
         .nav-link-item:active {
             background: rgba(242, 142, 19, 0.14);
@@ -334,7 +379,7 @@
             transform: translateX(4px);
         }
 
-        /* Item em destaque (O RISCO) */
+        /* Variação destacada para o link "O RISCO" na gaveta mobile */
         .nav-links a.nav-link-highlight {
             background: rgba(92, 145, 71, 0.14);
             border-color: rgba(92, 145, 71, 0.35);
@@ -357,7 +402,7 @@
             color: #ffffff;
         }
 
-        /* Rodapé do Side Drawer: Redes Sociais centralizadas */
+        /* Rodapé do Side Drawer: Área para Redes Sociais */
         .nav-menu-footer {
             display: flex;
             flex-direction: column;
@@ -372,7 +417,7 @@
         }
 
         .nav-menu-footer-label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.5);
@@ -380,7 +425,7 @@
             text-align: center;
         }
 
-        /* Sobrescreve ocultação das redes sociais no header mobile e centraliza no rodapé */
+        /* Garante a exibição correta e centralizada dos ícones sociais dentro do rodapé da gaveta mobile */
         #header .nav-menu-social .social-links {
             display: flex !important;
             opacity: 1 !important;
@@ -454,7 +499,8 @@
                 </li>
                 <li>
                     <a href="#contact" class="nav-link-item">
-                        <span class="nav-link-icon"><i class="ph-fill ph-paper-plane-tilt" aria-hidden="true"></i></span>
+                        <span class="nav-link-icon"><i class="ph-fill ph-paper-plane-tilt"
+                                aria-hidden="true"></i></span>
                         <span class="nav-link-text">CONTATO</span>
                         <i class="ph-fill ph-caret-right nav-link-arrow" aria-hidden="true"></i>
                     </a>
