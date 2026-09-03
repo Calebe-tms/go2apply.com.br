@@ -476,7 +476,6 @@
         function setupNavMenu() {
             const mobileNav = document.getElementById('nav-menu');
             const backdrop = document.getElementById('nav-menu-backdrop');
-            const closeBtn = document.getElementById('nav-menu-close');
             const toggleBtn = document.getElementById('nav-toggle');
             const navLinks = mobileNav ? mobileNav.querySelectorAll('.nav-links a') : [];
 
@@ -557,10 +556,6 @@
 
             if (backdrop) {
                 backdrop.onclick = closeNav;
-            }
-
-            if (closeBtn) {
-                closeBtn.onclick = closeNav;
             }
 
             navLinks.forEach(link => {

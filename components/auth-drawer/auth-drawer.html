@@ -187,11 +187,6 @@
   border-top: 1px solid rgba(var(--color-white-rgb), 0.04);
 }
 
-.auth-switch-btn {
-  width: 100%;
-  margin-top: 0.5rem;
-}
-
 .auth-social-row {
   display: flex;
   flex-direction: column;
@@ -800,7 +795,7 @@
 <script>
 class AuthDrawer {
   constructor() {
-    this.drawer = document.getElementById('auth-drawer') || document.getElementById('authDrawer');
+    this.drawer = document.getElementById('auth-drawer');
     this.backdrop = document.getElementById('authBackdrop');
     this.step1Form = document.getElementById('step1Form');
     this.step2Form = document.getElementById('step2Form');
@@ -824,10 +819,6 @@ class AuthDrawer {
     document.getElementById('prevStep')?.addEventListener('click', (e) => {
       e.preventDefault();
       this.goToStep(1);
-    });
-
-    document.getElementById('switchToLogin')?.addEventListener('click', () => {
-      alert('Login não implementado ainda');
     });
 
     document.querySelectorAll('.auth-stepper-tab').forEach((tab) => {

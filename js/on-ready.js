@@ -15,3 +15,20 @@ function onComponentsReady(fn) {
 }
 
 window.onComponentsReady = onComponentsReady;
+
+/**
+ * Fecha o nav-menu mobile (se aberto) e abre o auth-drawer. Compartilhado
+ * pelos componentes que disparam login/cadastro (btn-login, trial-banner).
+ */
+function openAuthDrawerAndCloseNav() {
+    if (window.go2applyNav && typeof window.go2applyNav.close === 'function') {
+        window.go2applyNav.close();
+    }
+    if (window.openAuthDrawer) {
+        window.openAuthDrawer();
+    } else if (window.authDrawer) {
+        window.authDrawer.open();
+    }
+}
+
+window.openAuthDrawerAndCloseNav = openAuthDrawerAndCloseNav;
