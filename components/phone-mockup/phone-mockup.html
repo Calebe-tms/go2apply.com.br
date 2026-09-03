@@ -1,0 +1,99 @@
+<!-- ==========================================================================
+   Component: Phone Mockup
+   Aparelho de linha "preto fosco": corpo escuro, bisel de vidro na borda
+   interna, câmera central, volume e power em lados opostos e indicador de
+   gesto.
+
+   É uma moldura sobreposta: o componente desenha só o aparelho e deixa o
+   miolo transparente, então o conteúdo (a screenshot) vem do consumidor.
+   É isso que permite usar o mesmo componente em várias instâncias com
+   telas diferentes.
+
+   Encaixe pixel-perfect sem gambiarra visível: a moldura é feita com
+   `border`, e o CSS já calcula o raio interno de uma borda como
+   `raio externo - espessura` (40px - 8px = 32px). O consumidor usa esse
+   mesmo cálculo na janela da screenshot e as curvas coincidem, sem blur
+   nem gradiente pra disfarçar emenda.
+
+   Uso: o pai precisa ter `position` e o tamanho do aparelho, com
+   `padding` igual a `--phone-frame` reservando o espaço da moldura.
+   Tokens: `--phone-frame` e `--phone-radius`.
+   ========================================================================== -->
+<style>
+    .phone-mockup {
+        /* Múltiplos de 4px. Entram como fallback e não como definição
+           própria, senão a declaração local venceria a do consumidor e a
+           escala deixaria de ser customizável de fora */
+        position: absolute;
+        inset: 0;
+        border: var(--phone-frame, 8px) solid var(--color-dark);
+        border-radius: var(--phone-radius, 40px);
+        /* Bisel de vidro na borda interna + sombra em camadas difusas, todas
+           no tom neutro escuro do DS: dá peso ao objeto sem chapar nem
+           colorir o fundo */
+        box-shadow:
+            inset 0 0 0 1px rgba(var(--color-white-rgb), 0.06),
+            0 2px 4px rgba(var(--color-dark-rgb), 0.08),
+            0 8px 16px rgba(var(--color-dark-rgb), 0.07),
+            0 24px 48px rgba(var(--color-dark-rgb), 0.1),
+            0 48px 80px rgba(var(--color-dark-rgb), 0.08);
+        /* Decorativa: nunca rouba o ponteiro de quem arrasta o carrossel */
+        pointer-events: none;
+    }
+
+    /* Botões laterais: saliências finas fora do corpo, na mesma cor, então
+       aparecem só pela silhueta contra o fundo */
+    .phone-mockup::before,
+    .phone-mockup::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        border-radius: var(--radius-full);
+        background-color: var(--color-dark);
+    }
+
+    /* Volume, à esquerda */
+    .phone-mockup::before {
+        top: 88px;
+        left: calc(var(--phone-frame, 8px) * -1 - 4px);
+        height: 32px;
+    }
+
+    /* Power, à direita */
+    .phone-mockup::after {
+        top: 104px;
+        right: calc(var(--phone-frame, 8px) * -1 - 4px);
+        height: 48px;
+    }
+
+    /* Câmera frontal: furo discreto de 8px centralizado no topo da tela,
+       como num aparelho real rodando o app em tela cheia */
+    .phone-mockup-camera {
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        width: 8px;
+        height: 8px;
+        margin-left: -4px;
+        border-radius: var(--radius-full);
+        background-color: rgba(var(--color-dark-rgb), 0.92);
+        box-shadow: inset 0 0 0 1px rgba(var(--color-white-rgb), 0.1);
+    }
+
+    /* Indicador de gesto do sistema, sutil sobre o conteúdo do app */
+    .phone-mockup-indicator {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        width: 96px;
+        height: 4px;
+        margin-left: -48px;
+        border-radius: var(--radius-full);
+        background-color: rgba(var(--color-dark-rgb), 0.28);
+    }
+</style>
+
+<span class="phone-mockup" aria-hidden="true">
+    <span class="phone-mockup-camera"></span>
+    <span class="phone-mockup-indicator"></span>
+</span>

@@ -1,0 +1,891 @@
+<!-- ==========================================================================
+   Seção: Screen Showcase
+   Faixa clara e baixa que serve de palco pras telas reais do app. O
+   carrossel é maior que a faixa de propósito: os aparelhos transbordam pra
+   cima e pra baixo, invadindo as dobras escuras vizinhas (app-journey e
+   app-closing).
+
+   Cada slide é um aparelho completo, alternando os dois mockups do
+   catálogo (phone-mockup e phone-mockup-alt) pra o carrossel não parecer o
+   mesmo celular repetido cinco vezes.
+
+   O aparelho é uma moldura sobreposta e a screenshot mora no slide, então
+   cada instância tem a sua tela. O `padding` do slide reserva a espessura
+   da moldura e a janela usa o mesmo raio interno que o `border` do mockup
+   calcula, então as curvas coincidem.
+
+   Arraste funciona com dedo e com mouse.
+   ========================================================================== -->
+<style>
+    .screen-showcase {
+        --showcase-seam: 64px;
+
+        position: relative;
+        /* Acima das dobras vizinhas, senão o transbordo do carrossel ficaria
+           escondido atrás delas */
+        z-index: 3;
+        width: 100%;
+        margin: calc(var(--showcase-seam) * -1) 0;
+        padding: calc(var(--space-lg) + var(--showcase-seam)) 1.5rem;
+        color: var(--color-dark);
+    }
+
+    /* O recorte diagonal vive numa camada de fundo, e não na seção: se
+       estivesse na seção, cortaria o transbordo do carrossel */
+    .screen-showcase-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        clip-path: polygon(
+            0 var(--showcase-seam),
+            100% 0,
+            100% calc(100% - var(--showcase-seam)),
+            0 100%);
+        background-color: var(--color-white);
+        background-image:
+            radial-gradient(circle at 22% 18%, var(--color-caldas-subtle), transparent 52%),
+            radial-gradient(circle at 78% 82%, var(--color-orange-subtle), transparent 52%);
+    }
+
+    /* Texto numa coluna e carrossel na outra: é o que libera a altura
+       inteira da dobra pro carrossel transbordar sem cobrir título nem
+       legenda */
+    .screen-showcase-inner {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: var(--space-xl);
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .screen-showcase-copy {
+        position: relative;
+        /* Acima do carrossel: se um aparelho passar perto, ele fica atrás
+           do texto e não na frente */
+        z-index: 2;
+    }
+
+    .screen-showcase-header {
+        max-width: 42ch;
+        margin: 0 0 var(--space-md);
+    }
+
+    .showcase-logo-img {
+        max-width: 280px;
+        width: 100%;
+        height: auto;
+        margin-bottom: var(--space-md);
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+    }
+
+    .screen-showcase-title {
+        display: none;
+    }
+
+    .screen-showcase-subtitle {
+        color: rgba(var(--color-dark-rgb), 0.82);
+        font-family: var(--font-main);
+        font-size: var(--font-size-md);
+        font-weight: 600;
+        line-height: 1.45;
+        margin: 0;
+        max-width: 36ch;
+    }
+
+    .showcase-cta {
+        margin: var(--space-md) 0 var(--space-lg);
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .showcase-cta .btn-cta {
+        justify-content: flex-start;
+        width: auto;
+    }
+
+    /* --- Palco ---
+       A faixa é bem mais baixa que o aparelho: é essa diferença que faz o
+       carrossel transbordar pra fora da dobra. O `perspective` mora aqui e
+       a cena (filha) é quem recebe o tilt do cursor, porque rotacionar o
+       próprio elemento que define a perspectiva giraria o ponto de fuga
+       junto e achataria a profundidade */
+    .showcase-stage {
+        /* Tokens moram no palco: a altura do palco consome `--stage-height`,
+           e cena, slides e molduras herdam o resto */
+        --phone-width: 326px;
+        --phone-frame: 8px;
+        --phone-radius: 42px;
+        /* Bem menor que os 590px do aparelho: essa diferença é o transbordo
+           que invade as dobras vizinhas */
+        --stage-height: 290px;
+
+        position: relative;
+        perspective: 1600px;
+    }
+
+    .showcase-scene {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-lg);
+        transform-style: preserve-3d;
+    }
+
+    /* Estado antes do JS assumir: fila rolável, pra não haver salto de
+       layout entre montar os componentes e iniciar o carrossel */
+    .showcase-track {
+        display: flex;
+        gap: var(--space-md);
+        width: 100%;
+        padding-bottom: var(--space-sm);
+        overflow-x: auto;
+        transform-style: preserve-3d;
+    }
+
+    .showcase-slide {
+        position: relative;
+        flex: 0 0 auto;
+        width: 160px;
+        /* Reserva a espessura da moldura que o mockup desenha por cima */
+        padding: var(--phone-frame);
+        box-sizing: border-box;
+        border: 0;
+        background: none;
+        cursor: pointer;
+    }
+
+    .showcase-slide-screen {
+        display: block;
+        /* Recorte útil da screenshot: 738x1344 dos 738x1600 originais,
+           descontando o cromo do sistema operacional */
+        aspect-ratio: 738 / 1344;
+        overflow: hidden;
+        /* Mesmo raio interno que o `border` do mockup produz, então a
+           screenshot fecha exatamente na curva do aparelho */
+        border-radius: calc(var(--phone-radius) - var(--phone-frame));
+        background-color: var(--color-dark-surface);
+    }
+
+    .showcase-slide-shot {
+        --shot-crop: 65.625%;
+
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Sobram 256px verticais entre a imagem e a janela; `--shot-crop`
+           define quanto sai do topo (65.625% = 168px, 25% = 64px) */
+        object-position: 50% var(--shot-crop);
+    }
+
+    .showcase-slide:focus-visible {
+        outline: 2px solid var(--color-orange);
+        outline-offset: 8px;
+    }
+
+    /* --- Estado ativo: assumido pelo JS quando o GSAP está disponível --- */
+    .screen-showcase.is-live .showcase-stage {
+        height: var(--stage-height, 280px);
+        cursor: grab;
+        /* Rola a página na vertical e ainda captura o arraste horizontal */
+        touch-action: pan-y;
+    }
+
+    .screen-showcase.is-live .showcase-scene {
+        position: absolute;
+        inset: 0;
+        display: block;
+        /* Permite rolar a página verticalmente e ainda capturar o arraste
+           horizontal do carrossel */
+        touch-action: pan-y;
+        /* Cena e trilha vivem num contexto `preserve-3d` e suas caixas ficam
+           no plano z=0. Os slides laterais estão em `translateZ` negativo,
+           ou seja, atrás desse plano — enquanto essas caixas aceitassem o
+           ponteiro, nenhum clique alcançava um slide lateral e o slide
+           central sofria z-fighting. O arraste é escutado no palco, que está
+           fora do contexto 3D, então nada se perde */
+        pointer-events: none;
+    }
+
+    .screen-showcase.is-live .showcase-stage.is-dragging {
+        cursor: grabbing;
+    }
+
+    .screen-showcase.is-live .showcase-track {
+        position: absolute;
+        inset: 0;
+        display: block;
+        padding: 0;
+        overflow: visible;
+        pointer-events: none;
+    }
+
+    .screen-showcase.is-live .showcase-slide {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: var(--phone-width);
+        /* Centraliza no layout, e não só no transform: com `left: 50%` puro
+           a caixa de layout sairia pela direita do palco e engordaria o
+           scroll horizontal da página mesmo com o slide já reposicionado */
+        margin-left: calc(var(--phone-width) / -2);
+        /* Sempre aceita cliques, independentemente de opacity ou visibilidade */
+        pointer-events: auto !important;
+        will-change: transform;
+    }
+
+    /* --- Legenda da tela ativa --- */
+    .showcase-caption {
+        margin-bottom: var(--space-md);
+    }
+
+    .showcase-caption-name {
+        font-family: var(--font-main);
+        font-weight: 800;
+        font-size: var(--font-size-md);
+        margin: 0 0 0.25rem;
+    }
+
+    .showcase-caption-detail {
+        color: rgba(var(--color-dark-rgb), 0.6);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* --- Controles: só aparecem quando o JS assume o carrossel --- */
+    .showcase-controls {
+        display: none;
+        gap: var(--space-xs);
+    }
+
+    .screen-showcase.is-live .showcase-controls {
+        display: flex;
+        /* Compensa a folga do alvo de toque de 32px pro primeiro ponto
+           alinhar opticamente com o texto da coluna */
+        margin-left: -12px;
+    }
+
+    .showcase-dot {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 0;
+        border-radius: var(--radius-btn);
+        background: none;
+        cursor: pointer;
+    }
+
+    .showcase-dot::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: var(--radius-full);
+        background-color: rgba(var(--color-dark-rgb), 0.2);
+        transition: var(--transition-smooth);
+    }
+
+    .showcase-dot[aria-current='true']::before {
+        width: 24px;
+        background-color: var(--color-orange);
+    }
+
+    .showcase-dot:hover::before {
+        background-color: rgba(var(--color-dark-rgb), 0.4);
+    }
+
+    .showcase-dot[aria-current='true']:hover::before {
+        background-color: var(--color-orange-hover);
+    }
+
+    .showcase-dot:focus-visible {
+        outline: 2px solid var(--color-orange);
+        outline-offset: 2px;
+    }
+
+    /* Numa coluna só, o carrossel perde as laterais livres pra transbordar
+       sem cobrir o texto, então a faixa passa a acompanhar a altura do
+       aparelho e o transbordo fica discreto */
+    @media (max-width: 992px) {
+        .screen-showcase-inner {
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+        }
+
+        .screen-showcase-copy {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .showcase-logo-img {
+            display: block;
+            margin-inline: auto;
+        }
+
+        .screen-showcase-header {
+            max-width: 46ch;
+            margin-inline: auto;
+            text-align: center;
+        }
+
+        .screen-showcase-subtitle {
+            max-width: 46ch;
+            margin-inline: auto;
+            text-align: center;
+        }
+
+        .showcase-cta {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: var(--space-md) auto var(--space-lg);
+        }
+
+        .showcase-cta .btn-cta {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .showcase-caption {
+            text-align: center;
+            width: 100%;
+        }
+
+        .screen-showcase.is-live .showcase-controls {
+            justify-content: center;
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .showcase-stage {
+            --phone-width: 264px;
+            --stage-height: 420px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .screen-showcase {
+            --showcase-seam: 40px;
+
+            padding: calc(var(--space-lg) + var(--showcase-seam)) 1.25rem;
+        }
+
+        .showcase-logo-img {
+            max-width: 230px;
+        }
+
+        .screen-showcase-title {
+            font-size: var(--font-size-lg);
+        }
+
+        .screen-showcase-subtitle {
+            font-size: var(--font-size-base);
+        }
+
+        .showcase-stage {
+            --phone-width: 232px;
+            --stage-height: 380px;
+        }
+
+        .showcase-slide {
+            width: 132px;
+        }
+    }
+</style>
+
+<section class="screen-showcase" id="screen-showcase">
+    <div class="screen-showcase-bg" aria-hidden="true"></div>
+
+    <div class="screen-showcase-inner">
+        <div class="screen-showcase-copy">
+            <header class="screen-showcase-header">
+                <img class="showcase-logo-img" src="assets/imagens/go2apply-logo-colorido.png"
+                    alt="go2apply" loading="lazy" decoding="async">
+                <h2 class="screen-showcase-title">Por dentro do <span class="highlight">go2apply</span></h2>
+                <p class="screen-showcase-subtitle">O go2apply coloca as informações certas na hora certa para apoiar suas decisões.</p>
+            </header>
+
+            <div class="showcase-cta">
+                <div data-component="components/btn-cta/btn-cta.html"></div>
+            </div>
+
+            <div class="showcase-caption" aria-live="polite">
+                <p class="showcase-caption-name">Ingrediente ativo</p>
+                <p class="showcase-caption-detail">Kow, tendência de adjuvante e faixa de pH em calda</p>
+            </div>
+
+            <div class="showcase-controls" role="group" aria-label="Escolher tela do go2apply"></div>
+        </div>
+
+        <div class="showcase-stage">
+            <div class="showcase-scene">
+                <div class="showcase-track">
+                    <button class="showcase-slide" type="button" style="--shot-crop: 25%" data-name="Ingrediente ativo"
+                        data-detail="Kow, tendência de adjuvante e faixa de pH em calda">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="assets/imagens/prints-go2apply/tebuconazol.webp"
+                                alt="Tela de ingrediente ativo do go2apply com o Kow do tebuconazol, tendência de adjuvante e faixa de pH"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <div data-component="components/phone-mockup/phone-mockup.html"></div>
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Espectro de gotas"
+                        data-detail="DMV, densidade de gotas e Delta T limite">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="assets/imagens/prints-go2apply/espectro.webp"
+                                alt="Tela de espectro de gotas do go2apply com DMV, densidade calculada e Delta T limite"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <div data-component="components/phone-mockup-alt/phone-mockup-alt.html"></div>
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Identificação da operação"
+                        data-detail="Cliente, equipamento e responsável pelo registro">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="assets/imagens/prints-go2apply/fluxometro-3.webp"
+                                alt="Tela de identificação do go2apply com cliente, equipamento, responsável e data da operação"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <div data-component="components/phone-mockup/phone-mockup.html"></div>
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Coleta por ponta"
+                        data-detail="Volume medido ponta a ponta antes do cálculo">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="assets/imagens/prints-go2apply/fluxometro-1.webp"
+                                alt="Tela de coleta por ponta do go2apply com o volume medido em cada uma das doze pontas"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <div data-component="components/phone-mockup-alt/phone-mockup-alt.html"></div>
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Resultado da calibração"
+                        data-detail="Vazão coletada, desvio e nova constante do fluxômetro">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="assets/imagens/prints-go2apply/fluxometro-2.webp"
+                                alt="Tela de resultado do go2apply com vazão coletada, desvio da medição e nova constante do fluxômetro"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <div data-component="components/phone-mockup/phone-mockup.html"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        // Anéis da órbita por distância até o centro. Valores intermediários
+        // saem de interpolação, o que deixa o arraste contínuo
+        const ORBIT_DESKTOP = [
+            { x: 0, z: 0, ry: 0, scale: 1, opacity: 1 },
+            { x: 198, z: -160, ry: -22, scale: 0.74, opacity: 0.72 },
+            { x: 312, z: -320, ry: -30, scale: 0.56, opacity: 0.36 },
+            { x: 380, z: -420, ry: -34, scale: 0.46, opacity: 0 }
+        ];
+
+        const ORBIT_TABLET = [
+            { x: 0, z: 0, ry: 0, scale: 1, opacity: 1 },
+            { x: 188, z: -160, ry: -22, scale: 0.66, opacity: 0.62 },
+            { x: 304, z: -320, ry: -30, scale: 0.48, opacity: 0.28 },
+            { x: 380, z: -420, ry: -34, scale: 0.4, opacity: 0 }
+        ];
+
+        const ORBIT_MOBILE = [
+            { x: 0, z: 0, ry: 0, scale: 1, opacity: 1 },
+            { x: 152, z: -180, ry: -24, scale: 0.6, opacity: 0.44 },
+            { x: 240, z: -340, ry: -32, scale: 0.44, opacity: 0.18 },
+            { x: 300, z: -440, ry: -36, scale: 0.36, opacity: 0 }
+        ];
+
+        // O tempo de permanência de cada card é o AUTOPLAY_DELAY; a duração da
+        // transição fica separada pra o giro ser rápido sem ficar abrupto
+        const AUTOPLAY_DELAY = 2.4;
+        const SNAP_DURATION = 1.1;
+        const DRAG_CLICK_SLOP = 8;
+        const TILT_Y = 8;
+        const TILT_X = -5;
+
+        function initScreenShowcase() {
+            const section = document.getElementById('screen-showcase');
+            if (!section || !window.gsap) return;
+
+            const stage = section.querySelector('.showcase-stage');
+            const scene = section.querySelector('.showcase-scene');
+            const controls = section.querySelector('.showcase-controls');
+            const captionName = section.querySelector('.showcase-caption-name');
+            const captionDetail = section.querySelector('.showcase-caption-detail');
+            const slides = Array.from(section.querySelectorAll('.showcase-slide'));
+            if (!stage || !scene || !controls || slides.length < 3) return;
+
+            const total = slides.length;
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // `position` é contínua: durante o arraste assume valores
+            // fracionários, e no repouso é sempre um índice inteiro
+            let position = 0;
+            let active = 0;
+            let orbit = ORBIT_DESKTOP;
+            let autoplay = null;
+            let snapTween = null;
+            // Fator que encolhe a órbita quando o palco é mais estreito do
+            // que os deslocamentos em px pedem, senão os aparelhos das
+            // pontas vazariam a viewport e criariam scroll horizontal
+            let orbitFit = 1;
+
+            section.classList.add('is-live');
+
+            // Estado do arraste. Declarado antes dos controles porque o
+            // clique num slide consulta `dragMoved` pra distinguir toque de
+            // arraste terminando sobre ele
+            let dragging = false;
+            let dragPointer = null;
+            let dragStartX = 0;
+            let dragStartPosition = 0;
+            let dragMoved = 0;
+            let dragLastX = 0;
+            let dragVelocity = 0;
+            let dragTapSlide = null;
+
+            // --- Controles ---
+            slides.forEach(function (slide, index) {
+                const name = slide.getAttribute('data-name');
+                slide.setAttribute('aria-label', 'Ver tela: ' + name);
+                // Só o clique de teclado (`detail === 0`) chega por aqui: com
+                // ponteiro, o `setPointerCapture` do arraste entrega o `click`
+                // à cena e não ao botão, então o toque é resolvido no `pointerup`
+                slide.addEventListener('click', function (event) {
+                    if (event.detail !== 0) return;
+                    goTo(nearestRouteTo(index));
+                    restartAutoplay();
+                });
+
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'showcase-dot';
+                dot.setAttribute('aria-label', name);
+                dot.addEventListener('click', function () {
+                    goTo(nearestRouteTo(index));
+                    restartAutoplay();
+                });
+                controls.appendChild(dot);
+            });
+
+            const dots = Array.from(controls.children);
+
+            // Distância circular assinada entre um slide e a posição atual,
+            // aceitando posição fracionária (-total/2 a total/2)
+            function circularDistance(index, from) {
+                let distance = (index - from) % total;
+                if (distance > total / 2) distance -= total;
+                if (distance < -total / 2) distance += total;
+                return distance;
+            }
+
+            // Caminho mais curto até um índice, preservando o wrap circular
+            function nearestRouteTo(index) {
+                return position + circularDistance(index, position);
+            }
+
+            // Mede quanto a órbita cabe no palco atual. O anel de referência
+            // é o mais distante que ainda aparece
+            function measureFit() {
+                const stageWidth = stage.getBoundingClientRect().width;
+                const slideWidth = slides[0].getBoundingClientRect().width;
+                const ring = orbit[2];
+                if (!stageWidth || !slideWidth || !ring.x) {
+                    orbitFit = 1;
+                    return;
+                }
+                const room = stageWidth / 2 - (slideWidth * ring.scale) / 2 - 8;
+                const fit = room / ring.x;
+                orbitFit = fit > 0 && fit < 1 ? fit : 1;
+            }
+
+            // Interpola entre os anéis pra suportar distância fracionária
+            function spotAt(distance) {
+                const abs = Math.abs(distance);
+                const side = distance < 0 ? -1 : 1;
+                const ring = Math.min(Math.floor(abs), orbit.length - 2);
+                const t = Math.min(abs - ring, 1);
+                const from = orbit[ring];
+                const to = orbit[ring + 1];
+                const mix = function (a, b) { return a + (b - a) * t; };
+
+                return {
+                    x: mix(from.x, to.x) * side * orbitFit,
+                    z: mix(from.z, to.z),
+                    rotationY: mix(from.ry, to.ry) * side,
+                    scale: mix(from.scale, to.scale),
+                    opacity: mix(from.opacity, to.opacity)
+                };
+            }
+
+            function render() {
+                slides.forEach(function (slide, index) {
+                    const distance = circularDistance(index, position);
+                    const spot = spotAt(distance);
+                    const isReachable = spot.opacity > 0.05;
+
+                    slide.style.pointerEvents = isReachable ? 'auto' : 'none';
+                    slide.setAttribute('aria-hidden', isReachable ? 'false' : 'true');
+                    slide.tabIndex = isReachable ? 0 : -1;
+
+                    gsap.set(slide, {
+                        yPercent: -50,
+                        x: spot.x,
+                        z: spot.z,
+                        rotationY: spot.rotationY,
+                        scale: spot.scale,
+                        opacity: spot.opacity
+                    });
+                });
+            }
+
+            function syncActive() {
+                const next = ((Math.round(position) % total) + total) % total;
+                if (next === active) return;
+                active = next;
+                paintCaption();
+            }
+
+            function paintCaption() {
+                const slide = slides[active];
+                captionName.textContent = slide.getAttribute('data-name');
+                captionDetail.textContent = slide.getAttribute('data-detail');
+                dots.forEach(function (dot, index) {
+                    dot.setAttribute('aria-current', index === active ? 'true' : 'false');
+                });
+            }
+
+            function goTo(target, animate) {
+                if (snapTween) snapTween.kill();
+
+                if (animate === false || reduceMotion) {
+                    position = target;
+                    render();
+                    syncActive();
+                    return;
+                }
+
+                // `expo.out` desacelera longo no fim: é o que dá inércia em
+                // vez de transição mecânica
+                snapTween = gsap.to({ value: position }, {
+                    value: target,
+                    duration: SNAP_DURATION,
+                    ease: 'expo.out',
+                    onUpdate: function () {
+                        position = this.targets()[0].value;
+                        render();
+                        syncActive();
+                    },
+                    onComplete: function () {
+                        // Reancora no equivalente circular pra `position` não
+                        // crescer sem limite ao longo da navegação
+                        position = ((position % total) + total) % total;
+                        render();
+                    }
+                });
+            }
+
+            // --- Arraste com dedo e com mouse ---
+            // Quantos pixels de arraste valem um slide. Acompanha o fator de
+            // encaixe pra o gesto seguir o deslocamento visto na tela
+            function dragUnit() {
+                return (orbit[1].x || 200) * orbitFit;
+            }
+
+            stage.addEventListener('pointerdown', function (event) {
+                if (event.button !== 0 && event.pointerType === 'mouse') return;
+                dragging = true;
+                dragPointer = event.pointerId;
+                dragStartX = event.clientX;
+                dragLastX = event.clientX;
+                dragStartPosition = position;
+                dragMoved = 0;
+                dragVelocity = 0;
+                dragTapSlide = event.target instanceof Element
+                    ? event.target.closest('.showcase-slide')
+                    : null;
+                if (snapTween) snapTween.kill();
+                stopAutoplay();
+                stage.classList.add('is-dragging');
+                // Sem capturar o ponteiro, soltar o mouse fora do palco não
+                // dispararia `pointerup` aqui e o arraste ficaria preso
+                if (stage.setPointerCapture) {
+                    try { stage.setPointerCapture(event.pointerId); } catch (error) { /* ponteiro já liberado */ }
+                }
+            });
+
+            stage.addEventListener('pointermove', function (event) {
+                if (!dragging || event.pointerId !== dragPointer) return;
+                const delta = event.clientX - dragStartX;
+                dragMoved = Math.max(dragMoved, Math.abs(delta));
+                dragVelocity = event.clientX - dragLastX;
+                dragLastX = event.clientX;
+                position = dragStartPosition - delta / dragUnit();
+                render();
+                syncActive();
+            });
+
+            function endDrag(event) {
+                if (!dragging || (event && event.pointerId !== dragPointer)) return;
+                dragging = false;
+                dragPointer = null;
+                stage.classList.remove('is-dragging');
+
+                const wasMoved = dragMoved > DRAG_CLICK_SLOP;
+                const tapSlide = dragTapSlide;
+                dragMoved = 0;
+                dragTapSlide = null;
+
+                if (!wasMoved) {
+                    // Ponteiro parado sobre um slide é toque, não arraste: gira
+                    // o carrossel até ele
+                    const tapIndex = tapSlide ? slides.indexOf(tapSlide) : -1;
+                    if (tapIndex >= 0) {
+                        goTo(nearestRouteTo(tapIndex));
+                        restartAutoplay();
+                        return;
+                    }
+                    startAutoplay();
+                    return;
+                }
+
+                // A velocidade do gesto empurra o snap pro slide seguinte,
+                // então um flick curto e rápido ainda troca de tela. Limitado
+                // a um slide pra um gesto muito rápido não pular três telas
+                const flick = gsap.utils.clamp(-1, 1, -dragVelocity / (dragUnit() * 0.22));
+                goTo(Math.round(position + flick));
+                restartAutoplay();
+            }
+
+            stage.addEventListener('pointerup', endDrag);
+            stage.addEventListener('pointercancel', endDrag);
+            stage.addEventListener('lostpointercapture', endDrag);
+
+            // Arrastar sobre uma tela não deve iniciar o drag nativo de imagem
+            scene.addEventListener('dragstart', function (event) { event.preventDefault(); });
+
+            // --- Autoplay: pausa fora da tela, no hover, no foco e no arraste ---
+            function startAutoplay() {
+                if (reduceMotion || autoplay || dragging) return;
+                autoplay = gsap.delayedCall(AUTOPLAY_DELAY, function () {
+                    autoplay = null;
+                    goTo(position + 1);
+                    startAutoplay();
+                });
+            }
+
+            function stopAutoplay() {
+                if (!autoplay) return;
+                autoplay.kill();
+                autoplay = null;
+            }
+
+            function restartAutoplay() {
+                stopAutoplay();
+                startAutoplay();
+            }
+
+            stage.addEventListener('mouseenter', stopAutoplay);
+            stage.addEventListener('mouseleave', startAutoplay);
+            stage.addEventListener('focusin', stopAutoplay);
+            stage.addEventListener('focusout', startAutoplay);
+
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) startAutoplay();
+                        else stopAutoplay();
+                    });
+                }, { threshold: 0.25 }).observe(section);
+            } else {
+                startAutoplay();
+            }
+
+            // --- Teclado ---
+            scene.addEventListener('keydown', function (event) {
+                if (event.key === 'ArrowRight') {
+                    goTo(Math.round(position) + 1);
+                } else if (event.key === 'ArrowLeft') {
+                    goTo(Math.round(position) - 1);
+                } else {
+                    return;
+                }
+                restartAutoplay();
+                event.preventDefault();
+            });
+
+            // --- Órbita por breakpoint ---
+            const wideQuery = window.matchMedia('(min-width: 993px)');
+            const narrowQuery = window.matchMedia('(max-width: 600px)');
+
+            function pickOrbit() {
+                if (narrowQuery.matches) orbit = ORBIT_MOBILE;
+                else if (wideQuery.matches) orbit = ORBIT_DESKTOP;
+                else orbit = ORBIT_TABLET;
+                measureFit();
+                render();
+            }
+
+            wideQuery.addEventListener('change', pickOrbit);
+            narrowQuery.addEventListener('change', pickOrbit);
+
+            // Reencaixa a órbita quando o palco muda de largura, inclusive
+            // nas larguras entre breakpoints
+            if ('ResizeObserver' in window) {
+                new ResizeObserver(function () {
+                    measureFit();
+                    render();
+                }).observe(stage);
+            }
+
+            pickOrbit();
+            paintCaption();
+
+            // --- Parallax de cursor: só em ponteiro fino, e sutil ---
+            if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                const tiltY = gsap.quickTo(scene, 'rotationY', { duration: 0.9, ease: 'power3.out' });
+                const tiltX = gsap.quickTo(scene, 'rotationX', { duration: 0.9, ease: 'power3.out' });
+
+                stage.addEventListener('pointermove', function (event) {
+                    const box = stage.getBoundingClientRect();
+                    tiltY(((event.clientX - box.left) / box.width - 0.5) * TILT_Y);
+                    tiltX(((event.clientY - box.top) / box.height - 0.5) * TILT_X);
+                });
+
+                stage.addEventListener('pointerleave', function () {
+                    tiltY(0);
+                    tiltX(0);
+                });
+            }
+
+            // --- Entrada da dobra ---
+            if (!reduceMotion && window.ScrollTrigger) {
+                gsap.registerPlugin(ScrollTrigger);
+
+                gsap.from('.showcase-logo-img, .screen-showcase-subtitle, .showcase-cta, .showcase-caption, .showcase-controls', {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    stagger: 0.1,
+                    scrollTrigger: { trigger: '#screen-showcase', start: 'top 75%' }
+                });
+            }
+        }
+
+        onComponentsReady(initScreenShowcase);
+    })();
+</script>
