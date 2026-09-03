@@ -175,6 +175,9 @@
     /* --- Estado ativo: assumido pelo JS quando o GSAP está disponível --- */
     .screen-showcase.is-live .showcase-stage {
         height: var(--stage-height, 280px);
+        cursor: grab;
+        /* Rola a página na vertical e ainda captura o arraste horizontal */
+        touch-action: pan-y;
     }
 
     .screen-showcase.is-live .showcase-scene {
@@ -184,10 +187,16 @@
         /* Permite rolar a página verticalmente e ainda capturar o arraste
            horizontal do carrossel */
         touch-action: pan-y;
-        cursor: grab;
+        /* Cena e trilha vivem num contexto `preserve-3d` e suas caixas ficam
+           no plano z=0. Os slides laterais estão em `translateZ` negativo,
+           ou seja, atrás desse plano — enquanto essas caixas aceitassem o
+           ponteiro, nenhum clique alcançava um slide lateral e o slide
+           central sofria z-fighting. O arraste é escutado no palco, que está
+           fora do contexto 3D, então nada se perde */
+        pointer-events: none;
     }
 
-    .screen-showcase.is-live .showcase-scene.is-dragging {
+    .screen-showcase.is-live .showcase-stage.is-dragging {
         cursor: grabbing;
     }
 
@@ -197,6 +206,7 @@
         display: block;
         padding: 0;
         overflow: visible;
+        pointer-events: none;
     }
 
     .screen-showcase.is-live .showcase-slide {
@@ -208,6 +218,8 @@
            a caixa de layout sairia pela direita do palco e engordaria o
            scroll horizontal da página mesmo com o slide já reposicionado */
         margin-left: calc(var(--phone-width) / -2);
+        /* Sempre aceita cliques, independentemente de opacity ou visibilidade */
+        pointer-events: auto !important;
         will-change: transform;
     }
 
@@ -446,8 +458,10 @@
             { x: 300, z: -440, ry: -36, scale: 0.36, opacity: 0 }
         ];
 
+        // O tempo de permanência de cada card é o AUTOPLAY_DELAY; a duração da
+        // transição fica separada pra o giro ser rápido sem ficar abrupto
         const AUTOPLAY_DELAY = 2.4;
-        const SNAP_DURATION = 0.5;
+        const SNAP_DURATION = 1.1;
         const DRAG_CLICK_SLOP = 8;
         const TILT_Y = 8;
         const TILT_X = -5;
@@ -491,12 +505,17 @@
             let dragMoved = 0;
             let dragLastX = 0;
             let dragVelocity = 0;
+            let dragTapSlide = null;
 
             // --- Controles ---
             slides.forEach(function (slide, index) {
                 const name = slide.getAttribute('data-name');
                 slide.setAttribute('aria-label', 'Ver tela: ' + name);
-                slide.addEventListener('click', function () {
+                // Só o clique de teclado (`detail === 0`) chega por aqui: com
+                // ponteiro, o `setPointerCapture` do arraste entrega o `click`
+                // à cena e não ao botão, então o toque é resolvido no `pointerup`
+                slide.addEventListener('click', function (event) {
+                    if (event.detail !== 0) return;
                     goTo(nearestRouteTo(index));
                     restartAutoplay();
                 });
@@ -636,7 +655,7 @@
                 return (orbit[1].x || 200) * orbitFit;
             }
 
-            scene.addEventListener('pointerdown', function (event) {
+            stage.addEventListener('pointerdown', function (event) {
                 if (event.button !== 0 && event.pointerType === 'mouse') return;
                 dragging = true;
                 dragPointer = event.pointerId;
@@ -645,17 +664,20 @@
                 dragStartPosition = position;
                 dragMoved = 0;
                 dragVelocity = 0;
+                dragTapSlide = event.target instanceof Element
+                    ? event.target.closest('.showcase-slide')
+                    : null;
                 if (snapTween) snapTween.kill();
                 stopAutoplay();
-                scene.classList.add('is-dragging');
-                // Sem capturar o ponteiro, soltar o mouse fora da cena não
+                stage.classList.add('is-dragging');
+                // Sem capturar o ponteiro, soltar o mouse fora do palco não
                 // dispararia `pointerup` aqui e o arraste ficaria preso
-                if (scene.setPointerCapture) {
-                    try { scene.setPointerCapture(event.pointerId); } catch (error) { /* ponteiro já liberado */ }
+                if (stage.setPointerCapture) {
+                    try { stage.setPointerCapture(event.pointerId); } catch (error) { /* ponteiro já liberado */ }
                 }
             });
 
-            scene.addEventListener('pointermove', function (event) {
+            stage.addEventListener('pointermove', function (event) {
                 if (!dragging || event.pointerId !== dragPointer) return;
                 const delta = event.clientX - dragStartX;
                 dragMoved = Math.max(dragMoved, Math.abs(delta));
@@ -670,14 +692,22 @@
                 if (!dragging || (event && event.pointerId !== dragPointer)) return;
                 dragging = false;
                 dragPointer = null;
-                scene.classList.remove('is-dragging');
+                stage.classList.remove('is-dragging');
 
-                // Reza pra o dragMoved ser zerado imediatamente depois que o drag
-                // termina, pra um clique subsequente num slide não seja bloqueado
                 const wasMoved = dragMoved > DRAG_CLICK_SLOP;
+                const tapSlide = dragTapSlide;
                 dragMoved = 0;
+                dragTapSlide = null;
 
                 if (!wasMoved) {
+                    // Ponteiro parado sobre um slide é toque, não arraste: gira
+                    // o carrossel até ele
+                    const tapIndex = tapSlide ? slides.indexOf(tapSlide) : -1;
+                    if (tapIndex >= 0) {
+                        goTo(nearestRouteTo(tapIndex));
+                        restartAutoplay();
+                        return;
+                    }
                     startAutoplay();
                     return;
                 }
@@ -690,9 +720,9 @@
                 restartAutoplay();
             }
 
-            scene.addEventListener('pointerup', endDrag);
-            scene.addEventListener('pointercancel', endDrag);
-            scene.addEventListener('lostpointercapture', endDrag);
+            stage.addEventListener('pointerup', endDrag);
+            stage.addEventListener('pointercancel', endDrag);
+            stage.addEventListener('lostpointercapture', endDrag);
 
             // Arrastar sobre uma tela não deve iniciar o drag nativo de imagem
             scene.addEventListener('dragstart', function (event) { event.preventDefault(); });
