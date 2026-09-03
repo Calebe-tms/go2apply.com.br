@@ -72,6 +72,19 @@
         margin: 0 0 var(--space-lg);
     }
 
+    .showcase-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-xs);
+    }
+
+    .showcase-logo-img {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
     .screen-showcase-title {
         font-family: var(--font-main);
         font-weight: 800;
@@ -80,6 +93,9 @@
         letter-spacing: -0.25px;
         text-transform: uppercase;
         margin: 0 0 var(--space-xs);
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
     }
 
     .screen-showcase-title .highlight {
@@ -352,7 +368,11 @@
     <div class="screen-showcase-inner">
         <div class="screen-showcase-copy">
             <header class="screen-showcase-header">
-                <h2 class="screen-showcase-title">Por dentro do <span class="highlight">go2apply</span></h2>
+                <h2 class="screen-showcase-title">
+                    <img class="showcase-logo-img" src="assets/icos/ico-logo-go2apply.svg"
+                        alt="go2apply logo" width="32" height="32" loading="lazy" decoding="async">
+                    Por dentro do <span class="highlight">go2apply</span>
+                </h2>
                 <p class="screen-showcase-subtitle">Telas reais do aplicativo, da consulta técnica ao relatório.</p>
             </header>
 
