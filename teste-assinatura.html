@@ -1,0 +1,341 @@
+<!doctype html>
+<!--
+  ARQUIVO DE TESTE — não é parte da landing page.
+
+  Serve só para validar o pedido único (cartão parcelado ou boleto) direto
+  pelo navegador, sem esperar o checkout real dentro do auth-drawer nem o
+  banco de dados estarem prontos. Apague quando a integração de verdade
+  estiver no lugar.
+
+  Como usar: abrir esta página servida pela Vercel (local via `vercel dev`
+  ou já publicada numa branch de preview) e escolher a forma de pagamento.
+  Números de cartão de teste do simulador do Pagar.me:
+    4000000000000010 -> aprova tudo
+    4000000000000028 -> recusa ("unauthorized")
+  Qualquer outro número diferente desses é recusado por padrão. Boleto no
+  ambiente de teste é sempre gerado com sucesso (não existe "boleto que
+  falha" no simulador — a falha de boleto só acontece por falta de
+  pagamento, que não se aplica em teste).
+
+  Débito ainda não está aqui: exige um fluxo de autenticação 3DS que precisa
+  de investigação própria antes de implementar (ver TODO em
+  api/create-order.js).
+
+  PIX exige telefone do cliente (a doc do Pagar.me pede isso pra ter
+  sucesso); cartão e boleto não precisam.
+
+  Boleto exige endereço do cliente (testado direto contra a API: sem isso
+  o Pagar.me recusa com "Customer address required."); cartão e PIX não
+  precisam.
+
+  Duas opções de tipo de compra:
+    - Pagamento único -> /api/create-order (cartão 12x, boleto ou PIX)
+    - Assinatura anual -> /api/create-subscription (cartão ou boleto,
+      sem parcelar, sem PIX — Pagar.me não suporta PIX em recorrência).
+      Card_token vai no nível raiz do payload, não aninhado em `card`
+      (testado direto contra a API: a doc sugeria aninhado, mas isso é
+      rejeitado). Status inicial vem "future" (é o trial rodando).
+-->
+
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Teste de pedido — go2apply</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 480px; margin: 2rem auto; padding: 0 1rem; }
+  .aviso { background: #fee; border: 1px solid #c00; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; }
+  label { display: block; margin-top: 1rem; font-weight: 600; font-size: 0.9rem; }
+  input { width: 100%; padding: 0.5rem; margin-top: 0.25rem; box-sizing: border-box; }
+  .linha { display: flex; gap: 0.5rem; }
+  .linha > div { flex: 1; }
+  .tipo-tabs, .metodo-tabs { display: flex; gap: 0.5rem; margin-top: 1rem; }
+  .tipo-tabs button, .metodo-tabs button { flex: 1; padding: 0.6rem; cursor: pointer; border: 2px solid #ccc; background: #fff; }
+  .tipo-tabs button.ativo { border-color: #090; background: #eaffea; font-weight: 700; }
+  .metodo-tabs button.ativo { border-color: #06c; background: #eaf3ff; font-weight: 700; }
+  .metodo-tabs button[hidden] { display: none; }
+  .campos-cartao, .campos-pix, .campos-boleto { display: none; }
+  .campos-cartao.ativo, .campos-pix.ativo, .campos-boleto.ativo { display: block; }
+  .preco { margin-top: 1rem; font-size: 0.95rem; color: #333; }
+  button[type="submit"] { margin-top: 1.5rem; padding: 0.75rem 1.5rem; cursor: pointer; }
+  pre { background: #111; color: #0f0; padding: 1rem; margin-top: 1.5rem; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+</style>
+</head>
+<body>
+
+<div class="aviso">
+  Arquivo de teste — sem estilo, sem validação de verdade. Não faz parte da
+  LP publicada. Cartão de débito ainda não implementado (precisa de fluxo
+  3DS à parte). Apagar quando o checkout real (dentro do auth-drawer)
+  estiver pronto.
+</div>
+
+<h1>Teste de pedido (plano anual)</h1>
+
+<div class="tipo-tabs">
+  <button type="button" data-tipo="one_time" class="ativo">Pagamento único</button>
+  <button type="button" data-tipo="subscription">Assinatura anual</button>
+</div>
+
+<div class="metodo-tabs">
+  <button type="button" data-metodo="credit_card" class="ativo">Cartão</button>
+  <button type="button" data-metodo="boleto">Boleto</button>
+  <button type="button" data-metodo="pix">PIX</button>
+</div>
+
+<p class="preco" id="preco-info">R$ 1.884,00 em 12x de R$ 157,00</p>
+
+<form id="form-teste">
+  <input type="hidden" name="purchase_type" id="purchase_type" value="one_time">
+  <input type="hidden" name="payment_method" id="payment_method" value="credit_card">
+
+  <label>Nome completo
+    <input type="text" name="name" value="Teste Go2Apply" required>
+  </label>
+
+  <label>E-mail
+    <input type="email" name="email" value="teste@go2apply.com.br" required>
+  </label>
+
+  <label>CPF (só números)
+    <input type="text" name="document" value="12345678909" required>
+  </label>
+
+  <div class="campos-cartao ativo" id="campos-cartao">
+    <label>Número do cartão
+      <input type="text" name="card_number" value="4000000000000010">
+    </label>
+
+    <label>Nome impresso no cartão
+      <input type="text" name="card_holder_name" value="TESTE GO2APPLY">
+    </label>
+
+    <div class="linha">
+      <div>
+        <label>Mês de validade
+          <input type="text" name="card_exp_month" value="12">
+        </label>
+      </div>
+      <div>
+        <label>Ano de validade
+          <input type="text" name="card_exp_year" value="30">
+        </label>
+      </div>
+      <div>
+        <label>CVV
+          <input type="text" name="card_cvv" value="123">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="campos-boleto" id="campos-boleto">
+    <label>Endereço (rua, número, bairro)
+      <input type="text" name="address_line_1" value="Rua Teste, 123, Bairro Teste">
+    </label>
+
+    <div class="linha">
+      <div>
+        <label>CEP (só números)
+          <input type="text" name="address_zip_code" value="01310100">
+        </label>
+      </div>
+      <div>
+        <label>Cidade
+          <input type="text" name="address_city" value="São Paulo">
+        </label>
+      </div>
+      <div>
+        <label>UF
+          <input type="text" name="address_state" value="SP">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="campos-pix" id="campos-pix">
+    <label>Telefone / WhatsApp (DDD + número, só dígitos)
+      <input type="text" name="phone" value="11999998888">
+    </label>
+  </div>
+
+  <button type="submit">Enviar pedido</button>
+</form>
+
+<pre id="resultado">Aguardando envio...</pre>
+
+<script>
+// Chave PÚBLICA do Pagar.me: pode ficar hardcoded aqui porque, por
+// definição, ela não dá acesso a nada sensível sozinha — só serve para
+// tokenizar cartão, e a doc do Pagar.me é explícita que essa é a única
+// chave que pode circular no navegador.
+const PAGARME_PUBLIC_KEY = 'pk_test_MnGewgbhWzikeEKb';
+
+const PRECOS = {
+    one_time: {
+        credit_card: 'R$ 1.884,00 em 12x de R$ 157,00',
+        boleto: 'R$ 1.790,00 à vista',
+        pix: 'R$ 1.790,00 à vista (PIX)'
+    },
+    subscription: {
+        credit_card: 'R$ 1.790,00/ano — cobrança automática após 7 dias grátis',
+        boleto: 'R$ 1.790,00/ano — boleto novo gerado automaticamente após 7 dias grátis'
+    }
+};
+
+// Lê a resposta como texto primeiro e só então tenta interpretar como
+// JSON: se vier vazia (ex.: rota inexistente, função que caiu sem
+// resposta) ou vier HTML de erro (ex.: página de 404 de um servidor
+// estático), aparece o conteúdo real em vez do erro genérico e opaco do
+// navegador ("Unexpected end of JSON input" não diz qual chamada falhou
+// nem o que voltou).
+async function lerResposta(response, rotulo) {
+    const texto = await response.text();
+    try {
+        return { corpo: JSON.parse(texto), bruto: texto };
+    } catch (e) {
+        throw new Error(
+            `${rotulo} devolveu status HTTP ${response.status} com corpo que não é JSON:\n`
+            + (texto || '(corpo vazio)')
+        );
+    }
+}
+
+const form = document.getElementById('form-teste');
+const resultado = document.getElementById('resultado');
+const purchaseTypeInput = document.getElementById('purchase_type');
+const paymentMethodInput = document.getElementById('payment_method');
+const camposCartao = document.getElementById('campos-cartao');
+const camposPix = document.getElementById('campos-pix');
+const camposBoleto = document.getElementById('campos-boleto');
+const precoInfo = document.getElementById('preco-info');
+const metodoPixBtn = document.querySelector('.metodo-tabs button[data-metodo="pix"]');
+
+// Atualiza os campos visíveis e o preço exibido conforme tipo + método
+// atuais (o valor real de verdade é decidido no servidor, isso aqui é só
+// informativo pra quem está testando).
+function atualizarUI() {
+    const tipo = purchaseTypeInput.value;
+    const metodo = paymentMethodInput.value;
+    precoInfo.textContent = PRECOS[tipo][metodo];
+    camposCartao.classList.toggle('ativo', metodo === 'credit_card');
+    camposPix.classList.toggle('ativo', metodo === 'pix');
+    camposBoleto.classList.toggle('ativo', metodo === 'boleto');
+}
+
+// Tipo de compra: assinatura não tem PIX (Pagar.me não suporta em
+// recorrência) — esconde essa aba e, se estava selecionada, cai pra
+// cartão.
+document.querySelectorAll('.tipo-tabs button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tipo-tabs button').forEach((b) => b.classList.remove('ativo'));
+        btn.classList.add('ativo');
+
+        const tipo = btn.dataset.tipo;
+        purchaseTypeInput.value = tipo;
+
+        const isSubscription = tipo === 'subscription';
+        metodoPixBtn.hidden = isSubscription;
+        if (isSubscription && paymentMethodInput.value === 'pix') {
+            document.querySelectorAll('.metodo-tabs button').forEach((b) => b.classList.remove('ativo'));
+            document.querySelector('.metodo-tabs button[data-metodo="credit_card"]').classList.add('ativo');
+            paymentMethodInput.value = 'credit_card';
+        }
+
+        atualizarUI();
+    });
+});
+
+document.querySelectorAll('.metodo-tabs button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.metodo-tabs button').forEach((b) => b.classList.remove('ativo'));
+        btn.classList.add('ativo');
+        paymentMethodInput.value = btn.dataset.metodo;
+        atualizarUI();
+    });
+});
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    const tipo = purchaseTypeInput.value;
+    const metodo = paymentMethodInput.value;
+
+    const customer = {
+        name: data.get('name'),
+        email: data.get('email'),
+        document: data.get('document').replace(/\D/g, ''),
+        // phone só é usado quando o método é PIX, address só quando é
+        // boleto; nos outros casos vão vazios e o servidor ignora.
+        phone: data.get('phone'),
+        address: {
+            line_1: data.get('address_line_1'),
+            zip_code: data.get('address_zip_code').replace(/\D/g, ''),
+            city: data.get('address_city'),
+            state: data.get('address_state')
+        }
+    };
+
+    try {
+        let cardToken = null;
+
+        if (metodo === 'credit_card') {
+            resultado.textContent = 'Tokenizando cartão...';
+
+            // Tokeniza o cartão direto contra o Pagar.me, sem passar pelo
+            // nosso servidor — é assim que o número do cartão nunca chega
+            // à nossa API, só o token resultante.
+            const tokenResponse = await fetch(`https://api.pagar.me/core/v5/tokens?appId=${PAGARME_PUBLIC_KEY}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'card',
+                    card: {
+                        number: data.get('card_number'),
+                        holder_name: data.get('card_holder_name'),
+                        exp_month: data.get('card_exp_month'),
+                        exp_year: data.get('card_exp_year'),
+                        cvv: data.get('card_cvv')
+                    }
+                })
+            });
+
+            const { corpo: tokenBody } = await lerResposta(tokenResponse, 'Tokenização do cartão (Pagar.me)');
+            if (!tokenResponse.ok) {
+                resultado.textContent = 'Falha ao tokenizar cartão:\n' + JSON.stringify(tokenBody, null, 2);
+                return;
+            }
+
+            cardToken = tokenBody.id;
+        }
+
+        // Pagamento único vira pedido avulso; assinatura anual vira
+        // assinatura recorrente — são dois endpoints e dois modelos de
+        // dados diferentes no Pagar.me, escolhidos aqui pelo tipo.
+        const endpoint = tipo === 'subscription' ? '/api/create-subscription' : '/api/create-order';
+        resultado.textContent = tipo === 'subscription' ? 'Criando assinatura...' : 'Criando pedido...';
+
+        // Envia o token (se houver) + dados do cliente para o NOSSO
+        // endpoint, que é quem fala com a chave secreta do Pagar.me e
+        // decide o preço/parcelas — nunca o navegador.
+        const orderResponse = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                payment_method: metodo,
+                card_token: cardToken,
+                customer
+            })
+        });
+
+        const { corpo: orderBody } = await lerResposta(orderResponse, endpoint);
+        resultado.textContent = 'Resposta de ' + endpoint + ' (status HTTP ' + orderResponse.status + '):\n'
+            + JSON.stringify(orderBody, null, 2);
+    } catch (error) {
+        resultado.textContent = 'Erro inesperado: ' + error.message;
+    }
+});
+</script>
+
+</body>
+</html>

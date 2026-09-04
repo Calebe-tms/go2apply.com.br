@@ -46,6 +46,10 @@
     <!-- Preload font para melhor performance -->
     <link rel="preload" href="assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
 
+    <!-- build:strip:start -->
+    <!-- Loader: existe só no modo dev (sem build), onde os componentes ainda
+         são buscados por fetch e o HTML inicial chega vazio. O build embute o
+         conteúdo, então nada disso vai para produção. -->
     <style>
     body.is-loading {
         overflow: hidden !important;
@@ -123,10 +127,12 @@
         #app-loader { transition: opacity 300ms ease; }
     }
     </style>
+    <!-- build:strip:end -->
 </head>
 
 <body class="is-loading">
 
+    <!-- build:strip:start -->
     <div id="app-loader" role="status" aria-label="Carregando go2apply">
         <div class="loader__spinner">
             <div class="loader__circle"></div>
@@ -134,6 +140,7 @@
         </div>
         <div class="loader__tag">Iniciando Sistema</div>
     </div>
+    <!-- build:strip:end -->
 
     <div data-component="components/header/header.html"></div>
     <main id="app-root">
@@ -150,6 +157,9 @@
     <div data-component="components/whatsapp-float/whatsapp-float.html"></div>
     <div data-component="components/auth-drawer/auth-drawer.html"></div>
 
+    <!-- build:strip:start -->
+    <!-- Loader em runtime: só o modo dev usa. Em produção o build.js resolve
+         os data-component/data-page e emite dist/components.js. -->
     <script>
 if (window.location.protocol === 'file:') {
   document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#1a1e14;color:#fefcf8;font-family:system-ui,sans-serif;text-align:center;padding:2rem"><div><h1 style="margin:0 0 1rem;font-size:1.5rem">⚠️ Servidor Necessário</h1><p style="margin:0;opacity:0.8;max-width:400px">Este site requer um servidor HTTP local para funcionar corretamente.<br><br>Use: <code style="background:rgba(255,255,255,0.1);padding:0.5rem;border-radius:4px;display:inline-block;margin:1rem 0">python -m http.server 8000</code><br>Depois visite: <a href="http://localhost:8000" style="color:#f28e13;text-decoration:none">http://localhost:8000</a></p></div></div>';
@@ -273,6 +283,7 @@ if (window.location.protocol === 'file:') {
   class ComponentLoader{constructor(){this.loadedStyles=new Set(),this.fetchCache=new Map(),this.totalComponents=0,this.loadedComponents=0}emitProgress(){const t=Math.max(1,this.totalComponents),e=Math.min(100,Math.round(this.loadedComponents/t*100));window.dispatchEvent(new CustomEvent("loader:progress",{detail:{loaded:this.loadedComponents,total:this.totalComponents,percentage:e}}))}fetchComponent(t){if(this.fetchCache.has(t))return this.fetchCache.get(t);const e=this.fetchOnce(t).then((n=>(n||this.fetchCache.delete(t),n)));return this.fetchCache.set(t,e),e}async fetchOnce(t,r=1){try{const e=await fetch(t);if(!e.ok)throw new Error(`Falha ao carregar componente: ${t} (Status ${e.status})`);return await e.text()}catch(e){return r<2?this.fetchOnce(t,r+1):(console.error("Component load error:",t,e),"")}}async mountElement(t){const e=t.getAttribute("data-component")||t.getAttribute("data-page");if(!e)return;const n=await this.fetchComponent(e),o=new DOMParser,i=o.parseFromString(n,"text/html");i.querySelectorAll("style").forEach((t=>{const n=`style-${e.replace(/[^a-zA-Z0-9]/g,"-")}`;if(!this.loadedStyles.has(n)){const o=document.createElement("style");o.id=n,o.textContent=t.textContent,document.head.appendChild(o),this.loadedStyles.add(n)}t.remove()}));const s=[];i.querySelectorAll("script").forEach((t=>{s.push(t.textContent),t.remove()})),t.innerHTML=i.body.innerHTML,t.removeAttribute("data-component"),t.removeAttribute("data-page"),t.classList.add("component-mounted"),s.forEach((t=>{try{(new Function(t))()}catch(e){console.error(`Erro ao executar script do componente (${e}):`,e)}})),this.loadedComponents++,this.emitProgress(),await this.loadAll(t),window.dispatchEvent(new CustomEvent("component:mounted",{detail:{path:e}}))}async loadAll(t=document){const e=Array.from(t.querySelectorAll("[data-component], [data-page]"));if(0===e.length)return;this.totalComponents+=e.length,this.emitProgress(),await Promise.all(e.map((t=>this.mountElement(t))))}async init(){await this.loadAll(document),this.loadedComponents=Math.max(this.loadedComponents,this.totalComponents),this.emitProgress(),window.dispatchEvent(new CustomEvent("components:ready"))}}window.componentLoader=new ComponentLoader,"loading"===document.readyState?document.addEventListener("DOMContentLoaded",(()=>window.componentLoader.init())):window.componentLoader.init();
 }
     </script>
+    <!-- build:strip:end -->
 </body>
 
 </html>
