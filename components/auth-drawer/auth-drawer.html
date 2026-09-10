@@ -547,10 +547,14 @@ class AuthDrawer {
     // Envia o lead pro CRM sem esperar a resposta: o checkout não pode
     // ficar refém da gravação no Firestore — se ela demorar ou falhar, a
     // conversão do pagamento não pode ser perdida por causa disso.
+    // `keepalive: true` é essencial aqui: sem isso, o navegador cancela essa
+    // requisição no meio do caminho assim que a navegação pro checkout
+    // (linha abaixo) começa, e o lead nunca chega no Firestore.
     fetch('/api/create-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
+      keepalive: true
     }).catch((error) => console.error('Falha ao enviar lead ao CRM:', error));
 
     window.location.href = AuthDrawer.CHECKOUT_URL;
