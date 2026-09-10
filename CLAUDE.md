@@ -4,8 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Landing page estática (go2apply / equalizagro). Sem framework de frontend — HTML/CSS/JS
-puro, componentizado por convenção de pastas, não por bundler.
+Landing page estática (go2apply / equalizagro) com uma Vercel Function para conectar o
+formulário de cadastro (auth-drawer) ao CRM (Firebase). Sem framework de frontend —
+HTML/CSS/JS puro, componentizado por convenção de pastas, não por bundler.
 
 ## Commands
 
@@ -23,6 +24,8 @@ node build.js
 
 - `.claude/launch.json` já define o servidor de dev acima na porta 5173 — use isso para preview.
 - Não existe suíte de testes nem linter configurado no repo.
+- A Vercel Function (`api/*.js`) só roda de fato via `vercel dev` ou já publicada na Vercel;
+  servi-la com `python -m http.server` não a executa.
 
 ## Architecture
 
@@ -58,6 +61,20 @@ assumir que um componente novo é de instância única, `grep` por
 
 Ao criar uma nova dobra ou componente, siga o passo a passo em
 [.context/ARCHITECTURE.md](.context/ARCHITECTURE.md) (seção "Como Criar uma Nova Dobra").
+
+### Vercel Function (`api/`)
+
+- `api/_firebase.js` — helper com o prefixo `_` de propósito (mesma convenção que existia
+  para o Pagar.me): a Vercel só expõe como rota pública arquivos sem `_` no início; este é
+  só importado pelo outro. Inicializa o Firebase Admin SDK a partir de
+  `FIREBASE_PROJECT_ID`/`FIREBASE_CLIENT_EMAIL`/`FIREBASE_PRIVATE_KEY` (env vars da Vercel,
+  nunca no código).
+- `api/create-lead.js` — chamado pelo `auth-drawer` (nome, e-mail, WhatsApp) ao clicar em
+  "Continuar para o pagamento". Não existe login em lugar nenhum: só grava o lead na
+  coleção `leads` do Firestore (projeto `crm-equalizagro`, usado como CRM). O redirecionamento
+  para o checkout (sistema externo, `checkout.go2apply.com`) acontece no navegador em
+  paralelo ao envio do lead — a chamada à API é *fire-and-forget*, não bloqueia o clique no
+  botão nem depende da resposta da API.
 
 ## Project-specific rules (already enforced via `.claude/rules/`)
 

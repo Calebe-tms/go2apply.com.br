@@ -5,5 +5,8 @@
   "description": "Landing page do go2apply",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "firebase-admin": "^14.3.0"
   }
 }
