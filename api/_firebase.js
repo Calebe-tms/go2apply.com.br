@@ -2,10 +2,15 @@
 //
 // Mesmo padrão do antigo api/_pagarme.js: prefixo "_" pra não virar rota
 // pública na Vercel, só é importado por outros arquivos de /api.
+//
+// Usa a API modular (firebase-admin/app, firebase-admin/firestore) porque
+// o firebase-admin 14 removeu o objeto namespaced antigo — require
+// ('firebase-admin') não tem mais `.apps`, `.credential` nem `.firestore()`.
 
-const admin = require('firebase-admin');
+const { initializeApp, getApps, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
 
-if (!admin.apps.length) {
+if (!getApps().length) {
     const projectId = process.env.FIREBASE_PROJECT_ID;
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
     // A Vercel guarda a chave privada com "\n" literal (string), precisa
@@ -18,11 +23,11 @@ if (!admin.apps.length) {
         throw new Error('Variáveis de ambiente do Firebase (FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY) não configuradas.');
     }
 
-    admin.initializeApp({
-        credential: admin.credential.cert({ projectId, clientEmail, privateKey })
+    initializeApp({
+        credential: cert({ projectId, clientEmail, privateKey })
     });
 }
 
 module.exports = {
-    firestore: admin.firestore()
+    firestore: getFirestore()
 };
