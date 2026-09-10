@@ -473,7 +473,9 @@ class AuthDrawer {
 
     switch (input.name) {
       case 'fullName':
-        isValid = value.length >= 3;
+        isValid = value.length >= 3 && value.trim().includes(' ');
+        if (!isValid) input.setCustomValidity('Por favor, informe seu nome e sobrenome.');
+        else input.setCustomValidity('');
         break;
       case 'email':
         isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -557,7 +559,21 @@ class AuthDrawer {
       keepalive: true
     }).catch((error) => console.error('Falha ao enviar lead ao CRM:', error));
 
-    window.location.href = AuthDrawer.CHECKOUT_URL;
+    const checkoutUrl = new URL(AuthDrawer.CHECKOUT_URL);
+    if (payload.fullName) checkoutUrl.searchParams.set('name', payload.fullName);
+    if (payload.email) checkoutUrl.searchParams.set('email', payload.email);
+    
+    if (payload.phone) {
+      const phoneDigits = payload.phone.replace(/\D/g, '');
+      if (phoneDigits.length >= 10) {
+        checkoutUrl.searchParams.set('phoneac', phoneDigits.substring(0, 2));
+        checkoutUrl.searchParams.set('phonenumber', phoneDigits.substring(2));
+      } else {
+        checkoutUrl.searchParams.set('phone', phoneDigits);
+      }
+    }
+
+    window.location.href = checkoutUrl.toString();
   }
 
   open() {
