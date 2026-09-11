@@ -1,21 +1,50 @@
 const { initializeApp, getApps, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 
-// Inicializa o Firebase Admin de forma segura (Modular API - compatível com V12+)
-if (!getApps().length) {
+let isInitialized = false;
+let initError = null;
+
+function initFirebase() {
+  if (isInitialized) return;
+  
   try {
-    const serviceAccount = require('./firebase-key.json');
-    initializeApp({
-      credential: cert(serviceAccount)
-    });
+    if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+      throw new Error("A variável FIREBASE_SERVICE_ACCOUNT não foi encontrada.");
+    }
+    
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    
+    if (!getApps().length) {
+      initializeApp({
+        credential: cert(serviceAccount)
+      });
+    }
+    isInitialized = true;
   } catch (error) {
+    initError = error.message;
     console.error('Erro ao inicializar Firebase Admin:', error);
   }
 }
 
-const db = getFirestore();
-
 module.exports = async function handler(req, res) {
+  // Configurações de CORS para aceitar requisições
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  initFirebase();
+
+  if (initError) {
+    return res.status(500).json({ error: 'Erro de configuração no servidor: ' + initError });
+  }
+
+  const db = getFirestore();
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido' });
   }
