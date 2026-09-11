@@ -50,6 +50,81 @@
   display: block;
 }
 
+/* Faixa de login para usuários já cadastrados */
+.auth-drawer-login-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.85rem 2rem;
+  background: rgba(var(--color-white-rgb), 0.025);
+  border-bottom: 1px solid rgba(var(--color-white-rgb), 0.07);
+  flex-shrink: 0;
+}
+
+.auth-drawer-login-strip-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.auth-drawer-login-strip-text {
+  font-size: 0.72rem;
+  color: rgba(var(--color-white-rgb), 0.4);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.auth-drawer-login-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--color-white, #fefcf8);
+  text-decoration: none;
+  background: rgba(242, 142, 19, 0.12);
+  border: 1px solid rgba(242, 142, 19, 0.3);
+  border-radius: var(--radius-btn, 10px);
+  padding: 0.5rem 0.9rem;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.auth-drawer-login-link:hover {
+  background: rgba(242, 142, 19, 0.22);
+  border-color: var(--color-orange, #f28e13);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(242, 142, 19, 0.2);
+}
+
+.auth-drawer-login-link:active {
+  transform: translateY(0);
+}
+
+.auth-drawer-login-link-icon {
+  font-size: 1.35rem;
+  color: var(--color-orange, #f28e13);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.auth-drawer-login-link:hover .auth-drawer-login-link-icon {
+  transform: translateX(2px);
+}
+
+/* Logo inline dentro do botão de login */
+.auth-drawer-login-link-logo {
+  height: 14px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.92;
+  filter: brightness(1.1);
+}
+
 .auth-drawer-close {
   width: 36px;
   height: 36px;
@@ -353,12 +428,22 @@
     <button class="auth-drawer-close" id="authClose"><i class="ph-fill ph-x"></i></button>
   </div>
 
+  <!-- Faixa de login para usuários já cadastrados -->
+  <div class="auth-drawer-login-strip">
+    <div class="auth-drawer-login-strip-copy">
+      <span class="auth-drawer-login-strip-text">Já tem conta?</span>
+    </div>
+    <a href="https://www.equalizagro.com/login" target="_blank" rel="noopener noreferrer" class="auth-drawer-login-link" aria-label="Acessar go2apply">
+      <i class="ph-fill ph-sign-in auth-drawer-login-link-icon" aria-hidden="true"></i>
+      Acessar
+      <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="auth-drawer-login-link-logo" width="1904" height="478">
+    </a>
+  </div>
+
   <div class="auth-drawer-content">
     <div id="authFormContainer">
       <h1 class="auth-drawer-title">Comece agora</h1>
       <p class="auth-drawer-subtitle">Acesso às ferramentas técnicas, da calda à aplicação.</p>
-
-      <div data-component="components/trial-banner/trial-banner.html"></div>
 
       <form class="auth-form-step active" id="leadForm">
         <div class="auth-form-field">
@@ -409,10 +494,12 @@
 
         <div class="auth-form-actions">
           <button type="submit" class="auth-btn auth-btn-primary" id="leadSubmit">
-            Continuar para o pagamento
+            CONTINUAR
             <i class="ph-fill ph-arrow-right"></i>
           </button>
         </div>
+
+        <div data-component="components/trial-banner/trial-banner.html"></div>
 
         <div class="auth-trust-signal">
           <i class="ph-fill ph-shield-check auth-trust-signal-icon"></i>
@@ -562,12 +649,21 @@ class AuthDrawer {
     const checkoutUrl = new URL(AuthDrawer.CHECKOUT_URL);
     if (payload.fullName) checkoutUrl.searchParams.set('name', payload.fullName);
     if (payload.email) checkoutUrl.searchParams.set('email', payload.email);
-    
+
     if (payload.phone) {
       const phoneDigits = payload.phone.replace(/\D/g, '');
+      // Nossa máscara gera sempre (DD) 9XXXX-XXXX ou (DD) XXXX-XXXX.
+      // Os 2 primeiros dígitos são sempre o DDD.
+      // Kiwify aceita os parâmetros phoneddi (código do país), phoneac (DDD)
+      // e phonenumber (número sem DDD).
       if (phoneDigits.length >= 10) {
-        checkoutUrl.searchParams.set('phoneac', phoneDigits.substring(0, 2));
-        checkoutUrl.searchParams.set('phonenumber', phoneDigits.substring(2));
+        const ddd = phoneDigits.substring(0, 2);
+        const number = phoneDigits.substring(2);
+        checkoutUrl.searchParams.set('phoneddi', '55');
+        checkoutUrl.searchParams.set('phoneac', ddd);
+        checkoutUrl.searchParams.set('phonenumber', number);
+        // Também passa o phone completo como fallback para outros checkouts
+        checkoutUrl.searchParams.set('phone', '55' + phoneDigits);
       } else {
         checkoutUrl.searchParams.set('phone', phoneDigits);
       }

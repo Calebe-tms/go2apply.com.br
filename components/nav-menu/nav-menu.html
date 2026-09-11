@@ -23,6 +23,36 @@
         .nav-menu-body {
             display: contents !important;
         }
+
+        /* Na Hero (1ª dobra): ícone recolhido no desktop */
+        .nav-link-icon {
+            width: 0;
+            opacity: 0;
+            margin-right: 0;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: var(--color-orange);
+            flex-shrink: 0;
+            pointer-events: none;
+        }
+
+        .nav-link-icon i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-link-item {
+            gap: 0;
+            /* font-size e padding são animados pelo GSAP (CSS vars com clamp() não animam via transition) */
+            transition: color var(--transition-smooth),
+                        background-color var(--transition-smooth),
+                        border-color var(--transition-smooth);
+        }
     }
 
     .nav-links {
@@ -43,14 +73,12 @@
         letter-spacing: 0.75px;
         text-transform: uppercase;
         white-space: nowrap;
-        transition: var(--transition-smooth);
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
         padding: 0.55rem 1.1rem;
         border-radius: var(--radius-btn, 10px);
         border: 1px solid transparent;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
     }
 
     .nav-link-icon {
@@ -59,23 +87,26 @@
         justify-content: center;
         font-size: 15px;
         color: var(--color-orange);
-        transition: var(--transition-smooth);
     }
 
     /* Faixa entre a gaveta mobile (992px) e o header com folga total (1210px) */
     @media (min-width: 993px) and (max-width: 1210px) {
         .nav-links {
-            gap: 0.3rem;
+            gap: 0.25rem;
         }
 
         .nav-link-item {
-            padding: 0.55rem 0.7rem;
-            font-size: 0.9rem;
-            gap: 0.35rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu.is-visible .nav-link-item {
+            padding: 0.4rem 0.65rem;
+            font-size: 0.82rem;
         }
 
         .nav-link-icon {
-            font-size: 14px;
+            font-size: 13.5px;
         }
     }
 
@@ -85,8 +116,8 @@
         border-color: rgba(var(--color-orange-rgb), 0.4);
     }
 
-    .nav-link-item:hover .nav-link-icon {
-        transform: scale(1.15);
+    .nav-link-item:hover .nav-link-icon i {
+        transform: scale(1.2);
     }
 
     .nav-link-item.nav-link-highlight {
@@ -571,6 +602,77 @@
                     closeNav();
                 }
             });
+
+            // Controla a transição dos ícones e tamanho da fonte na transição da Hero para a 2ª dobra
+            // Nota: CSS vars com clamp() não animam via transition; GSAP interpola valores numéricos reais.
+            const hero = document.getElementById('hero');
+            if (hero && !mobileNav.hasAttribute('data-hero-observed')) {
+                mobileNav.setAttribute('data-hero-observed', 'true');
+                let isInitialized = false;
+
+                // Tamanhos de fonte e padding definidos aqui para interpolação numérica pelo GSAP
+                const FONT_HERO   = '1.1rem';
+                const FONT_SCROLL = '0.88rem';
+                const PAD_HERO    = { paddingTop: '0.55rem', paddingBottom: '0.55rem', paddingLeft: '1.1rem', paddingRight: '1.1rem' };
+                const PAD_SCROLL  = { paddingTop: '0.45rem', paddingBottom: '0.45rem', paddingLeft: '0.85rem', paddingRight: '0.85rem' };
+
+                new IntersectionObserver(([entry]) => {
+                    const isScrolledPastHero = !entry.isIntersecting;
+                    const wasVisible = mobileNav.classList.contains('is-visible');
+                    mobileNav.classList.toggle('is-visible', isScrolledPastHero);
+
+                    if (window.innerWidth > 992 && window.gsap) {
+                        const icons = mobileNav.querySelectorAll('.nav-link-icon');
+                        const items = mobileNav.querySelectorAll('.nav-link-item');
+                        gsap.killTweensOf(icons);
+                        gsap.killTweensOf(items);
+
+                        if (!isInitialized) {
+                            // Estado inicial instantâneo sem animação no primeiro carregamento
+                            isInitialized = true;
+                            if (isScrolledPastHero) {
+                                gsap.set(icons, { width: 18, marginRight: '0.45rem', opacity: 1, scale: 1, rotate: 0 });
+                                gsap.set(items, { fontSize: FONT_SCROLL, ...PAD_SCROLL });
+                            } else {
+                                gsap.set(icons, { width: 0, marginRight: 0, opacity: 0, scale: 0, rotate: -20 });
+                                gsap.set(items, { fontSize: FONT_HERO, ...PAD_HERO });
+                            }
+                            return;
+                        }
+
+                        if (wasVisible !== isScrolledPastHero) {
+                            if (isScrolledPastHero) {
+                                // Surgimento dos ícones + redução da fonte ao entrar na 2ª dobra
+                                gsap.to(items, {
+                                    fontSize: FONT_SCROLL,
+                                    ...PAD_SCROLL,
+                                    duration: 0.7,
+                                    ease: 'power3.out',
+                                    overwrite: 'auto'
+                                });
+                                gsap.fromTo(icons,
+                                    { width: 0, marginRight: 0, opacity: 0, scale: 0, rotate: -25 },
+                                    { width: 18, marginRight: '0.45rem', opacity: 1, scale: 1, rotate: 0,
+                                      duration: 0.75, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' }
+                                );
+                            } else {
+                                // Ocultação dos ícones + expansão da fonte ao retornar à Hero
+                                gsap.to(items, {
+                                    fontSize: FONT_HERO,
+                                    ...PAD_HERO,
+                                    duration: 0.7,
+                                    ease: 'power3.inOut',
+                                    overwrite: 'auto'
+                                });
+                                gsap.to(icons, {
+                                    width: 0, marginRight: 0, opacity: 0, scale: 0, rotate: -20,
+                                    duration: 0.7, stagger: 0.04, ease: 'power3.inOut', overwrite: 'auto'
+                                });
+                            }
+                        }
+                    }
+                }, { threshold: 0 }).observe(hero);
+            }
         }
 
         // Executa imediatamente ao carregar o componente

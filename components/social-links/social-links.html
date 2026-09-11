@@ -27,7 +27,7 @@
 
     .social-link {
         --icon-badge-size: 38px;
-        color: var(--color-white);
+        color: var(--color-orange);
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid var(--color-border-subtle);
         transition: var(--transition-smooth);
@@ -38,6 +38,7 @@
 
     .social-link i {
         font-size: 20px;
+        color: var(--color-orange);
         transition: var(--transition-smooth);
     }
 
@@ -46,7 +47,11 @@
         background: var(--color-orange);
         border-color: var(--color-orange);
         transform: translateY(-2px) scale(1.08);
-        box-shadow: var(--shadow-glow);
+        box-shadow: 0 4px 16px var(--color-orange-glow);
+    }
+
+    .social-link:hover i {
+        color: var(--color-white);
     }
 
     @media (max-width: 992px) {
@@ -70,11 +75,11 @@
 <div class="social-links">
     <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link icon-badge"
         aria-label="Instagram">
-        <i class="ph-fill ph-instagram-logo" aria-hidden="true"></i>
+        <i class="ph ph-instagram-logo" aria-hidden="true"></i>
     </a>
     <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
         target="_blank" rel="noopener noreferrer" class="social-link icon-badge" aria-label="WhatsApp">
-        <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
+        <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
     </a>
 </div>
 

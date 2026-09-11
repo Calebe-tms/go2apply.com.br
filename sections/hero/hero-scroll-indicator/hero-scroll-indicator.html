@@ -2,109 +2,73 @@
     .hero-scroll-indicator {
         position: absolute;
         left: 50%;
-        bottom: calc(44px + clamp(1.25rem, 2.5vh, 2.25rem));
+        bottom: calc(36px + clamp(1.25rem, 2.5vh, 2.25rem));
         z-index: 20;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 1.85rem;
-        height: 3.1rem;
-        border-radius: var(--radius-full, 9999px);
-        border: 1.5px solid var(--color-green, #5b8c45);
-        background-color: rgba(var(--color-dark-surface-rgb, 18, 24, 16), 0.45);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        color: var(--color-green, #5b8c45);
+        color: var(--color-white, #fefcf8);
         text-decoration: none;
         cursor: pointer;
         pointer-events: auto;
-        overflow: hidden;
         opacity: 0;
         transform: translateX(-50%);
-        transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
+        transition: var(--transition-smooth, all 0.35s cubic-bezier(0.16, 1, 0.3, 1));
         animation: heroScrollFadeIn 1.2s ease 1s forwards;
     }
 
-    .hero-scroll-indicator:hover {
-        color: var(--color-orange, #f28e13);
-        border-color: var(--color-orange, #f28e13);
-        background-color: var(--color-orange-subtle, rgba(242, 142, 19, 0.12));
-        box-shadow: 0 0 18px var(--color-orange-glow, rgba(242, 142, 19, 0.4));
-        transform: translateX(-50%) translateY(-3px);
-    }
-
     .hero-scroll-icon {
-        display: block;
-        width: 18px;
-        height: 18px;
-        background-color: currentColor;
-        -webkit-mask-image: url('assets/icos/ico-scroll-chevron.svg');
-        mask-image: url('assets/icos/ico-scroll-chevron.svg');
-        -webkit-mask-size: contain;
-        mask-size: contain;
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        mask-position: center;
-        animation: heroScrollIconSlide 1.8s ease-in-out 2.2s infinite;
+        font-size: 2.2rem;
+        color: var(--color-white, #fefcf8);
+        opacity: 0.85;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+        animation: heroArrowBounce 2s ease-in-out infinite;
+        transition: var(--transition-smooth, all 0.3s ease);
     }
 
     .hero-scroll-indicator:hover .hero-scroll-icon {
-        animation-play-state: paused;
+        color: var(--color-orange, #f28e13);
         opacity: 1;
-        transform: translateY(0);
+        filter: drop-shadow(0 4px 14px var(--color-orange-glow, rgba(242, 142, 19, 0.6)));
+        transform: translateY(4px) scale(1.15);
+        animation-play-state: paused;
     }
 
     @keyframes heroScrollFadeIn {
         from {
             opacity: 0;
+            transform: translateX(-50%) translateY(-10px);
         }
 
         to {
             opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
     }
 
-    @keyframes heroScrollIconSlide {
-        0% {
-            transform: translateY(-10px);
-            opacity: 0;
+    @keyframes heroArrowBounce {
+        0%, 100% {
+            transform: translateY(0);
+            opacity: 0.6;
         }
 
-        20% {
-            opacity: 1;
-        }
-
-        80% {
-            opacity: 1;
-        }
-
-        100% {
+        50% {
             transform: translateY(10px);
-            opacity: 0;
+            opacity: 1;
         }
     }
 
     @media (max-width: 600px) {
         .hero-scroll-indicator {
-            left: 50%;
-            bottom: calc(38px + 1rem);
-            width: 1.55rem;
-            height: 2.65rem;
-            transform: translateX(-50%);
-        }
-
-        .hero-scroll-indicator:hover {
-            transform: translateX(-50%) translateY(-3px);
+            bottom: calc(30px + 1rem);
         }
 
         .hero-scroll-icon {
-            width: 14px;
-            height: 14px;
+            font-size: 1.75rem;
         }
     }
 </style>
 
 <a href="#objection-breaker" class="hero-scroll-indicator" id="hero-scroll-indicator" aria-label="Rolar para a próxima seção">
-    <span class="hero-scroll-icon" aria-hidden="true"></span>
+    <i class="ph ph-caret-down hero-scroll-icon" aria-hidden="true"></i>
 </a>
