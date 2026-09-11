@@ -10,7 +10,11 @@ function onComponentsReady(fn) {
     if (window.componentLoader) {
         window.addEventListener('components:ready', fn, { once: true });
     } else {
-        window.addEventListener('load', fn);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fn);
+        } else {
+            fn();
+        }
     }
 }
 
