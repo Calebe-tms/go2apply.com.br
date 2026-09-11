@@ -1,0 +1,24 @@
+{
+  "name": "go2apply.com.br",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Calebe-tms/go2apply.com.br.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Calebe-tms/go2apply.com.br/issues"
+  },
+  "homepage": "https://github.com/Calebe-tms/go2apply.com.br#readme",
+  "dependencies": {
+    "firebase-admin": "^14.4.0"
+  }
+}

@@ -657,17 +657,34 @@ class AuthDrawer {
     payload.terms = termsCheckbox.checked;
 
     const submitBtn = this.leadForm.querySelector('#leadSubmit');
-    if (submitBtn) submitBtn.disabled = true;
+    const originalText = submitBtn ? submitBtn.innerHTML : '';
+    
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'AGUARDE... <i class="ph ph-spinner-gap" style="animation: loader-spin 1s linear infinite;"></i>';
+    }
 
-    // O envio para a API foi removido porque o site é 100% estático agora
-    /*
-    fetch('/api/create-lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      keepalive: true
-    }).catch((error) => console.error('Falha ao enviar lead ao CRM:', error));
-    */
+    try {
+      const response = await fetch('/api/create-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro desconhecido ao salvar no CRM');
+      }
+    } catch (err) {
+      console.error("Falha ao salvar no CRM via API:", err);
+      alert("Falha ao enviar dados: " + err.message);
+      if (submitBtn) {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+      return; // Bloqueia o redirecionamento
+    }
 
     const checkoutUrl = new URL(AuthDrawer.CHECKOUT_URL);
     if (payload.fullName) checkoutUrl.searchParams.set('name', payload.fullName);
