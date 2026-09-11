@@ -155,7 +155,9 @@
 
     <!-- Adianta a conexão com os domínios externos usados pelos vídeos e pelo GSAP -->
     <link rel="preconnect" href="https://res.cloudinary.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <!-- Sem `crossorigin`: sobrou só o GSAP nesse domínio, e script comum não
+         usa CORS — com o atributo a conexão aberta não seria reaproveitada -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
 
     <!-- GSAP: usado só pelas dobras app-journey/contact (abaixo da dobra), então
@@ -163,15 +165,9 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 
-    <!-- Phosphor Icons: carregando estilos (regular, light, bold, fill) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
-        media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/light/style.css"
-        media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css"
-        media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"
-        media="print" onload="this.media='all'">
+    <!-- Os ícones Phosphor são self-hosted: css/icons.css (gerado por
+         scripts/build-icons.mjs) entra junto do main.css como máscaras SVG,
+         então não há stylesheet nem .woff2 vindo de CDN -->
 
     <!-- Motor compartilhado do carrossel de vídeo (Hero e Contact) -->
 
@@ -179,11 +175,14 @@
 
     <!-- Preload font para melhor performance -->
     <link rel="preload" href="/assets/HostGrotesk-VariableFont_wght-CsbYjKOL.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preconnect para recursos externos críticos (Vídeos do Hero) -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 
 
 
-  <script type="module" crossorigin src="/assets/index-BxZil_VE.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BPK8j2Fl.css">
+  <script type="module" crossorigin src="/assets/index-B2MKqgcD.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DszEGlWy.css">
 </head>
 
 <body>
@@ -435,7 +434,7 @@
 
 <div class="hero-cta" id="hero-cta">
     <div class="logo-container">
-        <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply logo" class="main-logo" width="1904" height="478">
+        <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply logo" class="main-logo" width="1904" height="478" fetchpriority="high">
     </div>
 
     <h1 class="hero-title">

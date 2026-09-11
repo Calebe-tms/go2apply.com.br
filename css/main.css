@@ -3,6 +3,11 @@
    Contém Tokens, Reset e Estilos Base consolidados em um único arquivo
    ========================================================================== */
 
+/* Ícones (arquivo gerado — ver scripts/build-icons.mjs). O @import é
+   resolvido em build-time pelo Vite, então em produção continua sendo um
+   único arquivo CSS, sem request em série. */
+@import './icons.css';
+
 :root {
     /* --- Paleta Principal da Marca --- */
     --color-orange: #f28e13;

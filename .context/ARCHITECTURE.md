@@ -83,7 +83,11 @@ go2apply.com.br/
 │   └── FORMULARIO_CADASTRO_UX.md       # Especificações do fluxo de autenticação e Drawer
 │
 ├── css/
-│   └── main.css                        # Tokens + reset + estilos base, consolidados num único arquivo
+│   ├── main.css                        # Tokens + reset + estilos base, consolidados num único arquivo
+│   └── icons.css                       # GERADO por scripts/build-icons.mjs — ícones como máscara SVG (não editar)
+│
+├── scripts/
+│   └── build-icons.mjs                 # Varre o HTML, baixa os SVGs do Phosphor e regenera css/icons.css
 │
 ├── components/                         # 1. COMPONENTES GLOBAIS REUTILIZÁVEIS
 │   ├── auth-drawer/
@@ -148,6 +152,37 @@ go2apply.com.br/
 > memoização por URL, extração de `<style>`/`<script>`, disparo de
 > `component:mounted`/`components:ready`) é a mesma descrita aqui, só
 > mudou de arquivo.
+
+---
+
+## 🔣 Sistema de Ícones (self-hosted, sem fonte)
+
+O markup é o mesmo do Phosphor (`<i class="ph-fill ph-drop" aria-hidden="true"></i>`),
+mas **não existe fonte de ícone nem stylesheet de CDN**. Cada ícone é uma
+`mask-image` em data URI dentro de `css/icons.css`, e a caixa tem `1em`
+com `background-color: currentColor` — ou seja, o ícone continua sendo
+dimensionado por `font-size` e colorido por `color`, exatamente como era
+com a fonte. `transform`, `transition` e `filter: drop-shadow` seguem
+funcionando; o que não funciona é `text-shadow` (não há mais glifo).
+
+Por que mudou: eram 4 stylesheets (47 KiB, 46,7 KiB sem uso) + 2 `.woff2`
+(275 KiB) para desenhar 34 ícones — e a troca da fonte no meio do
+carregamento era a causa de **100% do CLS** medido (o `.showcase-track`
+reflowava quando a fonte chegava). Hoje o custo total é ~15 KiB de CSS,
+já embutido no bundle do `main.css`.
+
+**Ao adicionar ou remover um ícone no HTML, regenere o CSS:**
+
+```bash
+node scripts/build-icons.mjs
+```
+
+O script varre `index.html`, `components/` e `sections/`, deduz o peso pela
+classe base (`ph` = regular, `ph-fill` = preenchido), baixa só os ícones em
+uso de `@phosphor-icons/core` e reescreve `css/icons.css`. Se um nome não
+existir no catálogo, ele falha com o nome do ícone — não gera CSS quebrado.
+Nomes de ícone só podem ser usados literalmente no markup: classe montada
+por concatenação em JS não é vista pelo scanner.
 
 ---
 
