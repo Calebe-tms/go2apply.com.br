@@ -1,0 +1,8 @@
+{
+  "// Security.txt": "Informações de contato de segurança",
+  "// Padrão RFC 9116 — ajuda pesquisadores de segurança": "a reportar vulnerabilidades",
+
+  "Contact": "https://wa.me/555533432606",
+  "Preferred-Languages": "pt-BR, en",
+  "Canonical": "https://go2apply.com.br/.well-known/security.txt"
+}

@@ -1,0 +1,113 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "go2apply",
+      "url": "https://go2apply.com.br",
+      "description": "Plataforma de informações técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.",
+      "inLanguage": "pt-BR",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://go2apply.com.br/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "go2apply",
+      "url": "https://go2apply.com.br",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Plataforma web com calculadoras e ferramentas técnicas para apoiar decisões na pulverização agrícola — da formação da calda à aplicação.",
+      "screenshot": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL",
+        "description": "Teste grátis por 7 dias, sem cartão de crédito.",
+        "url": "https://go2apply.com.br"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "1",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    {
+      "@type": "Organization",
+      "name": "go2apply",
+      "url": "https://go2apply.com.br",
+      "logo": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+55-55-3343-2606",
+        "contactType": "customer service",
+        "areaServed": "BR",
+        "availableLanguage": "Portuguese"
+      },
+      "sameAs": [
+        "https://instagram.com/go2apply",
+        "https://wa.me/555533432606"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Preciso instalar algum programa para usar o go2apply?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. O go2apply funciona direto no navegador, do computador ou do celular, sem precisar baixar nem instalar nada."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "As calculadoras funcionam para qualquer cultura?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das operações agrícolas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Preciso ser especialista para usar as ferramentas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. As ferramentas guiam você passo a passo em cada cálculo, então dá para usar mesmo sem um conhecimento técnico aprofundado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso usar o go2apply em mais de uma fazenda ou talhão?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. Não há limite de fazendas ou talhões: você organiza suas operações e acompanha cada uma separadamente dentro da plataforma."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como funciona o suporte técnico?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Através do nosso WhatsApp, e da nossa comunidade no Telegram, com uma equipe técnica disponível para tirar dúvidas e orientar sobre a melhor forma de extrair ao máximo tudo que cada ferramenta pode entregar."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://go2apply.com.br"
+        }
+      ]
+    }
+  ]
+}

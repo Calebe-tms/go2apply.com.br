@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sitemap XML — go2apply.com.br
+     Arquivo que lista todas as URLs do site para os mecanismos de busca.
+     Facilita a descoberta e indexação de todas as páginas.
+     Referenciado no robots.txt via diretiva Sitemap. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- Página principal (landing page / home) -->
+    <url>
+        <loc>https://go2apply.com.br/</loc>
+        <!-- Última modificação da página — atualizar sempre que fizer deploy -->
+        <lastmod>2026-09-10</lastmod>
+        <!-- Frequência de atualização esperada -->
+        <changefreq>weekly</changefreq>
+        <!-- Prioridade relativa dentro do site (1.0 = máxima) -->
+        <priority>1.0</priority>
+    </url>
+
+</urlset>

@@ -4,20 +4,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>go2apply - Informações Técnicas da Calda à Aplicação</title>
+    <title>go2apply — Informações Técnicas da Calda à Aplicação</title>
     <meta name="description"
-        content="Da formação da calda à aplicação, decisões com base técnica.">
+        content="Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica. Calculadoras, condições climáticas, bicos e regulagem.">
+
+    <!-- URL canônica — evita conteúdo duplicado (www vs sem www, com/sem barra) -->
+    <link rel="canonical" href="https://go2apply.com.br/">
 
     <!-- Ícone do site (aba do navegador, favoritos, resultados de busca) -->
     <link rel="icon" type="image/svg+xml" href="assets/icos/ico-logo-go2apply.svg">
     <link rel="alternate icon" href="assets/icos/ico-logo-go2apply.png">
     <link rel="apple-touch-icon" href="assets/icos/ico-logo-go2apply.png">
 
-    <!-- Open Graph / Redes Sociais -->
+    <!-- Web App Manifest — habilita PWA e ajuda o SEO com dados do app -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#5b8c45">
+
+    <!-- Open Graph / Redes Sociais (Facebook, LinkedIn, WhatsApp) -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="go2apply - Informações Técnicas">
-    <meta property="og:description" content="Ferramentas e informações técnicas para apoiar suas decisões no campo.">
-    <meta property="og:image" content="assets/imagens/go2apply-logo-colorido.png">
+    <meta property="og:url" content="https://go2apply.com.br/">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="go2apply">
+    <meta property="og:title" content="go2apply — Informações Técnicas da Calda à Aplicação">
+    <meta property="og:description" content="Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.">
+    <meta property="og:image" content="https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png">
+    <meta property="og:image:width" content="1904">
+    <meta property="og:image:height" content="478">
+    <meta property="og:image:alt" content="Logo go2apply — informações técnicas para pulverização agrícola">
+
+    <!-- Twitter / X Cards — exibe preview rico ao compartilhar no X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="go2apply — Informações Técnicas da Calda à Aplicação">
+    <meta name="twitter:description" content="Plataforma de ferramentas técnicas para pulverização agrícola. Calculadoras, condições climáticas, bicos e regulagem.">
+    <meta name="twitter:image" content="https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png">
+    <meta name="twitter:image:alt" content="Logo go2apply">
+
+    <!-- SEO complementar — palavras-chave, autor, robôs -->
+    <meta name="keywords" content="pulverização agrícola, calda de pulverização, bico de pulverização, calculadora agrícola, regulagem de pulverizador, tecnologia de aplicação, defensivos agrícolas, go2apply">
+    <meta name="author" content="go2apply">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    <!-- Dados estruturados JSON-LD — rich results no Google, Bing e IAs -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "description": "Plataforma de informações técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.",
+          "inLanguage": "pt-BR",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://go2apply.com.br/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "description": "Plataforma web com calculadoras e ferramentas técnicas para apoiar decisões na pulverização agrícola — da formação da calda à aplicação.",
+          "screenshot": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "BRL",
+            "description": "Teste grátis por 7 dias, sem cartão de crédito.",
+            "url": "https://go2apply.com.br"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "logo": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+55-55-3343-2606",
+            "contactType": "customer service",
+            "areaServed": "BR",
+            "availableLanguage": "Portuguese"
+          },
+          "sameAs": [
+            "https://instagram.com/go2apply",
+            "https://wa.me/555533432606"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Preciso instalar algum programa para usar o go2apply?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Não. O go2apply funciona direto no navegador, do computador ou do celular, sem precisar baixar nem instalar nada."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "As calculadoras funcionam para qualquer cultura?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das operações agrícolas."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Preciso ser especialista para usar as ferramentas?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Não. As ferramentas guiam você passo a passo em cada cálculo, então dá para usar mesmo sem um conhecimento técnico aprofundado."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Posso usar o go2apply em mais de uma fazenda ou talhão?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sim. Não há limite de fazendas ou talhões: você organiza suas operações e acompanha cada uma separadamente dentro da plataforma."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Como funciona o suporte técnico?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Através do nosso WhatsApp, e da nossa comunidade no Telegram, com uma equipe técnica disponível para tirar dúvidas e orientar sobre a melhor forma de extrair ao máximo tudo que cada ferramenta pode entregar."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Início",
+              "item": "https://go2apply.com.br"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
 
     <!-- Adianta a conexão com os domínios externos usados pelos vídeos e pelo GSAP -->
     <link rel="preconnect" href="https://res.cloudinary.com">
@@ -51,10 +187,7 @@
     <!-- Preload font para melhor performance -->
     <link rel="preload" href="assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- build:strip:start -->
-    <!-- Loader: existe só no modo dev (sem build), onde os componentes ainda
-         são buscados por fetch e o HTML inicial chega vazio. O build embute o
-         conteúdo, então nada disso vai para produção. -->
+    <!-- Loader: overlay de carregamento exibido enquanto os componentes são montados -->
     <style>
     body.is-loading {
         overflow: hidden !important;
@@ -132,12 +265,12 @@
         #app-loader { transition: opacity 300ms ease; }
     }
     </style>
-    <!-- build:strip:end -->
+
 </head>
 
 <body class="is-loading">
 
-    <!-- build:strip:start -->
+
     <div id="app-loader" role="status" aria-label="Carregando go2apply">
         <div class="loader__spinner">
             <div class="loader__circle"></div>
@@ -145,7 +278,7 @@
         </div>
         <div class="loader__tag">Iniciando Sistema</div>
     </div>
-    <!-- build:strip:end -->
+
 
     <div data-component="components/header/header.html"></div>
     <main id="app-root">
