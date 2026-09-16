@@ -56,23 +56,16 @@ function extractIcons(html, found) {
     }
 }
 
-/** SVG cru -> data URI enxuto: só o que o `mask-image` precisa ler */
+/** SVG cru -> data URI base64 enxuto: 100% compatível com todos navegadores */
 function toDataUri(svg) {
     const minified = svg
         .replace(/<\?xml[\s\S]*?\?>/g, '')
         .replace(/<!--[\s\S]*?-->/g, '')
         .replace(/\s+fill="[^"]*"/g, '') // a cor vem do currentColor do CSS
         .replace(/\s*\n\s*/g, '')
-        .replace(/"/g, "'")
         .trim();
 
-    const encoded = minified
-        .replace(/%/g, '%25')
-        .replace(/#/g, '%23')
-        .replace(/</g, '%3C')
-        .replace(/>/g, '%3E');
-
-    return `data:image/svg+xml,${encoded}`;
+    return `data:image/svg+xml;base64,${Buffer.from(minified).toString('base64')}`;
 }
 
 async function main() {
