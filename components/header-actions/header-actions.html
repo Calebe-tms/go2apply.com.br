@@ -200,6 +200,17 @@
     // Só aparece depois que a Hero (1ª dobra) sai de tela, ou seja, quando o
     // usuário chega na 2ª dobra
     if (headerCta) {
+        headerCta.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof window.openAuthDrawerAndCloseNav === 'function') {
+                window.openAuthDrawerAndCloseNav();
+            } else if (window.openAuthDrawer) {
+                window.openAuthDrawer();
+            } else if (window.authDrawer) {
+                window.authDrawer.open();
+            }
+        });
+
         function observeHeroVisibility() {
             const hero = document.getElementById('hero');
             if (!hero) return;
