@@ -697,6 +697,14 @@ class AuthDrawer {
       return; // Bloqueia o redirecionamento
     }
 
+    // Direcionamento para WhatsApp com as informações de cadastro/login do usuário:
+    const whatsappNumber = '555533432606';
+    const msg = `Olá! Realizei o cadastro no go2apply:\n• Nome: ${payload.fullName || ''}\n• E-mail: ${payload.email || ''}\n• Telefone: ${payload.phone || ''}\n\nGostaria de liberar meu acesso à plataforma.`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+    window.location.href = whatsappUrl;
+
+    /*
+    // Redirecionamento original para o checkout do Guru/Kiwify (comentado temporariamente):
     const checkoutUrl = new URL(AuthDrawer.CHECKOUT_URL);
     if (payload.fullName) checkoutUrl.searchParams.set('name', payload.fullName);
     if (payload.email) checkoutUrl.searchParams.set('email', payload.email);
@@ -721,6 +729,7 @@ class AuthDrawer {
     }
 
     window.location.href = checkoutUrl.toString();
+    */
   }
 
   open() {
