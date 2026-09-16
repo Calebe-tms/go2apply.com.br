@@ -1,8 +1,6 @@
 .agents/
 .claude/
 node_modules/
-.env
-.env.*
-!.env.example
+.context/
+.vscode/
 .vercel
-.env*
