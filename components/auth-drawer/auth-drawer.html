@@ -675,27 +675,14 @@ class AuthDrawer {
       submitBtn.innerHTML = 'AGUARDE... <i class="ph ph-spinner-gap" style="animation: loader-spin 1s linear infinite;"></i>';
     }
 
-    try {
-      const response = await fetch('/api/create-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Erro desconhecido ao salvar no CRM');
-      }
-    } catch (err) {
-      console.error("Falha ao salvar no CRM via API:", err);
-      alert("Falha ao enviar dados: " + err.message);
-      if (submitBtn) {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }
-      return; // Bloqueia o redirecionamento
-    }
+    // Dispara a criação do lead no CRM em background, sem travar a tela
+    // O keepalive garante que a requisição termine mesmo após o redirecionamento
+    fetch('/api/create-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(err => console.error("Falha silenciosa ao salvar lead no CRM:", err));
 
     // Direcionamento para WhatsApp com as informações de cadastro/login do usuário:
     const whatsappNumber = '555533432606';
