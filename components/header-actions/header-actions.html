@@ -54,7 +54,7 @@
 
     .header-btn-cta:hover .header-btn-icon {
         transform: scale(1.15) translateX(1px);
-        color: #ffffff;
+        color: var(--color-orange, #f28e13);
     }
 
     .header-btn-cta:active {
@@ -63,26 +63,14 @@
     }
 
     .header-btn-icon {
-        font-size: 1.25rem;
+        font-size: 1.35rem;
         color: var(--color-orange, #f28e13);
         transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
         flex-shrink: 0;
     }
 
-    .btn-label {
-        color: var(--color-white, #fefcf8);
-        transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-    }
-
-    .header-btn-cta:hover .btn-label {
-        color: #ffffff;
-    }
-
     .header-btn-logo {
-        height: 15px;
+        height: 20px;
         width: auto;
         display: inline-block;
         vertical-align: middle;
@@ -145,11 +133,11 @@
         }
 
         .header-btn-icon {
-            font-size: 1rem;
+            font-size: 1.15rem;
         }
 
         .header-btn-logo {
-            height: 12px;
+            height: 16px;
         }
 
         .nav-toggle {
@@ -165,11 +153,8 @@
 
 <div class="header-actions" id="header-actions">
     <button type="button" class="header-btn-cta cta-btn-base" id="header-btn-cta" aria-label="Acessar o go2apply">
-        <i class="ph-fill ph-sign-in header-btn-icon" aria-hidden="true"></i>
-        <span class="btn-label">
-            Acessar o
-            <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="header-btn-logo" width="1904" height="478">
-        </span>
+        <i class="ph-fill ph-user-circle header-btn-icon" aria-hidden="true"></i>
+        <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="header-btn-logo" width="1904" height="478">
     </button>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" aria-expanded="false">
