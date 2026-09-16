@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go2apply — Informações Técnicas da Calda à Aplicação</title>
+    <meta name="description"
+        content="Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica. Calculadoras, condições climáticas, bicos e regulagem.">
+
+    <!-- URL canônica — evita conteúdo duplicado (www vs sem www, com/sem barra) -->
+    <!-- <link rel="canonical" href="https://go2apply.com.br/"> -->
+
+    <!-- Ícone do site (aba do navegador, favoritos, resultados de busca) -->
+    <link rel="icon" type="image/svg+xml" href="/assets/ico-logo-go2apply-BDmkYVSk.svg">
+    <link rel="alternate icon" href="/assets/ico-logo-go2apply-ttXdNs51.png">
+    <link rel="apple-touch-icon" href="/assets/ico-logo-go2apply-ttXdNs51.png">
+
+    <!-- Web App Manifest — habilita PWA e ajuda o SEO com dados do app -->
+    <link rel="manifest" href="/assets/manifest-CKoZaRgh.json">
+    <meta name="theme-color" content="#5b8c45">
+
+    <!-- Open Graph / Redes Sociais (Facebook, LinkedIn, WhatsApp, Discord) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://go2apply.com.br/">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="go2apply">
+    <meta property="og:title" content="go2apply — Informações Técnicas da Calda à Aplicação">
+    <meta property="og:description" content="Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.">
+    <meta property="og:image" content="https://go2apply.com.br/assets/icos/ico-logo-go2apply.png">
+    <meta property="og:image:alt" content="Logo go2apply">
+
+    <!-- Twitter / X Cards — exibe miniatura compacta ao compartilhar -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="go2apply — Informações Técnicas da Calda à Aplicação">
+    <meta name="twitter:description" content="Plataforma de ferramentas técnicas para pulverização agrícola. Calculadoras, condições climáticas, bicos e regulagem.">
+    <meta name="twitter:image" content="https://go2apply.com.br/assets/icos/ico-logo-go2apply.png">
+    <meta name="twitter:image:alt" content="Logo go2apply">
+
+    <!-- SEO complementar — palavras-chave, autor, robôs -->
+    <meta name="keywords" content="pulverização agrícola, calda de pulverização, bico de pulverização, calculadora agrícola, regulagem de pulverizador, tecnologia de aplicação, defensivos agrícolas, go2apply">
+    <meta name="author" content="go2apply">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    <!-- Dados estruturados JSON-LD — rich results no Google, Bing e IAs -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "description": "Plataforma de informações técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.",
+          "inLanguage": "pt-BR",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://go2apply.com.br/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "description": "Plataforma web com calculadoras e ferramentas técnicas para apoiar decisões na pulverização agrícola — da formação da calda à aplicação.",
+          "screenshot": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "BRL",
+            "description": "Teste grátis por 7 dias, sem cartão de crédito.",
+            "url": "https://go2apply.com.br"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "logo": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+55-55-3343-2606",
+            "contactType": "customer service",
+            "areaServed": "BR",
+            "availableLanguage": "Portuguese"
+          },
+          "sameAs": [
+            "https://instagram.com/go2apply",
+            "https://wa.me/555533432606"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Preciso instalar algum programa para usar o go2apply?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Não. O go2apply funciona direto no navegador, do computador ou do celular, sem precisar baixar nem instalar nada."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "As calculadoras funcionam para qualquer cultura?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das operações agrícolas."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Preciso ser especialista para usar as ferramentas?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Não. As ferramentas guiam você passo a passo em cada cálculo, então dá para usar mesmo sem um conhecimento técnico aprofundado."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Posso usar o go2apply em mais de uma fazenda ou talhão?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sim. Não há limite de fazendas ou talhões: você organiza suas operações e acompanha cada uma separadamente dentro da plataforma."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Como funciona o suporte técnico?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Através do nosso WhatsApp, e da nossa comunidade no Telegram, com uma equipe técnica disponível para tirar dúvidas e orientar sobre a melhor forma de extrair ao máximo tudo que cada ferramenta pode entregar."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Início",
+              "item": "https://go2apply.com.br"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+
+    <!-- Adianta a conexão com os domínios externos usados pelos vídeos e pelo GSAP -->
+    <link rel="preconnect" href="https://res.cloudinary.com">
+    <!-- Sem `crossorigin`: sobrou só o GSAP nesse domínio, e script comum não
+         usa CORS — com o atributo a conexão aberta não seria reaproveitada -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+    <!-- GSAP: usado só pelas dobras app-journey/contact (abaixo da dobra), então
+         não precisa bloquear o parsing do HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+    <!-- Os ícones Phosphor são self-hosted: css/icons.css (gerado por
+         scripts/build-icons.mjs) entra junto do main.css como máscaras SVG,
+         então não há stylesheet nem .woff2 vindo de CDN -->
+
+    <!-- Motor compartilhado do carrossel de vídeo (Hero e Contact) -->
+
+    <!-- Helper compartilhado: aguarda os componentes montarem -->
+
+    <!-- Preload font para melhor performance -->
+    <link rel="preload" href="/assets/HostGrotesk-VariableFont_wght-CsbYjKOL.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preconnect para recursos externos críticos (Vídeos do Hero) -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+
+
+
+  <script type="module" crossorigin src="/assets/index-B2MKqgcD.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DszEGlWy.css">
+</head>
+
+<body>
+
+
+
+
+
+    <!-- INJECTED: components/header/header.html -->
+<div class="component-mounted" data-original-path="components/header/header.html">
+<style>.header{z-index:1000;border-bottom:1px solid #0000;width:100%;padding:1.75rem 3.5rem;transition:padding .4s cubic-bezier(.16,1,.3,1),background-color .4s,-webkit-backdrop-filter .4s,backdrop-filter .4s,box-shadow .4s,border-color .4s;position:fixed;top:0;left:0}.header:before{content:"";z-index:-1;background:linear-gradient(to bottom, rgba(var(--color-dark-rgb), .65) 0%, rgba(var(--color-dark-rgb), 0) 100%);opacity:1;pointer-events:none;transition:opacity .4s;position:absolute;inset:0}.header.scrolled{background-color:var(--color-dark-glass);-webkit-backdrop-filter:var(--blur-glass);backdrop-filter:var(--blur-glass);border-bottom:1px solid var(--color-border);box-shadow:var(--shadow-lg);padding:.85rem 3.5rem}.header.scrolled:before{opacity:0}.nav-container{grid-template-columns:1fr auto 1fr;align-items:center;width:100%;max-width:1600px;margin:0 auto;display:grid}@media (width<=1200px){.header{padding:1.25rem 2rem}.header.scrolled{padding:.75rem 2rem}}@media (width<=992px){.header{padding:1.1rem 1.5rem}.header.scrolled{padding:.75rem 1.5rem}.nav-container{justify-content:flex-end;align-items:center;display:flex}}@media (width<=600px){.header{padding:.75rem 1rem}.header.scrolled{padding:.6rem 1rem}}</style>
+
+<header class="header" id="header">
+    <div class="nav-container">
+        <!-- INJECTED: components/social-links/social-links.html -->
+<div class="component-mounted" data-original-path="components/social-links/social-links.html">
+<!-- ==========================================================================
+   Component: Social Links (Header)
+   Ícones vetoriais de redes sociais sincronizados com a rolagem do header
+   ========================================================================== -->
+<style>.social-links{align-items:center;gap:var(--space-sm);display:flex}#header .social-links{opacity:0;pointer-events:none;justify-self:start;transition:opacity .35s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1);transform:translateY(-8px)scale(.95)}#header .social-links.is-visible{opacity:1;pointer-events:auto;transform:translateY(0)scale(1)}.social-link{--icon-badge-size:38px;color:var(--color-orange);border:1px solid var(--color-border-subtle);transition:var(--transition-smooth);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:#ffffff14;text-decoration:none}.social-link i{color:var(--color-orange);transition:var(--transition-smooth);font-size:20px}.social-link:hover{color:var(--color-white);background:var(--color-orange);border-color:var(--color-orange);box-shadow:0 4px 16px var(--color-orange-glow);transform:translateY(-2px)scale(1.08)}.social-link:hover i{color:var(--color-white)}@media (width<=992px){#header .social-links{display:none}}@media (width<=600px){.social-link{--icon-badge-size:32px}.social-link i{font-size:16px}}</style>
+
+<div class="social-links">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link icon-badge"
+        aria-label="Instagram">
+        <i class="ph ph-instagram-logo" aria-hidden="true"></i>
+    </a>
+    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
+        target="_blank" rel="noopener noreferrer" class="social-link icon-badge" aria-label="WhatsApp">
+        <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+<!-- END INJECTED: components/social-links/social-links.html -->
+        <!-- INJECTED: components/nav-menu/nav-menu.html -->
+<div class="component-mounted" data-original-path="components/nav-menu/nav-menu.html">
+<!-- ==========================================================================
+   Component: Nav Menu (Header)
+   Links centrais de navegação e gaveta lateral (Side Drawer) mobile com logo,
+   ícones, redes sociais e animações GSAP
+   ========================================================================== -->
+<style>.nav-menu{justify-self:center}@media (width>=993px){.nav-menu-backdrop,.nav-menu-header,.nav-menu-body .trial-banner,.nav-menu-body [data-component*=trial-banner],.nav-menu-divider,.nav-menu-footer,.nav-link-arrow{display:none!important}.nav-menu-body{display:contents!important}.nav-link-icon{opacity:0;width:0;color:var(--color-orange);pointer-events:none;flex-shrink:0;justify-content:center;align-items:center;margin-right:0;font-size:15px;display:inline-flex;overflow:hidden}.nav-link-icon i{justify-content:center;align-items:center;transition:transform .3s cubic-bezier(.16,1,.3,1);display:inline-flex}.nav-link-item{transition:color var(--transition-smooth), background-color var(--transition-smooth), border-color var(--transition-smooth);gap:0}}.nav-links{align-items:center;gap:clamp(.25rem,1vw,.75rem);margin:0;padding:0;list-style:none;display:flex}.nav-link-item{color:var(--color-white);font-size:var(--font-size-md);letter-spacing:.75px;text-transform:uppercase;white-space:nowrap;text-shadow:0 2px 6px #00000080;border-radius:var(--radius-btn,10px);border:1px solid #0000;align-items:center;padding:.55rem 1.1rem;font-weight:600;text-decoration:none;display:inline-flex;position:relative}.nav-link-icon{color:var(--color-orange);justify-content:center;align-items:center;font-size:15px;display:inline-flex}@media (width>=993px) and (width<=1210px){.nav-links{gap:.25rem}.nav-link-item{padding:.5rem .75rem;font-size:.95rem}.nav-menu.is-visible .nav-link-item{padding:.4rem .65rem;font-size:.82rem}.nav-link-icon{font-size:13.5px}}.nav-link-item:hover{color:var(--color-orange);background-color:var(--color-orange-subtle);border-color:rgba(var(--color-orange-rgb), .4)}.nav-link-item:hover .nav-link-icon i{transform:scale(1.2)}.nav-link-item.nav-link-highlight,.nav-link-item.nav-link-highlight .nav-link-icon{color:var(--color-pulver-light)}@media (width<=992px){.nav-menu{z-index:1050;pointer-events:none;visibility:hidden;transition:visibility .4s;position:fixed;inset:0}.nav-menu.active{pointer-events:auto;visibility:visible}.nav-menu-backdrop{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;cursor:pointer;z-index:1051;background:#080c08bf;transition:opacity .4s cubic-bezier(.16,1,.3,1);display:block;position:fixed;inset:0}.nav-menu.active .nav-menu-backdrop{opacity:1}.nav-menu-drawer{background:var(--color-dark-surface,#121810);z-index:1052;box-sizing:border-box;border-left:1px solid #ffffff1f;flex-direction:column;justify-content:space-between;width:min(88vw,360px);height:100dvh;padding:1.25rem 1.15rem;transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex;position:fixed;top:0;right:0;overflow-y:auto;transform:translate(100%);box-shadow:-15px 0 45px #000000b3}.nav-menu.active .nav-menu-drawer{transform:translate(0)}.nav-menu-header{box-sizing:border-box;border-bottom:1px solid #ffffff14;flex-shrink:0;justify-content:space-between;align-items:center;gap:.75rem;width:100%;margin-bottom:0;padding-bottom:.85rem;padding-right:48px;display:flex}.nav-menu-brand{align-items:center;text-decoration:none;display:flex}.nav-menu-logo{object-fit:contain;filter:drop-shadow(0 2px 8px #00000080);width:auto;height:28px}.nav-menu-header .btn-login{border-radius:var(--radius-btn,10px);border:1.2px solid rgba(var(--color-orange-rgb,242, 142, 19), .5);background:#ffffff0f;justify-content:center;align-items:center;width:38px;min-width:38px;height:38px;padding:0;display:inline-flex;box-shadow:0 2px 10px #00000040}.nav-menu-header .btn-login-label{display:none!important}.nav-menu-header .btn-login .btn-login-icon{color:var(--color-orange,#f28e13);margin:0;font-size:20px}.nav-menu-body{box-sizing:border-box;flex-direction:column;flex:1;justify-content:center;align-items:stretch;width:100%;margin:.5rem 0;display:flex}.nav-menu .trial-banner,.nav-menu [data-component*=trial-banner]{flex-shrink:0;width:100%;margin:0;display:flex}.nav-menu-divider{background:linear-gradient(90deg, rgba(var(--color-orange-rgb,242, 142, 19), .45) 0%, #ffffff1f 50%, #ffffff08 100%);flex-shrink:0;width:100%;height:1px;margin:.85rem 0}.nav-links{box-sizing:border-box;flex-direction:column;align-items:stretch;gap:.5rem;width:100%;margin:0;padding:0;list-style:none;display:flex}.nav-links li{box-sizing:border-box;width:100%;margin:0;padding:0;display:block}.nav-link-item{box-sizing:border-box;width:100%;color:var(--color-white);letter-spacing:.5px;text-transform:uppercase;text-shadow:none;background:#ffffff0a;border:1px solid #ffffff12;border-radius:10px;justify-content:flex-start;align-items:center;padding:.65rem .9rem;font-size:.88rem;font-weight:600;text-decoration:none;transition:all .3s cubic-bezier(.16,1,.3,1);display:flex}.nav-link-icon{width:32px;height:32px;color:var(--color-orange);background:#ffffff14;border-radius:8px;flex-shrink:0;justify-content:center;align-items:center;margin-right:.75rem;font-size:15px;transition:all .3s;display:inline-flex}.nav-link-text{flex-grow:1;text-align:left!important}.nav-link-arrow{color:#ffffff59;flex-shrink:0;justify-content:center;align-items:center;margin-left:auto;font-size:15px;transition:all .3s;display:inline-flex}.nav-link-item:hover,.nav-link-item:active{color:#fff;background:#f28e1324;border-color:#f28e1366;transform:translate(-4px)}.nav-link-item:hover .nav-link-icon{background:var(--color-orange);color:#fff;transform:scale(1.08)}.nav-link-item:hover .nav-link-arrow{color:var(--color-orange);transform:translate(4px)}.nav-links a.nav-link-highlight{color:var(--color-pulver-light,#78b860);background:#5c914724;border-color:#5c914759}.nav-links a.nav-link-highlight .nav-link-icon{color:var(--color-pulver-light,#78b860);background:#5c914733}.nav-links a.nav-link-highlight:hover{border-color:var(--color-green,#5b8c45);color:#fff;background:#5c914740}.nav-links a.nav-link-highlight:hover .nav-link-icon{background:var(--color-green,#5b8c45);color:#fff}.nav-menu-footer{text-align:center;border-top:1px solid #ffffff14;flex-direction:column;flex-shrink:0;align-items:center;gap:.75rem;width:100%;margin-top:auto;padding-top:1.25rem;display:flex}.nav-menu-footer-label{text-transform:uppercase;letter-spacing:1px;color:#ffffff80;text-align:center;font-size:.75rem;font-weight:600}#header .nav-menu-social .social-links{justify-content:center;gap:.75rem;opacity:1!important;pointer-events:auto!important;display:flex!important;transform:none!important}}</style>
+
+<nav class="nav-menu" id="nav-menu" aria-label="Navegação Principal">
+    <!-- Backdrop escuro para fechar ao clicar fora do painel lateral -->
+    <div class="nav-menu-backdrop" id="nav-menu-backdrop" aria-hidden="true"></div>
+
+    <!-- Painel Lateral (Side Drawer) -->
+    <div class="nav-menu-drawer" id="nav-menu-drawer">
+        <!-- Cabeçalho com Logo e componente de Login (apenas ícone) -->
+        <div class="nav-menu-header">
+            <a href="#hero" class="nav-menu-brand" aria-label="Ir para a Home">
+                <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply" class="nav-menu-logo" width="160"
+                    height="40">
+            </a>
+            <!-- INJECTED: components/btn-login/btn-login.html -->
+<div class="component-mounted" data-original-path="components/btn-login/btn-login.html">
+<!-- ==========================================================================
+   Component: Btn Login (Global Reutilizável)
+   Botão de Login institucional reutilizável em múltiplos locais da aplicação
+   ========================================================================== -->
+<style>.btn-login{border-radius:var(--radius-btn,10px);border:1.2px solid rgba(var(--color-orange-rgb,242, 142, 19), .5);color:var(--color-white,#fefcf8);font-family:var(--font-main,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);white-space:nowrap;background:#ffffff0f;justify-content:center;align-items:center;gap:.55rem;padding:.55rem 1.1rem;font-size:.88rem;font-weight:600;text-decoration:none;transition:all .3s cubic-bezier(.16,1,.3,1);display:inline-flex;box-shadow:0 2px 10px #00000040}.btn-login-icon{color:var(--color-orange,#f28e13);flex-shrink:0;font-size:19px;transition:transform .3s,color .3s}.btn-login:hover{border-color:var(--color-orange,#f28e13);color:#fff;background:#f28e132e;transform:translateY(-2px);box-shadow:0 4px 18px #f28e1359}.btn-login:hover .btn-login-icon{color:#fff;transform:scale(1.12)}.btn-login:active{transform:translateY(0)}</style>
+
+<button type="button" class="btn-login cta-btn-base" aria-label="Fazer Login">
+    <i class="ph-fill ph-user-circle btn-login-icon" aria-hidden="true"></i>
+    <span class="btn-login-label">Fazer Login</span>
+</button>
+
+
+</div>
+<!-- END INJECTED: components/btn-login/btn-login.html -->
+        </div>
+
+        <!-- Conteúdo do Menu (Centralizado verticalmente no mobile) -->
+        <div class="nav-menu-body">
+            <!-- Banner de Anúncio: 7 Dias de Teste Grátis -->
+            <!-- INJECTED: components/trial-banner/trial-banner.html -->
+<div class="component-mounted" data-original-path="components/trial-banner/trial-banner.html">
+<!-- ==========================================================================
+   Component: Trial Banner (Global Reutilizável)
+   Banner promocional de 7 Dias de Teste Grátis que aciona o auth-drawer
+   ========================================================================== -->
+<style>.trial-banner{box-sizing:border-box;cursor:pointer;text-align:left;background:linear-gradient(135deg,#f28e132e 0%,#5b8c452e 100%);border:1.2px solid #f28e1373;border-radius:12px;align-items:center;gap:.85rem;width:100%;margin:.35rem 0;padding:.75rem .95rem;transition:all .3s cubic-bezier(.16,1,.3,1);display:flex;position:relative;overflow:hidden;box-shadow:0 4px 16px #f28e1326}.trial-banner:before{content:"";background:linear-gradient(90deg,#0000,#ffffff2e,#0000);width:100%;height:100%;transition:left .6s;position:absolute;top:0;left:-100%}.trial-banner:hover:before{left:100%}.trial-banner:hover{border-color:var(--color-orange,#f28e13);transform:translateY(-2px)scale(1.01);box-shadow:0 6px 22px #f28e1359}.trial-banner-badge{background:linear-gradient(135deg, var(--color-orange,#f28e13) 0%, #e07d08 100%);color:#fff;border-radius:9px;flex-shrink:0;justify-content:center;align-items:center;width:34px;height:34px;font-size:16px;display:inline-flex;box-shadow:0 2px 8px #f28e1366}.trial-banner-content{flex-direction:column;flex-grow:1;display:flex}.trial-banner-title{color:#fff;letter-spacing:.2px;font-size:.88rem;font-weight:700;line-height:1.2}.trial-banner-sub{color:#ffffffbf;margin-top:2px;font-size:.72rem;font-weight:500}.trial-banner-arrow{color:var(--color-orange,#f28e13);flex-shrink:0;font-size:15px;transition:transform .3s}.trial-banner:hover .trial-banner-arrow{color:#fff;transform:translate(4px)}</style>
+
+<button type="button" class="trial-banner cta-btn-base" aria-label="7 Dias de Teste Grátis">
+    <span class="trial-banner-badge">
+        <i class="ph-fill ph-sparkle" aria-hidden="true"></i>
+    </span>
+    <span class="trial-banner-content">
+        <span class="trial-banner-title">7 Dias de Teste Grátis</span>
+        <span class="trial-banner-sub">Acesse todas as ferramentas agora</span>
+    </span>
+    <i class="ph-fill ph-arrow-right trial-banner-arrow" aria-hidden="true"></i>
+</button>
+
+
+</div>
+<!-- END INJECTED: components/trial-banner/trial-banner.html -->
+
+            <!-- Linha separadora divisória entre 7 dias grátis e o menu -->
+            <div class="nav-menu-divider" role="separator" aria-hidden="true"></div>
+
+            <!-- Links de navegação com ícones -->
+            <ul class="nav-links">
+                <li>
+                    <a href="#hero" class="nav-link-item">
+                        <span class="nav-link-icon"><i class="ph-fill ph-house" aria-hidden="true"></i></span>
+                        <span class="nav-link-text">HOME</span>
+                        <i class="ph-fill ph-caret-right nav-link-arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#objection-breaker" class="nav-link-item nav-link-highlight">
+                        <span class="nav-link-icon"><i class="ph-fill ph-warning-octagon" aria-hidden="true"></i></span>
+                        <span class="nav-link-text">O RISCO</span>
+                        <i class="ph-fill ph-caret-right nav-link-arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#app-intro" class="nav-link-item">
+                        <span class="nav-link-icon"><i class="ph-fill ph-wrench" aria-hidden="true"></i></span>
+                        <span class="nav-link-text">A FERRAMENTA</span>
+                        <i class="ph-fill ph-caret-right nav-link-arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#trust" class="nav-link-item">
+                        <span class="nav-link-icon"><i class="ph-fill ph-shield-check" aria-hidden="true"></i></span>
+                        <span class="nav-link-text">CONFIANÇA</span>
+                        <i class="ph-fill ph-caret-right nav-link-arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#faq" class="nav-link-item">
+                        <span class="nav-link-icon"><i class="ph-fill ph-question" aria-hidden="true"></i></span>
+                        <span class="nav-link-text">FAQ</span>
+                        <i class="ph-fill ph-caret-right nav-link-arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#contact" class="nav-link-item">
+                        <span class="nav-link-icon"><i class="ph-fill ph-paper-plane-tilt" aria-hidden="true"></i></span>
+                        <span class="nav-link-text">CONTATO</span>
+                        <i class="ph-fill ph-caret-right nav-link-arrow" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Rodapé com Redes Sociais -->
+        <div class="nav-menu-footer">
+            <span class="nav-menu-footer-label"></span>
+            <!-- INJECTED: components/social-links/social-links.html -->
+<div class="component-mounted" data-original-path="components/social-links/social-links.html">
+<!-- ==========================================================================
+   Component: Social Links (Header)
+   Ícones vetoriais de redes sociais sincronizados com a rolagem do header
+   ========================================================================== -->
+<style>.social-links{align-items:center;gap:var(--space-sm);display:flex}#header .social-links{opacity:0;pointer-events:none;justify-self:start;transition:opacity .35s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1);transform:translateY(-8px)scale(.95)}#header .social-links.is-visible{opacity:1;pointer-events:auto;transform:translateY(0)scale(1)}.social-link{--icon-badge-size:38px;color:var(--color-orange);border:1px solid var(--color-border-subtle);transition:var(--transition-smooth);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:#ffffff14;text-decoration:none}.social-link i{color:var(--color-orange);transition:var(--transition-smooth);font-size:20px}.social-link:hover{color:var(--color-white);background:var(--color-orange);border-color:var(--color-orange);box-shadow:0 4px 16px var(--color-orange-glow);transform:translateY(-2px)scale(1.08)}.social-link:hover i{color:var(--color-white)}@media (width<=992px){#header .social-links{display:none}}@media (width<=600px){.social-link{--icon-badge-size:32px}.social-link i{font-size:16px}}</style>
+
+<div class="social-links">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link icon-badge"
+        aria-label="Instagram">
+        <i class="ph ph-instagram-logo" aria-hidden="true"></i>
+    </a>
+    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
+        target="_blank" rel="noopener noreferrer" class="social-link icon-badge" aria-label="WhatsApp">
+        <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+<!-- END INJECTED: components/social-links/social-links.html -->
+        </div>
+    </div>
+</nav>
+
+</div>
+<!-- END INJECTED: components/nav-menu/nav-menu.html -->
+        <!-- INJECTED: components/header-actions/header-actions.html -->
+<div class="component-mounted" data-original-path="components/header-actions/header-actions.html">
+<!-- ==========================================================================
+   Component: Header Actions
+   Botão de CTA institucional e toggle do menu mobile
+   ========================================================================== -->
+<style>.header-actions{align-items:center;gap:var(--space-md);justify-self:end;display:flex}.header-btn-cta{cursor:pointer;font-family:var(--font-main,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);border:1.2px solid var(--color-orange,#f28e13);border-radius:var(--radius-btn,10px);background-color:rgba(var(--color-dark-surface-rgb,18, 24, 16), .88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font-weight:600;font-size:var(--font-size-base,1rem);letter-spacing:.1px;box-shadow:0 4px 14px #0000004d, 0 0 14px var(--color-orange-subtle,#f28e131f);white-space:nowrap;opacity:0;pointer-events:none;align-items:center;gap:.65rem;padding:.6rem 1.35rem;text-decoration:none;transition:opacity .35s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1),background-color .25s,border-color .25s,box-shadow .25s;display:inline-flex;transform:translateY(-8px)scale(.95)}.header-btn-cta.is-visible{opacity:1;pointer-events:auto;transform:translateY(0)scale(1)}.header-btn-cta:hover{background-color:rgba(var(--color-dark-surface-rgb,18, 24, 16), .98);border-color:var(--color-orange-hover,#e07d08);color:#fff;transform:translateY(-2px)scale(1.02);box-shadow:0 8px 25px #f28e1273,0 0 20px #f28e1240}.header-btn-cta:hover .header-btn-icon{color:#fff;transform:scale(1.15)translate(1px)}.header-btn-cta:active{transform:translateY(0);box-shadow:0 3px 10px #00000040}.header-btn-icon{color:var(--color-orange,#f28e13);transition:var(--transition-smooth,all .4s cubic-bezier(.16, 1, .3, 1));flex-shrink:0;font-size:1.25rem}.btn-label{color:var(--color-white,#fefcf8);transition:var(--transition-smooth,all .4s cubic-bezier(.16, 1, .3, 1));align-items:center;gap:.35rem;display:inline-flex}.header-btn-cta:hover .btn-label{color:#fff}.header-btn-logo{vertical-align:middle;object-fit:contain;flex-shrink:0;width:auto;height:15px;display:inline-block}.nav-toggle{cursor:pointer;z-index:1100;background:0 0;border:none;flex-direction:column;justify-content:space-between;width:32px;height:22px;padding:0;display:none}.nav-toggle .bar{background:linear-gradient(90deg, var(--color-green,#5b8c45) 0%, var(--color-orange,#f28e13) 100%);border-radius:var(--radius-sm);width:100%;height:2.5px;transition:var(--transition-smooth);box-shadow:0 2px 4px #0006}.nav-toggle.active .bar:first-child{background-color:var(--color-orange);transform:translateY(9.5px)rotate(45deg)}.nav-toggle.active .bar:nth-child(2){opacity:0;transform:translate(-10px)}.nav-toggle.active .bar:nth-child(3){background-color:var(--color-orange);transform:translateY(-9.5px)rotate(-45deg)}@media (width<=992px){.nav-toggle{display:flex}.header-actions{gap:.85rem}}@media (width<=600px){.header-btn-cta{gap:.45rem;padding:.45rem .85rem;font-size:.82rem}.header-btn-icon{font-size:1rem}.header-btn-logo{height:12px}.nav-toggle{width:26px;height:18px}.nav-toggle .bar{height:2px}}</style>
+
+<div class="header-actions" id="header-actions">
+    <button type="button" class="header-btn-cta cta-btn-base" id="header-btn-cta" aria-label="Acessar o go2apply">
+        <i class="ph-fill ph-sign-in header-btn-icon" aria-hidden="true"></i>
+        <span class="btn-label">
+            Acessar o
+            <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply" class="header-btn-logo" width="1904" height="478">
+        </span>
+    </button>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+</div>
+
+
+</div>
+<!-- END INJECTED: components/header-actions/header-actions.html -->
+    </div>
+</header>
+
+
+</div>
+<!-- END INJECTED: components/header/header.html -->
+    <main id="app-root">
+        <!-- INJECTED: sections/hero/hero.html -->
+<div class="component-mounted" data-original-path="sections/hero/hero.html">
+<!-- ==========================================================================
+   Section / Dobra: Hero (Orquestrador)
+   ========================================================================== -->
+<style>.hero{flex-direction:column;width:100%;min-height:100dvh;display:flex;position:relative;overflow:hidden}.hero-content{z-index:10;pointer-events:none;flex-direction:column;justify-content:center;align-items:center;width:100%;min-height:100dvh;padding:clamp(0rem,10vh,7.5rem) 1.5rem clamp(6.5rem,12vh,8.5rem);display:flex;position:relative}.hero-content a,.hero-content button,.hero-content h1,.hero-content p,.hero-content img{pointer-events:auto}.hero-inner{text-align:center;flex-direction:column;justify-content:center;align-items:center;gap:1.35rem;width:100%;max-width:1100px;margin:auto 0;padding:.5rem 1rem;display:flex;position:relative}.hero-inner:before{content:"";background:radial-gradient(ellipse 65% 60% at 50% 50%, rgba(var(--color-dark-surface-rgb), .62) 0%, rgba(var(--color-dark-rgb), .32) 48%, rgba(var(--color-dark-rgb), 0) 85%);pointer-events:none;z-index:-1;filter:blur(24px);border-radius:50%;width:min(94vw,960px);height:120%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}@media (width<=992px){.hero-content{padding:clamp(4.5rem,8vh,6rem) 1.25rem clamp(5.5rem,10vh,7.5rem)}}@media (width<=600px){.hero{min-height:100dvh}.hero-content{justify-content:flex-start;min-height:100dvh;padding:max(4.2rem,11dvh) 1.15rem max(5.5rem,17dvh)}.hero-inner{gap:1.15rem;margin:auto 0;padding:.5rem .25rem;transform:translateY(-2.5vh)}.hero-inner:before{filter:blur(16px);width:100%;height:100%}}</style>
+
+<section class="hero" id="hero">
+    <!-- Subcomponente exclusivo 1: Fundo com carrossel de vídeos -->
+    <!-- INJECTED: sections/hero/hero-bg/hero-bg.html -->
+<div class="component-mounted" data-original-path="sections/hero/hero-bg/hero-bg.html">
+<!-- ==========================================================================
+   Component: Hero Background
+   Carrossel contínuo de vídeos Cloudinary com Radar Circular Interativo e Telemetria
+   ========================================================================== -->
+<style>.hero-bg{z-index:1;width:100%;height:100%;position:absolute;top:0;left:0;overflow:hidden}.bg-video{object-fit:cover;opacity:1;z-index:1;pointer-events:none;filter:saturate(1.35)contrast(1.08);width:100%;height:100%;position:absolute;top:0;left:0}.hero-overlay{background:var(--hero-overlay-gradient);z-index:3;pointer-events:none;width:100%;height:100%;position:absolute;top:0;left:0}.hero-grid-overlay{z-index:4;pointer-events:none;background-image:radial-gradient(circle at center, var(--color-white) 35%, transparent 36%);mix-blend-mode:overlay;opacity:.1;background-size:6px 6px;position:absolute;inset:0}</style>
+
+<div class="hero-bg" id="hero-bg">
+    <video id="bg-video-1" class="bg-video" muted playsinline autoplay
+        poster="https://res.cloudinary.com/vdgkx5jc/video/upload/so_0,w_960,q_50,f_jpg/v1788029484/bg-1.jpg"></video>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid-overlay" aria-hidden="true"></div>
+</div>
+
+</div>
+<!-- END INJECTED: sections/hero/hero-bg/hero-bg.html -->
+
+    <!-- Conteúdo central da dobra Hero -->
+    <div class="hero-content" id="hero-content">
+        <div class="hero-inner">
+            <!-- Subcomponente exclusivo 2: Logo e título -->
+            <!-- INJECTED: sections/hero/hero-cta/hero-cta.html -->
+<div class="component-mounted" data-original-path="sections/hero/hero-cta/hero-cta.html">
+<style>.hero-cta{text-align:center;flex-direction:column;align-items:center;gap:1.35rem;width:100%;display:flex}.logo-container{justify-content:center;align-items:center;animation:.9s cubic-bezier(.16,1,.3,1) forwards fadeInDown;display:flex}.main-logo{filter:drop-shadow(0 8px 20px #00000073);width:min(82vw,440px);max-width:440px;height:auto}.hero-title{color:var(--color-white);font-family:var(--font-main);letter-spacing:-.2px;text-shadow:0 2px 10px #000000b3,0 1px 3px #000000d9;opacity:0;max-width:820px;margin:0 auto;font-size:clamp(1.2rem,1.85vw,1.95rem);font-weight:500;line-height:1.35;animation:.9s cubic-bezier(.16,1,.3,1) .2s forwards fadeInUp}.hero-title .highlight{color:var(--color-orange);text-shadow:0 2px 10px #0009,0 0 16px #f28e1259;font-weight:600}@keyframes fadeInDown{0%{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:translateY(0)}}@keyframes fadeInUp{0%{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}@media (width<=992px){.main-logo{max-width:360px}.hero-title{max-width:680px}}@media (width<=600px){.main-logo{max-width:230px}.hero-title{max-width:95%;font-size:1rem;line-height:1.32}}</style>
+
+<div class="hero-cta" id="hero-cta">
+    <div class="logo-container">
+        <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply logo" class="main-logo" width="1904" height="478" fetchpriority="high">
+    </div>
+
+    <h1 class="hero-title">
+        Da formação da calda à aplicação,<br>
+        decisões com <span class="highlight">base técnica</span>.
+    </h1>
+</div>
+
+</div>
+<!-- END INJECTED: sections/hero/hero-cta/hero-cta.html -->
+
+            <!-- Componente Global Reutilizável: Botão CTA -->
+            <!-- INJECTED: components/btn-cta/btn-cta.html -->
+<div class="component-mounted" data-original-path="components/btn-cta/btn-cta.html">
+<!-- ==========================================================================
+   Component: Btn CTA (Global Reutilizável)
+   Botão de CTA institucional com suporte a hover iluminado e animação de aura
+   ========================================================================== -->
+<style>.btn-cta{opacity:0;pointer-events:auto;justify-content:center;align-items:center;width:100%;margin-top:.35rem;animation:.9s cubic-bezier(.16,1,.3,1) .35s forwards btnCtaFadeInUp;display:flex;box-shadow:none!important;background:0 0!important;border:none!important;padding:0!important}.btn-cta-element{font-family:var(--font-main,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);background-color:var(--color-dark-surface,#121810);border:1.2px solid var(--color-orange,#f28e13);border-radius:var(--radius-btn,10px);color:var(--color-white,#fefcf8);letter-spacing:.2px;cursor:pointer;z-index:1;box-shadow:0 4px 18px #00000080, 0 0 16px var(--color-orange-glow,#f28e1340);align-items:center;gap:.75rem;padding:.75rem 1.85rem;font-size:clamp(.92rem,1.05vw,1.05rem);font-weight:600;text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1),background-color .25s,border-color .25s,box-shadow .35s;display:inline-flex;position:relative}.btn-cta-element:before{content:"";border-radius:calc(var(--radius-btn,10px) + 4px);border:1.5px solid var(--color-orange,#f28e13);opacity:0;pointer-events:none;z-index:-1;animation:3.2s cubic-bezier(.25,1,.5,1) infinite btnCtaAuraPulse;position:absolute;inset:-4px}.btn-cta-element:hover{border-color:var(--color-orange-hover,#ff9b26);box-shadow:0 8px 28px #000000a6, 0 0 28px var(--color-orange-glow,#f28e138c);color:#fff;background-color:#182015;transform:translateY(-2px)scale(1.02)}.btn-cta-icon{object-fit:contain;width:22px;height:22px;transition:var(--transition-smooth,all .4s cubic-bezier(.16, 1, .3, 1))}.btn-cta-element:hover .btn-cta-icon{transform:scale(1.12)rotate(8deg)}.btn-cta-label{color:var(--color-white,#fefcf8);transition:var(--transition-smooth,all .4s cubic-bezier(.16, 1, .3, 1))}.btn-cta-element:hover .btn-cta-label{color:#fff}.btn-cta-arrow{color:var(--color-orange,#f28e13);font-size:16px;transition:transform .3s,color .3s}.btn-cta-element:hover .btn-cta-arrow{color:#fff;transform:translate(4px)}@keyframes btnCtaAuraPulse{0%{opacity:.85;box-shadow:0 0 12px var(--color-orange-glow,#f28e1366);transform:scale(.96)}50%{opacity:0;box-shadow:0 0 24px var(--color-orange-glow,#f28e1300);transform:scale(1.18)}to{opacity:0;box-shadow:0 0 24px var(--color-orange-glow,#f28e1300);transform:scale(1.18)}}@keyframes btnCtaFadeInUp{0%{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}@media (width<=600px){.btn-cta-element{gap:.6rem;padding:.65rem 1.45rem;font-size:.88rem}.btn-cta-icon{width:18px;height:18px}}</style>
+
+<div class="btn-cta">
+    <button class="btn-cta-element cta-btn-base" type="button">
+        <img src="/assets/ico-logo-go2apply-ttXdNs51.png" alt="" class="btn-cta-icon" aria-hidden="true" width="372" height="438">
+        <span class="btn-cta-label">Acessar o go2apply</span>
+        <i class="ph-fill ph-arrow-right btn-cta-arrow" aria-hidden="true"></i>
+    </button>
+</div>
+
+
+</div>
+<!-- END INJECTED: components/btn-cta/btn-cta.html -->
+        </div>
+
+        <!-- Subcomponente exclusivo 3: Indicador de rolagem -->
+        <!-- INJECTED: sections/hero/hero-scroll-indicator/hero-scroll-indicator.html -->
+<div class="component-mounted" data-original-path="sections/hero/hero-scroll-indicator/hero-scroll-indicator.html">
+<style>.hero-scroll-indicator{z-index:20;color:var(--color-white,#fefcf8);cursor:pointer;pointer-events:auto;opacity:0;transition:var(--transition-smooth,all .35s cubic-bezier(.16, 1, .3, 1));justify-content:center;align-items:center;text-decoration:none;animation:1.2s 1s forwards heroScrollFadeIn;display:inline-flex;position:absolute;bottom:calc(36px + clamp(1.25rem,2.5vh,2.25rem));left:50%;transform:translate(-50%)}.hero-scroll-icon{color:var(--color-white,#fefcf8);opacity:.85;filter:drop-shadow(0 2px 8px #0009);transition:var(--transition-smooth,all .3s ease);font-size:2.2rem;animation:2s ease-in-out infinite heroArrowBounce}.hero-scroll-indicator:hover .hero-scroll-icon{color:var(--color-orange,#f28e13);opacity:1;filter:drop-shadow(0 4px 14px var(--color-orange-glow,#f28e1399));animation-play-state:paused;transform:translateY(4px)scale(1.15)}@keyframes heroScrollFadeIn{0%{opacity:0;transform:translate(-50%)translateY(-10px)}to{opacity:1;transform:translate(-50%)translateY(0)}}@keyframes heroArrowBounce{0%,to{opacity:.6;transform:translateY(0)}50%{opacity:1;transform:translateY(10px)}}@media (width<=600px){.hero-scroll-indicator{bottom:calc(30px + 1rem)}.hero-scroll-icon{font-size:1.75rem}}</style>
+
+<a href="#objection-breaker" class="hero-scroll-indicator" id="hero-scroll-indicator" aria-label="Rolar para a próxima seção">
+    <i class="ph ph-caret-down hero-scroll-icon" aria-hidden="true"></i>
+</a>
+
+</div>
+<!-- END INJECTED: sections/hero/hero-scroll-indicator/hero-scroll-indicator.html -->
+
+        <!-- Subcomponente exclusivo 4: Ticker técnico deslizante -->
+        <!-- INJECTED: sections/hero/hero-ticker/hero-ticker.html -->
+<div class="component-mounted" data-original-path="sections/hero/hero-ticker/hero-ticker.html">
+<style>.hero-ticker{z-index:25;background:rgba(var(--color-dark-surface-rgb), .88);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--color-border-subtle);border-bottom:1px solid var(--color-border);-webkit-user-select:none;user-select:none;pointer-events:auto;width:100%;padding:.65rem 0;position:absolute;bottom:0;left:0;overflow:hidden;box-shadow:0 -4px 24px #0006}.hero-ticker-track{will-change:transform;width:max-content;animation:42s linear infinite hero-ticker-scroll;display:flex}.hero-ticker:hover .hero-ticker-track{animation-play-state:paused}.hero-ticker-group{flex-shrink:0;align-items:center;display:flex}.ticker-item{letter-spacing:2px;text-transform:uppercase;color:var(--color-white);opacity:.88;white-space:nowrap;align-items:center;gap:.4rem;font-family:Space Mono,Consolas,Menlo,Courier New,monospace;font-size:clamp(.7rem,.8vw,.82rem);font-weight:500;transition:opacity .3s,transform .3s,text-shadow .3s;display:inline-flex}.ticker-item:hover{opacity:1;transform:translateY(-1px)}.ticker-item.t-caldas{color:var(--color-caldas-light)}.ticker-item.t-caldas:hover{text-shadow:0 0 12px var(--color-caldas-glow)}.ticker-item.t-kow{color:var(--color-kow-light)}.ticker-item.t-kow:hover{text-shadow:0 0 12px var(--color-kow-glow)}.ticker-item.t-pulver{color:var(--color-pulver-light)}.ticker-item.t-pulver:hover{text-shadow:0 0 12px var(--color-pulver-glow)}.ticker-item.t-brand{color:var(--color-orange)}.ticker-item.t-brand:hover{text-shadow:0 0 12px var(--color-orange-glow)}.ticker-separator{color:var(--color-orange);opacity:.65;text-shadow:0 0 8px var(--color-orange-glow);margin:0 1.8rem;font-size:.85rem;font-weight:700;display:inline-block}@keyframes hero-ticker-scroll{0%{transform:translate(0)}to{transform:translate(-50%)}}@media (width<=768px){.hero-ticker{padding:.55rem 0}.ticker-item{letter-spacing:1.6px;font-size:.68rem}.ticker-separator{margin:0 1.2rem}}</style>
+
+<div class="hero-ticker" id="hero-ticker" aria-label="Tópicos técnicos de aplicação">
+    <div class="hero-ticker-track">
+        <div class="hero-ticker-group">
+            <span class="ticker-item t-caldas">FORMAÇÃO DE CALDAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE FÍSICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE QUÍMICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-kow">pH &amp; KOW DE ATIVOS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">PULVERIZAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">SELEÇÃO DE PONTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">ESPECTRO DE GOTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">VOLUME DE APLICAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">CONTROLE DE DERIVA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-brand">DECISÕES COM BASE TÉCNICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+        </div>
+
+        <div class="hero-ticker-group" aria-hidden="true">
+            <span class="ticker-item t-caldas">FORMAÇÃO DE CALDAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE FÍSICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-caldas">COMPATIBILIDADE QUÍMICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-kow">pH &amp; KOW DE ATIVOS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">PULVERIZAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">SELEÇÃO DE PONTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">ESPECTRO DE GOTAS</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">VOLUME DE APLICAÇÃO</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-pulver">CONTROLE DE DERIVA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+            <span class="ticker-item t-brand">DECISÕES COM BASE TÉCNICA</span>
+            <span class="ticker-separator" aria-hidden="true">-</span>
+        </div>
+    </div>
+</div>
+</div>
+<!-- END INJECTED: sections/hero/hero-ticker/hero-ticker.html -->
+    </div>
+</section>
+
+</div>
+<!-- END INJECTED: sections/hero/hero.html -->
+        <!-- INJECTED: sections/objection-breaker/objection-breaker.html -->
+<div class="component-mounted" data-original-path="sections/objection-breaker/objection-breaker.html">
+<!-- ==========================================================================
+   Seção Orquestradora: Objection Breaker
+   Organiza os subcomponentes em layouts otimizados para Desktop e Mobile.
+   Desktop: Headline (Topo Centralizado) -> Grid 50/50 (Situation + Breaker) -> Example
+   Mobile:  Headline -> Situation -> Example (3 Cards) -> Breaker
+   ========================================================================== -->
+<style>.objection-breaker{width:100%;padding:var(--space-2xl) 0 calc(var(--space-2xl) + var(--space-lg));background-color:var(--color-dark);position:relative;overflow:hidden}.ob-inner{width:min(var(--container-width), 100%);box-sizing:border-box;margin:0 auto;padding:0 1.5rem}.ob-flex-container{gap:var(--space-2xl);flex-direction:column;display:flex}.ob-slot-headline{order:1}.ob-slot-grid{order:2}.ob-slot-example{order:3}.ob-grid-50-50{gap:var(--space-2xl);grid-template-columns:1fr 1fr;align-items:center;display:grid}@media (width<=992px){.objection-breaker{padding:var(--space-xl) 0}.ob-flex-container{gap:var(--space-xl)}.ob-grid-50-50{display:contents}.ob-slot-headline{order:1}.ob-slot-situation{order:2}.ob-slot-example{order:3}.ob-slot-breaker{order:4}}</style>
+
+<section class="objection-breaker" id="objection-breaker">
+    <div class="ob-inner">
+        <div class="ob-flex-container">
+
+            <!-- Headline Centralizada no topo em full width -->
+            <div class="ob-slot-headline" data-component="sections/objection-breaker/ob-headline/ob-headline.html">
+            </div>
+
+            <!-- Grid 50/50 no Desktop (Situation + Breaker) -->
+            <div class="ob-grid-50-50 ob-slot-grid">
+                <div class="ob-slot-situation"
+                    data-component="sections/objection-breaker/ob-situation/ob-situation.html"></div>
+                <div class="ob-slot-breaker" data-component="sections/objection-breaker/ob-breaker/ob-breaker.html">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- END INJECTED: sections/objection-breaker/objection-breaker.html -->
+        <!-- INJECTED: sections/app-intro/app-intro.html -->
+<div class="component-mounted" data-original-path="sections/app-intro/app-intro.html">
+<!-- ==========================================================================
+   Seção: App Intro
+   Abertura clara (light-theme) que antecede a jornada do produto: logo
+   centralizado + título de impacto. Dobra curta, estática, só para
+   respirar antes da dobra escura da jornada (app-journey).
+   ========================================================================== -->
+<style>.app-intro{z-index:2;width:100%;padding:calc(var(--space-2xl) + 90px) 1.5rem;clip-path:polygon(0 90px,100% 0,100% calc(100% - 90px),0 100%);background-color:var(--color-white);color:var(--color-dark);text-align:center;filter:drop-shadow(0 24px 32px rgba(var(--color-dark-rgb), .25));margin:-90px 0;position:relative}.app-intro-bg{z-index:0;pointer-events:none;background-image:radial-gradient(circle at 30% 30%, var(--color-caldas-subtle), transparent 55%), radial-gradient(circle at 70% 70%, var(--color-pulver-subtle), transparent 55%);background-position:0 0,100% 100%;background-size:180% 180%;position:absolute;inset:0;overflow:hidden}@media (prefers-reduced-motion:no-preference){.app-intro-bg{animation:16s ease-in-out infinite alternate app-intro-bg-drift}}@keyframes app-intro-bg-drift{0%{background-position:0 0,100% 100%}to{background-position:35% 25%,65% 75%}}.app-intro-inner{z-index:1;max-width:780px;margin:0 auto;position:relative}.app-intro-logo{width:min(260px,55vw);height:auto;margin:0 auto var(--space-xl);display:block}.app-intro-title{font-family:var(--font-main);font-weight:800;font-size:calc(var(--font-size-hero) * .82);letter-spacing:-.25px;text-transform:uppercase;margin:0 0 var(--space-md);line-height:1.25}.app-intro-title .highlight{color:var(--color-orange)}.app-intro-subtitle{color:rgba(var(--color-dark-rgb), .65);font-size:var(--font-size-base);max-width:52ch;margin:0 auto;line-height:1.6}@media (width<=600px){.app-intro{padding:calc(var(--space-xl) + 48px) 1.25rem;clip-path:polygon(0 48px,100% 0,100% calc(100% - 48px),0 100%);margin:-48px 0}.app-intro-title{font-size:var(--font-size-lg)}.app-intro-subtitle{font-size:var(--font-size-sm)}}</style>
+
+<section class="app-intro" id="app-intro">
+    <div class="app-intro-bg" aria-hidden="true"></div>
+    <div class="app-intro-inner">
+        <img class="app-intro-logo" src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply" loading="lazy" decoding="async" width="1904" height="478">
+        <h2 class="app-intro-title">É para reduzir esse tipo de <span class="highlight">incerteza</span> que o go2apply existe.</h2>
+        <p class="app-intro-subtitle">Na prática, o go2apply ajuda você a tomar decisões mais precisas no campo.</p>
+    </div>
+</section>
+
+
+</div>
+<!-- END INJECTED: sections/app-intro/app-intro.html -->
+        <!-- INJECTED: sections/app-journey/app-journey.html -->
+<div class="component-mounted" data-original-path="sections/app-journey/app-journey.html">
+<!-- ==========================================================================
+   Seção: App Journey
+   Dobra escura (dark-theme) que mostra o go2apply acompanhando a jornada
+   da pulverização: Planejamento -> Operação -> Gestão, como uma trilha
+   vertical com as 3 etapas sempre visíveis (sem clique). As telas do
+   produto ficam na dobra seguinte (screen-showcase).
+   ========================================================================== -->
+<style>.app-journey{width:100%;padding:var(--space-xl) 1.5rem;padding-top:calc(var(--space-xl) + 80px);padding-bottom:calc(var(--space-2xl) + 60px);background-color:var(--color-dark);color:var(--color-white);position:relative}.app-journey-inner{max-width:1200px;margin:0 auto}.app-journey-grid{max-width:820px}.app-journey-mockup{display:none}.app-journey-steps{gap:var(--space-xl);flex-direction:column;display:flex;position:relative}.app-journey-rail{background-color:var(--color-border);z-index:0;width:2px;position:absolute;top:22px;bottom:22px;left:21px}.app-step{z-index:1;gap:var(--space-md);grid-template-columns:44px 1fr;align-items:start;display:grid;position:relative}.app-step-marker{--icon-badge-size:44px;background-color:var(--color-dark);border:2px solid var(--tab-color,var(--color-orange));color:var(--tab-color,var(--color-orange));font-family:var(--font-main);font-weight:800;font-size:var(--font-size-base);flex-shrink:0}.app-step-body{padding-top:.4rem}.app-step-title{font-family:var(--font-main);font-weight:800;font-size:var(--font-size-lg);color:var(--color-white);margin:0 0 .15rem}.app-step--operacao .app-step-body{padding:var(--space-md);border-radius:var(--radius-lg);background-color:var(--color-pulver-subtle);margin-top:-.4rem}.app-panel-eyebrow{color:var(--tab-color,var(--color-orange));font-weight:700;font-size:var(--font-size-base);letter-spacing:.06em;text-transform:uppercase;margin:0 0 .25rem}.app-panel-support{color:var(--color-white-muted);font-size:var(--font-size-md);margin:0 0 var(--space-md);max-width:52ch;line-height:1.55}.app-panel-tools{gap:var(--space-sm) var(--space-md);grid-template-columns:repeat(2,1fr);margin:0;padding:0;list-style:none;display:grid}.app-step--gestao .app-panel-tools{grid-template-columns:1fr}.app-tool-item{align-items:flex-start;gap:.6rem;display:flex}.app-tool-icon{border-radius:var(--radius-md);background-color:rgba(var(--color-white-rgb), .06);width:38px;height:38px;color:var(--tab-color,var(--color-orange));flex-shrink:0;justify-content:center;align-items:center;display:flex}.app-tool-icon i{font-size:20px}.app-tool-body{flex-direction:column;gap:.15rem;padding-top:.3rem;display:flex}.app-tool-name{font-weight:700;font-size:var(--font-size-base);color:var(--color-white);line-height:1.3}.app-tool-detail{color:var(--color-white-muted);font-size:var(--font-size-sm);line-height:1.4}@media (width<=992px){.app-journey{padding-top:calc(var(--space-xl) + 80px)}.app-journey-grid{flex-direction:column;display:flex}.app-journey-mockup{z-index:3;order:-1;justify-content:center;margin-bottom:-70px;display:flex;position:relative;top:-130px}.app-mockup-img{filter:drop-shadow(0 4px 4px #00000073);width:min(180px,55%);height:auto}}@media (width<=600px){.app-journey{padding:calc(var(--space-lg) + 80px) 1.25rem calc(var(--space-xl) + 40px)}.app-journey-steps{gap:var(--space-lg)}.app-panel-tools{grid-template-columns:1fr!important}}</style>
+
+<section class="app-journey" id="app-journey">
+    <div class="app-journey-inner">
+        <div class="app-journey-grid">
+            <div class="app-journey-content">
+                <div class="app-journey-steps">
+                    <div class="app-journey-rail" aria-hidden="true"></div>
+
+                    <!-- 01 — Planejamento -->
+                    <div class="app-step" style="--tab-color: var(--color-caldas-light);">
+                        <span class="app-step-marker icon-badge">01</span>
+                        <div class="app-step-body">
+                            <p class="app-panel-eyebrow">Antes da operação</p>
+                            <h3 class="app-step-title">Planejamento</h3>
+                            <p class="app-panel-support">Prepare a aplicação antes de entrar em campo.</p>
+                            <ul class="app-panel-tools">
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-flask" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Formação de caldas</span>
+                                        <span class="app-tool-detail">com ordem e metodologia</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-warning" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Alertas de incompatibilidade</span>
+                                        <span class="app-tool-detail">fitotoxicidade e entupimentos</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-drop" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Kow, adjuvantes e pH</span>
+                                        <span class="app-tool-detail">mais de 400 ingredientes ativos</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-gauge" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Pressão e vazão</span>
+                                        <span class="app-tool-detail">ajuste por ponta e taxa</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-chart-bar" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Calibração de fluxômetro</span>
+                                        <span class="app-tool-detail">volume aplicado por hectare</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-drone" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Calibração de aeronaves</span>
+                                        <span class="app-tool-detail">faixa e perfil de deposição</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 02 — Operação -->
+                    <div class="app-step app-step--operacao" style="--tab-color: var(--color-pulver-light);">
+                        <span class="app-step-marker icon-badge">02</span>
+                        <div class="app-step-body">
+                            <p class="app-panel-eyebrow">Durante a aplicação</p>
+                            <h3 class="app-step-title">Operação</h3>
+                            <p class="app-panel-support">Durante a aplicação, transforme condições em decisões.</p>
+                            <ul class="app-panel-tools">
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-drop-half-bottom" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Espectro de gotas</span>
+                                        <span class="app-tool-detail">dimensionamento por condição ambiental</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-thermometer" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Determinação de Delta T</span>
+                                        <span class="app-tool-detail">risco de evaporação conforme o DMV</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 03 — Gestão -->
+                    <div class="app-step app-step--gestao" style="--tab-color: var(--color-kow-light);">
+                        <span class="app-step-marker icon-badge">03</span>
+                        <div class="app-step-body">
+                            <p class="app-panel-eyebrow">Depois da aplicação</p>
+                            <h3 class="app-step-title">Gestão</h3>
+                            <p class="app-panel-support">Depois da aplicação, transforme dados em controle.</p>
+                            <ul class="app-panel-tools">
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-check-circle" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Pontas de Pulverização</span>
+                                        <span class="app-tool-detail">CV e substituição pontual de bicos</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-file-text" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Geração de relatórios</span>
+                                        <span class="app-tool-detail">em todas as ferramentas</span>
+                                    </span>
+                                </li>
+                                <li class="app-tool-item">
+                                    <span class="app-tool-icon">
+                                        <i class="ph-fill ph-chat-circle" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="app-tool-body">
+                                        <span class="app-tool-name">Comunidade exclusiva</span>
+                                        <span class="app-tool-detail">suporte técnico via WhatsApp</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-journey-mockup">
+                <img class="app-mockup-img" src="/assets/iPhone-14-PRO-www.equalizagro.com-F4LR-K1L.webp"
+                    alt="Interface do go2apply em um smartphone" loading="lazy" decoding="async" width="764"
+                    height="1558">
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- END INJECTED: sections/app-journey/app-journey.html -->
+        <!-- INJECTED: sections/screen-showcase/screen-showcase.html -->
+<div class="component-mounted" data-original-path="sections/screen-showcase/screen-showcase.html">
+<!-- ==========================================================================
+   Seção: Screen Showcase
+   Faixa clara e baixa que serve de palco pras telas reais do app. O
+   carrossel é maior que a faixa de propósito: os aparelhos transbordam pra
+   cima e pra baixo, invadindo as dobras escuras vizinhas (app-journey e
+   app-closing).
+
+   Cada slide é um aparelho completo, alternando os dois mockups do
+   catálogo (phone-mockup e phone-mockup-alt) pra o carrossel não parecer o
+   mesmo celular repetido cinco vezes.
+
+   O aparelho é uma moldura sobreposta e a screenshot mora no slide, então
+   cada instância tem a sua tela. O `padding` do slide reserva a espessura
+   da moldura e a janela usa o mesmo raio interno que o `border` do mockup
+   calcula, então as curvas coincidem.
+
+   Arraste funciona com dedo e com mouse.
+   ========================================================================== -->
+<style>.screen-showcase{--showcase-seam:64px;z-index:3;width:100%;margin:calc(var(--showcase-seam) * -1) 0;padding:calc(var(--space-lg) + var(--showcase-seam)) 1.5rem;color:var(--color-dark);position:relative}.screen-showcase-bg{z-index:-1;clip-path:polygon(0 var(--showcase-seam), 100% 0, 100% calc(100% - var(--showcase-seam)), 0 100%);background-color:var(--color-white);background-image:radial-gradient(circle at 22% 18%, var(--color-caldas-subtle), transparent 52%), radial-gradient(circle at 78% 82%, var(--color-orange-subtle), transparent 52%);position:absolute;inset:0}.screen-showcase-inner{gap:var(--space-xl);grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;max-width:1200px;margin:0 auto;display:grid;position:relative}.screen-showcase-copy{z-index:2;position:relative}.screen-showcase-header{max-width:42ch;margin:0 0 var(--space-md)}.showcase-logo-img{width:100%;max-width:280px;height:auto;margin-bottom:var(--space-md);filter:drop-shadow(0 4px 12px #00000014)}.screen-showcase-title{display:none}.screen-showcase-subtitle{color:rgba(var(--color-dark-rgb), .82);font-family:var(--font-main);font-size:var(--font-size-md);max-width:36ch;margin:0;font-weight:600;line-height:1.45}.showcase-cta{margin:var(--space-md) 0 var(--space-lg);justify-content:flex-start;display:flex}.showcase-cta .btn-cta{justify-content:flex-start;width:auto}.showcase-stage{--phone-width:326px;--phone-frame:8px;--phone-radius:42px;--stage-height:290px;perspective:1600px;position:relative}.showcase-scene{align-items:center;gap:var(--space-lg);transform-style:preserve-3d;flex-direction:column;display:flex;position:relative}.showcase-track{gap:var(--space-md);width:100%;padding-bottom:var(--space-sm);transform-style:preserve-3d;display:flex;overflow-x:auto}.showcase-slide{width:160px;padding:var(--phone-frame);box-sizing:border-box;cursor:pointer;background:0 0;border:0;flex:none;position:relative}.showcase-slide-screen{aspect-ratio:738/1344;border-radius:calc(var(--phone-radius) - var(--phone-frame));background-color:var(--color-dark-surface);display:block;overflow:hidden}.showcase-slide-shot{--shot-crop:65.625%;object-fit:cover;object-position:50% var(--shot-crop);width:100%;height:100%;display:block}.showcase-slide:focus-visible{outline:2px solid var(--color-orange);outline-offset:8px}.screen-showcase.is-live .showcase-stage{height:var(--stage-height,280px);cursor:grab;touch-action:pan-y}.screen-showcase.is-live .showcase-scene{touch-action:pan-y;pointer-events:none;display:block;position:absolute;inset:0}.screen-showcase.is-live .showcase-stage.is-dragging{cursor:grabbing}.screen-showcase.is-live .showcase-track{pointer-events:none;padding:0;display:block;position:absolute;inset:0;overflow:visible}.screen-showcase.is-live .showcase-slide{width:var(--phone-width);margin-left:calc(var(--phone-width) / -2);will-change:transform;position:absolute;top:50%;left:50%;pointer-events:auto!important}.showcase-caption{margin-bottom:var(--space-md)}.showcase-caption-name{font-family:var(--font-main);font-weight:800;font-size:var(--font-size-md);margin:0 0 .25rem}.showcase-caption-detail{color:rgba(var(--color-dark-rgb), .6);font-size:var(--font-size-sm);margin:0;line-height:1.5}.showcase-controls{gap:var(--space-xs);display:none}.screen-showcase.is-live .showcase-controls{margin-left:-12px;display:flex}.showcase-dot{border-radius:var(--radius-btn);cursor:pointer;background:0 0;border:0;justify-content:center;align-items:center;width:32px;height:32px;padding:0;display:flex}.showcase-dot:before{content:"";border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .2);width:8px;height:8px;transition:var(--transition-smooth)}.showcase-dot[aria-current=true]:before{background-color:var(--color-orange);width:24px}.showcase-dot:hover:before{background-color:rgba(var(--color-dark-rgb), .4)}.showcase-dot[aria-current=true]:hover:before{background-color:var(--color-orange-hover)}.showcase-dot:focus-visible{outline:2px solid var(--color-orange);outline-offset:2px}@media (width<=992px){.screen-showcase-inner{gap:var(--space-lg);grid-template-columns:1fr}.screen-showcase-copy{text-align:center;flex-direction:column;align-items:center;display:flex}.showcase-logo-img{margin-inline:auto;display:block}.screen-showcase-header,.screen-showcase-subtitle{text-align:center;max-width:46ch;margin-inline:auto}.showcase-cta{width:100%;margin:var(--space-md) auto var(--space-lg);justify-content:center;display:flex}.showcase-cta .btn-cta{justify-content:center;width:100%}.showcase-caption{text-align:center;width:100%}.screen-showcase.is-live .showcase-controls{justify-content:center;width:100%;margin-left:0}.showcase-stage{--phone-width:264px;--stage-height:420px}}@media (width<=600px){.screen-showcase{--showcase-seam:40px;padding:calc(var(--space-lg) + var(--showcase-seam)) 1.25rem}.showcase-logo-img{max-width:230px}.screen-showcase-title{font-size:var(--font-size-lg)}.screen-showcase-subtitle{font-size:var(--font-size-base)}.showcase-stage{--phone-width:232px;--stage-height:380px}.showcase-slide{width:132px}}</style>
+
+<section class="screen-showcase" id="screen-showcase">
+    <div class="screen-showcase-bg" aria-hidden="true"></div>
+
+    <div class="screen-showcase-inner">
+        <div class="screen-showcase-copy">
+            <header class="screen-showcase-header">
+                <img class="showcase-logo-img" src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png"
+                    alt="go2apply" loading="lazy" decoding="async">
+                <h2 class="screen-showcase-title">Por dentro do <span class="highlight">go2apply</span></h2>
+                <p class="screen-showcase-subtitle">O go2apply coloca as informações certas na hora certa para apoiar suas decisões.</p>
+            </header>
+
+            <div class="showcase-cta">
+                <!-- INJECTED: components/btn-cta/btn-cta.html -->
+<div class="component-mounted" data-original-path="components/btn-cta/btn-cta.html">
+<!-- ==========================================================================
+   Component: Btn CTA (Global Reutilizável)
+   Botão de CTA institucional com suporte a hover iluminado e animação de aura
+   ========================================================================== -->
+<style>.btn-cta{opacity:0;pointer-events:auto;justify-content:center;align-items:center;width:100%;margin-top:.35rem;animation:.9s cubic-bezier(.16,1,.3,1) .35s forwards btnCtaFadeInUp;display:flex;box-shadow:none!important;background:0 0!important;border:none!important;padding:0!important}.btn-cta-element{font-family:var(--font-main,-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);background-color:var(--color-dark-surface,#121810);border:1.2px solid var(--color-orange,#f28e13);border-radius:var(--radius-btn,10px);color:var(--color-white,#fefcf8);letter-spacing:.2px;cursor:pointer;z-index:1;box-shadow:0 4px 18px #00000080, 0 0 16px var(--color-orange-glow,#f28e1340);align-items:center;gap:.75rem;padding:.75rem 1.85rem;font-size:clamp(.92rem,1.05vw,1.05rem);font-weight:600;text-decoration:none;transition:transform .35s cubic-bezier(.16,1,.3,1),background-color .25s,border-color .25s,box-shadow .35s;display:inline-flex;position:relative}.btn-cta-element:before{content:"";border-radius:calc(var(--radius-btn,10px) + 4px);border:1.5px solid var(--color-orange,#f28e13);opacity:0;pointer-events:none;z-index:-1;animation:3.2s cubic-bezier(.25,1,.5,1) infinite btnCtaAuraPulse;position:absolute;inset:-4px}.btn-cta-element:hover{border-color:var(--color-orange-hover,#ff9b26);box-shadow:0 8px 28px #000000a6, 0 0 28px var(--color-orange-glow,#f28e138c);color:#fff;background-color:#182015;transform:translateY(-2px)scale(1.02)}.btn-cta-icon{object-fit:contain;width:22px;height:22px;transition:var(--transition-smooth,all .4s cubic-bezier(.16, 1, .3, 1))}.btn-cta-element:hover .btn-cta-icon{transform:scale(1.12)rotate(8deg)}.btn-cta-label{color:var(--color-white,#fefcf8);transition:var(--transition-smooth,all .4s cubic-bezier(.16, 1, .3, 1))}.btn-cta-element:hover .btn-cta-label{color:#fff}.btn-cta-arrow{color:var(--color-orange,#f28e13);font-size:16px;transition:transform .3s,color .3s}.btn-cta-element:hover .btn-cta-arrow{color:#fff;transform:translate(4px)}@keyframes btnCtaAuraPulse{0%{opacity:.85;box-shadow:0 0 12px var(--color-orange-glow,#f28e1366);transform:scale(.96)}50%{opacity:0;box-shadow:0 0 24px var(--color-orange-glow,#f28e1300);transform:scale(1.18)}to{opacity:0;box-shadow:0 0 24px var(--color-orange-glow,#f28e1300);transform:scale(1.18)}}@keyframes btnCtaFadeInUp{0%{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}@media (width<=600px){.btn-cta-element{gap:.6rem;padding:.65rem 1.45rem;font-size:.88rem}.btn-cta-icon{width:18px;height:18px}}</style>
+
+<div class="btn-cta">
+    <button class="btn-cta-element cta-btn-base" type="button">
+        <img src="/assets/ico-logo-go2apply-ttXdNs51.png" alt="" class="btn-cta-icon" aria-hidden="true" width="372" height="438">
+        <span class="btn-cta-label">Acessar o go2apply</span>
+        <i class="ph-fill ph-arrow-right btn-cta-arrow" aria-hidden="true"></i>
+    </button>
+</div>
+
+
+</div>
+<!-- END INJECTED: components/btn-cta/btn-cta.html -->
+            </div>
+
+            <div class="showcase-caption" aria-live="polite">
+                <p class="showcase-caption-name">Ingrediente ativo</p>
+                <p class="showcase-caption-detail">Kow, tendência de adjuvante e faixa de pH em calda</p>
+            </div>
+
+            <div class="showcase-controls" role="group" aria-label="Escolher tela do go2apply"></div>
+        </div>
+
+        <div class="showcase-stage">
+            <div class="showcase-scene">
+                <div class="showcase-track">
+                    <button class="showcase-slide" type="button" style="--shot-crop: 25%" data-name="Ingrediente ativo"
+                        data-detail="Kow, tendência de adjuvante e faixa de pH em calda">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="/assets/tebuconazol-wNqQ70eF.webp"
+                                alt="Tela de ingrediente ativo do go2apply com o Kow do tebuconazol, tendência de adjuvante e faixa de pH"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <!-- INJECTED: components/phone-mockup/phone-mockup.html -->
+<div class="component-mounted" data-original-path="components/phone-mockup/phone-mockup.html">
+<!-- ==========================================================================
+   Component: Phone Mockup
+   Aparelho de linha "preto fosco": corpo escuro, bisel de vidro na borda
+   interna, câmera central, volume e power em lados opostos e indicador de
+   gesto.
+
+   É uma moldura sobreposta: o componente desenha só o aparelho e deixa o
+   miolo transparente, então o conteúdo (a screenshot) vem do consumidor.
+   É isso que permite usar o mesmo componente em várias instâncias com
+   telas diferentes.
+
+   Encaixe pixel-perfect sem gambiarra visível: a moldura é feita com
+   `border`, e o CSS já calcula o raio interno de uma borda como
+   `raio externo - espessura` (40px - 8px = 32px). O consumidor usa esse
+   mesmo cálculo na janela da screenshot e as curvas coincidem, sem blur
+   nem gradiente pra disfarçar emenda.
+
+   Uso: o pai precisa ter `position` e o tamanho do aparelho, com
+   `padding` igual a `--phone-frame` reservando o espaço da moldura.
+   Tokens: `--phone-frame` e `--phone-radius`.
+   ========================================================================== -->
+<style>.phone-mockup{border:var(--phone-frame,8px) solid var(--color-dark);border-radius:var(--phone-radius,40px);box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .06), 0 2px 4px rgba(var(--color-dark-rgb), .08), 0 8px 16px rgba(var(--color-dark-rgb), .07), 0 24px 48px rgba(var(--color-dark-rgb), .1), 0 48px 80px rgba(var(--color-dark-rgb), .08);pointer-events:none;position:absolute;inset:0}.phone-mockup:before,.phone-mockup:after{content:"";border-radius:var(--radius-full);background-color:var(--color-dark);width:4px;position:absolute}.phone-mockup:before{top:88px;left:calc(var(--phone-frame,8px) * -1 - 4px);height:32px}.phone-mockup:after{top:104px;right:calc(var(--phone-frame,8px) * -1 - 4px);height:48px}.phone-mockup-camera{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .92);width:8px;height:8px;box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .1);margin-left:-4px;position:absolute;top:8px;left:50%}.phone-mockup-indicator{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .28);width:96px;height:4px;margin-left:-48px;position:absolute;bottom:8px;left:50%}</style>
+
+<span class="phone-mockup" aria-hidden="true">
+    <span class="phone-mockup-camera"></span>
+    <span class="phone-mockup-indicator"></span>
+</span>
+
+</div>
+<!-- END INJECTED: components/phone-mockup/phone-mockup.html -->
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Espectro de gotas"
+                        data-detail="DMV, densidade de gotas e Delta T limite">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="/assets/espectro-KeDW5fZa.webp"
+                                alt="Tela de espectro de gotas do go2apply com DMV, densidade calculada e Delta T limite"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <!-- INJECTED: components/phone-mockup-alt/phone-mockup-alt.html -->
+<div class="component-mounted" data-original-path="components/phone-mockup-alt/phone-mockup-alt.html">
+<!-- ==========================================================================
+   Component: Phone Mockup Alt
+   Segundo aparelho do catálogo, pra o carrossel não parecer o mesmo
+   celular repetido. Linha "grafite": corpo num tom mais escuro que o
+   phone-mockup, notch em pílula no lugar do furo de câmera redondo, os
+   dois botões do mesmo lado e sem indicador de gesto.
+
+   Mantém a mesma geometria do phone-mockup (moldura e raio), porque é ela
+   que garante o encaixe da screenshot: a moldura é feita com `border` e o
+   CSS calcula o raio interno como `raio externo - espessura`
+   (40px - 8px = 32px), o mesmo cálculo que o consumidor aplica na janela
+   da imagem. O que muda entre os dois aparelhos é o acabamento, não o
+   encaixe.
+
+   Uso: o pai precisa ter `position` e o tamanho do aparelho, com
+   `padding` igual a `--phone-frame` reservando o espaço da moldura.
+   Tokens: `--phone-frame` e `--phone-radius`.
+   ========================================================================== -->
+<style>.phone-mockup-alt{border:var(--phone-frame,8px) solid var(--color-dark-surface);border-radius:var(--phone-radius,40px);box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .06), 0 2px 4px rgba(var(--color-dark-rgb), .08), 0 8px 16px rgba(var(--color-dark-rgb), .07), 0 24px 48px rgba(var(--color-dark-rgb), .1), 0 48px 80px rgba(var(--color-dark-rgb), .08);pointer-events:none;position:absolute;inset:0}.phone-mockup-alt:before,.phone-mockup-alt:after{content:"";width:4px;right:calc(var(--phone-frame,8px) * -1 - 4px);border-radius:var(--radius-full);background-color:var(--color-dark-surface);position:absolute}.phone-mockup-alt:before{height:28px;top:80px}.phone-mockup-alt:after{height:40px;top:120px}.phone-mockup-alt-notch{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .95);width:56px;height:16px;box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .08);margin-left:-28px;position:absolute;top:8px;left:50%}</style>
+
+<span class="phone-mockup-alt" aria-hidden="true">
+    <span class="phone-mockup-alt-notch"></span>
+</span>
+
+</div>
+<!-- END INJECTED: components/phone-mockup-alt/phone-mockup-alt.html -->
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Identificação da operação"
+                        data-detail="Cliente, equipamento e responsável pelo registro">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="/assets/fluxometro-3-W8iFBJJ8.webp"
+                                alt="Tela de identificação do go2apply com cliente, equipamento, responsável e data da operação"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <!-- INJECTED: components/phone-mockup/phone-mockup.html -->
+<div class="component-mounted" data-original-path="components/phone-mockup/phone-mockup.html">
+<!-- ==========================================================================
+   Component: Phone Mockup
+   Aparelho de linha "preto fosco": corpo escuro, bisel de vidro na borda
+   interna, câmera central, volume e power em lados opostos e indicador de
+   gesto.
+
+   É uma moldura sobreposta: o componente desenha só o aparelho e deixa o
+   miolo transparente, então o conteúdo (a screenshot) vem do consumidor.
+   É isso que permite usar o mesmo componente em várias instâncias com
+   telas diferentes.
+
+   Encaixe pixel-perfect sem gambiarra visível: a moldura é feita com
+   `border`, e o CSS já calcula o raio interno de uma borda como
+   `raio externo - espessura` (40px - 8px = 32px). O consumidor usa esse
+   mesmo cálculo na janela da screenshot e as curvas coincidem, sem blur
+   nem gradiente pra disfarçar emenda.
+
+   Uso: o pai precisa ter `position` e o tamanho do aparelho, com
+   `padding` igual a `--phone-frame` reservando o espaço da moldura.
+   Tokens: `--phone-frame` e `--phone-radius`.
+   ========================================================================== -->
+<style>.phone-mockup{border:var(--phone-frame,8px) solid var(--color-dark);border-radius:var(--phone-radius,40px);box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .06), 0 2px 4px rgba(var(--color-dark-rgb), .08), 0 8px 16px rgba(var(--color-dark-rgb), .07), 0 24px 48px rgba(var(--color-dark-rgb), .1), 0 48px 80px rgba(var(--color-dark-rgb), .08);pointer-events:none;position:absolute;inset:0}.phone-mockup:before,.phone-mockup:after{content:"";border-radius:var(--radius-full);background-color:var(--color-dark);width:4px;position:absolute}.phone-mockup:before{top:88px;left:calc(var(--phone-frame,8px) * -1 - 4px);height:32px}.phone-mockup:after{top:104px;right:calc(var(--phone-frame,8px) * -1 - 4px);height:48px}.phone-mockup-camera{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .92);width:8px;height:8px;box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .1);margin-left:-4px;position:absolute;top:8px;left:50%}.phone-mockup-indicator{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .28);width:96px;height:4px;margin-left:-48px;position:absolute;bottom:8px;left:50%}</style>
+
+<span class="phone-mockup" aria-hidden="true">
+    <span class="phone-mockup-camera"></span>
+    <span class="phone-mockup-indicator"></span>
+</span>
+
+</div>
+<!-- END INJECTED: components/phone-mockup/phone-mockup.html -->
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Coleta por ponta"
+                        data-detail="Volume medido ponta a ponta antes do cálculo">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="/assets/fluxometro-1-0m1I_jxx.webp"
+                                alt="Tela de coleta por ponta do go2apply com o volume medido em cada uma das doze pontas"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <!-- INJECTED: components/phone-mockup-alt/phone-mockup-alt.html -->
+<div class="component-mounted" data-original-path="components/phone-mockup-alt/phone-mockup-alt.html">
+<!-- ==========================================================================
+   Component: Phone Mockup Alt
+   Segundo aparelho do catálogo, pra o carrossel não parecer o mesmo
+   celular repetido. Linha "grafite": corpo num tom mais escuro que o
+   phone-mockup, notch em pílula no lugar do furo de câmera redondo, os
+   dois botões do mesmo lado e sem indicador de gesto.
+
+   Mantém a mesma geometria do phone-mockup (moldura e raio), porque é ela
+   que garante o encaixe da screenshot: a moldura é feita com `border` e o
+   CSS calcula o raio interno como `raio externo - espessura`
+   (40px - 8px = 32px), o mesmo cálculo que o consumidor aplica na janela
+   da imagem. O que muda entre os dois aparelhos é o acabamento, não o
+   encaixe.
+
+   Uso: o pai precisa ter `position` e o tamanho do aparelho, com
+   `padding` igual a `--phone-frame` reservando o espaço da moldura.
+   Tokens: `--phone-frame` e `--phone-radius`.
+   ========================================================================== -->
+<style>.phone-mockup-alt{border:var(--phone-frame,8px) solid var(--color-dark-surface);border-radius:var(--phone-radius,40px);box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .06), 0 2px 4px rgba(var(--color-dark-rgb), .08), 0 8px 16px rgba(var(--color-dark-rgb), .07), 0 24px 48px rgba(var(--color-dark-rgb), .1), 0 48px 80px rgba(var(--color-dark-rgb), .08);pointer-events:none;position:absolute;inset:0}.phone-mockup-alt:before,.phone-mockup-alt:after{content:"";width:4px;right:calc(var(--phone-frame,8px) * -1 - 4px);border-radius:var(--radius-full);background-color:var(--color-dark-surface);position:absolute}.phone-mockup-alt:before{height:28px;top:80px}.phone-mockup-alt:after{height:40px;top:120px}.phone-mockup-alt-notch{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .95);width:56px;height:16px;box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .08);margin-left:-28px;position:absolute;top:8px;left:50%}</style>
+
+<span class="phone-mockup-alt" aria-hidden="true">
+    <span class="phone-mockup-alt-notch"></span>
+</span>
+
+</div>
+<!-- END INJECTED: components/phone-mockup-alt/phone-mockup-alt.html -->
+                    </button>
+
+                    <button class="showcase-slide" type="button" data-name="Resultado da calibração"
+                        data-detail="Vazão coletada, desvio e nova constante do fluxômetro">
+                        <span class="showcase-slide-screen">
+                            <img class="showcase-slide-shot" src="/assets/fluxometro-2-DoqcpxzV.webp"
+                                alt="Tela de resultado do go2apply com vazão coletada, desvio da medição e nova constante do fluxômetro"
+                                loading="lazy" decoding="async" width="738" height="1600">
+                        </span>
+                        <!-- INJECTED: components/phone-mockup/phone-mockup.html -->
+<div class="component-mounted" data-original-path="components/phone-mockup/phone-mockup.html">
+<!-- ==========================================================================
+   Component: Phone Mockup
+   Aparelho de linha "preto fosco": corpo escuro, bisel de vidro na borda
+   interna, câmera central, volume e power em lados opostos e indicador de
+   gesto.
+
+   É uma moldura sobreposta: o componente desenha só o aparelho e deixa o
+   miolo transparente, então o conteúdo (a screenshot) vem do consumidor.
+   É isso que permite usar o mesmo componente em várias instâncias com
+   telas diferentes.
+
+   Encaixe pixel-perfect sem gambiarra visível: a moldura é feita com
+   `border`, e o CSS já calcula o raio interno de uma borda como
+   `raio externo - espessura` (40px - 8px = 32px). O consumidor usa esse
+   mesmo cálculo na janela da screenshot e as curvas coincidem, sem blur
+   nem gradiente pra disfarçar emenda.
+
+   Uso: o pai precisa ter `position` e o tamanho do aparelho, com
+   `padding` igual a `--phone-frame` reservando o espaço da moldura.
+   Tokens: `--phone-frame` e `--phone-radius`.
+   ========================================================================== -->
+<style>.phone-mockup{border:var(--phone-frame,8px) solid var(--color-dark);border-radius:var(--phone-radius,40px);box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .06), 0 2px 4px rgba(var(--color-dark-rgb), .08), 0 8px 16px rgba(var(--color-dark-rgb), .07), 0 24px 48px rgba(var(--color-dark-rgb), .1), 0 48px 80px rgba(var(--color-dark-rgb), .08);pointer-events:none;position:absolute;inset:0}.phone-mockup:before,.phone-mockup:after{content:"";border-radius:var(--radius-full);background-color:var(--color-dark);width:4px;position:absolute}.phone-mockup:before{top:88px;left:calc(var(--phone-frame,8px) * -1 - 4px);height:32px}.phone-mockup:after{top:104px;right:calc(var(--phone-frame,8px) * -1 - 4px);height:48px}.phone-mockup-camera{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .92);width:8px;height:8px;box-shadow:inset 0 0 0 1px rgba(var(--color-white-rgb), .1);margin-left:-4px;position:absolute;top:8px;left:50%}.phone-mockup-indicator{border-radius:var(--radius-full);background-color:rgba(var(--color-dark-rgb), .28);width:96px;height:4px;margin-left:-48px;position:absolute;bottom:8px;left:50%}</style>
+
+<span class="phone-mockup" aria-hidden="true">
+    <span class="phone-mockup-camera"></span>
+    <span class="phone-mockup-indicator"></span>
+</span>
+
+</div>
+<!-- END INJECTED: components/phone-mockup/phone-mockup.html -->
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</div>
+<!-- END INJECTED: sections/screen-showcase/screen-showcase.html -->
+        <!-- INJECTED: sections/trust/trust.html -->
+<div class="component-mounted" data-original-path="sections/trust/trust.html">
+<!-- ==========================================================================
+   Seção: Trust
+   Dobra de autoridade da empresa: selo de confiança + 3 pilares de valor.
+   Fundo com foto de campo de pesquisa + animação de radar com o mockup de
+   celular (mesma linguagem visual do canvas de fundo da Hero).
+   ========================================================================== -->
+<style>.trust{z-index:2;width:100%;padding:calc(var(--space-2xl) + 90px) 1.5rem var(--space-2xl);clip-path:polygon(0 90px,100% 0,100% 100%,0 100%);color:var(--color-white);margin-top:-90px;position:relative;overflow:hidden}.trust-bg{z-index:0;position:absolute;inset:0}.trust-bg-image{object-fit:cover;width:100%;height:100%;position:absolute;inset:0;transform:scale(1.1)}.trust-overlay{background:linear-gradient(180deg, rgba(var(--color-dark-rgb), .88) 0%, rgba(var(--color-dark-rgb), .8) 50%, rgba(var(--color-dark-rgb), .9) 100%);position:absolute;inset:0}.trust-inner{z-index:1;max-width:1200px;margin:0 auto;position:relative}.trust-grid{gap:var(--space-2xl);padding-bottom:var(--space-2xl);margin-bottom:var(--space-2xl);border-bottom:1px solid var(--color-border);grid-template-columns:.85fr 1.15fr;align-items:center;display:grid}.trust-badge-icon{width:104px;height:104px;color:var(--color-caldas-light);margin:0 0 var(--space-md);justify-content:center;align-items:center;font-size:80px;display:flex}.trust-title{font-family:var(--font-main);font-weight:800;font-size:calc(var(--font-size-hero) * .95);text-transform:uppercase;margin:0 0 var(--space-sm);line-height:1.15}.trust-title .highlight{color:var(--color-caldas-light)}.trust-subtitle{color:var(--color-white-muted);font-size:var(--font-size-md);max-width:42ch;margin:0;line-height:1.6}.trust-subtitle .highlight{color:var(--color-orange);font-weight:700}.trust-credit{color:rgba(var(--color-white-rgb), .5);font-size:var(--font-size-sm);max-width:42ch;margin:var(--space-md) 0 0}.trust-credit a{color:var(--color-caldas-light);font-weight:700;transition:color .25s}.trust-credit a:hover{color:var(--color-orange)}.trust-pillars-col{align-items:flex-start;gap:var(--space-xl);display:flex}.trust-pillar{flex-direction:column;flex:1;gap:.5rem;display:flex}.trust-pillar-icon{width:28px;height:28px;color:var(--color-orange);justify-content:center;align-items:center;font-size:24px;display:flex}.trust-pillar-title{font-family:var(--font-main);font-weight:800;font-size:var(--font-size-base);color:var(--color-white);line-height:1.3}.trust-pillar-text{color:var(--color-white-muted);font-size:var(--font-size-sm);line-height:1.5}.trust-pillar-divider{background-color:var(--color-border);align-self:stretch;width:1px}@media (width<=992px){.trust-grid{gap:var(--space-xl);grid-template-columns:1fr}.trust-pillars-col{flex-wrap:wrap}}@media (width<=600px){.trust{padding:calc(var(--space-xl) + 48px) 1.25rem var(--space-xl);clip-path:polygon(0 48px,100% 0,100% 100%,0 100%);margin-top:-48px}.trust-pillars-col{align-items:flex-start;gap:var(--space-md);flex-direction:column}.trust-pillar-divider{width:100%;height:1px}}</style>
+
+<section class="trust" id="trust">
+    <div class="trust-bg" aria-hidden="true">
+        <img class="trust-bg-image" src="/assets/hero-background-Dzcl4qom.webp" alt="" loading="lazy" width="1280" height="720">
+        <div class="trust-overlay"></div>
+    </div>
+
+    <div class="trust-inner">
+        <div class="trust-grid">
+            <div class="trust-badge-col">
+                <span class="trust-badge-icon">
+                    <i class="ph-fill ph-shield-check" aria-hidden="true"></i>
+                </span>
+                <h2 class="trust-title">Confiança que vem do <span class="highlight">campo</span></h2>
+                <p class="trust-subtitle">+ de 10 anos de pesquisa transformando conhecimento em <span
+                        class="highlight">resultados no campo</span>.</p>
+                <p class="trust-credit">Ferramentas desenvolvidas pela equipe técnica da <a
+                        href="https://www.equalizagro.com/" target="_blank" rel="noopener noreferrer">Equalizagro</a>.
+                </p>
+            </div>
+
+            <div class="trust-pillars-col">
+                <div class="trust-pillar">
+                    <span class="trust-pillar-icon">
+                        <i class="ph-fill ph-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <span class="trust-pillar-title">Metodologia técnica</span>
+                    <span class="trust-pillar-text">Baseada em anos de pesquisa aplicada em campo.</span>
+                </div>
+
+                <div class="trust-pillar-divider" aria-hidden="true"></div>
+
+                <div class="trust-pillar">
+                    <span class="trust-pillar-icon">
+                        <i class="ph-fill ph-chat-circle" aria-hidden="true"></i>
+                    </span>
+                    <span class="trust-pillar-title">Suporte direto</span>
+                    <span class="trust-pillar-text">Equipe técnica disponível para tirar dúvidas.</span>
+                </div>
+
+                <div class="trust-pillar-divider" aria-hidden="true"></div>
+
+                <div class="trust-pillar">
+                    <span class="trust-pillar-icon">
+                        <i class="ph-fill ph-arrows-clockwise" aria-hidden="true"></i>
+                    </span>
+                    <span class="trust-pillar-title">Sempre atualizado</span>
+                    <span class="trust-pillar-text">Ferramentas evoluindo com as práticas mais recentes.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- END INJECTED: sections/trust/trust.html -->
+        <!-- INJECTED: sections/faq/faq.html -->
+<div class="component-mounted" data-original-path="sections/faq/faq.html">
+<!-- ==========================================================================
+   Seção: FAQ
+   Acordeão de perguntas frequentes. Fundo "semi-claro" dentro da família
+   dark do DS (surface elevada + cards com borda), mantendo o tema
+   consistente com as dobras vizinhas.
+   ========================================================================== -->
+<style>.faq{z-index:2;width:100%;padding:calc(var(--space-2xl) + 90px) 1.5rem var(--space-2xl);clip-path:polygon(0 90px,100% 0,100% 100%,0 100%);background-color:var(--color-dark-surface);color:var(--color-white);text-align:center;margin-top:-90px;position:relative;overflow:hidden}.faq-bg-logo{z-index:0;pointer-events:none;justify-content:center;align-items:center;display:flex;position:absolute;inset:0}.faq-bg-logo img{opacity:.07;filter:blur(14px);width:min(800px,70%);height:auto}.faq-inner{z-index:1;max-width:760px;margin:0 auto;position:relative}.faq-title{font-family:var(--font-main);font-weight:800;font-size:var(--font-size-xl);margin:0 0 var(--space-sm);line-height:1.2}.faq-title .highlight{color:var(--color-orange)}.faq-support{color:var(--color-white-muted);font-size:var(--font-size-base);max-width:52ch;margin:0 auto var(--space-xl);line-height:1.6}.faq-list{gap:var(--space-sm);text-align:left;flex-direction:column;display:flex}.faq-item{border:1px solid var(--color-border);border-radius:var(--radius-lg);background-color:rgba(var(--color-white-rgb), .03);transition:border-color .2s,background-color .2s;overflow:hidden}.faq-item.is-open{border-color:var(--color-border-subtle);background-color:rgba(var(--color-white-rgb), .05)}.faq-question{align-items:center;gap:var(--space-md);width:100%;padding:var(--space-md) var(--space-lg);cursor:pointer;text-align:left;color:var(--color-white);background:0 0;border:none;display:flex}.faq-icon{color:var(--color-orange);transition:var(--transition-fast);flex-shrink:0;justify-content:center;align-items:center;font-size:1.25rem;display:flex}.faq-item.is-open .faq-icon{color:var(--color-green)}.faq-question-text{font-weight:700;font-size:var(--font-size-base);flex:1}.faq-chevron{color:var(--color-white-muted);flex-shrink:0;font-size:18px;transition:transform .3s}.faq-item.is-open .faq-chevron{color:var(--color-green);transform:rotate(180deg)}.faq-answer-wrap{grid-template-rows:0fr;transition:grid-template-rows .35s;display:grid}.faq-item.is-open .faq-answer-wrap{grid-template-rows:1fr}.faq-answer-inner{overflow:hidden}.faq-answer{color:var(--color-white-muted);font-size:var(--font-size-sm);padding:0 var(--space-lg) var(--space-lg) calc(20px + var(--space-md) + var(--space-lg));margin:0;line-height:1.6}@media (width<=600px){.faq{padding:calc(var(--space-xl) + 48px) 1.25rem var(--space-xl);clip-path:polygon(0 48px,100% 0,100% 100%,0 100%);margin-top:-48px}.faq-question{padding:var(--space-sm) var(--space-md);gap:var(--space-sm)}.faq-answer{padding:0 var(--space-md) var(--space-md) calc(20px + var(--space-sm) + var(--space-md))}}</style>
+
+<section class="faq" id="faq">
+    <div class="faq-bg-logo" aria-hidden="true">
+        <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="" loading="lazy" width="1904" height="478">
+    </div>
+    <div class="faq-inner">
+        <h2 class="faq-title">Perguntas <span class="highlight">Frequentes</span></h2>
+        <p class="faq-support">Tire suas dúvidas sobre como o go2apply funciona no dia a dia da sua operação.</p>
+
+        <div class="faq-list">
+            <div class="faq-item is-open">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
+                    </span>
+                    <span class="faq-question-text">Preciso instalar algum programa para usar o go2apply?</span>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Não. O go2apply funciona direto no navegador, do computador ou do celular,
+                            sem precisar baixar nem instalar nada.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
+                    </span>
+                    <span class="faq-question-text">As calculadoras funcionam para qualquer cultura?</span>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e
+                            nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das
+                            operações agrícolas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
+                    </span>
+                    <span class="faq-question-text">Preciso ser especialista para usar as ferramentas?</span>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Não. As ferramentas guiam você passo a passo em cada cálculo, então dá
+                            para usar mesmo sem um conhecimento técnico aprofundado.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
+                    </span>
+                    <span class="faq-question-text">Posso usar o go2apply em mais de uma fazenda ou talhão?</span>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">Sim. Não há limite de fazendas ou talhões: você organiza suas operações e
+                            acompanha cada uma separadamente dentro da plataforma.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span class="faq-icon">
+                        <i class="ph-fill ph-question" aria-hidden="true"></i>
+                    </span>
+                    <span class="faq-question-text">Como funciona o suporte técnico?</span>
+                    <i class="ph-fill ph-caret-down faq-chevron" aria-hidden="true"></i>
+                </button>
+                <div class="faq-answer-wrap">
+                    <div class="faq-answer-inner">
+                        <p class="faq-answer">
+                            Através do nosso WhatsApp, e da nossa comunidade no Telegram, com uma equipe técnica
+                            disponível
+                            para tirar dúvidas e orientar sobre a melhor forma de extrair ao máximo tudo que cada
+                            ferramenta pode entregar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- END INJECTED: sections/faq/faq.html -->
+        <!-- INJECTED: sections/contact/contact.html -->
+<div class="component-mounted" data-original-path="sections/contact/contact.html">
+<!-- ==========================================================================
+   Seção: Contact
+   Fundo com o mesmo carrossel de vídeo da Hero, rolando normalmente com a
+   seção. Dois cartões em vidro: canais de contato e um mapa com a
+   localização do escritório.
+   ========================================================================== -->
+<style>.contact{width:100%;min-height:100vh;padding:var(--space-2xl) 1.5rem;color:var(--color-white);align-items:center;display:flex;position:relative;overflow:hidden}.contact-bg{z-index:0;background-color:var(--color-dark);position:absolute;inset:0;overflow:hidden}.contact-bg-video{object-fit:cover;opacity:1;filter:saturate(1.35)contrast(1.08);width:100%;height:100%;position:absolute;top:0;left:0}.contact-bg-overlay{background:linear-gradient(180deg, rgba(var(--color-dark-rgb), .65) 0%, rgba(var(--color-dark-rgb), .35) 50%, rgba(var(--color-dark-rgb), .7) 100%);position:absolute;inset:0}.contact-inner{z-index:1;gap:var(--space-lg);grid-template-columns:.85fr 1.15fr;align-items:stretch;width:100%;max-width:1100px;margin:0 auto;display:grid;position:relative}.contact-card{border-radius:var(--radius-lg);border:1px solid var(--color-border-subtle);background-color:rgba(var(--color-dark-surface-rgb), .7);-webkit-backdrop-filter:var(--blur-glass);padding:var(--space-xl);box-shadow:var(--shadow-lg);transition:transform .3s,border-color .3s;position:relative}.contact-card:hover{border-color:var(--color-border);transform:translateY(-4px)}.contact-brand-logo{width:auto;height:30px;margin:0 0 var(--space-lg);align-self:flex-start}.contact-card-title{font-family:var(--font-main);font-weight:800;font-size:var(--font-size-lg);margin:0 0 var(--space-xs)}.contact-card-support{color:var(--color-white-muted);font-size:var(--font-size-sm);margin:0 0 var(--space-lg);line-height:1.55}.contact-card--info{flex-direction:column;display:flex}.contact-info-list{gap:var(--space-md);margin:var(--space-sm) 0 var(--space-xl);flex-direction:column;padding:0;list-style:none;display:flex}.contact-info-list li,.contact-info-list a{align-items:center;gap:var(--space-sm);color:var(--color-white-muted);font-size:var(--font-size-sm);transition:color .25s;display:flex}.contact-info-list a:hover{color:var(--color-orange)}.contact-info-icon{--icon-badge-size:36px;background-color:rgba(var(--color-white-rgb), .06);color:var(--color-orange);font-size:var(--font-size-base);flex-shrink:0;transition:background-color .25s,color .25s}.contact-info-list a:hover .contact-info-icon{background-color:rgba(var(--color-orange-rgb), .14)}.contact-social{gap:var(--space-xs);margin-top:auto;display:flex}.contact-card--map{flex-direction:column;display:flex}.contact-map-frame{border-radius:var(--radius-md);filter:grayscale(.2)contrast(1.05);border:0;flex:1;width:100%;min-height:260px}.contact-map-link{margin-top:var(--space-sm);color:var(--color-white-muted);font-size:var(--font-size-sm);align-items:center;gap:.4rem;font-weight:600;text-decoration:none;transition:color .25s;display:inline-flex}.contact-map-link:hover{color:var(--color-orange)}@media (width<=992px){.contact-inner{grid-template-columns:1fr}.contact-card--info{order:2}.contact-social{margin-top:var(--space-lg)}}@media (width<=600px){.contact{padding:var(--space-xl) 1.25rem}.contact-card{padding:var(--space-lg)}}</style>
+
+<section class="contact" id="contact">
+    <div class="contact-bg" id="contact-bg">
+        <video id="contact-video-1" class="contact-bg-video" muted playsinline autoplay
+            poster="https://res.cloudinary.com/vdgkx5jc/video/upload/so_0,w_960,q_50,f_jpg/v1788029484/bg-1.jpg"></video>
+        <div class="contact-bg-overlay"></div>
+    </div>
+
+    <div class="contact-inner">
+        <div class="contact-card contact-card--info">
+            <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply" class="contact-brand-logo" loading="lazy" decoding="async" width="1904" height="478">
+            <h2 class="contact-card-title">Fale Conosco</h2>
+            <p class="contact-card-support">Estamos por perto para tirar dúvidas sobre a plataforma.</p>
+
+            <ul class="contact-info-list">
+                <li>
+                    <span class="contact-info-icon icon-badge">
+                        <i class="ph-fill ph-map-pin" aria-hidden="true"></i>
+                    </span>
+                    <span>R. General Osório, 117 - Sala 03 - Centro, Cruz Alta - RS, 98005-150</span>
+                </li>
+                <li>
+                    <a href="mailto:contato@go2apply.com.br">
+                        <span class="contact-info-icon icon-badge">
+                            <i class="ph-fill ph-envelope-simple" aria-hidden="true"></i>
+                        </span>
+                        <span>contato@go2apply.com.br</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://wa.me/555533432606" target="_blank" rel="noopener noreferrer">
+                        <span class="contact-info-icon icon-badge">
+                            <i class="ph-fill ph-whatsapp-logo" aria-hidden="true"></i>
+                        </span>
+                        <span>+55 55 3343-2606</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="contact-social">
+                <!-- INJECTED: components/social-links/social-links.html -->
+<div class="component-mounted" data-original-path="components/social-links/social-links.html">
+<!-- ==========================================================================
+   Component: Social Links (Header)
+   Ícones vetoriais de redes sociais sincronizados com a rolagem do header
+   ========================================================================== -->
+<style>.social-links{align-items:center;gap:var(--space-sm);display:flex}#header .social-links{opacity:0;pointer-events:none;justify-self:start;transition:opacity .35s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1);transform:translateY(-8px)scale(.95)}#header .social-links.is-visible{opacity:1;pointer-events:auto;transform:translateY(0)scale(1)}.social-link{--icon-badge-size:38px;color:var(--color-orange);border:1px solid var(--color-border-subtle);transition:var(--transition-smooth);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:#ffffff14;text-decoration:none}.social-link i{color:var(--color-orange);transition:var(--transition-smooth);font-size:20px}.social-link:hover{color:var(--color-white);background:var(--color-orange);border-color:var(--color-orange);box-shadow:0 4px 16px var(--color-orange-glow);transform:translateY(-2px)scale(1.08)}.social-link:hover i{color:var(--color-white)}@media (width<=992px){#header .social-links{display:none}}@media (width<=600px){.social-link{--icon-badge-size:32px}.social-link i{font-size:16px}}</style>
+
+<div class="social-links">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link icon-badge"
+        aria-label="Instagram">
+        <i class="ph ph-instagram-logo" aria-hidden="true"></i>
+    </a>
+    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
+        target="_blank" rel="noopener noreferrer" class="social-link icon-badge" aria-label="WhatsApp">
+        <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+<!-- END INJECTED: components/social-links/social-links.html -->
+            </div>
+        </div>
+
+        <div class="contact-card contact-card--map">
+            <h2 class="contact-card-title">Nossa Localização</h2>
+            <p class="contact-card-support">Visite nosso escritório em Cruz Alta - RS.</p>
+
+            <iframe class="contact-map-frame"
+                src="https://www.google.com/maps?q=R.%20General%20Os%C3%B3rio%2C%20117%20-%20Sala%2003%20-%20Centro%2C%20Cruz%20Alta%20-%20RS%2C%2098005-150&output=embed"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+                title="Mapa com a localização do go2apply"></iframe>
+
+            <a class="contact-map-link"
+                href="https://www.google.com/maps/search/?api=1&query=R.%20General%20Os%C3%B3rio%2C%20117%20-%20Sala%2003%20-%20Centro%2C%20Cruz%20Alta%20-%20RS%2C%2098005-150"
+                target="_blank" rel="noopener noreferrer">
+                Abrir no Google Maps
+                <i class="ph-fill ph-arrow-square-out" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- END INJECTED: sections/contact/contact.html -->
+    </main>
+    <!-- INJECTED: sections/footer/footer.html -->
+<div class="component-mounted" data-original-path="sections/footer/footer.html">
+<!-- ==========================================================================
+   Section / Dobra: Footer
+   Minimalista: logo, copyright e redes sociais em uma única linha.
+   ========================================================================== -->
+<style>.footer{padding:var(--space-lg) 2.5rem;background-color:var(--color-dark-surface);border-top:1px solid var(--color-border);position:relative}.footer__inner{align-items:center;gap:var(--space-md);grid-template-columns:1fr auto 1fr;max-width:1400px;margin:0 auto;display:grid}.footer__brand{justify-self:start}.footer__logo{width:auto;height:32px;display:block}.footer__copy{color:rgba(var(--color-white-rgb), .4);font-size:var(--font-size-sm);white-space:nowrap;justify-self:center}.footer__social{justify-self:end}@media (width<=600px){.footer{padding:var(--space-lg) 1.25rem}.footer__inner{justify-items:center;gap:var(--space-md);grid-template-columns:1fr}.footer__brand,.footer__copy,.footer__social{justify-self:center}.footer__copy{white-space:normal;text-align:center}}</style>
+
+<footer class="footer" id="footer">
+    <div class="footer__inner">
+        <div class="footer__brand">
+            <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply" class="footer__logo" loading="lazy" width="1904" height="478">
+        </div>
+
+        <p class="footer__copy">© 2026 go2apply. Todos os direitos reservados.</p>
+
+        <div class="footer__social">
+            <!-- INJECTED: components/social-links/social-links.html -->
+<div class="component-mounted" data-original-path="components/social-links/social-links.html">
+<!-- ==========================================================================
+   Component: Social Links (Header)
+   Ícones vetoriais de redes sociais sincronizados com a rolagem do header
+   ========================================================================== -->
+<style>.social-links{align-items:center;gap:var(--space-sm);display:flex}#header .social-links{opacity:0;pointer-events:none;justify-self:start;transition:opacity .35s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1);transform:translateY(-8px)scale(.95)}#header .social-links.is-visible{opacity:1;pointer-events:auto;transform:translateY(0)scale(1)}.social-link{--icon-badge-size:38px;color:var(--color-orange);border:1px solid var(--color-border-subtle);transition:var(--transition-smooth);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:#ffffff14;text-decoration:none}.social-link i{color:var(--color-orange);transition:var(--transition-smooth);font-size:20px}.social-link:hover{color:var(--color-white);background:var(--color-orange);border-color:var(--color-orange);box-shadow:0 4px 16px var(--color-orange-glow);transform:translateY(-2px)scale(1.08)}.social-link:hover i{color:var(--color-white)}@media (width<=992px){#header .social-links{display:none}}@media (width<=600px){.social-link{--icon-badge-size:32px}.social-link i{font-size:16px}}</style>
+
+<div class="social-links">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link icon-badge"
+        aria-label="Instagram">
+        <i class="ph ph-instagram-logo" aria-hidden="true"></i>
+    </a>
+    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
+        target="_blank" rel="noopener noreferrer" class="social-link icon-badge" aria-label="WhatsApp">
+        <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+<!-- END INJECTED: components/social-links/social-links.html -->
+        </div>
+    </div>
+</footer>
+
+
+</div>
+<!-- END INJECTED: sections/footer/footer.html -->
+    <!-- INJECTED: components/whatsapp-float/whatsapp-float.html -->
+<div class="component-mounted" data-original-path="components/whatsapp-float/whatsapp-float.html">
+<style>.whatsapp-float{z-index:9999;pointer-events:none;will-change:transform, bottom, right;flex-direction:row-reverse;align-items:center;gap:.75rem;transition:bottom .75s cubic-bezier(.16,1,.3,1),right .75s cubic-bezier(.16,1,.3,1);display:flex;position:fixed;bottom:82px;right:42px}.whatsapp-float.is-detached{bottom:28px;right:32px}.whatsapp-float-btn{pointer-events:auto;cursor:pointer;width:58px;height:58px;filter:drop-shadow(0 8px 20px #00000073) drop-shadow(0 2px 8px var(--color-green-glow,#5b8c4566));justify-content:center;align-items:center;text-decoration:none;transition:transform .3s cubic-bezier(.16,1,.3,1),filter .3s;display:inline-flex;position:relative}.whatsapp-badge-svg{width:100%;height:100%;transition:transform .3s cubic-bezier(.16,1,.3,1);display:block}.whatsapp-float.just-detached .whatsapp-float-btn{animation:.55s cubic-bezier(.34,1.56,.64,1) whatsappDetachPop}.whatsapp-float-btn:hover{filter:drop-shadow(0 12px 28px #0000008c) drop-shadow(0 0 20px var(--color-green-glow,#5b8c45cc));transform:scale(1.1)translateY(-2px)}.whatsapp-tooltip{background:rgba(var(--color-dark-surface-rgb,18, 24, 16), .94);color:var(--color-white,#fefcf8);border:1.2px solid var(--color-green,#5b8c45);-webkit-backdrop-filter:blur(14px);border-radius:var(--radius-btn,10px);font-family:var(--font-main,sans-serif);letter-spacing:.2px;white-space:nowrap;opacity:0;pointer-events:auto;padding:.42rem .8rem;font-size:.8rem;font-weight:600;transition:opacity .3s cubic-bezier(.16,1,.3,1),transform .3s cubic-bezier(.16,1,.3,1);position:relative;transform:translate(8px);box-shadow:0 6px 20px #0006}.whatsapp-float:hover .whatsapp-tooltip{opacity:1;transform:translate(0)}@keyframes whatsappDetachPop{0%{transform:scale(.92)}50%{transform:scale(1.18)}to{transform:scale(1)}}@media (width<=600px){.whatsapp-float{display:none}.whatsapp-float.just-detached .whatsapp-float-btn{animation:none}.whatsapp-tooltip{display:none}.whatsapp-float-btn{width:46px;height:46px}}</style>
+
+<div class="whatsapp-float" id="whatsapp-float" aria-label="Atendimento via WhatsApp">
+    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
+        target="_blank" rel="noopener noreferrer" class="whatsapp-float-btn" aria-label="Fale conosco no WhatsApp">
+        <svg class="whatsapp-badge-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Borda externa branca do balão (Sticker Outline) -->
+            <path d="M 50 8 C 26.8 8 8 26.8 8 50 C 8 57.6 10 64.7 13.6 70.9 L 8.5 89.2 C 8.1 90.7 9.5 92.1 9.9 91.6 L 28.5 86.8 C 34.8 90.3 42.1 92.3 50 92.3 C 73.2 92.3 92 73.5 92 50.3 C 92 27 73.2 8 50 8 Z"
+                  fill="var(--color-white, #fefcf8)"/>
+
+            <!-- Preenchimento com a cor verde do Design System (go2apply green) -->
+            <path d="M 50 14 C 29.9 14 13.5 30.4 13.5 50.5 C 13.5 57.2 15.3 63.4 18.5 68.8 L 14.8 82.2 C 14.5 83.2 15.5 84.1 16.5 83.8 L 30.1 80.3 C 35.7 83.4 42.5 85.2 49.8 85.2 C 69.9 85.2 86.3 68.8 86.3 48.7 C 86.3 28.6 69.9 14 50 14 Z"
+                  fill="var(--color-green, #5b8c45)"/>
+
+            <!-- Ícone branco do fone de telefone -->
+            <path d="M 64.8 59.2 C 63.9 58.7 59.5 56.5 58.7 56.2 C 57.9 55.9 57.3 55.8 56.7 56.7 C 56.1 57.6 54.4 59.7 53.8 60.3 C 53.3 61 52.8 61.1 51.9 60.7 C 51 60.2 48.2 59.3 44.8 56.2 C 42.1 53.8 40.4 50.9 39.8 50 C 39.3 49.1 39.8 48.6 40.2 48.2 C 40.6 47.8 41.1 47.2 41.6 46.7 C 42.1 46.1 42.2 45.7 42.6 45 C 42.9 44.2 42.8 43.6 42.5 43.1 C 42.2 42.5 40.4 38 39.6 36.1 C 38.8 34.2 38 34.5 37.4 34.5 C 36.9 34.5 36.2 34.4 35.6 34.4 C 35 34.4 34 34.6 33.2 35.5 C 32.4 36.4 30.1 38.5 30.1 42.9 C 30.1 47.2 33.3 51.4 33.7 52 C 34.2 52.6 40 61.5 48.8 65.3 C 50.9 66.2 52.6 66.8 53.8 67.2 C 55.9 67.9 57.9 67.8 59.4 67.5 C 61.1 67.3 64.6 65.4 65.4 63.3 C 66.1 61.1 66.1 59.2 65.9 58.9 C 65.6 58.5 65.3 58.4 64.8 59.2 Z"
+                  fill="var(--color-white, #fefcf8)"/>
+        </svg>
+    </a>
+    <div class="whatsapp-tooltip">Fale com um especialista</div>
+</div>
+
+</div>
+<!-- END INJECTED: components/whatsapp-float/whatsapp-float.html -->
+    <!-- INJECTED: components/auth-drawer/auth-drawer.html -->
+<div class="component-mounted" data-original-path="components/auth-drawer/auth-drawer.html">
+<style>.auth-drawer-backdrop{z-index:9998;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;pointer-events:none;background:#000000a6;transition:opacity .3s;position:fixed;inset:0}.auth-drawer-backdrop.active{opacity:1;pointer-events:auto}.auth-drawer{z-index:9999;background:var(--color-dark-surface,#121810);border-left:1px solid rgba(var(--color-white-rgb), .08);flex-direction:column;width:min(100%,500px);transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex;position:fixed;top:0;bottom:0;right:0;transform:translate(100%);box-shadow:-10px 0 40px #00000080}.auth-drawer.active{transform:translate(0)}.auth-drawer-header{border-bottom:1px solid rgba(var(--color-white-rgb), .04);flex-shrink:0;justify-content:space-between;align-items:center;padding:1.5rem 2rem;display:flex}.auth-drawer-logo{width:auto;height:28px;display:block}.auth-drawer-login-strip{background:rgba(var(--color-white-rgb), .025);border-bottom:1px solid rgba(var(--color-white-rgb), .07);flex-shrink:0;justify-content:center;align-items:center;gap:1rem;padding:.85rem 2rem;display:flex}.auth-drawer-login-strip-copy{flex-direction:column;gap:.1rem;display:flex}.auth-drawer-login-strip-text{color:rgba(var(--color-white-rgb), .4);letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;font-size:.72rem}.auth-drawer-login-link{color:var(--color-white,#fefcf8);border-radius:var(--radius-btn,10px);white-space:nowrap;background:#f28e131f;border:1px solid #f28e134d;flex-shrink:0;align-items:center;gap:.75rem;padding:.5rem .9rem;font-size:.83rem;font-weight:600;text-decoration:none;transition:background .25s,border-color .25s,transform .2s,box-shadow .25s;display:inline-flex}.auth-drawer-login-link:hover{border-color:var(--color-orange,#f28e13);background:#f28e1338;transform:translateY(-1px);box-shadow:0 4px 14px #f28e1333}.auth-drawer-login-link:active{transform:translateY(0)}.auth-drawer-login-link-icon{color:var(--color-orange,#f28e13);flex-shrink:0;font-size:1.35rem;transition:transform .2s}.auth-drawer-login-link:hover .auth-drawer-login-link-icon{transform:translate(2px)}.auth-drawer-login-link-logo{opacity:.92;filter:brightness(1.1);flex-shrink:0;width:auto;height:14px;display:block}.auth-drawer-close{width:36px;height:36px;color:var(--color-orange,#f28e13);cursor:pointer;background:0 0;border:none;flex-shrink:0;justify-content:center;align-items:center;padding:0;font-size:24px;line-height:1;transition:transform .25s,opacity .2s,color .2s;display:flex}.auth-drawer-close:hover{color:var(--color-orange,#f28e13);opacity:.8;transform:scale(1.15)}.auth-drawer-content{flex-direction:column;flex:1;gap:1.25rem;padding:2rem;display:flex;overflow-y:auto}.auth-drawer-title{font-size:var(--font-size-lg);color:var(--color-white,#fefcf8);margin:0;font-weight:700}.auth-drawer-subtitle{font-size:var(--font-size-sm);color:rgba(var(--color-white-rgb), .7);margin:0}.auth-social-row{border-top:1px solid rgba(var(--color-white-rgb), .04);flex-direction:column;align-items:center;gap:.6rem;margin-top:.5rem;padding-top:1rem;display:flex}.auth-social-label{font-size:var(--font-size-xs);color:rgba(var(--color-white-rgb), .5);text-transform:uppercase;letter-spacing:.06em;margin:0}.auth-form-step{display:none}.auth-form-step.active{flex-direction:column;gap:1.25rem;display:flex}.auth-form-field{flex-direction:column;gap:.5rem;display:flex}.auth-form-label{font-size:var(--font-size-sm);color:var(--color-white,#fefcf8);align-items:center;gap:.5rem;font-weight:600;display:flex}.auth-form-label-icon{color:rgba(var(--color-white-rgb), .55);font-size:1rem;transition:color .2s}.auth-form-input{align-items:center;display:flex;position:relative}.auth-form-input input,.auth-form-input select{background:rgba(var(--color-white-rgb), .04);border:1px solid rgba(var(--color-white-rgb), .08);color:var(--color-white,#fefcf8);font-family:inherit;font-size:var(--font-size-base);border-radius:8px;flex:1;padding:.75rem 1rem;transition:all .2s}.auth-form-input input::placeholder{color:rgba(var(--color-white-rgb), .4)}.auth-form-input input:focus,.auth-form-input select:focus{background:rgba(var(--color-white-rgb), .06);border-color:#5b8c4580;outline:none;box-shadow:0 0 0 3px #5b8c451a}.auth-phone-prefix{border-right:1px solid rgba(var(--color-white-rgb), .12);color:rgba(var(--color-white-rgb), .7);font-size:var(--font-size-sm);pointer-events:none;align-items:center;gap:.4rem;padding-right:.75rem;font-weight:600;display:flex;position:absolute;left:1rem}.auth-form-input--phone input{padding-left:5.5rem}.auth-form-input input:-webkit-autofill{caret-color:var(--color-white,#fefcf8);transition:background-color 5000s ease-in-out;-webkit-text-fill-color:var(--color-white,#fefcf8)!important;box-shadow:inset 0 0 0 1000px #1a2318!important}.auth-form-input input:-webkit-autofill:hover{caret-color:var(--color-white,#fefcf8);transition:background-color 5000s ease-in-out;-webkit-text-fill-color:var(--color-white,#fefcf8)!important;box-shadow:inset 0 0 0 1000px #1a2318!important}.auth-form-input input:-webkit-autofill:focus{caret-color:var(--color-white,#fefcf8);transition:background-color 5000s ease-in-out;-webkit-text-fill-color:var(--color-white,#fefcf8)!important;box-shadow:inset 0 0 0 1000px #1a2318!important}.auth-form-input select:-webkit-autofill{caret-color:var(--color-white,#fefcf8);transition:background-color 5000s ease-in-out;-webkit-text-fill-color:var(--color-white,#fefcf8)!important;box-shadow:inset 0 0 0 1000px #1a2318!important}.auth-form-input-valid{border-color:#5b8c4566!important}.auth-form-input.auth-form-input-valid input,.auth-form-input.auth-form-input-valid select{background:#5b8c4514!important;border-color:#5b8c4573!important}.auth-form-input.auth-form-input-valid input:focus,.auth-form-input.auth-form-input-valid select:focus{border-color:var(--color-green,#5b8c45)!important;background:#5b8c451f!important;box-shadow:0 0 0 3px #5b8c4526!important}.auth-form-input.auth-form-input-valid input:-webkit-autofill{-webkit-text-fill-color:var(--color-white,#fefcf8)!important;box-shadow:inset 0 0 0 1000px #162214!important}.auth-form-input.auth-form-input-valid input:-webkit-autofill:hover{-webkit-text-fill-color:var(--color-white,#fefcf8)!important;box-shadow:inset 0 0 0 1000px #162214!important}.auth-form-input.auth-form-input-valid input:-webkit-autofill:focus{-webkit-text-fill-color:var(--color-white,#fefcf8)!important;box-shadow:inset 0 0 0 1000px #162214!important}.auth-form-check{color:var(--color-green,#5b8c45);opacity:0;pointer-events:none;font-size:1.1rem;transition:opacity .2s;display:flex;position:absolute;right:1rem}.auth-form-input-valid .auth-form-check{opacity:1}.auth-form-section{border-top:1px solid rgba(var(--color-white-rgb), .04);flex-direction:column;gap:1.25rem;padding-top:1.25rem;display:flex}.auth-form-checkbox{font-size:var(--font-size-sm);color:rgba(var(--color-white-rgb), .8);align-items:flex-start;gap:.75rem;line-height:1.5;display:flex}.auth-form-checkbox input{cursor:pointer;width:20px;height:20px;accent-color:var(--color-green,#5b8c45);margin-top:2px}.auth-form-checkbox a{color:var(--color-green,#5b8c45);text-decoration:none;transition:opacity .2s}.auth-form-checkbox a:hover{opacity:.8}.auth-form-actions{border-top:1px solid rgba(var(--color-white-rgb), .04);flex-direction:column;gap:.5rem;padding-top:.75rem;display:flex}.auth-btn{cursor:pointer;border:none;border-radius:8px;justify-content:center;align-items:center;gap:.4rem;padding:.65rem 1.25rem;font-family:inherit;font-size:.88rem;font-weight:600;transition:all .2s;display:inline-flex}.auth-btn-primary{background:var(--color-green,#5b8c45);color:var(--color-white,#fefcf8)}.auth-btn-primary:hover{background:var(--color-green-hover);box-shadow:0 8px 16px #5b8c454d}.auth-btn-primary:disabled{opacity:.5;cursor:not-allowed}.auth-trust-signal{font-size:var(--font-size-xs);color:rgba(var(--color-white-rgb), .6);justify-content:center;align-items:center;gap:.5rem;margin-top:.5rem;display:flex}.auth-trust-signal-icon{font-size:var(--font-size-base);color:var(--color-green)}@media (width<=768px){.auth-drawer{border-bottom:none;border-left:none;border-top:1px solid rgba(var(--color-white-rgb), .08);border-radius:16px 16px 0 0;width:100%;height:100dvh;max-height:100dvh;inset:0;transform:translateY(100%)}.auth-drawer.active{transform:translateY(0)}}::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:0 0}::-webkit-scrollbar-thumb{background:rgba(var(--color-white-rgb), .1);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:rgba(var(--color-white-rgb), .2)}</style>
+
+<div class="auth-drawer-backdrop" id="authBackdrop"></div>
+
+<div class="auth-drawer" id="auth-drawer">
+  <div class="auth-drawer-header">
+    <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply" class="auth-drawer-logo" loading="lazy" decoding="async" width="1904" height="478">
+    <button class="auth-drawer-close" id="authClose" aria-label="Fechar"><i class="ph ph-x"></i></button>
+  </div>
+
+  <!-- Faixa de login para usuários já cadastrados -->
+  <div class="auth-drawer-login-strip">
+    <div class="auth-drawer-login-strip-copy">
+      <span class="auth-drawer-login-strip-text">Já tem conta?</span>
+    </div>
+    <a href="https://www.equalizagro.com/login" target="_blank" rel="noopener noreferrer" class="auth-drawer-login-link" aria-label="Acessar go2apply">
+      <i class="ph-fill ph-sign-in auth-drawer-login-link-icon" aria-hidden="true"></i>
+      Acessar
+      <img src="/assets/go2apply-logo-colorido-DZ7P6Hv5.png" alt="go2apply" class="auth-drawer-login-link-logo" width="1904" height="478">
+    </a>
+  </div>
+
+  <div class="auth-drawer-content">
+    <div id="authFormContainer">
+      <h1 class="auth-drawer-title">Comece agora</h1>
+      <p class="auth-drawer-subtitle">Acesso às ferramentas técnicas, da calda à aplicação.</p>
+
+      <form class="auth-form-step active" id="leadForm">
+        <div class="auth-form-field">
+          <label class="auth-form-label">
+            <i class="ph-fill ph-user auth-form-label-icon"></i>
+            Nome completo
+          </label>
+          <div class="auth-form-input">
+            <input type="text" name="fullName" placeholder="Seu nome completo" required>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
+          </div>
+        </div>
+
+        <div class="auth-form-field">
+          <label class="auth-form-label">
+            <i class="ph-fill ph-envelope-simple auth-form-label-icon"></i>
+            E-mail
+          </label>
+          <div class="auth-form-input">
+            <input type="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
+          </div>
+        </div>
+
+        <div class="auth-form-field">
+          <label class="auth-form-label">
+            <i class="ph-fill ph-whatsapp-logo auth-form-label-icon"></i>
+            WhatsApp
+          </label>
+          <div class="auth-form-input auth-form-input--phone">
+            <span class="auth-phone-prefix" aria-hidden="true">
+              <img src="data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3csvg%20width='20'%20height='14'%20viewBox='0%200%2020%2014'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20width='20'%20height='14'%20rx='2'%20fill='%23009739'/%3e%3cpolygon%20points='10,2%2018,7%2010,12%202,7'%20fill='%23FEDD00'/%3e%3ccircle%20cx='10'%20cy='7'%20r='3.2'%20fill='%23002776'/%3e%3c/svg%3e" width="18" height="13" alt="">
+              +55
+            </span>
+            <input type="tel" name="phone" placeholder="(11) 99999-9999" inputmode="tel" required>
+            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
+          </div>
+        </div>
+
+        <div class="auth-form-section">
+          <div class="auth-form-checkbox">
+            <input type="checkbox" name="terms" id="termsCheckbox" required>
+            <label for="termsCheckbox">
+              Li e concordo com os <a href="#" onclick="return false;">Termos de Uso</a> e a <a href="#" onclick="return false;">Política de Privacidade</a> do go2apply.
+            </label>
+          </div>
+        </div>
+
+        <div class="auth-form-actions">
+          <button type="submit" class="auth-btn auth-btn-primary" id="leadSubmit">
+            CONTINUAR
+            <i class="ph-fill ph-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- INJECTED: components/trial-banner/trial-banner.html -->
+<div class="component-mounted" data-original-path="components/trial-banner/trial-banner.html">
+<!-- ==========================================================================
+   Component: Trial Banner (Global Reutilizável)
+   Banner promocional de 7 Dias de Teste Grátis que aciona o auth-drawer
+   ========================================================================== -->
+<style>.trial-banner{box-sizing:border-box;cursor:pointer;text-align:left;background:linear-gradient(135deg,#f28e132e 0%,#5b8c452e 100%);border:1.2px solid #f28e1373;border-radius:12px;align-items:center;gap:.85rem;width:100%;margin:.35rem 0;padding:.75rem .95rem;transition:all .3s cubic-bezier(.16,1,.3,1);display:flex;position:relative;overflow:hidden;box-shadow:0 4px 16px #f28e1326}.trial-banner:before{content:"";background:linear-gradient(90deg,#0000,#ffffff2e,#0000);width:100%;height:100%;transition:left .6s;position:absolute;top:0;left:-100%}.trial-banner:hover:before{left:100%}.trial-banner:hover{border-color:var(--color-orange,#f28e13);transform:translateY(-2px)scale(1.01);box-shadow:0 6px 22px #f28e1359}.trial-banner-badge{background:linear-gradient(135deg, var(--color-orange,#f28e13) 0%, #e07d08 100%);color:#fff;border-radius:9px;flex-shrink:0;justify-content:center;align-items:center;width:34px;height:34px;font-size:16px;display:inline-flex;box-shadow:0 2px 8px #f28e1366}.trial-banner-content{flex-direction:column;flex-grow:1;display:flex}.trial-banner-title{color:#fff;letter-spacing:.2px;font-size:.88rem;font-weight:700;line-height:1.2}.trial-banner-sub{color:#ffffffbf;margin-top:2px;font-size:.72rem;font-weight:500}.trial-banner-arrow{color:var(--color-orange,#f28e13);flex-shrink:0;font-size:15px;transition:transform .3s}.trial-banner:hover .trial-banner-arrow{color:#fff;transform:translate(4px)}</style>
+
+<button type="button" class="trial-banner cta-btn-base" aria-label="7 Dias de Teste Grátis">
+    <span class="trial-banner-badge">
+        <i class="ph-fill ph-sparkle" aria-hidden="true"></i>
+    </span>
+    <span class="trial-banner-content">
+        <span class="trial-banner-title">7 Dias de Teste Grátis</span>
+        <span class="trial-banner-sub">Acesse todas as ferramentas agora</span>
+    </span>
+    <i class="ph-fill ph-arrow-right trial-banner-arrow" aria-hidden="true"></i>
+</button>
+
+
+</div>
+<!-- END INJECTED: components/trial-banner/trial-banner.html -->
+
+        <div class="auth-trust-signal">
+          <i class="ph-fill ph-shield-check auth-trust-signal-icon"></i>
+          <span>Seus dados estão protegidos pela LGPD</span>
+        </div>
+      </form>
+
+      <div class="auth-social-row">
+        <p class="auth-social-label">Nos acompanhe</p>
+        <!-- INJECTED: components/social-links/social-links.html -->
+<div class="component-mounted" data-original-path="components/social-links/social-links.html">
+<!-- ==========================================================================
+   Component: Social Links (Header)
+   Ícones vetoriais de redes sociais sincronizados com a rolagem do header
+   ========================================================================== -->
+<style>.social-links{align-items:center;gap:var(--space-sm);display:flex}#header .social-links{opacity:0;pointer-events:none;justify-self:start;transition:opacity .35s cubic-bezier(.16,1,.3,1),transform .35s cubic-bezier(.16,1,.3,1);transform:translateY(-8px)scale(.95)}#header .social-links.is-visible{opacity:1;pointer-events:auto;transform:translateY(0)scale(1)}.social-link{--icon-badge-size:38px;color:var(--color-orange);border:1px solid var(--color-border-subtle);transition:var(--transition-smooth);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:#ffffff14;text-decoration:none}.social-link i{color:var(--color-orange);transition:var(--transition-smooth);font-size:20px}.social-link:hover{color:var(--color-white);background:var(--color-orange);border-color:var(--color-orange);box-shadow:0 4px 16px var(--color-orange-glow);transform:translateY(-2px)scale(1.08)}.social-link:hover i{color:var(--color-white)}@media (width<=992px){#header .social-links{display:none}}@media (width<=600px){.social-link{--icon-badge-size:32px}.social-link i{font-size:16px}}</style>
+
+<div class="social-links">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link icon-badge"
+        aria-label="Instagram">
+        <i class="ph ph-instagram-logo" aria-hidden="true"></i>
+    </a>
+    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto."
+        target="_blank" rel="noopener noreferrer" class="social-link icon-badge" aria-label="WhatsApp">
+        <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+    </a>
+</div>
+
+</div>
+<!-- END INJECTED: components/social-links/social-links.html -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+<!-- END INJECTED: components/auth-drawer/auth-drawer.html -->
+
+
+</body>
+
+</html>
