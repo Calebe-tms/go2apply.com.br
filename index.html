@@ -4,24 +4,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>go2apply - Informações Técnicas da Calda à Aplicação</title>
+    <title>go2apply — Informações Técnicas da Calda à Aplicação</title>
     <meta name="description"
-        content="Da formação da calda à aplicação, decisões com base técnica.">
+        content="Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica. Calculadoras, condições climáticas, bicos e regulagem.">
+
+    <!-- URL canônica — evita conteúdo duplicado (www vs sem www, com/sem barra) -->
+    <!-- <link rel="canonical" href="https://go2apply.com.br/"> -->
 
     <!-- Ícone do site (aba do navegador, favoritos, resultados de busca) -->
     <link rel="icon" type="image/svg+xml" href="assets/icos/ico-logo-go2apply.svg">
     <link rel="alternate icon" href="assets/icos/ico-logo-go2apply.png">
     <link rel="apple-touch-icon" href="assets/icos/ico-logo-go2apply.png">
 
-    <!-- Open Graph / Redes Sociais -->
+    <!-- Web App Manifest — habilita PWA e ajuda o SEO com dados do app -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#5b8c45">
+
+    <!-- Open Graph / Redes Sociais (Facebook, LinkedIn, WhatsApp, Discord) -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="go2apply - Informações Técnicas">
-    <meta property="og:description" content="Ferramentas e informações técnicas para apoiar suas decisões no campo.">
-    <meta property="og:image" content="assets/imagens/go2apply-logo-colorido.png">
+    <meta property="og:url" content="https://go2apply.com.br/">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="go2apply">
+    <meta property="og:title" content="go2apply — Informações Técnicas da Calda à Aplicação">
+    <meta property="og:description" content="Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.">
+    <meta property="og:image" content="https://go2apply.com.br/assets/icos/ico-logo-go2apply.png">
+    <meta property="og:image:alt" content="Logo go2apply">
+
+    <!-- Twitter / X Cards — exibe miniatura compacta ao compartilhar -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="go2apply — Informações Técnicas da Calda à Aplicação">
+    <meta name="twitter:description" content="Plataforma de ferramentas técnicas para pulverização agrícola. Calculadoras, condições climáticas, bicos e regulagem.">
+    <meta name="twitter:image" content="https://go2apply.com.br/assets/icos/ico-logo-go2apply.png">
+    <meta name="twitter:image:alt" content="Logo go2apply">
+
+    <!-- SEO complementar — palavras-chave, autor, robôs -->
+    <meta name="keywords" content="pulverização agrícola, calda de pulverização, bico de pulverização, calculadora agrícola, regulagem de pulverizador, tecnologia de aplicação, defensivos agrícolas, go2apply">
+    <meta name="author" content="go2apply">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    <!-- Dados estruturados JSON-LD — rich results no Google, Bing e IAs -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "description": "Plataforma de informações técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.",
+          "inLanguage": "pt-BR",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://go2apply.com.br/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "description": "Plataforma web com calculadoras e ferramentas técnicas para apoiar decisões na pulverização agrícola — da formação da calda à aplicação.",
+          "screenshot": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "BRL",
+            "description": "Teste grátis por 7 dias, sem cartão de crédito.",
+            "url": "https://go2apply.com.br"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "go2apply",
+          "url": "https://go2apply.com.br",
+          "logo": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+55-55-3343-2606",
+            "contactType": "customer service",
+            "areaServed": "BR",
+            "availableLanguage": "Portuguese"
+          },
+          "sameAs": [
+            "https://instagram.com/go2apply",
+            "https://wa.me/555533432606"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Preciso instalar algum programa para usar o go2apply?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Não. O go2apply funciona direto no navegador, do computador ou do celular, sem precisar baixar nem instalar nada."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "As calculadoras funcionam para qualquer cultura?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das operações agrícolas."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Preciso ser especialista para usar as ferramentas?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Não. As ferramentas guiam você passo a passo em cada cálculo, então dá para usar mesmo sem um conhecimento técnico aprofundado."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Posso usar o go2apply em mais de uma fazenda ou talhão?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sim. Não há limite de fazendas ou talhões: você organiza suas operações e acompanha cada uma separadamente dentro da plataforma."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Como funciona o suporte técnico?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Através do nosso WhatsApp, e da nossa comunidade no Telegram, com uma equipe técnica disponível para tirar dúvidas e orientar sobre a melhor forma de extrair ao máximo tudo que cada ferramenta pode entregar."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Início",
+              "item": "https://go2apply.com.br"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
 
     <!-- Adianta a conexão com os domínios externos usados pelos vídeos e pelo GSAP -->
     <link rel="preconnect" href="https://res.cloudinary.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <!-- Sem `crossorigin`: sobrou só o GSAP nesse domínio, e script comum não
+         usa CORS — com o atributo a conexão aberta não seria reaproveitada -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
     <link rel="stylesheet" href="css/main.css?v=2.0">
 
@@ -30,110 +166,31 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 
-    <!-- Phosphor Icons (peso fill): usado só dentro de componentes que montam
-         depois via JS, então não precisa bloquear o primeiro paint -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"
-        media="print" onload="this.media='all'">
+    <!-- Os ícones Phosphor são self-hosted: css/icons.css (gerado por
+         scripts/build-icons.mjs) entra junto do main.css como máscaras SVG,
+         então não há stylesheet nem .woff2 vindo de CDN -->
 
-    <!-- Motor compartilhado do carrossel de vídeo (Hero e Contact) — defer:
-         a Hero só chama isso depois do DOMContentLoaded (quando o
-         component-loader monta), então não precisa bloquear o parsing -->
-    <script src="js/video-carousel.js" defer></script>
+    <!-- Motor compartilhado do carrossel de vídeo (Hero e Contact) -->
+    <script type="module" src="js/video-carousel.js"></script>
 
     <!-- Helper compartilhado: aguarda os componentes montarem -->
-    <script src="js/on-ready.js" defer></script>
+    <script type="module" src="js/on-ready.js"></script>
 
     <!-- Preload font para melhor performance -->
     <link rel="preload" href="assets/fonts/Host_Grotesk/HostGrotesk-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preconnect para recursos externos críticos (Vídeos do Hero) -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 
-    <style>
-    body.is-loading {
-        overflow: hidden !important;
-        height: 100vh !important;
-        touch-action: none;
-    }
 
-    #app-loader {
-        position: fixed;
-        inset: 0;
-        z-index: 999999;
-        background: #121810;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1.25rem;
-        transition:
-            opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    }
 
-    #app-loader.is-hidden {
-        opacity: 0;
-        transform: scale(1.02);
-        pointer-events: none;
-    }
-
-    .loader__spinner {
-        position: relative;
-        width: clamp(90px, 12vw, 130px);
-        height: clamp(90px, 12vw, 130px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .loader__circle {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border: 2.5px solid rgba(255, 255, 255, 0.08);
-        border-top-color: #5b8c45;
-        border-right-color: #f28e13;
-        border-radius: 50%;
-        animation: loader-spin 1.2s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
-    }
-
-    @keyframes loader-spin {
-        to { transform: rotate(360deg); }
-    }
-
-    .loader__percent {
-        position: relative;
-        z-index: 2;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: clamp(20px, 2.5vw, 28px);
-        font-weight: 700;
-        font-variant-numeric: tabular-nums;
-        color: #fefcf8;
-        letter-spacing: -0.02em;
-    }
-
-    .loader__tag {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 0.72rem;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: rgba(254, 252, 248, 0.6);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .loader__circle { animation: none; opacity: 0.6; }
-        #app-loader { transition: opacity 300ms ease; }
-    }
-    </style>
 </head>
 
-<body class="is-loading">
+<body>
 
-    <div id="app-loader" role="status" aria-label="Carregando go2apply">
-        <div class="loader__spinner">
-            <div class="loader__circle"></div>
-            <div class="loader__percent" id="loader-percent">0%</div>
-        </div>
-        <div class="loader__tag">Iniciando Sistema</div>
-    </div>
+
+
+
 
     <div data-component="components/header/header.html"></div>
     <main id="app-root">
@@ -150,129 +207,7 @@
     <div data-component="components/whatsapp-float/whatsapp-float.html"></div>
     <div data-component="components/auth-drawer/auth-drawer.html"></div>
 
-    <script>
-if (window.location.protocol === 'file:') {
-  document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#1a1e14;color:#fefcf8;font-family:system-ui,sans-serif;text-align:center;padding:2rem"><div><h1 style="margin:0 0 1rem;font-size:1.5rem">⚠️ Servidor Necessário</h1><p style="margin:0;opacity:0.8;max-width:400px">Este site requer um servidor HTTP local para funcionar corretamente.<br><br>Use: <code style="background:rgba(255,255,255,0.1);padding:0.5rem;border-radius:4px;display:inline-block;margin:1rem 0">python -m http.server 8000</code><br>Depois visite: <a href="http://localhost:8000" style="color:#f28e13;text-decoration:none">http://localhost:8000</a></p></div></div>';
-} else {
-  (function () {
-      const loader = document.getElementById('app-loader');
-      const percentText = document.getElementById('loader-percent');
-      if (!loader) return;
 
-      let displayedPercent = 0;
-      let targetPercent = 8;
-      let isReadyToDismiss = false;
-      let isDismissed = false;
-
-      function updateTarget(val) {
-          targetPercent = Math.max(targetPercent, Math.min(100, val));
-      }
-
-      function dismiss() {
-          if (isDismissed) return;
-          isDismissed = true;
-
-          // Só destrava o scroll/altura do body quando o overlay do loader já
-          // estiver de fato invisível: as dobras abaixo da dobra inicial ainda
-          // estão montando em segundo plano nesse meio-tempo, e destravar
-          // antes deixaria esse crescimento de altura visível (e contando
-          // como troca de layout) por trás do loader opaco.
-          setTimeout(() => {
-              loader.classList.add('is-hidden');
-
-              // O destravamento não pode depender só do transitionend: se a
-              // transição nunca roda (aba carregada em segundo plano, ambiente
-              // sem paint como o Lighthouse), o evento não dispara e o body
-              // ficaria preso em overflow:hidden/height:100vh para sempre.
-              let isReleased = false;
-              function release() {
-                  if (isReleased) return;
-                  isReleased = true;
-                  document.body.classList.remove('is-loading');
-                  loader.remove();
-              }
-
-              loader.addEventListener('transitionend', release, { once: true });
-              setTimeout(release, 800);
-          }, 220);
-      }
-
-      // Força a conclusão sem depender do loop de animação: requestAnimationFrame
-      // pode ficar pausado/lento com a aba em segundo plano, travando o loader
-      function forceDismiss() {
-          isReadyToDismiss = true;
-          displayedPercent = 100;
-          if (percentText) percentText.textContent = '100%';
-          dismiss();
-      }
-
-      // Loop suave de interpolação da porcentagem
-      function renderProgress() {
-          if (displayedPercent < targetPercent) {
-              const diff = targetPercent - displayedPercent;
-              // Velocidade progressiva natural
-              const step = Math.max(0.4, Math.min(diff * 0.09, 2.2));
-              displayedPercent = Math.min(targetPercent, displayedPercent + step);
-
-              if (percentText) {
-                  percentText.textContent = Math.floor(displayedPercent) + '%';
-              }
-          }
-
-          if (displayedPercent >= 100 && isReadyToDismiss && !isDismissed) {
-              if (percentText) percentText.textContent = '100%';
-              dismiss();
-              return;
-          }
-
-          if (!isDismissed) {
-              requestAnimationFrame(renderProgress);
-          }
-      }
-
-      requestAnimationFrame(renderProgress);
-
-      // Avanço gradual do progresso conforme componentes carregam
-      window.addEventListener('loader:progress', function (e) {
-          if (e.detail && typeof e.detail.percentage === 'number') {
-              const progress = 12 + (e.detail.percentage * 0.72);
-              updateTarget(progress);
-          }
-      });
-
-      // Libera o loader assim que a "primeira tela" (header + hero) estiver
-      // pronta, sem esperar o resto da página (trust, faq, contact, footer
-      // etc.) — essas dobras continuam montando normalmente em segundo plano
-      const firstScreenPaths = new Set(['components/header/header.html', 'sections/hero/hero.html']);
-      window.addEventListener('component:mounted', function (e) {
-          const path = e.detail && e.detail.path;
-          if (!path || !firstScreenPaths.has(path)) return;
-          firstScreenPaths.delete(path);
-          if (firstScreenPaths.size > 0) return;
-
-          updateTarget(92);
-
-          let heroReady = false;
-          window.addEventListener('hero:first-video-ready', function () {
-              heroReady = true;
-              updateTarget(100);
-              isReadyToDismiss = true;
-          }, { once: true });
-
-          // Fallback de segurança caso vídeo demore para dar play
-          setTimeout(function () {
-              if (!heroReady) forceDismiss();
-          }, 1200);
-      });
-
-      // Fallback global de segurança absoluta — dispara mesmo com a aba em
-      // segundo plano, pois não depende do loop de animação para concluir
-      setTimeout(forceDismiss, 2500);
-  })();
-
-  class ComponentLoader{constructor(){this.loadedStyles=new Set(),this.fetchCache=new Map(),this.totalComponents=0,this.loadedComponents=0}emitProgress(){const t=Math.max(1,this.totalComponents),e=Math.min(100,Math.round(this.loadedComponents/t*100));window.dispatchEvent(new CustomEvent("loader:progress",{detail:{loaded:this.loadedComponents,total:this.totalComponents,percentage:e}}))}fetchComponent(t){if(this.fetchCache.has(t))return this.fetchCache.get(t);const e=this.fetchOnce(t).then((n=>(n||this.fetchCache.delete(t),n)));return this.fetchCache.set(t,e),e}async fetchOnce(t,r=1){try{const e=await fetch(t);if(!e.ok)throw new Error(`Falha ao carregar componente: ${t} (Status ${e.status})`);return await e.text()}catch(e){return r<2?this.fetchOnce(t,r+1):(console.error("Component load error:",t,e),"")}}async mountElement(t){const e=t.getAttribute("data-component")||t.getAttribute("data-page");if(!e)return;const n=await this.fetchComponent(e),o=new DOMParser,i=o.parseFromString(n,"text/html");i.querySelectorAll("style").forEach((t=>{const n=`style-${e.replace(/[^a-zA-Z0-9]/g,"-")}`;if(!this.loadedStyles.has(n)){const o=document.createElement("style");o.id=n,o.textContent=t.textContent,document.head.appendChild(o),this.loadedStyles.add(n)}t.remove()}));const s=[];i.querySelectorAll("script").forEach((t=>{s.push(t.textContent),t.remove()})),t.innerHTML=i.body.innerHTML,t.removeAttribute("data-component"),t.removeAttribute("data-page"),t.classList.add("component-mounted"),s.forEach((t=>{try{(new Function(t))()}catch(e){console.error(`Erro ao executar script do componente (${e}):`,e)}})),this.loadedComponents++,this.emitProgress(),await this.loadAll(t),window.dispatchEvent(new CustomEvent("component:mounted",{detail:{path:e}}))}async loadAll(t=document){const e=Array.from(t.querySelectorAll("[data-component], [data-page]"));if(0===e.length)return;this.totalComponents+=e.length,this.emitProgress(),await Promise.all(e.map((t=>this.mountElement(t))))}async init(){await this.loadAll(document),this.loadedComponents=Math.max(this.loadedComponents,this.totalComponents),this.emitProgress(),window.dispatchEvent(new CustomEvent("components:ready"))}}window.componentLoader=new ComponentLoader,"loading"===document.readyState?document.addEventListener("DOMContentLoaded",(()=>window.componentLoader.init())):window.componentLoader.init();
-}
-    </script>
 </body>
 
 </html>

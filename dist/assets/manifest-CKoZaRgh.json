@@ -1,0 +1,26 @@
+{
+  "// Manifest de Web App (PWA)": "Usado pelo navegador para 'Adicionar à tela inicial'",
+  "// Também ajuda motores de busca a entenderem": "o nome, ícone e tema visual do app",
+
+  "name": "go2apply — Informações Técnicas da Calda à Aplicação",
+  "short_name": "go2apply",
+  "description": "Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121810",
+  "theme_color": "#5b8c45",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/assets/icos/ico-logo-go2apply.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icos/ico-logo-go2apply.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"]
+}

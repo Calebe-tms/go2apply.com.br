@@ -52,8 +52,9 @@
         color: #ffffff;
     }
 
-    .header-btn-cta:hover .btn-icon {
-        transform: scale(1.1) rotate(6deg);
+    .header-btn-cta:hover .header-btn-icon {
+        transform: scale(1.15) translateX(1px);
+        color: #ffffff;
     }
 
     .header-btn-cta:active {
@@ -61,10 +62,9 @@
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
     }
 
-    .btn-icon {
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
+    .header-btn-icon {
+        font-size: 1.25rem;
+        color: var(--color-orange, #f28e13);
         transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
         flex-shrink: 0;
     }
@@ -72,10 +72,22 @@
     .btn-label {
         color: var(--color-white, #fefcf8);
         transition: var(--transition-smooth, all 0.4s cubic-bezier(0.16, 1, 0.3, 1));
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
     }
 
     .header-btn-cta:hover .btn-label {
         color: #ffffff;
+    }
+
+    .header-btn-logo {
+        height: 15px;
+        width: auto;
+        display: inline-block;
+        vertical-align: middle;
+        object-fit: contain;
+        flex-shrink: 0;
     }
 
     .nav-toggle {
@@ -132,9 +144,12 @@
             gap: 0.45rem;
         }
 
-        .btn-icon {
-            width: 16px;
-            height: 16px;
+        .header-btn-icon {
+            font-size: 1rem;
+        }
+
+        .header-btn-logo {
+            height: 12px;
         }
 
         .nav-toggle {
@@ -149,10 +164,13 @@
 </style>
 
 <div class="header-actions" id="header-actions">
-    <a href="https://wa.me/555533432606?text=Ol%C3%A1%21%20Vim%20atrav%C3%A9s%20do%20site%20da%20go2apply%20e%20gostaria%20de%20tirar%20d%C3%BAvidas%20sobre%20o%20produto." target="_blank" rel="noopener noreferrer" class="header-btn-cta cta-btn-base" id="header-btn-cta">
-        <img src="assets/icos/ico-logo-go2apply.png" alt="Ícone go2apply" class="btn-icon" width="372" height="438">
-        <span class="btn-label">Conheça a Ferramenta</span>
-    </a>
+    <button type="button" class="header-btn-cta cta-btn-base" id="header-btn-cta" aria-label="Acessar o go2apply">
+        <i class="ph-fill ph-sign-in header-btn-icon" aria-hidden="true"></i>
+        <span class="btn-label">
+            Acessar o
+            <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="header-btn-logo" width="1904" height="478">
+        </span>
+    </button>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" aria-expanded="false">
         <span class="bar"></span>

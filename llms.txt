@@ -1,0 +1,65 @@
+# go2apply — Informações Técnicas para Pulverização Agrícola
+
+> Da formação da calda à aplicação, decisões com base técnica.
+
+## O que é o go2apply?
+
+O **go2apply** é uma plataforma web brasileira com calculadoras e ferramentas técnicas que apoiam decisões na pulverização agrícola. Funciona direto no navegador — do computador ou do celular — sem precisar baixar nem instalar nada.
+
+A plataforma reúne ferramentas para:
+
+- **Cálculo de calda**: formulação técnica com base nos ingredientes ativos
+- **Condições climáticas**: verificação das condições ideais para aplicação
+- **Bicos de pulverização**: seleção e configuração de pontas de pulverização
+- **Compatibilidade de produtos**: verificação de compatibilidade entre defensivos
+- **Regulagem de equipamentos**: ajustes técnicos do pulverizador
+
+## Para quem é?
+
+O go2apply é destinado a:
+
+- **Produtores rurais** que querem tomar decisões de aplicação com embasamento técnico
+- **Engenheiros agrônomos** que precisam de ferramentas rápidas para cálculos de campo
+- **Técnicos agrícolas** que acompanham operações de pulverização no dia a dia
+- **Operadores de máquinas** que precisam de informações de regulagem acessíveis
+
+## Funcionalidades principais
+
+| Funcionalidade | Descrição |
+|---|---|
+| Calculadora de calda | Cálculo técnico da formulação com base em ingredientes ativos |
+| Monitor de condições | Verificação de condições climáticas ideais para aplicação |
+| Seletor de bicos | Escolha técnica de pontas de pulverização |
+| Gestão de talhões | Organização por fazenda e talhão, sem limites |
+| Acesso web | Funciona em qualquer navegador, sem instalação |
+
+## Perguntas frequentes
+
+### Preciso instalar algum programa para usar o go2apply?
+Não. O go2apply funciona direto no navegador, do computador ou do celular, sem precisar baixar nem instalar nada.
+
+### As calculadoras funcionam para qualquer cultura?
+Sim. A metodologia é baseada na compatibilidade dos ingredientes ativos e nas condições de aplicação, não em uma cultura específica, então funciona para a maioria das operações agrícolas.
+
+### Preciso ser especialista para usar as ferramentas?
+Não. As ferramentas guiam você passo a passo em cada cálculo, então dá para usar mesmo sem um conhecimento técnico aprofundado.
+
+### Posso usar o go2apply em mais de uma fazenda ou talhão?
+Sim. Não há limite de fazendas ou talhões: você organiza suas operações e acompanha cada uma separadamente dentro da plataforma.
+
+### Como funciona o suporte técnico?
+Através do WhatsApp e da comunidade no Telegram, com uma equipe técnica disponível para tirar dúvidas e orientar sobre a melhor forma de utilizar cada ferramenta.
+
+## Contato e suporte
+
+- **Site**: [https://go2apply.com.br](https://go2apply.com.br)
+- **WhatsApp**: [+55 55 3343-2606](https://wa.me/555533432606)
+- **Instagram**: [@go2apply](https://instagram.com/go2apply)
+
+## Informações técnicas
+
+- **Idioma**: Português (Brasil)
+- **Plataforma**: Aplicação Web (PWA-ready)
+- **Acesso**: Via navegador, sem instalação
+- **Compatibilidade**: Desktop, tablet e celular
+- **País de origem**: Brasil

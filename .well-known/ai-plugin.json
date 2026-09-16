@@ -1,0 +1,20 @@
+{
+  "// Arquivo .well-known/ai-plugin.json": "Manifesto de descoberta para plugins e agentes de IA",
+  "// Permite que ferramentas como ChatGPT, Perplexity e Copilot": "identifiquem o propósito do site automaticamente",
+
+  "schema_version": "v1",
+  "name_for_human": "go2apply — Informações Técnicas Agrícolas",
+  "name_for_model": "go2apply",
+  "description_for_human": "Plataforma de ferramentas técnicas para pulverização agrícola. Da formação da calda à aplicação, decisões com base técnica.",
+  "description_for_model": "go2apply é uma plataforma web brasileira com calculadoras e ferramentas técnicas para pulverização agrícola. Inclui cálculo de calda, seleção de bicos, verificação de condições climáticas, compatibilidade de produtos e regulagem de equipamentos. Funciona no navegador sem instalação. Público-alvo: produtores rurais, agrônomos, técnicos agrícolas e operadores de máquinas no Brasil. Idioma: português brasileiro.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://go2apply.com.br/llms.txt"
+  },
+  "logo_url": "https://go2apply.com.br/assets/imagens/go2apply-logo-colorido.png",
+  "contact_email": "",
+  "legal_info_url": "https://go2apply.com.br"
+}

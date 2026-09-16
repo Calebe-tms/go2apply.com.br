@@ -50,33 +50,102 @@
   display: block;
 }
 
+/* Faixa de login para usuários já cadastrados */
+.auth-drawer-login-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.85rem 2rem;
+  background: rgba(var(--color-white-rgb), 0.025);
+  border-bottom: 1px solid rgba(var(--color-white-rgb), 0.07);
+  flex-shrink: 0;
+}
+
+.auth-drawer-login-strip-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.auth-drawer-login-strip-text {
+  font-size: 0.72rem;
+  color: rgba(var(--color-white-rgb), 0.4);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.auth-drawer-login-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--color-white, #fefcf8);
+  text-decoration: none;
+  background: rgba(242, 142, 19, 0.12);
+  border: 1px solid rgba(242, 142, 19, 0.3);
+  border-radius: var(--radius-btn, 10px);
+  padding: 0.5rem 0.9rem;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.auth-drawer-login-link:hover {
+  background: rgba(242, 142, 19, 0.22);
+  border-color: var(--color-orange, #f28e13);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(242, 142, 19, 0.2);
+}
+
+.auth-drawer-login-link:active {
+  transform: translateY(0);
+}
+
+.auth-drawer-login-link-icon {
+  font-size: 1.35rem;
+  color: var(--color-orange, #f28e13);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.auth-drawer-login-link:hover .auth-drawer-login-link-icon {
+  transform: translateX(2px);
+}
+
+/* Logo inline dentro do botão de login */
+.auth-drawer-login-link-logo {
+  height: 14px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.92;
+  filter: brightness(1.1);
+}
+
 .auth-drawer-close {
   width: 36px;
   height: 36px;
   flex-shrink: 0;
-  background: rgba(var(--color-white-rgb, 255, 255, 255), 0.08);
-  border: 1px solid var(--color-border-subtle, rgba(255, 255, 255, 0.15));
-  border-radius: var(--radius-btn, 10px);
-  color: var(--color-white, #fefcf8);
-  opacity: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-orange, #f28e13);
   cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  font-size: 18px;
+  transition: transform 0.25s ease, opacity 0.2s ease, color 0.2s ease;
+  font-size: 24px;
   line-height: 1;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
 }
 
 .auth-drawer-close:hover {
-  background: var(--color-orange, #f28e13);
-  border-color: var(--color-orange, #f28e13);
-  color: #ffffff;
-  transform: rotate(90deg) scale(1.05);
-  box-shadow: 0 4px 14px rgba(242, 142, 19, 0.4);
+  color: var(--color-orange, #f28e13);
+  opacity: 0.8;
+  transform: scale(1.15);
 }
 
 .auth-drawer-content {
@@ -99,92 +168,6 @@
   font-size: var(--font-size-sm);
   color: rgba(var(--color-white-rgb), 0.7);
   margin: 0;
-}
-
-.auth-stepper-tabs {
-  display: flex;
-  gap: 0.75rem;
-  height: 56px;
-  margin: 1.75rem 0;
-}
-
-.auth-stepper-tab {
-  position: relative;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  padding: 0 1.75rem 0 1.5rem;
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);
-  background: rgba(var(--color-white-rgb), 0.05);
-  color: rgba(var(--color-white-rgb), 0.5);
-  font-weight: 700;
-  font-size: var(--font-size-sm);
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background-color 200ms ease, color 200ms ease;
-}
-
-.auth-stepper-tab:hover {
-  background: rgba(var(--color-white-rgb), 0.1);
-  color: rgba(var(--color-white-rgb), 0.8);
-}
-
-.auth-stepper-tab-num {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: var(--radius-full);
-  background: rgba(var(--color-white-rgb), 0.15);
-  font-size: var(--font-size-sm);
-  font-weight: 800;
-  transition: background-color 250ms ease;
-}
-
-.auth-stepper-tab-check {
-  display: none;
-  font-size: 1.25rem;
-  color: var(--color-green);
-}
-
-.auth-stepper-tab.is-active {
-  background: var(--color-green);
-  color: var(--color-white);
-}
-
-.auth-stepper-tab.is-active:hover {
-  background: var(--color-green-hover);
-}
-
-.auth-stepper-tab.is-active .auth-stepper-tab-num {
-  background: rgba(var(--color-white-rgb), 0.25);
-  color: var(--color-white);
-}
-
-.auth-stepper-tab.is-complete {
-  background: var(--color-green-subtle);
-  color: var(--color-green);
-}
-
-.auth-stepper-tab.is-complete:hover {
-  background: rgba(var(--color-green-rgb), 0.22);
-}
-
-.auth-stepper-tab.is-complete .auth-stepper-tab-num {
-  display: none;
-}
-
-.auth-stepper-tab.is-complete .auth-stepper-tab-check {
-  display: flex;
-}
-
-.auth-switch-row {
-  padding-top: 1rem;
-  border-top: 1px solid rgba(var(--color-white-rgb), 0.04);
 }
 
 .auth-social-row {
@@ -285,9 +268,40 @@
   padding-left: 5.5rem;
 }
 
+.auth-form-input input:-webkit-autofill,
+.auth-form-input input:-webkit-autofill:hover,
+.auth-form-input input:-webkit-autofill:focus,
+.auth-form-input select:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-white, #fefcf8) !important;
+  -webkit-box-shadow: 0 0 0px 1000px #1a2318 inset !important;
+  box-shadow: 0 0 0px 1000px #1a2318 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--color-white, #fefcf8);
+}
+
 .auth-form-input-valid {
-  border-color: rgba(91, 140, 69, 0.5) !important;
-  background: rgba(91, 140, 69, 0.05) !important;
+  border-color: rgba(91, 140, 69, 0.4) !important;
+}
+
+.auth-form-input.auth-form-input-valid input,
+.auth-form-input.auth-form-input-valid select {
+  background: rgba(91, 140, 69, 0.08) !important;
+  border-color: rgba(91, 140, 69, 0.45) !important;
+}
+
+.auth-form-input.auth-form-input-valid input:focus,
+.auth-form-input.auth-form-input-valid select:focus {
+  border-color: var(--color-green, #5b8c45) !important;
+  box-shadow: 0 0 0 3px rgba(91, 140, 69, 0.15) !important;
+  background: rgba(91, 140, 69, 0.12) !important;
+}
+
+.auth-form-input.auth-form-input-valid input:-webkit-autofill,
+.auth-form-input.auth-form-input-valid input:-webkit-autofill:hover,
+.auth-form-input.auth-form-input-valid input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-white, #fefcf8) !important;
+  -webkit-box-shadow: 0 0 0px 1000px #162214 inset !important;
+  box-shadow: 0 0 0px 1000px #162214 inset !important;
 }
 
 .auth-form-check {
@@ -298,123 +312,11 @@
   font-size: 1.1rem;
   opacity: 0;
   transition: opacity 200ms ease;
+  pointer-events: none;
 }
 
 .auth-form-input-valid .auth-form-check {
   opacity: 1;
-}
-
-.auth-chip-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-/* Elemento invisível que força a quebra de linha num ponto exato, pra
-   sempre fechar em 2 linhas balanceadas em vez de deixar um item sozinho
-   numa segunda linha quase vazia */
-.auth-chip-break {
-  flex-basis: 100%;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.auth-chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  flex: 1 1 0;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-btn);
-  border: 1px solid rgba(var(--color-white-rgb), 0.12);
-  background: rgba(var(--color-white-rgb), 0.04);
-  color: rgba(var(--color-white-rgb), 0.75);
-  font-family: inherit;
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
-}
-
-.auth-chip-icon {
-  font-size: 1rem;
-  opacity: 0.5;
-  transition: opacity 200ms ease;
-}
-
-.auth-chip:hover {
-  background: rgba(var(--color-white-rgb), 0.08);
-  border-color: rgba(var(--color-white-rgb), 0.2);
-}
-
-.auth-chip.is-selected {
-  background: var(--color-green);
-  border-color: var(--color-green);
-  color: var(--color-white);
-}
-
-.auth-chip.is-selected .auth-chip-icon {
-  opacity: 1;
-}
-
-.auth-password-toggle {
-  position: absolute;
-  right: 1rem;
-  display: flex;
-  background: none;
-  border: none;
-  color: rgba(var(--color-white-rgb), 0.6);
-  cursor: pointer;
-  padding: 0.5rem;
-  font-size: 1.1rem;
-  transition: color 200ms ease;
-}
-
-.auth-password-toggle:hover {
-  color: rgba(var(--color-white-rgb), 0.9);
-}
-
-.auth-password-strength {
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.auth-password-strength.active {
-  display: flex;
-}
-
-.auth-strength-bar {
-  height: 4px;
-  background: rgba(var(--color-white-rgb), 0.1);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.auth-strength-fill {
-  height: 100%;
-  width: 33%;
-  background: var(--color-danger, #e74c3c);
-  transition: width 200ms ease, background 200ms ease;
-}
-
-.auth-strength-fill.medium {
-  width: 66%;
-  background: var(--color-warning);
-}
-
-.auth-strength-fill.strong {
-  width: 100%;
-  background: var(--color-green, #5b8c45);
-}
-
-.auth-strength-text {
-  font-size: var(--font-size-xs);
-  color: rgba(var(--color-white-rgb), 0.6);
 }
 
 .auth-form-section {
@@ -423,18 +325,6 @@
   gap: 1.25rem;
   padding-top: 1.25rem;
   border-top: 1px solid rgba(var(--color-white-rgb), 0.04);
-}
-
-.auth-form-grid {
-  display: contents;
-}
-
-.auth-form-section-title {
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: rgba(var(--color-white-rgb), 0.5);
 }
 
 .auth-form-checkbox {
@@ -502,33 +392,6 @@
   cursor: not-allowed;
 }
 
-.auth-btn-secondary {
-  background: transparent;
-  border: 1.2px solid rgba(var(--color-white-rgb), 0.2);
-  color: var(--color-white, #fefcf8);
-}
-
-.auth-btn-secondary:hover {
-  border-color: rgba(var(--color-white-rgb), 0.4);
-  background: rgba(var(--color-white-rgb), 0.04);
-}
-
-.auth-divider {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: var(--font-size-sm);
-  color: rgba(var(--color-white-rgb), 0.5);
-}
-
-.auth-divider::before,
-.auth-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(var(--color-white-rgb), 0.08);
-}
-
 .auth-trust-signal {
   display: flex;
   align-items: center;
@@ -588,31 +451,27 @@
 <div class="auth-drawer" id="auth-drawer">
   <div class="auth-drawer-header">
     <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="auth-drawer-logo" loading="lazy" decoding="async" width="1904" height="478">
-    <button class="auth-drawer-close" id="authClose"><i class="ph-fill ph-x"></i></button>
+    <button class="auth-drawer-close" id="authClose" aria-label="Fechar"><i class="ph ph-x"></i></button>
+  </div>
+
+  <!-- Faixa de login para usuários já cadastrados -->
+  <div class="auth-drawer-login-strip">
+    <div class="auth-drawer-login-strip-copy">
+      <span class="auth-drawer-login-strip-text">Já tem conta?</span>
+    </div>
+    <a href="https://www.equalizagro.com/login" target="_blank" rel="noopener noreferrer" class="auth-drawer-login-link" aria-label="Acessar go2apply">
+      <i class="ph-fill ph-sign-in auth-drawer-login-link-icon" aria-hidden="true"></i>
+      Acessar
+      <img src="assets/imagens/go2apply-logo-colorido.png" alt="go2apply" class="auth-drawer-login-link-logo" width="1904" height="478">
+    </a>
   </div>
 
   <div class="auth-drawer-content">
     <div id="authFormContainer">
-      <h1 class="auth-drawer-title">Criar conta</h1>
+      <h1 class="auth-drawer-title">Comece agora</h1>
       <p class="auth-drawer-subtitle">Acesso às ferramentas técnicas, da calda à aplicação.</p>
 
-      <div data-component="components/trial-banner/trial-banner.html"></div>
-
-      <div class="auth-stepper-tabs" id="authStepper">
-        <div class="auth-stepper-tab is-active" data-stepper="1" role="button" tabindex="0">
-          <span class="auth-stepper-tab-num">1</span>
-          <i class="ph-fill ph-check-circle auth-stepper-tab-check"></i>
-          <span>Seus dados</span>
-        </div>
-        <div class="auth-stepper-tab" data-stepper="2" role="button" tabindex="0">
-          <span class="auth-stepper-tab-num">2</span>
-          <i class="ph-fill ph-check-circle auth-stepper-tab-check"></i>
-          <span>Perfil</span>
-        </div>
-      </div>
-
-      <!-- PASSO 1: Dados Essenciais -->
-      <form class="auth-form-step active" id="step1Form" data-step="1">
+      <form class="auth-form-step active" id="leadForm">
         <div class="auth-form-field">
           <label class="auth-form-label">
             <i class="ph-fill ph-user auth-form-label-icon"></i>
@@ -627,7 +486,7 @@
         <div class="auth-form-field">
           <label class="auth-form-label">
             <i class="ph-fill ph-envelope-simple auth-form-label-icon"></i>
-            E-mail profissional
+            E-mail
           </label>
           <div class="auth-form-input">
             <input type="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
@@ -637,122 +496,16 @@
 
         <div class="auth-form-field">
           <label class="auth-form-label">
-            <i class="ph-fill ph-lock auth-form-label-icon"></i>
-            Senha
-          </label>
-          <div class="auth-form-input">
-            <input type="password" name="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
-            <button type="button" class="auth-password-toggle" data-toggle="password"><i class="ph-fill ph-eye"></i></button>
-            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
-          </div>
-          <div class="auth-password-strength" id="passwordStrength">
-            <div class="auth-strength-bar">
-              <div class="auth-strength-fill"></div>
-            </div>
-            <div class="auth-strength-text" id="strengthText">Fraca</div>
-          </div>
-        </div>
-
-        <div class="auth-form-field">
-          <label class="auth-form-label">
-            <i class="ph-fill ph-lock auth-form-label-icon"></i>
-            Confirmar senha
-          </label>
-          <div class="auth-form-input">
-            <input type="password" name="confirmPassword" placeholder="Repita a senha" autocomplete="new-password" required>
-            <button type="button" class="auth-password-toggle" data-toggle="confirmPassword"><i class="ph-fill ph-eye"></i></button>
-            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
-          </div>
-        </div>
-
-        <div class="auth-form-actions">
-          <button type="button" class="auth-btn auth-btn-primary" id="nextStep">
-            Próximo
-            <i class="ph-fill ph-arrow-right"></i>
-          </button>
-        </div>
-      </form>
-
-      <!-- PASSO 2: Validação e Perfil -->
-      <form class="auth-form-step" id="step2Form" data-step="2">
-        <div class="auth-form-field">
-          <label class="auth-form-label">
-            <i class="ph-fill ph-phone auth-form-label-icon"></i>
-            Telefone / WhatsApp
+            <i class="ph-fill ph-whatsapp-logo auth-form-label-icon"></i>
+            WhatsApp
           </label>
           <div class="auth-form-input auth-form-input--phone">
             <span class="auth-phone-prefix" aria-hidden="true">
               <img src="assets/icos/ico-bandeira-brasil.svg" width="18" height="13" alt="">
-
               +55
             </span>
             <input type="tel" name="phone" placeholder="(11) 99999-9999" inputmode="tel" required>
             <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
-          </div>
-        </div>
-
-        <div class="auth-form-field">
-          <label class="auth-form-label">
-            <i class="ph-fill ph-identification-card auth-form-label-icon"></i>
-            CPF
-          </label>
-          <div class="auth-form-input">
-            <input type="text" name="cpf" placeholder="000.000.000-00" inputmode="numeric" required>
-            <span class="auth-form-check"><i class="ph-fill ph-check-circle"></i></span>
-          </div>
-          <small style="color: rgba(var(--color-white-rgb), 0.5); font-size: var(--font-size-xs);">Necessário para validar sua licença de uso da plataforma.</small>
-        </div>
-
-        <div class="auth-form-section">
-          <div class="auth-form-section-title">Perfil Profissional (Opcional)</div>
-
-          <div class="auth-form-grid">
-            <div class="auth-form-field">
-              <label class="auth-form-label">
-                <i class="ph-fill ph-briefcase auth-form-label-icon"></i>
-                Cargo / Função
-              </label>
-              <div class="auth-chip-group" data-chip-group="role">
-                <button type="button" class="auth-chip" data-value="agronomist"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Agrônomo</button>
-                <button type="button" class="auth-chip" data-value="producer"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Produtor</button>
-                <button type="button" class="auth-chip" data-value="consultant"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Consultor</button>
-                <div class="auth-chip-break"></div>
-                <button type="button" class="auth-chip" data-value="applicator"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Aplicador</button>
-                <button type="button" class="auth-chip" data-value="other"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Outro</button>
-              </div>
-              <input type="hidden" name="role">
-            </div>
-
-            <div class="auth-form-field">
-              <label class="auth-form-label">
-                <i class="ph-fill ph-map-pin auth-form-label-icon"></i>
-                Região de atuação
-              </label>
-              <div class="auth-chip-group" data-chip-group="region">
-                <button type="button" class="auth-chip" data-value="north"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Norte</button>
-                <button type="button" class="auth-chip" data-value="northeast"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Nordeste</button>
-                <button type="button" class="auth-chip" data-value="center-west"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Centro-Oeste</button>
-                <div class="auth-chip-break"></div>
-                <button type="button" class="auth-chip" data-value="southeast"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Sudeste</button>
-                <button type="button" class="auth-chip" data-value="south"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Sul</button>
-              </div>
-              <input type="hidden" name="region">
-            </div>
-
-            <div class="auth-form-field">
-              <label class="auth-form-label">
-                <i class="ph-fill ph-star auth-form-label-icon"></i>
-                Principal interesse
-              </label>
-              <div class="auth-chip-group" data-chip-group="interest">
-                <button type="button" class="auth-chip" data-value="caldas"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Cálculo de Caldas</button>
-                <button type="button" class="auth-chip" data-value="pulverization"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Pulverização</button>
-                <div class="auth-chip-break"></div>
-                <button type="button" class="auth-chip" data-value="kow"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>KOW</button>
-                <button type="button" class="auth-chip" data-value="all"><i class="ph-fill ph-plus-circle auth-chip-icon"></i>Todos</button>
-              </div>
-              <input type="hidden" name="interest">
-            </div>
           </div>
         </div>
 
@@ -766,23 +519,19 @@
         </div>
 
         <div class="auth-form-actions">
-          <button type="submit" class="auth-btn auth-btn-primary">Criar conta</button>
-          <button type="button" class="auth-btn auth-btn-secondary" id="prevStep">
-            <i class="ph-fill ph-arrow-left"></i>
-            Voltar
+          <button type="submit" class="auth-btn auth-btn-primary" id="leadSubmit">
+            CONTINUAR
+            <i class="ph-fill ph-arrow-right"></i>
           </button>
         </div>
+
+        <div data-component="components/trial-banner/trial-banner.html"></div>
 
         <div class="auth-trust-signal">
           <i class="ph-fill ph-shield-check auth-trust-signal-icon"></i>
           <span>Seus dados estão protegidos pela LGPD</span>
         </div>
       </form>
-
-      <div class="auth-switch-row" style="text-align: center;">
-        <div class="auth-divider">Já tem conta?</div>
-        <div data-component="components/btn-login/btn-login.html" style="margin-top: 0.65rem; display: inline-block;"></div>
-      </div>
 
       <div class="auth-social-row">
         <p class="auth-social-label">Nos acompanhe</p>
@@ -794,13 +543,14 @@
 
 <script>
 class AuthDrawer {
+  // Pra onde o usuário vai depois que o lead é enviado ao CRM — o checkout
+  // em si não é responsabilidade deste site, é um sistema à parte.
+  static CHECKOUT_URL = 'https://checkout.go2apply.com/subscribe/go2apply-anual';
+
   constructor() {
     this.drawer = document.getElementById('auth-drawer');
     this.backdrop = document.getElementById('authBackdrop');
-    this.step1Form = document.getElementById('step1Form');
-    this.step2Form = document.getElementById('step2Form');
-    this.currentStep = 1;
-    this.formData = {};
+    this.leadForm = document.getElementById('leadForm');
     this.init();
   }
 
@@ -811,77 +561,18 @@ class AuthDrawer {
       if (e.key === 'Escape') this.close();
     });
 
-    document.getElementById('nextStep')?.addEventListener('click', (e) => {
+    this.leadForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (this.validateStep1()) this.goToStep(2);
-    });
-
-    document.getElementById('prevStep')?.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.goToStep(1);
-    });
-
-    document.querySelectorAll('.auth-stepper-tab').forEach((tab) => {
-      const step = Number(tab.dataset.stepper);
-      tab.addEventListener('click', () => this.goToStep(step));
-      tab.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          this.goToStep(step);
-        }
-      });
-    });
-
-    this.step2Form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.submitForm();
+      await this.submitForm();
     });
 
     this.attachValidation();
-    this.attachPasswordToggle();
     this.attachPhoneMask();
-    this.attachCpfMask();
-    this.attachChipGroups();
-  }
-
-  attachChipGroups() {
-    const setChipIcon = (chip, selected) => {
-      const icon = chip.querySelector('.auth-chip-icon');
-      if (!icon) return;
-      icon.classList.toggle('ph-plus-circle', !selected);
-      icon.classList.toggle('ph-check-circle', selected);
-    };
-
-    document.querySelectorAll('.auth-chip-group').forEach((group) => {
-      const hiddenInput = group.parentElement.querySelector(`input[type="hidden"][name="${group.dataset.chipGroup}"]`);
-      group.querySelectorAll('.auth-chip').forEach((chip) => {
-        chip.addEventListener('click', () => {
-          const alreadySelected = chip.classList.contains('is-selected');
-          group.querySelectorAll('.auth-chip').forEach((c) => {
-            c.classList.remove('is-selected');
-            setChipIcon(c, false);
-          });
-          if (alreadySelected) {
-            if (hiddenInput) hiddenInput.value = '';
-          } else {
-            chip.classList.add('is-selected');
-            setChipIcon(chip, true);
-            if (hiddenInput) hiddenInput.value = chip.dataset.value;
-          }
-        });
-      });
-    });
   }
 
   attachValidation() {
-    const inputs = this.step1Form ? this.step1Form.querySelectorAll('input[required]') : [];
+    const inputs = this.leadForm ? this.leadForm.querySelectorAll('input[required]') : [];
     inputs.forEach(input => {
-      input.addEventListener('input', () => this.validateField(input));
-      input.addEventListener('blur', () => this.validateField(input));
-    });
-
-    const step2Inputs = this.step2Form ? this.step2Form.querySelectorAll('input[required]') : [];
-    step2Inputs.forEach(input => {
       input.addEventListener('input', () => this.validateField(input));
       input.addEventListener('blur', () => this.validateField(input));
     });
@@ -895,24 +586,15 @@ class AuthDrawer {
 
     switch (input.name) {
       case 'fullName':
-        isValid = value.length >= 3;
+        isValid = value.length >= 3 && value.trim().includes(' ');
+        if (!isValid) input.setCustomValidity('Por favor, informe seu nome e sobrenome.');
+        else input.setCustomValidity('');
         break;
       case 'email':
         isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
         break;
-      case 'password':
-        isValid = value.length >= 6;
-        this.updatePasswordStrength(value);
-        break;
-      case 'confirmPassword':
-        const password = this.step1Form.querySelector('input[name="password"]').value;
-        isValid = value === password && value.length >= 6;
-        break;
       case 'phone':
         isValid = /^\(\d{2}\)\s9\d{4}-\d{4}$|^\(\d{2}\)\s\d{4}-\d{4}$/.test(value);
-        break;
-      case 'cpf':
-        isValid = this.validateCPF(value);
         break;
       default:
         isValid = value.length > 0;
@@ -927,103 +609,8 @@ class AuthDrawer {
     return isValid;
   }
 
-  validateStep1() {
-    const fullName = this.step1Form.querySelector('input[name="fullName"]');
-    const email = this.step1Form.querySelector('input[name="email"]');
-    const password = this.step1Form.querySelector('input[name="password"]');
-    const confirmPassword = this.step1Form.querySelector('input[name="confirmPassword"]');
-
-    return (
-      this.validateField(fullName) &&
-      this.validateField(email) &&
-      this.validateField(password) &&
-      this.validateField(confirmPassword)
-    );
-  }
-
-  updatePasswordStrength(password) {
-    const strength = document.querySelector('.auth-strength-fill');
-    const text = document.getElementById('strengthText');
-    const container = document.getElementById('passwordStrength');
-
-    if (!container || !strength || !text) return;
-
-    if (password.length === 0) {
-      container.classList.remove('active');
-      return;
-    }
-
-    container.classList.add('active');
-
-    const hasUpper = /[A-Z]/.test(password);
-    const hasLower = /[a-z]/.test(password);
-    const hasNumber = /\d/.test(password);
-    const hasSpecial = /[!@#$%^&*]/.test(password);
-
-    let score = 0;
-    if (password.length >= 6) score++;
-    if (password.length >= 10) score++;
-    if (hasUpper && hasLower) score++;
-    if (hasNumber) score++;
-    if (hasSpecial) score++;
-
-    if (score < 2) {
-      strength.className = 'auth-strength-fill';
-      text.textContent = 'Fraca';
-    } else if (score < 4) {
-      strength.className = 'auth-strength-fill medium';
-      text.textContent = 'Média';
-    } else {
-      strength.className = 'auth-strength-fill strong';
-      text.textContent = 'Forte';
-    }
-  }
-
-  validateCPF(cpf) {
-    const cleaned = cpf.replace(/\D/g, '');
-    if (cleaned.length !== 11) return false;
-
-    let sum = 0;
-    let remainder;
-
-    for (let i = 1; i <= 9; i++) {
-      sum += parseInt(cleaned.substring(i - 1, i)) * (11 - i);
-    }
-
-    remainder = (sum * 10) % 11;
-    if (remainder === 10 || remainder === 11) remainder = 0;
-    if (remainder !== parseInt(cleaned.substring(9, 10))) return false;
-
-    sum = 0;
-    for (let i = 1; i <= 10; i++) {
-      sum += parseInt(cleaned.substring(i - 1, i)) * (12 - i);
-    }
-
-    remainder = (sum * 10) % 11;
-    if (remainder === 10 || remainder === 11) remainder = 0;
-    if (remainder !== parseInt(cleaned.substring(10, 11))) return false;
-
-    return true;
-  }
-
-  attachPasswordToggle() {
-    document.querySelectorAll('.auth-password-toggle').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const inputName = btn.dataset.toggle;
-        const input = document.querySelector(`input[name="${inputName}"]`);
-        const icon = btn.querySelector('i');
-        if (!input || !icon) return;
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
-        icon.classList.toggle('ph-eye', !isPassword);
-        icon.classList.toggle('ph-eye-slash', isPassword);
-      });
-    });
-  }
-
   attachPhoneMask() {
-    const phoneInput = document.querySelector('input[name="phone"]');
+    const phoneInput = this.leadForm?.querySelector('input[name="phone"]');
     if (phoneInput) {
       phoneInput.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, '');
@@ -1049,96 +636,80 @@ class AuthDrawer {
     }
   }
 
-  attachCpfMask() {
-    const cpfInput = document.querySelector('input[name="cpf"]');
-    if (cpfInput) {
-      cpfInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 11) value = value.slice(0, 11);
-
-        if (value.length > 0) {
-          if (value.length <= 3) {
-            value = value;
-          } else if (value.length <= 6) {
-            value = `${value.slice(0, 3)}.${value.slice(3)}`;
-          } else if (value.length <= 9) {
-            value = `${value.slice(0, 3)}.${value.slice(3, 6)}.${value.slice(6)}`;
-          } else {
-            value = `${value.slice(0, 3)}.${value.slice(3, 6)}.${value.slice(6, 9)}-${value.slice(9)}`;
-          }
-        }
-
-        e.target.value = value;
-        this.validateField(cpfInput);
-      });
-    }
-  }
-
-  goToStep(step) {
-    if (step === this.currentStep) return;
-    const goingForward = step > this.currentStep;
-    this.currentStep = step;
-    const outgoing = step === 1 ? this.step2Form : this.step1Form;
-    const incoming = step === 1 ? this.step1Form : this.step2Form;
-
-    const swap = () => {
-      outgoing.classList.remove('active');
-      incoming.classList.add('active');
-    };
-
-    if (window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const distance = goingForward ? 24 : -24;
-      gsap.to(outgoing, {
-        opacity: 0,
-        x: -distance,
-        duration: 0.18,
-        ease: 'power2.in',
-        onComplete: () => {
-          swap();
-          gsap.fromTo(incoming, { opacity: 0, x: distance }, { opacity: 1, x: 0, duration: 0.28, ease: 'power2.out' });
-        }
-      });
-    } else {
-      swap();
-    }
-
-    this.updateStepper(step);
-  }
-
-  updateStepper(step) {
-    const stepper = document.getElementById('authStepper');
-    if (!stepper) return;
-    const step1El = stepper.querySelector('[data-stepper="1"]');
-    const step2El = stepper.querySelector('[data-stepper="2"]');
-
-    if (step === 1) {
-      step1El?.classList.add('is-active');
-      step1El?.classList.remove('is-complete');
-      step2El?.classList.remove('is-active', 'is-complete');
-    } else {
-      step1El?.classList.remove('is-active');
-      step1El?.classList.add('is-complete');
-      step2El?.classList.add('is-active');
-    }
-  }
-
-  submitForm() {
-    const termsCheckbox = this.step2Form.querySelector('input[name="terms"]');
+  async submitForm() {
+    const termsCheckbox = this.leadForm.querySelector('input[name="terms"]');
     if (!termsCheckbox.checked) {
       alert('Você deve concordar com os Termos de Uso e Política de Privacidade');
       return;
     }
 
-    const formData = new FormData(this.step1Form);
-    const step2Data = new FormData(this.step2Form);
+    const fullNameInput = this.leadForm.querySelector('input[name="fullName"]');
+    const emailInput = this.leadForm.querySelector('input[name="email"]');
+    const phoneInput = this.leadForm.querySelector('input[name="phone"]');
 
-    for (let [key, value] of step2Data) {
-      if (value) formData.append(key, value);
+    const isValid = [fullNameInput, emailInput, phoneInput].every((input) => this.validateField(input));
+    if (!isValid) {
+      alert('Confira seus dados: nome, e-mail e WhatsApp precisam estar corretos.');
+      return;
     }
 
-    console.log('Formulário submetido:', Object.fromEntries(formData));
-    alert('Cadastro realizado com sucesso!');
-    this.close();
+    const payload = Object.fromEntries(new FormData(this.leadForm));
+    payload.terms = termsCheckbox.checked;
+
+    const submitBtn = this.leadForm.querySelector('#leadSubmit');
+    const originalText = submitBtn ? submitBtn.innerHTML : '';
+    
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'AGUARDE... <i class="ph ph-spinner-gap" style="animation: loader-spin 1s linear infinite;"></i>';
+    }
+
+    try {
+      const response = await fetch('/api/create-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro desconhecido ao salvar no CRM');
+      }
+    } catch (err) {
+      console.error("Falha ao salvar no CRM via API:", err);
+      alert("Falha ao enviar dados: " + err.message);
+      if (submitBtn) {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+      return; // Bloqueia o redirecionamento
+    }
+
+    const checkoutUrl = new URL(AuthDrawer.CHECKOUT_URL);
+    if (payload.fullName) checkoutUrl.searchParams.set('name', payload.fullName);
+    if (payload.email) checkoutUrl.searchParams.set('email', payload.email);
+
+    if (payload.phone) {
+      const phoneDigits = payload.phone.replace(/\D/g, '');
+      // Nossa máscara gera sempre (DD) 9XXXX-XXXX ou (DD) XXXX-XXXX.
+      // Os 2 primeiros dígitos são sempre o DDD.
+      // Kiwify aceita os parâmetros phoneddi (código do país), phoneac (DDD)
+      // e phonenumber (número sem DDD).
+      if (phoneDigits.length >= 10) {
+        const ddd = phoneDigits.substring(0, 2);
+        const number = phoneDigits.substring(2);
+        checkoutUrl.searchParams.set('phoneddi', '55');
+        checkoutUrl.searchParams.set('phoneac', ddd);
+        checkoutUrl.searchParams.set('phonenumber', number);
+        // Também passa o phone completo como fallback para outros checkouts
+        checkoutUrl.searchParams.set('phone', '55' + phoneDigits);
+      } else {
+        checkoutUrl.searchParams.set('phone', phoneDigits);
+      }
+    }
+
+    window.location.href = checkoutUrl.toString();
   }
 
   open() {

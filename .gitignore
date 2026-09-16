@@ -1,2 +1,16 @@
 .agents/
 .claude/
+node_modules/
+<<<<<<< HEAD
+.context/
+.vscode/
+.vercel
+=======
+.env
+.env.*
+!.env.example
+.vercel
+.env*
+
+api/firebase-key.json
+>>>>>>> 011a51e5a00d1c1461327ba4af7842bf9d54e438

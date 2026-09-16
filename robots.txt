@@ -1,0 +1,71 @@
+# Robots.txt — go2apply.com.br
+# Controla o acesso de crawlers de busca e de IAs ao conteúdo do site.
+# ---------------------------------------------------------------
+
+# Regra geral: todos os bots são bem-vindos
+User-agent: *
+Allow: /
+
+# Bloqueia pastas internas que não devem ser indexadas
+Disallow: /.agents/
+Disallow: /.claude/
+Disallow: /.context/
+Disallow: /.vscode/
+Disallow: /.git/
+Disallow: /.vercel/
+
+# Indica o mapa do site para facilitar a descoberta de páginas
+Sitemap: https://go2apply.com.br/sitemap.xml
+
+# ---------------------------------------------------------------
+# Permissões explícitas para crawlers de IA
+# (GEO — Generative Engine Optimization)
+# ---------------------------------------------------------------
+
+# Google AI (Gemini, Bard, SGE)
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI (ChatGPT, GPT crawler)
+User-agent: GPTBot
+Allow: /
+
+# OpenAI — ChatGPT plugins/browsing
+User-agent: ChatGPT-User
+Allow: /
+
+# Microsoft Bing AI (Copilot)
+User-agent: Bingbot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: anthropic-ai
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+User-agent: meta-externalagent
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Apple (Siri, Spotlight, Applebot)
+User-agent: Applebot
+Allow: /
+
+# Common Crawl (usado por várias IAs para treino)
+User-agent: CCBot
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Amazon (Alexa)
+User-agent: Amazonbot
+Allow: /
