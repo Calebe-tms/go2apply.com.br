@@ -419,6 +419,234 @@
   color: var(--color-green);
 }
 
+.auth-trial-callout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-trial-note {
+  font-size: var(--font-size-xs);
+  color: rgba(var(--color-white-rgb), 0.5);
+  text-align: center;
+  margin: 0;
+}
+
+.auth-trial-note strong {
+  color: var(--color-orange, #f28e13);
+}
+
+.auth-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-stepper-item {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(var(--color-white-rgb), 0.1);
+  color: rgba(var(--color-white-rgb), 0.5);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid transparent;
+  padding: 0;
+  cursor: default;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 1;
+}
+
+/* Quando concluído ou ativo */
+.auth-stepper-item.completed {
+  background: rgba(91, 140, 69, 0.2);
+  color: var(--color-green, #5b8c45);
+  border-color: var(--color-green, #5b8c45);
+  cursor: pointer;
+}
+
+.auth-stepper-item.active {
+  background: var(--color-green, #5b8c45);
+  color: var(--color-white, #fefcf8);
+  border-color: var(--color-green, #5b8c45);
+  box-shadow: 0 0 14px rgba(91, 140, 69, 0.45);
+  cursor: pointer;
+}
+
+.auth-stepper-item:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.auth-stepper-line {
+  width: 44px;
+  height: 2px;
+  background: rgba(var(--color-white-rgb), 0.12);
+  transition: background 0.3s ease;
+}
+
+.auth-stepper.step-2-active .auth-stepper-line {
+  background: var(--color-green, #5b8c45);
+}
+
+.auth-stepper--hidden-step-2 {
+  display: none;
+}
+
+.auth-payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Cartão de "ticket/cupom": faixa lateral colorida + corpo escuro, separados
+   por uma linha pontilhada com "furos" (notches) simulando perfuração. */
+.auth-payment-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 110px;
+  padding: 0;
+  background: rgba(var(--color-white-rgb), 0.04);
+  border: 1.5px solid rgba(var(--color-white-rgb), 0.1);
+  border-radius: 12px;
+  color: var(--color-white, #fefcf8);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  
+  /* Mask for the left and right semi-circle notches */
+  -webkit-mask-image: radial-gradient(circle at 0 50%, transparent 10px, black 11px), 
+                      radial-gradient(circle at 100% 50%, transparent 10px, black 11px);
+  -webkit-mask-size: 51% 100%;
+  -webkit-mask-position: left, right;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.auth-payment-option--orange {
+  border-color: rgba(242, 142, 19, 0.4);
+}
+
+.auth-payment-option--orange:hover {
+  background: rgba(242, 142, 19, 0.06);
+  border-color: var(--color-orange, #f28e13);
+  box-shadow: 0 0 20px rgba(242, 142, 19, 0.15);
+  transform: scale(1.02);
+}
+
+.auth-payment-option--green {
+  border-color: rgba(91, 140, 69, 0.45);
+}
+
+.auth-payment-option--green:hover {
+  background: rgba(91, 140, 69, 0.06);
+  border-color: var(--color-green, #5b8c45);
+  box-shadow: 0 0 20px rgba(91, 140, 69, 0.15);
+  transform: scale(1.02);
+}
+
+.auth-payment-option:active {
+  transform: scale(0.98);
+}
+
+.auth-payment-logo {
+  width: 110px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.75rem;
+}
+
+.auth-payment-logo--orange {
+  color: var(--color-orange, #f28e13);
+}
+
+.auth-payment-logo--green {
+  color: var(--color-green, #5b8c45);
+}
+
+.auth-payment-divider {
+  width: 0;
+  border-left: 1.5px dashed rgba(var(--color-white-rgb), 0.12);
+  align-self: stretch;
+  margin: 1.25rem 0;
+}
+
+.auth-payment-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.25rem 1.5rem;
+}
+
+.auth-payment-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(var(--color-white-rgb), 0.5);
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.auth-payment-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.auth-payment-price {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--color-white, #fefcf8);
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  letter-spacing: -0.03em;
+}
+
+.auth-payment-currency {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(var(--color-white-rgb), 0.4);
+  letter-spacing: 0;
+}
+
+.auth-payment-price-old {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(var(--color-white-rgb), 0.3);
+  text-decoration: line-through;
+  margin-left: 0.25rem;
+}
+
+.auth-payment-desc {
+  font-size: 0.75rem;
+  color: rgba(var(--color-white-rgb), 0.45);
+}
+
+.auth-payment-desc strong {
+  font-weight: 600;
+}
+
+.auth-payment-desc strong.highlight-orange {
+  color: var(--color-orange, #f28e13);
+}
+
+.auth-payment-desc strong.highlight-green {
+  color: var(--color-green, #5b8c45);
+}
+
 @media (max-width: 768px) {
   .auth-drawer {
     width: 100%;
@@ -479,10 +707,16 @@
 
   <div class="auth-drawer-content">
     <div id="authFormContainer">
-      <h1 class="auth-drawer-title">Comece agora</h1>
-      <p class="auth-drawer-subtitle">Acesso às ferramentas técnicas, da calda à aplicação.</p>
+      <div class="auth-stepper auth-stepper--hidden-step-2" id="authStepper" role="tablist">
+        <button type="button" class="auth-stepper-item active" id="tabLead" role="tab" aria-selected="true" aria-label="Passo 1: Seus dados">1</button>
+        <div class="auth-stepper-line" id="stepperLine" aria-hidden="true"></div>
+        <button type="button" class="auth-stepper-item" id="tabPayment" role="tab" aria-selected="false" aria-label="Passo 2: Pagamento" disabled>2</button>
+      </div>
 
       <form class="auth-form-step active" id="leadForm">
+        <h1 class="auth-drawer-title">Comece agora</h1>
+        <p class="auth-drawer-subtitle">Acesso às ferramentas técnicas, da calda à aplicação.</p>
+
         <div class="auth-form-field">
           <label class="auth-form-label">
             <i class="ph-fill ph-user auth-form-label-icon"></i>
@@ -536,13 +770,65 @@
           </button>
         </div>
 
-        <div data-component="components/trial-banner/trial-banner.html"></div>
+        <div class="auth-trial-callout">
+          <div data-component="components/trial-banner/trial-banner.html"></div>
+          <p class="auth-trial-note">Válido apenas para pagamento no <strong>cartão de crédito</strong>.</p>
+        </div>
 
         <div class="auth-trust-signal">
           <i class="ph-fill ph-shield-check auth-trust-signal-icon"></i>
           <span>Seus dados estão protegidos pela LGPD</span>
         </div>
       </form>
+
+      <div class="auth-form-step" id="paymentStep">
+        <h1 class="auth-drawer-title">Escolha a forma de pagamento</h1>
+        <p class="auth-drawer-subtitle">Selecione como prefere pagar sua assinatura.</p>
+
+        <div class="auth-payment-options">
+          <button type="button" class="auth-payment-option auth-payment-option--orange" id="paymentCardOption">
+            <div class="auth-payment-logo auth-payment-logo--orange">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+              </svg>
+            </div>
+            <div class="auth-payment-divider"></div>
+            <div class="auth-payment-content">
+              <div class="auth-payment-title">Cartão de Crédito</div>
+              <div class="auth-payment-price-row">
+                <div class="auth-payment-price">
+                  <span class="auth-payment-currency">R$</span>
+                  1.884,00
+                </div>
+              </div>
+              <div class="auth-payment-desc">Só no cartão: <strong class="highlight-orange">7 dias de teste grátis</strong></div>
+            </div>
+          </button>
+
+          <button type="button" class="auth-payment-option auth-payment-option--green" id="paymentBoletoPixOption">
+            <div class="auth-payment-logo auth-payment-logo--green">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.305 15.656 12 21.328l5.695-5.672L12 10l-5.695 5.656ZM12 8.344l-5.695-5.672L12 2.672l5.695-5.672L12 8.344ZM12 24l-7.398-7.375L12 9.25l7.398 7.375L12 24ZM12 0l7.398 7.375L12 14.75 4.602 7.375 12 0Z"/></svg>
+            </div>
+            <div class="auth-payment-divider"></div>
+            <div class="auth-payment-content">
+              <div class="auth-payment-title">Boleto ou Pix</div>
+              <div class="auth-payment-price-row">
+                <div class="auth-payment-price">
+                  <span class="auth-payment-currency">R$</span>
+                  1.790,00
+                </div>
+                <div class="auth-payment-price-old">R$ 1.884</div>
+              </div>
+              <div class="auth-payment-desc">Oferta com <strong class="highlight-green">5% de desconto</strong></div>
+            </div>
+          </button>
+        </div>
+
+        <div class="auth-trust-signal">
+          <i class="ph-fill ph-shield-check auth-trust-signal-icon"></i>
+          <span>Seus dados estão protegidos pela LGPD</span>
+        </div>
+      </div>
 
       <div class="auth-social-row">
         <p class="auth-social-label">Nos acompanhe</p>
@@ -556,12 +842,19 @@
 class AuthDrawer {
   // Pra onde o usuário vai depois que o lead é enviado ao CRM — o checkout
   // em si não é responsabilidade deste site, é um sistema à parte.
-  static CHECKOUT_URL = 'https://checkout.go2apply.com/subscribe/go2apply-anual';
+  static CHECKOUT_URL_CARTAO = 'https://checkout.go2apply.com/subscribe/go2apply-anual';
+  static CHECKOUT_URL_BOLETO_PIX = 'https://checkout.go2apply.com/subscribe/go2apply-anual-pix-boleto';
 
   constructor() {
     this.drawer = document.getElementById('auth-drawer');
     this.backdrop = document.getElementById('authBackdrop');
     this.leadForm = document.getElementById('leadForm');
+    this.paymentStep = document.getElementById('paymentStep');
+    this.tabLead = document.getElementById('tabLead');
+    this.tabPayment = document.getElementById('tabPayment');
+    this.stepper = document.getElementById('authStepper');
+    // Dados do lead ficam guardados aqui entre o step 1 (cadastro) e o step 2 (escolha de pagamento)
+    this.leadPayload = null;
     this.init();
   }
 
@@ -577,8 +870,35 @@ class AuthDrawer {
       await this.submitForm();
     });
 
+    this.tabLead?.addEventListener('click', () => this.showStep('lead'));
+    this.tabPayment?.addEventListener('click', () => this.showStep('payment'));
+    document.getElementById('paymentCardOption')?.addEventListener('click', () => this.goToCheckout(AuthDrawer.CHECKOUT_URL_CARTAO));
+    document.getElementById('paymentBoletoPixOption')?.addEventListener('click', () => this.goToCheckout(AuthDrawer.CHECKOUT_URL_BOLETO_PIX));
+
     this.attachValidation();
     this.attachPhoneMask();
+  }
+
+  // O step 2 ("Pagamento") só é liberado depois que o step 1 é validado e enviado
+  showStep(step) {
+    const isPayment = step === 'payment';
+    this.leadForm?.classList.toggle('active', !isPayment);
+    this.paymentStep?.classList.toggle('active', isPayment);
+    
+    if (this.stepper) {
+      this.stepper.classList.toggle('step-2-active', isPayment);
+    }
+    
+    if (this.tabLead) {
+      this.tabLead.classList.toggle('active', !isPayment);
+      this.tabLead.classList.toggle('completed', isPayment);
+      this.tabLead.setAttribute('aria-selected', String(!isPayment));
+    }
+    
+    if (this.tabPayment) {
+      this.tabPayment.classList.toggle('active', isPayment);
+      this.tabPayment.setAttribute('aria-selected', String(isPayment));
+    }
   }
 
   attachValidation() {
@@ -676,7 +996,6 @@ class AuthDrawer {
     }
 
     // Dispara a criação do lead no CRM em background, sem travar a tela
-    // O keepalive garante que a requisição termine mesmo após o redirecionamento
     fetch('/api/create-lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -684,8 +1003,27 @@ class AuthDrawer {
       keepalive: true
     }).catch(err => console.error("Falha silenciosa ao salvar lead no CRM:", err));
 
-    // Redirecionamento para o checkout:
-    const checkoutUrl = new URL(AuthDrawer.CHECKOUT_URL);
+    this.leadPayload = payload;
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+    }
+
+    // O stepper e a opção de pagamento só são exibidos após o lead ser preenchido e enviado
+    if (this.stepper) {
+      this.stepper.classList.remove('auth-stepper--hidden-step-2');
+    }
+    if (this.tabPayment) {
+      this.tabPayment.disabled = false;
+    }
+    this.showStep('payment');
+  }
+
+  // Redirecionamento para o checkout escolhido no step 2, com os dados do lead na query string
+  goToCheckout(baseUrl) {
+    const payload = this.leadPayload || {};
+    const checkoutUrl = new URL(baseUrl);
     if (payload.fullName) checkoutUrl.searchParams.set('name', payload.fullName);
     if (payload.email) checkoutUrl.searchParams.set('email', payload.email);
 
