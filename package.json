@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Calebe-tms/go2apply.com.br#readme",
   "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
     "firebase-admin": "^14.4.0"
   },
   "devDependencies": {
