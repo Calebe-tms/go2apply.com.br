@@ -601,18 +601,20 @@
 .auth-payment-price-row {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
 }
 
 .auth-payment-price {
   font-size: 2.1rem;
   font-weight: 800;
   color: var(--color-white, #fefcf8);
-  display: flex;
+  display: inline-flex;
   align-items: baseline;
   gap: 0.35rem;
   letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 
 .auth-payment-currency {
@@ -620,6 +622,21 @@
   font-weight: 600;
   color: rgba(var(--color-white-rgb), 0.4);
   letter-spacing: 0;
+}
+
+.auth-payment-installments-prefix {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgba(var(--color-white-rgb), 0.7);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.auth-payment-price-total {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(var(--color-white-rgb), 0.4);
+  white-space: nowrap;
 }
 
 .auth-payment-price-old {
@@ -797,9 +814,11 @@
               <div class="auth-payment-title">Cartão de Crédito</div>
               <div class="auth-payment-price-row">
                 <div class="auth-payment-price">
+                  <span class="auth-payment-installments-prefix">12x de</span>
                   <span class="auth-payment-currency">R$</span>
-                  1.884,00
+                  157,00
                 </div>
+                <span class="auth-payment-price-total">(total R$ 1.884,00)</span>
               </div>
               <div class="auth-payment-desc">Só no cartão: <strong class="highlight-orange">7 dias de teste grátis</strong></div>
             </div>
